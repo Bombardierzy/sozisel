@@ -3,15 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@absinthe/socket-apollo-link": "^0.2.1",
+    "@apollo/client": "^3.3.12",
+    "apollo-link-http": "^1.5.17",
+    "graphql": "^15.5.0",
+    "phoenix": "^1.5.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "scripts": {
-    "watch": "webpack --mode development --watch",
+    "watch": "webpack serve --mode development --config ./webpack.config.js",
     "format": "prettier --write .",
-    "start": "webpack serve --mode development --config ./webpack.config.js"
+    "graphql:gen": "graphql-codegen"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.3",
+    "@graphql-codegen/typescript": "^1.21.1",
+    "@graphql-codegen/typescript-operations": "^1.17.15",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.3",
+    "@types/absinthe__socket": "^0.2.1",
+    "@types/absinthe__socket-apollo-link": "^0.2.1",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.18.0",

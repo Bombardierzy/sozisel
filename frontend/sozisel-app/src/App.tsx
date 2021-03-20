@@ -1,5 +1,14 @@
+import { ApolloProvider } from "@apollo/client";
 import { ReactElement } from "react";
+import Test from "./components/Test";
+import { createApolloClient } from "./apolloClient";
+
+const client = createApolloClient();
 
 export default function App(): ReactElement {
-  return <h1>Welcome to Sozisel App and once more!!</h1>;
+  return (
+    <ApolloProvider client={client}>
+      <Test />
+    </ApolloProvider>
+  );
 }

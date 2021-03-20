@@ -22,7 +22,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
   },
   optimization: {
     minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
@@ -36,6 +36,12 @@ module.exports = {
         options: {
           transpileOnly: true,
         },
+      },
+      {
+        test: /\.m?js/,
+        resolve: {
+            fullySpecified: false
+        }
       },
       {
         test: /\.(sa|sc|c)ss$/,

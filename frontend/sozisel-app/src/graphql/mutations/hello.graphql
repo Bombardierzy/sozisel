@@ -1,0 +1,5 @@
+mutation SendHello($from: String!) {
+    hello(from: $from) {
+        message
+    }
+}

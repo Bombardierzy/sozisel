@@ -3,6 +3,7 @@ defmodule SoziselWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug CORSPlug
   end
 
   scope "/api" do
@@ -14,7 +15,9 @@ defmodule SoziselWeb.Router do
             socket: SoziselWeb.UserSocket,
             interface: :playground
 
-    forward "/", Absinthe.Plug
+    forward "/", Absinthe.Plug,
+      schema: SoziselWeb.Schema,
+      socket: SoziselWeb.UserSocket
   end
 
   # live dashboard for development
