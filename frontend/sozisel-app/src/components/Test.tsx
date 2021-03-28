@@ -1,6 +1,8 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useGetHelloQuery, useHelloMessagesSubscription } from "../graphql";
 
+import JitsiFrame from "./JitsiFrame";
+
 export default function Test(): ReactElement {
   const { data: queryData } = useGetHelloQuery();
   const {data} = useHelloMessagesSubscription();
@@ -23,9 +25,7 @@ export default function Test(): ReactElement {
 
   return (
     <div style={{display: "flex", flexDirection: "column"}}>
-      {messages.map(msg => (
-        <span key={msg}>{msg}</span>
-      ))}
+      <JitsiFrame />
     </div>
   );
 }
