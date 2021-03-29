@@ -19,7 +19,7 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, "dist"),
   },
   resolve: {
     extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
@@ -40,8 +40,8 @@ module.exports = {
       {
         test: /\.m?js/,
         resolve: {
-            fullySpecified: false
-        }
+          fullySpecified: false,
+        },
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -77,7 +77,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-        template: path.join(__dirname, 'src', 'index.html')
+      template: path.join(__dirname, "src", "index.html"),
     }),
     new CleanWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
@@ -110,7 +110,7 @@ module.exports = {
   ].filter(Boolean),
   devServer: {
     port: 3000,
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, "dist"),
     compress: true,
     historyApiFallback: true,
     open: true,
