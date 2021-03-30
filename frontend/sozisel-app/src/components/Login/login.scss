@@ -1,0 +1,17 @@
+@use "../../index.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5%;
+  img {
+    width: 1000px;
+    height: 600px;
+    margin-left: 5%;
+  }
+  form {
+    margin-top: 60px;
+    text-align: center;
+  }
+}

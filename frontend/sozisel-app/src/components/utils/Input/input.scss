@@ -1,0 +1,22 @@
+@use "../../../index.scss";
+
+label {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  display: block;
+  margin-left: 10%;
+  text-align: left;
+}
+input {
+  width: 80%;
+  height: 35px;
+  padding-left: 10px;
+  border: 1px solid #d1cece;
+  border-radius: 5px;
+  &:hover,
+  &:focus {
+    outline: none;
+    border: 1px solid index.$main-color;
+  }
+}

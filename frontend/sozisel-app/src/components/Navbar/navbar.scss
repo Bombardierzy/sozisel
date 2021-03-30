@@ -1,0 +1,39 @@
+@use "../../index.scss";
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+ul {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  list-style-type: none;
+  li {
+    margin-left: 40px;
+    padding: 5px;
+    img {
+      width: 160px;
+      height: 80px;
+      margin-top: 5px;
+    }
+    &:hover {
+      color: index.$main-color;
+      cursor: pointer;
+    }
+  }
+}
+
+.login-nav {
+  margin-right: 10%;
+  li {
+    margin-left: 40px;
+    padding: 20px 40px;
+  }
+  .login-button {
+    border: 1px solid index.$main-color;
+    color: index.$main-color;
+    border-radius: 40px;
+  }
+}
