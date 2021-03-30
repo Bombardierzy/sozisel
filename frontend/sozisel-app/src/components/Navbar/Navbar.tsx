@@ -2,8 +2,11 @@ import "./navbar.scss";
 
 import { ReactElement } from "react";
 import logo from "../../assets/logo.png";
+import { useHistory } from "react-router";
 
 export default function Navbar(): ReactElement {
+  const history = useHistory();
+
   return (
     <nav>
       <ul>
@@ -15,8 +18,10 @@ export default function Navbar(): ReactElement {
       </ul>
 
       <ul className="login-nav">
-        <li>Rejestracja</li>
-        <li className="login-button">Logowanie</li>
+        <li onClick={() => history.push("/register")}>Rejestracja</li>
+        <li onClick={() => history.push("/")} className="login-button">
+          Logowanie
+        </li>
       </ul>
     </nav>
   );

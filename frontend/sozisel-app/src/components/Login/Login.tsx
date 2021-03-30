@@ -15,9 +15,9 @@ export default function Login(): ReactElement {
         <img src={conference_img} />
         <Card>
           <form>
-            <Input label="Email" type="email" />
-            <Input label="Hasło" type="password" />
-            <Button name="Zaloguj się" />
+            <Input name="email" label="Email" type="email" />
+            <Input name="password" label="Hasło" type="password" />
+            <Button type="submit" name="Zaloguj się" />
           </form>
         </Card>
       </div>

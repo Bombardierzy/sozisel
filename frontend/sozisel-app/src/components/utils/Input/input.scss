@@ -8,6 +8,7 @@ label {
   margin-left: 10%;
   text-align: left;
 }
+
 input {
   width: 80%;
   height: 35px;
@@ -19,4 +20,8 @@ input {
     outline: none;
     border: 1px solid index.$main-color;
   }
+}
+
+.input-error {
+  border: 1px solid red;
 }

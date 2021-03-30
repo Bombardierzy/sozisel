@@ -1,17 +1,29 @@
 import "./input.scss";
 
-import { ReactElement } from "react";
+import { forwardRef } from "react";
 
 interface InputProps {
   label: string;
   type: string;
+  name: string;
+  error?: boolean;
 }
 
-export default function Input({ label, type }: InputProps): ReactElement {
-  return (
-    <>
-      <label htmlFor="name">{label}</label>
-      <input className="input" name="name" type={type} />
-    </>
-  );
-}
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, type, name, error }: InputProps, ref) => {
+    return (
+      <>
+        <label htmlFor={name}>{label}</label>
+        <input
+          className={error === undefined ? "input" : "input-error"}
+          name={name}
+          type={type}
+          ref={ref}
+        />
+      </>
+    );
+  }
+);
+
+Input.displayName = "Input";
+export default Input;
