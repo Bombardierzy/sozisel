@@ -12,6 +12,12 @@ import conference_img from "../../assets/conference_img.png";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+interface RegisterFormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 const fieldRequiredError = "To pole jest wymagane!";
 
 const registerSchema = Yup.object().shape({
@@ -27,7 +33,7 @@ export default function Register(): ReactElement {
     resolver: yupResolver(registerSchema),
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: RegisterFormData) => {
     console.log(data);
   };
 
