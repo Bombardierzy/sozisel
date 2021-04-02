@@ -10,4 +10,19 @@ To start your Phoenix server:
 
 To access GraphQL API visit `/api` endpoint and for playground use `/api/graphiql`.
 
-To create new database models please follow ecto guidelines and use `mix phx.gen.context`.
+
+## Creating new models
+
+Generating new models and schemas can be troublesome but phoenix framework makes it a little bit less tedious.
+
+Phoenix allows you to create something called `Context`. To make it quick, it does a bunch of things:
+- generate a database migration
+- creates Ecto schema
+- creates a file with utilities like: create/update
+
+**IMPORTANT**
+
+Contexts are being generated inside `sozisel` folder which can get quite large therefore
+move generated contexts to `model` subfolder and add `Model` name module names.
+
+On how to generate a new context please go [here](https://hexdocs.pm/phoenix/contexts.html).
