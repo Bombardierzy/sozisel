@@ -17,7 +17,8 @@ defmodule Sozisel.MixProject do
   def application do
     [
       mod: {Sozisel.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools],
+      start_phases: [auto_migrate: []]
     ]
   end
 
