@@ -10,6 +10,8 @@ use Mix.Config
 config :sozisel,
   ecto_repos: [Sozisel.Repo]
 
+config :sozisel, Sozisel.Repo, migration_primary_key: [name: :id, type: :binary_id]
+
 # Configures the endpoint
 config :sozisel, SoziselWeb.Endpoint,
   url: [host: "localhost"],
@@ -17,6 +19,11 @@ config :sozisel, SoziselWeb.Endpoint,
   render_errors: [view: SoziselWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: Sozisel.PubSub,
   live_view: [signing_salt: "9+uRncbw"]
+
+config :sozisel, Sozisel.Model.Users.Token,
+  issuer: "sozisel",
+  secret_key: "cSYEgyeugeMk3s8BtFO93HBQQdJeSyUlgO8FP3jWPZQWDpm5FImpQIz+mHwiqv/X",
+  ttl: {7, :hours}
 
 # Configures Elixir's Logger
 config :logger, :console,
