@@ -3,26 +3,35 @@ defmodule SoziselWeb.Schema do
 
   # Types
   import_types(SoziselWeb.Schema.Types.HelloTypes)
+  import_types(SoziselWeb.Schema.Types.UserTypes)
 
   # Queries
   import_types(SoziselWeb.Schema.Queries.HelloQueries)
+  import_types(SoziselWeb.Schema.Queries.UserQueries)
 
   # Mutations
   import_types(SoziselWeb.Schema.Mutations.HelloMutations)
+  import_types(SoziselWeb.Schema.Mutations.UserMutations)
 
   # Subscriptionis
   import_types(SoziselWeb.Schema.Subscriptions.HelloSubscriptions)
 
   query do
     import_fields(:hello_queries)
+    import_fields(:user_queries)
   end
 
   mutation do
     import_fields(:hello_mutations)
+    import_fields(:user_mutations)
   end
 
   subscription do
     import_fields(:hello_subscriptions)
+  end
+
+  def middleware(middleware, _field, _config) do
+    middleware ++ [Crudry.Middlewares.TranslateErrors]
   end
 
   def plugins do

@@ -4,6 +4,7 @@ defmodule SoziselWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug CORSPlug
+    plug SoziselWeb.Context
   end
 
   scope "/api" do

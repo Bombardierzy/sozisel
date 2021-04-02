@@ -29,6 +29,7 @@ defmodule Sozisel.Model.Users.User do
     user
     |> cast(attrs, [:email, :first_name, :last_name, :password])
     |> validate_required([:email, :first_name, :last_name, :password])
+    |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
     |> Security.hash_password()
   end
@@ -37,6 +38,7 @@ defmodule Sozisel.Model.Users.User do
     user
     |> cast(attrs, [:email, :first_name, :last_name, :password])
     |> validate_required([:email, :first_name, :last_name])
+    |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
     |> Security.hash_password()
   end

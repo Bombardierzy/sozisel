@@ -7,10 +7,6 @@ defmodule SoziselWeb.Context do
   @behaviour Plug
 
   import Plug.Conn
-  import Ecto.Query, only: [where: 2]
-
-  alias Sozisel.Repo
-  alias Sozisel.Model.User
 
   require Logger
 
@@ -24,7 +20,7 @@ defmodule SoziselWeb.Context do
   @doc """
   Return the current user context based on the authorization header
   """
-  def build_context(conn) do
+  def build_context(%Plug.Conn{} = conn) do
     user =
       with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
            {:ok, user} <- authorize(token) do
@@ -34,6 +30,19 @@ defmodule SoziselWeb.Context do
           Logger.warn("Failed to authorize user, invalid token")
           nil
 
+        _ ->
+          nil
+      end
+
+    %{current_user: user}
+  end
+
+  # used for building context for socket
+  def build_context(%{"token" => token}) do
+    user =
+      with {:ok, user} <- authorize(token) do
+        user
+      else
         _ ->
           nil
       end

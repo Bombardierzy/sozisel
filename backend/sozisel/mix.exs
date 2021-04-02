@@ -44,7 +44,8 @@ defmodule Sozisel.MixProject do
       {:cors_plug, "~> 2.0"},
       {:bcrypt_elixir, "~> 2.3"},
       {:guardian, "~> 2.1"},
-      {:ex_machina, "~> 2.7.0"}
+      {:ex_machina, "~> 2.7.0"},
+      {:crudry, "~> 2.3.1"}
     ]
   end
 
