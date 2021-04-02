@@ -23,7 +23,7 @@ config :sozisel, SoziselWeb.Endpoint,
 config :sozisel, Sozisel.Model.Users.Token,
   issuer: "sozisel",
   secret_key: "cSYEgyeugeMk3s8BtFO93HBQQdJeSyUlgO8FP3jWPZQWDpm5FImpQIz+mHwiqv/X",
-  ttl: {7, :hours}
+  ttl: {7 * 24, :hours}
 
 # Configures Elixir's Logger
 config :logger, :console,

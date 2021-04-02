@@ -11,7 +11,7 @@ config :sozisel, SoziselWeb.Endpoint,
   http: [port: 4002],
   server: false
 
-# reduced number of round for testing speed
+# reduced number of rounds for testing speed
 config :bcrypt_elixir, log_rounds: 4
 
 # Print only warnings and errors during test

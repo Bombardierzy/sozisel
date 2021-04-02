@@ -32,5 +32,13 @@ defmodule SoziselWeb.Schema.UserQueriesTest do
                }
              } = run_query(conn, @me_query, %{})
     end
+
+    test "return an error on me query if user is not authorized", ctx do
+      conn = test_conn()
+
+      assert %{
+               errors: [%{"message" => "unauthorized"}]
+             } = run_query(conn, @me_query, %{})
+    end
   end
 end
