@@ -17,7 +17,8 @@ defmodule Sozisel.MixProject do
   def application do
     [
       mod: {Sozisel.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools],
+      start_phases: [auto_migrate: []]
     ]
   end
 
@@ -41,7 +42,11 @@ defmodule Sozisel.MixProject do
       {:absinthe_plug, "~> 1.5"},
       {:dataloader, "~> 1.0.0"},
       {:absinthe_phoenix, "~> 2.0.0"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:bcrypt_elixir, "~> 2.3"},
+      {:guardian, "~> 2.1"},
+      {:ex_machina, "~> 2.7.0"},
+      {:crudry, "~> 2.3.1"}
     ]
   end
 
