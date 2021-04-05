@@ -8,6 +8,7 @@ export default function Test(): ReactElement {
   const { data } = useHelloMessagesSubscription();
 
   const [messages, setMessages] = useState<string[]>([]);
+  console.log(messages);
 
   useEffect(() => {
     if (queryData?.hello.message) {

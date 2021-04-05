@@ -10,6 +10,8 @@ import Navbar from "../Navbar/Navbar";
 import { ReactElement } from "react";
 import conference_img from "../../assets/conference_img.png";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router";
+import { useLoginMutation } from "../../graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const fieldRequiredError = "To pole jest wymagane!";
@@ -28,12 +30,24 @@ const loginSchema = Yup.object().shape({
 });
 
 export default function Login(): ReactElement {
+  const [loginMutation, { error }] = useLoginMutation({});
+  const history = useHistory();
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+  const onSubmit = (loginFormData: LoginFormData) => {
+    loginMutation({
+      variables: {
+        email: loginFormData.email,
+        password: loginFormData.password,
+      },
+    })
+      .then((body) => {
+        localStorage.setItem("token", body.data?.login?.token ?? "");
+        history.push("");
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -61,6 +75,7 @@ export default function Login(): ReactElement {
             {errors.password && (
               <ErrorMessage message={errors.password.message} />
             )}
+            {error && <ErrorMessage message={error.message} />}
             <Button type="submit" name="Zaloguj się" />
           </form>
         </Card>

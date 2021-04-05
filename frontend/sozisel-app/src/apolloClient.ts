@@ -14,6 +14,7 @@ import {
 import { Socket as PhoenixSocket } from "phoenix";
 import { create as createAbsintheSocket } from "@absinthe/socket";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { setContext } from '@apollo/client/link/context';
 
 const HOST = window.location.hostname;
 
@@ -43,8 +44,18 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     createApolloHttpLink()
   );
 
+  const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem('token');
+    return {
+      headers: {
+        ...headers,
+        Authorization: token ? `Bearer ${token}` : "",
+      }
+    }
+  });
+
   return new ApolloClient({
-    link: splitLink,
+    link: authLink.concat(splitLink),
     cache: new InMemoryCache(),
   });
 }
