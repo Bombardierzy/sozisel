@@ -56,7 +56,7 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: schema
-      working-directory: frontend/sozisel-app
+        path: frontend/sozisel-app
     - name: Generate graphql schema
       run: npm run graphql:gen:from:file
       working-directory: frontend/sozisel-app
