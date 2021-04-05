@@ -16,6 +16,7 @@
     "watch": "webpack serve --mode development --config ./webpack.config.js",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "graphql:gen": "graphql-codegen",
+    "graphql:gen:from:file": "graphql-codegen --config codegen_file.yml",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "build": "webpack build"
   },

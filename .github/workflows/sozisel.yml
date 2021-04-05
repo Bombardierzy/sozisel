@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  backend:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -31,7 +31,15 @@ jobs:
     - name: Run tests
       run: mix test
       working-directory: backend/sozisel
+    - name: Generate schema
+      run: mix absinthe.schema.json --schema SoziselWeb.Schema
+      working-directory: backend/sozisel
+    - uses: actions/upload-artifact@v2
+      with:
+        name: schema
+        path: backend/sozisel/schema.json
   frontend:
+    needs: [backend]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -44,6 +52,13 @@ jobs:
       working-directory: frontend/sozisel-app
     - name: Run tests
       run: npm run lint
+      working-directory: frontend/sozisel-app
+    - uses: actions/download-artifact@v2
+      with:
+        name: schema
+      working-directory: frontend/sozisel-app
+    - name: Generate graphql schema
+      run: npm run graphql:gen:from:file
       working-directory: frontend/sozisel-app
     - name: Generate build
       run: npm run build

@@ -1,0 +1,12 @@
+schema: schema.json
+documents: "./src/graphql/**/*.graphql"
+generates:
+  ./src/graphql/index.ts:
+    hooks:
+      afterAllFileWrite:
+        - eslint --fix
+        - prettier --write
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
