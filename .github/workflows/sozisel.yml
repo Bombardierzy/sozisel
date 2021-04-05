@@ -1,4 +1,4 @@
-name: CI for backend
+name: Sozisel CI
 
 on:
   pull_request:
@@ -7,11 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  backend-build:
-
-    name: Build and test backend
+  backend:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
@@ -34,4 +31,21 @@ jobs:
     - name: Run tests
       run: mix test
       working-directory: backend/sozisel
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.15.0'
+    - name: Install dependencies
+      run: npm install   
+      working-directory: frontend 
+    - name: Run tests
+      run: npm run lint
+      working-directory: frontend 
+    - name: Generate build
+      run: npm run build
+      working-directory: frontend 
     
