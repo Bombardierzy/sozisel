@@ -61,7 +61,7 @@ jobs:
         name: schema
         path: frontend/sozisel-app
     - name: Generate graphql schema
-      run: npm run graphql:gen:from:file
+      run: npm run graphql:gen_from_file
       working-directory: frontend/sozisel-app
     - name: Generate build
       run: npm run build
