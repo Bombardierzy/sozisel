@@ -1,11 +1,11 @@
-import "./card.scss";
+import "./Card.scss";
 
 import { ReactElement } from "react";
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: ReactElement;
 }
 
-export default function Card({ children }: CardProps): ReactElement {
-  return <div className="card">{children}</div>;
+export default function Card({ children, ...props }: CardProps): ReactElement {
+  return <div {...props} className="card">{children}</div>;
 }

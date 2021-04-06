@@ -1,4 +1,4 @@
-@use "../../../index.scss";
+@use "../../../styles/color.scss";
 
 label {
   margin-top: 20px;
@@ -18,7 +18,7 @@ input {
   &:hover,
   &:focus {
     outline: none;
-    border: 1px solid index.$main-color;
+    border: 1px solid color.$main-color;
   }
 }
 

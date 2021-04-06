@@ -1,4 +1,4 @@
-import "./login.scss";
+import "./LoginScreen.scss";
 
 import * as Yup from "yup";
 
@@ -12,42 +12,44 @@ import conference_img from "../../assets/conference_img.png";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { useLoginMutation } from "../../graphql";
+import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-const fieldRequiredError = "To pole jest wymagane!";
 
 interface LoginFormData {
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
-const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Niepoprawny format email!")
-    .required(fieldRequiredError),
-  password: Yup.string().required(fieldRequiredError),
-});
+export default function LoginScreen(): ReactElement {
+  const { t } = useTranslation("common");
 
-export default function Login(): ReactElement {
+  const loginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(t("errorMessages.invalidEmailFormat"))
+      .required(t("errorMessages.fieldRequired")),
+    password: Yup.string().required(t("errorMessages.fieldRequired")),
+  });
+
   const [loginMutation, { error }] = useLoginMutation({});
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (loginFormData: LoginFormData) => {
-    loginMutation({
-      variables: {
-        email: loginFormData.email,
-        password: loginFormData.password,
-      },
-    })
-      .then((body) => {
-        localStorage.setItem("token", body.data?.login?.token ?? "");
-        history.push("");
-      })
-      .catch((error) => console.log(error));
+  const onSubmit = async (loginFormData: LoginFormData) => {
+    try {
+      const body = await loginMutation({
+        variables: {
+          input: {
+            ...loginFormData,
+          },
+        },
+      });
+      localStorage.setItem("token", body.data?.login?.token ?? "");
+      history.push("");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -59,7 +61,7 @@ export default function Login(): ReactElement {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
               name="email"
-              label="Email"
+              label={t("components.LoginScreen.emailLabelText")}
               type="email"
               ref={register}
               error={errors.email}
@@ -67,7 +69,7 @@ export default function Login(): ReactElement {
             {errors.email && <ErrorMessage message={errors.email.message} />}
             <Input
               name="password"
-              label="Hasło"
+              label={t("components.LoginScreen.passwordLabelText")}
               type="password"
               ref={register}
               error={errors.password}
@@ -76,7 +78,10 @@ export default function Login(): ReactElement {
               <ErrorMessage message={errors.password.message} />
             )}
             {error && <ErrorMessage message={error.message} />}
-            <Button type="submit" name="Zaloguj się" />
+            <Button
+              type="submit"
+              name={t("components.LoginScreen.submitButtonText")}
+            />
           </form>
         </Card>
       </div>

@@ -1,0 +1,27 @@
+{
+  "components": {
+    "LoginScreen": {
+      "emailLabelText": "Email",
+      "passwordLabelText": "Hasło",
+      "submitButtonText": "Zaloguj się"
+    },
+    "RegisterScreen": {
+      "emailLabelText": "Email",
+      "firstNameLabelText": "Imię",
+      "lastNameLabelText": "Nazwisko",
+      "passwordLabelText": "Hasło",
+      "confirmPasswordLabelText": "Potwierdź hasło",
+      "submitButtonText": "Zajerestruj się"
+    },
+    "Navbar": {
+      "registerLink": "Rejestracja",
+      "loginLink": "Logowanie",
+      "aboutLink": "O projekcie"
+    }
+  },
+  "errorMessages": {
+    "fieldRequired": "To pole jest wymagane!",
+    "invalidEmailFormat": "Niepoprawny format email!",
+    "passwordsNotMatch": "Podane hasła nie są identyczne!"
+  }
+}

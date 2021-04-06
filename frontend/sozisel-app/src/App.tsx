@@ -1,12 +1,11 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router } from "react-router-dom";
 
 import { ApolloProvider } from "@apollo/client";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import HomePage from "./components/HomePage/HomePage";
-import Login from "./components/Login/Login";
+import Login from "./components/LoginScreen/LoginScreen";
 import { ReactElement } from "react";
-import Register from "./components/Register/Register";
-import Test from "./components/Test";
+import Register from "./components/RegisterScreen/RegisterScreen";
 import { createApolloClient } from "./apolloClient";
 
 const client = createApolloClient();
@@ -14,12 +13,11 @@ const client = createApolloClient();
 export default function App(): ReactElement {
   return (
     <ApolloProvider client={client}>
-      <BrowserRouter>
+      <Router>
         <AuthRoute path="/" component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/test" component={Test} />
-      </BrowserRouter>
+      </Router>
     </ApolloProvider>
   );
 }

@@ -1,11 +1,12 @@
-import "./navbar.scss";
+import "./Navbar.scss";
 
+import { Link } from "react-router-dom";
 import { ReactElement } from "react";
 import logo from "../../assets/logo.png";
-import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export default function Navbar(): ReactElement {
-  const history = useHistory();
+  const { t } = useTranslation("common");
 
   return (
     <nav>
@@ -13,13 +14,15 @@ export default function Navbar(): ReactElement {
         <li>
           <img src={logo} alt="logo" />
         </li>
-        <li>O Projekcie</li>
+        <li>{t("components.Navbar.aboutLink")}</li>
       </ul>
 
       <ul className="login-nav">
-        <li onClick={() => history.push("/register")}>Rejestracja</li>
-        <li onClick={() => history.push("/login")} className="login-button">
-          Logowanie
+        <li>
+          <Link to="/register">{t("components.Navbar.registerLink")}</Link>
+        </li>
+        <li className="login-button">
+          <Link to="/login">{t("components.Navbar.loginLink")}</Link>
         </li>
       </ul>
     </nav>
