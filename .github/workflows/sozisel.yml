@@ -1,0 +1,69 @@
+name: Sozisel CI
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Elixir
+      uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
+      with:
+        elixir-version: '1.11.2'
+        otp-version: '23'
+    - name: Restore dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
+    - name: Setup postgres
+      run: docker-compose up -d
+      working-directory: backend
+    - name: Install dependencies
+      run: mix deps.get
+      working-directory: backend/sozisel
+    - name: Check formatted
+      run: mix format --check-formatted
+      working-directory: backend/sozisel
+    - name: Run tests
+      run: mix test
+      working-directory: backend/sozisel
+    - name: Generate schema
+      run: mix absinthe.schema.json --schema SoziselWeb.Schema
+      working-directory: backend/sozisel
+    - uses: actions/upload-artifact@v2
+      with:
+        name: schema
+        path: backend/sozisel/schema.json
+  frontend:
+    needs: backend
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.15.0'
+    - name: Install dependencies
+      run: npm install   
+      working-directory: frontend/sozisel-app
+    - name: Run tests
+      run: npm run lint
+      working-directory: frontend/sozisel-app
+    - uses: actions/download-artifact@v2
+      with:
+        name: schema
+        path: frontend/sozisel-app
+    - name: Generate graphql schema
+      run: npm run graphql:gen_from_file
+      working-directory: frontend/sozisel-app
+    - name: Generate build
+      run: npm run build
+      working-directory: frontend/sozisel-app
+    

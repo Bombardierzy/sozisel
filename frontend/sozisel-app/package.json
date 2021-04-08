@@ -14,8 +14,11 @@
   },
   "scripts": {
     "watch": "webpack serve --mode development --config ./webpack.config.js",
-    "format": "prettier --write .",
-    "graphql:gen": "graphql-codegen"
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "graphql:gen": "graphql-codegen",
+    "graphql:gen_from_file": "graphql-codegen --config codegen_file.yml",
+    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
+    "build": "webpack build"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.3",
