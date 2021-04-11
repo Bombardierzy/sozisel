@@ -1,4 +1,4 @@
-import * as Yup from "yup";
+import * as yup from "yup";
 
 import { ReactElement, useState } from "react";
 
@@ -7,6 +7,7 @@ import Card from "../utils/Card/Card";
 import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/Navbar";
+import Spinner from "../utils/Spinner/Spinner";
 import conference_img from "../../assets/conference_img.png";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
@@ -25,17 +26,18 @@ interface RegisterFormData {
 export default function Register(): ReactElement {
   const { t } = useTranslation("common");
 
-  const registerSchema = Yup.object().shape({
-    email: Yup.string()
+  const registerSchema = yup.object().shape({
+    email: yup
+      .string()
       .email("Niepoprawny format email!")
       .required(t("errorMessages.fieldRequired")),
-    firstName: Yup.string().required(t("errorMessages.fieldRequired")),
-    lastName: Yup.string().required(t("errorMessages.fieldRequired")),
-    password: Yup.string().required(t("errorMessages.fieldRequired")),
-    confirmPassword: Yup.string().required(t("errorMessages.fieldRequired")),
+    firstName: yup.string().required(t("errorMessages.fieldRequired")),
+    lastName: yup.string().required(t("errorMessages.fieldRequired")),
+    password: yup.string().required(t("errorMessages.fieldRequired")),
+    confirmPassword: yup.string().required(t("errorMessages.fieldRequired")),
   });
 
-  const [registerMutation] = useRegisterMutation();
+  const [registerMutation, { loading }] = useRegisterMutation();
   const [error, setError] = useState<string | null>(null);
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm({
@@ -43,6 +45,7 @@ export default function Register(): ReactElement {
   });
 
   const onSubmit = async (registerFormData: RegisterFormData) => {
+    setError(null);
     if (registerFormData.password !== registerFormData.confirmPassword) {
       setError(t("errorMessages.passwordsNotMatch"));
     } else {
@@ -57,8 +60,8 @@ export default function Register(): ReactElement {
             },
           },
         });
+
         history.push("login");
-        setError(null);
       } catch (error) {
         setError(error.message);
       }
@@ -121,6 +124,7 @@ export default function Register(): ReactElement {
               <ErrorMessage message={errors.confirmPassword.message} />
             )}
             {error !== null && <ErrorMessage message={error} />}
+            {loading && <Spinner />}
             <Button
               name={t("components.RegisterScreen.submitButtonText")}
               type="submit"

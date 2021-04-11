@@ -53,9 +53,8 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
           Authorization: `Bearer ${token}`,
         },
       };
-    } else {
-      return headers;
     }
+    return headers;
   });
 
   return new ApolloClient({

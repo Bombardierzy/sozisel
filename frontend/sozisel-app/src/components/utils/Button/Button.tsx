@@ -1,6 +1,6 @@
 import "./Button.scss";
 
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   name: string;
@@ -13,7 +13,7 @@ export default function Button({
   ...props
 }: ButtonProps): ReactElement {
   return (
-    <button {...props} type={type}>
+    <button {...props} type={type} className="button">
       {name}
     </button>
   );

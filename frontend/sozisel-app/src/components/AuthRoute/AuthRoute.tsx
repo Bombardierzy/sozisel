@@ -25,7 +25,6 @@ export default function AuthRoute({
 
   if (!loading) {
     return <Route exact path={path} component={component} />;
-  } else {
-    return <></>;
   }
+  return <></>;
 }

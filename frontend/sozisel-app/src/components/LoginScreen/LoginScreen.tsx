@@ -1,6 +1,6 @@
 import "./LoginScreen.scss";
 
-import * as Yup from "yup";
+import * as yup from "yup";
 
 import Button from "../utils/Button/Button";
 import Card from "../utils/Card/Card";
@@ -8,6 +8,7 @@ import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/Navbar";
 import { ReactElement } from "react";
+import Spinner from "../utils/Spinner/Spinner";
 import conference_img from "../../assets/conference_img.png";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
@@ -23,14 +24,15 @@ interface LoginFormData {
 export default function LoginScreen(): ReactElement {
   const { t } = useTranslation("common");
 
-  const loginSchema = Yup.object().shape({
-    email: Yup.string()
+  const loginSchema = yup.object().shape({
+    email: yup
+      .string()
       .email(t("errorMessages.invalidEmailFormat"))
       .required(t("errorMessages.fieldRequired")),
-    password: Yup.string().required(t("errorMessages.fieldRequired")),
+    password: yup.string().required(t("errorMessages.fieldRequired")),
   });
 
-  const [loginMutation, { error }] = useLoginMutation({});
+  const [loginMutation, { error, loading }] = useLoginMutation({});
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
@@ -40,13 +42,12 @@ export default function LoginScreen(): ReactElement {
     try {
       const body = await loginMutation({
         variables: {
-          input: {
-            ...loginFormData,
-          },
+          input: loginFormData,
         },
       });
+
       localStorage.setItem("token", body.data?.login?.token ?? "");
-      history.push("");
+      history.push("home");
     } catch (error) {
       console.error(error);
     }
@@ -78,6 +79,7 @@ export default function LoginScreen(): ReactElement {
               <ErrorMessage message={errors.password.message} />
             )}
             {error && <ErrorMessage message={error.message} />}
+            {loading && <Spinner />}
             <Button
               type="submit"
               name={t("components.LoginScreen.submitButtonText")}

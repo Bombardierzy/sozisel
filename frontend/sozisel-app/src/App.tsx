@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Redirect, Route, BrowserRouter as Router } from "react-router-dom";
 
 import { ApolloProvider } from "@apollo/client";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
@@ -14,7 +14,10 @@ export default function App(): ReactElement {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <AuthRoute path="/" component={HomePage} />
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+        <AuthRoute path="/home" component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
       </Router>

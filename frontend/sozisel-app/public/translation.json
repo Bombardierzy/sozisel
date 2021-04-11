@@ -17,6 +17,9 @@
       "registerLink": "Rejestracja",
       "loginLink": "Logowanie",
       "aboutLink": "O projekcie"
+    },
+    "HomePage": {
+      "placeholder": "Ta strona jest dostępna tylko po zalogowaniu!"
     }
   },
   "errorMessages": {
