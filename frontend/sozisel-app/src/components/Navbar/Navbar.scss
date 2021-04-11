@@ -42,13 +42,11 @@
       border: 1px solid color.$main-color;
       color: color.$main-color;
       border-radius: 40px;
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         outline: none;
         cursor: pointer;
       }
-    }
-    .register-button {
-      
     }
   }
 }

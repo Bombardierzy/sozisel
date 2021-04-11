@@ -23,25 +23,29 @@ interface RegisterFormData {
   confirmPassword: string;
 }
 
+const registerSchema = (invalidEmailFormat: string, fieldRequired: string) => {
+  return yup.object().shape({
+    email: yup.string().email(invalidEmailFormat).required(fieldRequired),
+    firstName: yup.string().required(fieldRequired),
+    lastName: yup.string().required(fieldRequired),
+    password: yup.string().required(fieldRequired),
+    confirmPassword: yup.string().required(fieldRequired),
+  });
+};
+
 export default function Register(): ReactElement {
   const { t } = useTranslation("common");
-
-  const registerSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Niepoprawny format email!")
-      .required(t("errorMessages.fieldRequired")),
-    firstName: yup.string().required(t("errorMessages.fieldRequired")),
-    lastName: yup.string().required(t("errorMessages.fieldRequired")),
-    password: yup.string().required(t("errorMessages.fieldRequired")),
-    confirmPassword: yup.string().required(t("errorMessages.fieldRequired")),
-  });
 
   const [registerMutation, { loading }] = useRegisterMutation();
   const [error, setError] = useState<string | null>(null);
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(
+      registerSchema(
+        t("errorMessages.invalidEmailFormat"),
+        t("errorMessages.fieldRequired")
+      )
+    ),
   });
 
   const onSubmit = async (registerFormData: RegisterFormData) => {

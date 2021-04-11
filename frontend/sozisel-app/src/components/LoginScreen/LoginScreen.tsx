@@ -21,21 +21,25 @@ interface LoginFormData {
   password: string;
 }
 
+const loginSchema = (invalidEmailFormat: string, fieldRequired: string) => {
+  return yup.object().shape({
+    email: yup.string().email(invalidEmailFormat).required(fieldRequired),
+    password: yup.string().required(fieldRequired),
+  });
+};
+
 export default function LoginScreen(): ReactElement {
   const { t } = useTranslation("common");
-
-  const loginSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email(t("errorMessages.invalidEmailFormat"))
-      .required(t("errorMessages.fieldRequired")),
-    password: yup.string().required(t("errorMessages.fieldRequired")),
-  });
 
   const [loginMutation, { error, loading }] = useLoginMutation({});
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(
+      loginSchema(
+        t("errorMessages.invalidEmailFormat"),
+        t("errorMessages.fieldRequired")
+      )
+    ),
   });
 
   const onSubmit = async (loginFormData: LoginFormData) => {
