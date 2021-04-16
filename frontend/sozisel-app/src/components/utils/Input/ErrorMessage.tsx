@@ -10,5 +10,9 @@ export default function ErrorMessage({
   message,
   ...props
 }: ErrorMessageProps): ReactElement {
-  return <p {...props}>{message}</p>;
+  return (
+    <p {...props} className="error-message">
+      {message}
+    </p>
+  );
 }

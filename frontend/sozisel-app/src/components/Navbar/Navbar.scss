@@ -1,24 +1,24 @@
-@use "../../styles/color.scss";
+@import "../../styles/styles";
 
-.Navbar {
+.navbar {
   display: flex;
   justify-content: space-between;
 
   ul {
     display: flex;
     align-items: center;
-    margin-top: 5px;
+    margin-top: $spacing-01;
     list-style-type: none;
     li {
-      margin-left: 40px;
-      padding: 5px;
+      margin-left: $spacing-07;
+      padding: $spacing-01;
       img {
         width: 160px;
         height: 80px;
-        margin-top: 5px;
+        margin-top: $spacing-01;
       }
       &:hover {
-        color: color.$main-color;
+        color: $main-color;
         cursor: pointer;
       }
     }
@@ -27,21 +27,19 @@
   .login-nav {
     margin-right: 10%;
     li {
-      margin-left: 40px;
       a {
         display: block;
-        padding: 20px 40px;
         text-decoration: none;
         color: inherit;
       }
     }
     .login-button {
       background-color: white;
-      padding: 20px 40px;
+      padding: $spacing-05 $spacing-08;
       font-size: 16px;
-      border: 1px solid color.$main-color;
-      color: color.$main-color;
-      border-radius: 40px;
+      border: $main-border;
+      color: $main-color;
+      border-radius: $spacing-08;
       &:hover,
       &:focus {
         outline: none;

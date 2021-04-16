@@ -23,8 +23,8 @@ export default function AuthRoute({
     }
   }, [error, history]);
 
-  if (!loading) {
-    return <Route exact path={path} component={component} />;
+  if (loading || error) {
+    return <></>;
   }
-  return <></>;
+  return <Route exact path={path} component={component} />;
 }

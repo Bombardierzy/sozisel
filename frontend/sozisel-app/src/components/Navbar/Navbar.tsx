@@ -2,14 +2,14 @@ import "./Navbar.scss";
 
 import { Link } from "react-router-dom";
 import { ReactElement } from "react";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 
 export default function Navbar(): ReactElement {
   const { t } = useTranslation("common");
 
   return (
-    <nav className="Navbar">
+    <nav className="navbar">
       <ul>
         <li>
           <img src={logo} alt="logo" />

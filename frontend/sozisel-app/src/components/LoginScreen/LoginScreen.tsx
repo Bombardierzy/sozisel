@@ -9,7 +9,7 @@ import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/Navbar";
 import { ReactElement } from "react";
 import Spinner from "../utils/Spinner/Spinner";
-import conference_img from "../../assets/conference_img.png";
+import conference_img from "../../assets/images/conference_img.png";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { useLoginMutation } from "../../graphql";
@@ -21,12 +21,13 @@ interface LoginFormData {
   password: string;
 }
 
-const loginSchema = (invalidEmailFormat: string, fieldRequired: string) => {
-  return yup.object().shape({
-    email: yup.string().email(invalidEmailFormat).required(fieldRequired),
-    password: yup.string().required(fieldRequired),
-  });
-};
+const loginSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("inputErrors.invalidEmailFormat")
+    .required("inputErrors.fieldRequired"),
+  password: yup.string().required("inputErrors.fieldRequired"),
+});
 
 export default function LoginScreen(): ReactElement {
   const { t } = useTranslation("common");
@@ -34,12 +35,7 @@ export default function LoginScreen(): ReactElement {
   const [loginMutation, { error, loading }] = useLoginMutation({});
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(
-      loginSchema(
-        t("errorMessages.invalidEmailFormat"),
-        t("errorMessages.fieldRequired")
-      )
-    ),
+    resolver: yupResolver(loginSchema),
   });
 
   const onSubmit = async (loginFormData: LoginFormData) => {
@@ -71,7 +67,7 @@ export default function LoginScreen(): ReactElement {
               ref={register}
               error={errors.email}
             />
-            {errors.email && <ErrorMessage message={errors.email.message} />}
+            {errors.email && <ErrorMessage message={t(errors.email.message)} />}
             <Input
               name="password"
               label={t("components.LoginScreen.passwordLabelText")}
@@ -80,7 +76,7 @@ export default function LoginScreen(): ReactElement {
               error={errors.password}
             />
             {errors.password && (
-              <ErrorMessage message={errors.password.message} />
+              <ErrorMessage message={t(errors.password.message)} />
             )}
             {error && <ErrorMessage message={error.message} />}
             {loading && <Spinner />}

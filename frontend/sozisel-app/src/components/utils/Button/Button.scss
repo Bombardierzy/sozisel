@@ -1,14 +1,14 @@
-@use "../../../styles/color.scss";
+@import "../../../styles/styles";
 
 .button {
-  margin-top: 50px;
   background-color: white;
   border-radius: 10px;
-  padding: 8px 40px;
-  margin-bottom: 20px;
+  display: block;
+  margin: $spacing-05 auto;
+  padding: $spacing-03 $spacing-08;
   font-weight: 600;
-  color: color.$main-color;
-  border: 1px solid color.$main-color;
+  color: $main-color;
+  border: $main-border;
   &:hover,
   &:focus {
     cursor: pointer;

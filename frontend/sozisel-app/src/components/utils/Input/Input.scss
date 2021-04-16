@@ -1,27 +1,28 @@
-@use "../../../styles/color.scss";
+@import "../../../styles/styles";
 
-label {
-  margin-top: 20px;
-  margin-bottom: 5px;
-  font-size: 12px;
-  display: block;
-  margin-left: 10%;
-  text-align: left;
-}
-
-input {
-  width: 80%;
-  height: 35px;
-  padding-left: 10px;
-  border: 1px solid #d1cece;
-  border-radius: 5px;
-  &:hover,
-  &:focus {
-    outline: none;
-    border: 1px solid color.$main-color;
+.input {
+  label {
+    margin: $spacing-03 0 $spacing-02 10%;
+    font-size: 12px;
+    display: block;
+    text-align: left;
   }
-}
 
-.input-error {
-  border: 1px solid red;
+  input {
+    width: 80%;
+    height: 35px;
+    padding: 0 $spacing-03;
+    margin-bottom: $spacing-03;
+    border: 1px solid #d1cece;
+    border-radius: 5px;
+    &:hover,
+    &:focus {
+      outline: none;
+      border: $main-border;
+    }
+  }
+
+  .input-error {
+    border: $error-border
+  }
 }

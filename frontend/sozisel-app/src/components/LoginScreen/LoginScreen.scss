@@ -1,4 +1,4 @@
-@use "../../index.scss";
+@import "../../styles/styles";
 
 .container {
   display: flex;
@@ -10,11 +10,10 @@
     margin-left: 5%;
   }
   form {
-    margin-top: 60px;
-    margin-bottom: 20px;
+    margin-top: $spacing-08;
     text-align: center;
     button {
-      margin-top: 20px;
+      margin-top: $spacing-05;
     }
   }
 }

@@ -54,8 +54,6 @@ module.exports = {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-              outputPath: "fonts/",
-              publicPath: "/bundle/fonts/",
             },
           },
         ],

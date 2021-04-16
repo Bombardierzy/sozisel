@@ -22,7 +22,7 @@
       "placeholder": "Ta strona jest dostępna tylko po zalogowaniu!"
     }
   },
-  "errorMessages": {
+  "inputErrors": {
     "fieldRequired": "To pole jest wymagane!",
     "invalidEmailFormat": "Niepoprawny format email!",
     "passwordsNotMatch": "Podane hasła nie są identyczne!"

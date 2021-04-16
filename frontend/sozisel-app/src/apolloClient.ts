@@ -54,7 +54,7 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
         },
       };
     }
-    return headers;
+    return { headers };
   });
 
   return new ApolloClient({

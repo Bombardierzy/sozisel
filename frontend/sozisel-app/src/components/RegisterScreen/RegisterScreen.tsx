@@ -1,14 +1,13 @@
 import * as yup from "yup";
 
-import { ReactElement, useState } from "react";
-
 import Button from "../utils/Button/Button";
 import Card from "../utils/Card/Card";
 import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/Navbar";
+import { ReactElement } from "react";
 import Spinner from "../utils/Spinner/Spinner";
-import conference_img from "../../assets/conference_img.png";
+import conference_img from "../../assets/images/conference_img.png";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { useRegisterMutation } from "../../graphql";
@@ -23,35 +22,32 @@ interface RegisterFormData {
   confirmPassword: string;
 }
 
-const registerSchema = (invalidEmailFormat: string, fieldRequired: string) => {
-  return yup.object().shape({
-    email: yup.string().email(invalidEmailFormat).required(fieldRequired),
-    firstName: yup.string().required(fieldRequired),
-    lastName: yup.string().required(fieldRequired),
-    password: yup.string().required(fieldRequired),
-    confirmPassword: yup.string().required(fieldRequired),
-  });
-};
+const registerSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("inputErrors.invalidEmailFormat")
+    .required("inputErrors.fieldRequired"),
+  firstName: yup.string().required("inputErrors.fieldRequired"),
+  lastName: yup.string().required("inputErrors.fieldRequired"),
+  password: yup.string().required("inputErrors.fieldRequired"),
+  confirmPassword: yup.string().required("inputErrors.fieldRequired"),
+});
 
 export default function Register(): ReactElement {
   const { t } = useTranslation("common");
 
-  const [registerMutation, { loading }] = useRegisterMutation();
-  const [error, setError] = useState<string | null>(null);
+  const [registerMutation, { loading, error }] = useRegisterMutation();
   const history = useHistory();
-  const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(
-      registerSchema(
-        t("errorMessages.invalidEmailFormat"),
-        t("errorMessages.fieldRequired")
-      )
-    ),
+  const { register, handleSubmit, errors, setError } = useForm({
+    resolver: yupResolver(registerSchema),
   });
 
   const onSubmit = async (registerFormData: RegisterFormData) => {
-    setError(null);
     if (registerFormData.password !== registerFormData.confirmPassword) {
-      setError(t("errorMessages.passwordsNotMatch"));
+      setError("confirmPassword", {
+        type: "manual",
+        message: t("inputErrors.passwordsNotMatch"),
+      });
     } else {
       try {
         await registerMutation({
@@ -67,7 +63,7 @@ export default function Register(): ReactElement {
 
         history.push("login");
       } catch (error) {
-        setError(error.message);
+        console.error(error);
       }
     }
   };
@@ -86,7 +82,7 @@ export default function Register(): ReactElement {
               ref={register}
               error={errors.email}
             />
-            {errors.email && <ErrorMessage message={errors.email.message} />}
+            {errors.email && <ErrorMessage message={t(errors.email.message)} />}
             <Input
               name="firstName"
               label={t("components.RegisterScreen.firstNameLabelText")}
@@ -95,7 +91,7 @@ export default function Register(): ReactElement {
               error={errors.firstName}
             />
             {errors.firstName && (
-              <ErrorMessage message={errors.firstName.message} />
+              <ErrorMessage message={t(errors.firstName.message)} />
             )}
             <Input
               name="lastName"
@@ -105,7 +101,7 @@ export default function Register(): ReactElement {
               error={errors.lastName}
             />
             {errors.lastName && (
-              <ErrorMessage message={errors.lastName.message} />
+              <ErrorMessage message={t(errors.lastName.message)} />
             )}
             <Input
               name="password"
@@ -115,7 +111,7 @@ export default function Register(): ReactElement {
               error={errors.password}
             />
             {errors.password && (
-              <ErrorMessage message={errors.password.message} />
+              <ErrorMessage message={t(errors.password.message)} />
             )}
             <Input
               name="confirmPassword"
@@ -125,9 +121,9 @@ export default function Register(): ReactElement {
               error={errors.confirmPassword}
             />
             {errors.confirmPassword && (
-              <ErrorMessage message={errors.confirmPassword.message} />
+              <ErrorMessage message={t(errors.confirmPassword.message)} />
             )}
-            {error !== null && <ErrorMessage message={error} />}
+            {error && <ErrorMessage message={error.message} />}
             {loading && <Spinner />}
             <Button
               name={t("components.RegisterScreen.submitButtonText")}

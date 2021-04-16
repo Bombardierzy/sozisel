@@ -1,13 +1,6 @@
-import "./Spinner.scss";
+import { ClipLoader } from "react-spinners";
+import { ReactElement } from "react";
 
-import React, { ReactElement } from "react";
-
-export default function Spinner({
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>): ReactElement {
-  return (
-    <div {...props} className="loader">
-      Loading...
-    </div>
-  );
+export default function Spinner(): ReactElement {
+  return <ClipLoader size={25} color="#ff8a00" />;
 }
