@@ -6,14 +6,14 @@ defmodule Sozisel.Model.Sessions.Session do
   alias Sozisel.Model.Users.User
 
   @type t :: %__MODULE__{
-    id: Ecto.UUID.t(),
-    name: String.t(),
-    entry_password: String.t(),
-    start_time: Integer.t(),
-    use_jitsi: Boolean.t(),
-    inserted_at: DateTime.t(),
-    updated_at: DateTime.t()
-  }
+          id: Ecto.UUID.t(),
+          name: String.t(),
+          entry_password: String.t(),
+          start_time: Integer.t(),
+          use_jitsi: Boolean.t(),
+          inserted_at: DateTime.t(),
+          updated_at: DateTime.t()
+        }
 
   schema "sessions" do
     field :entry_password, :string
@@ -28,7 +28,14 @@ defmodule Sozisel.Model.Sessions.Session do
 
   def create_changeset(session, attrs) do
     session
-    |> cast(attrs, [:name, :start_time, :entry_password, :use_jitsi, :user_id, :session_template_id])
+    |> cast(attrs, [
+      :name,
+      :start_time,
+      :entry_password,
+      :use_jitsi,
+      :user_id,
+      :session_template_id
+    ])
     |> validate_required([:name, :start_time, :entry_password, :session_template_id, :user_id])
     |> assoc_constraint(:session_template)
     |> assoc_constraint(:user)

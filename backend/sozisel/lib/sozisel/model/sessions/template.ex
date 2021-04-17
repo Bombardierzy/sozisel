@@ -7,18 +7,18 @@ defmodule Sozisel.Model.Sessions.Template do
   alias Sozisel.Model.Sessions.Session
 
   @type t :: %__MODULE__{
-    id: Ecto.UUID.t(),
-    name: String.t(),
-    estimated_time: Integer.t(),
-    is_abstract: Boolean.t(),
-    is_public: Boolean.t(),
-    deleted_at: DateTime.t() | nil,
-    inserted_at: DateTime.t(),
-    updated_at: DateTime.t()
-  }
+          id: Ecto.UUID.t(),
+          name: String.t(),
+          estimated_time: Integer.t(),
+          is_abstract: Boolean.t(),
+          is_public: Boolean.t(),
+          deleted_at: DateTime.t() | nil,
+          inserted_at: DateTime.t(),
+          updated_at: DateTime.t()
+        }
 
   @doc """
-  Templates schema consist of following fields
+  Templates schema consist of the following fields
   :name -> name of template
   :estimated_time -> estimated time of session in minutes
   :is_abstract -> if set to true template is abstract and can be used only

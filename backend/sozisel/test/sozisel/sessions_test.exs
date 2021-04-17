@@ -8,9 +8,27 @@ defmodule Sozisel.SessionsTest do
   describe "session_templates" do
     alias Sozisel.Model.Sessions.Template
 
-    @valid_attrs %{deleted_at: nil, estimated_time: 42, is_abstract: false, is_public: false, name: "some name"}
-    @update_attrs %{deleted_at: "2011-05-18T15:01:01.000000Z", estimated_time: 43, is_abstract: false, is_public: false, name: "some updated name"}
-    @invalid_attrs %{deleted_at: nil, estimated_time: nil, is_abstract: nil, is_public: nil, name: nil}
+    @valid_attrs %{
+      deleted_at: nil,
+      estimated_time: 42,
+      is_abstract: false,
+      is_public: false,
+      name: "some name"
+    }
+    @update_attrs %{
+      deleted_at: "2011-05-18T15:01:01.000000Z",
+      estimated_time: 43,
+      is_abstract: false,
+      is_public: false,
+      name: "some updated name"
+    }
+    @invalid_attrs %{
+      deleted_at: nil,
+      estimated_time: nil,
+      is_abstract: nil,
+      is_public: nil,
+      name: nil
+    }
 
     test "list_session_templates/0 returns all session_templates" do
       template = insert(:template)
@@ -51,7 +69,10 @@ defmodule Sozisel.SessionsTest do
     test "update_template/2 with valid data updates the template" do
       template = insert(:template)
       assert {:ok, %Template{} = template} = Sessions.update_template(template, @update_attrs)
-      assert template.deleted_at == DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
+
+      assert template.deleted_at ==
+               DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
+
       assert template.estimated_time == 43
       assert template.is_abstract == false
       assert template.is_public == false
@@ -108,14 +129,20 @@ defmodule Sozisel.SessionsTest do
 
     test "update_agenda_entry/2 with valid data updates the agenda_entry" do
       agenda_entry = insert(:agenda_entry)
-      assert {:ok, %AgendaEntry{} = agenda_entry} = Sessions.update_agenda_entry(agenda_entry, @update_attrs)
+
+      assert {:ok, %AgendaEntry{} = agenda_entry} =
+               Sessions.update_agenda_entry(agenda_entry, @update_attrs)
+
       assert agenda_entry.name == "some updated name"
       assert agenda_entry.start_minute == 43
     end
 
     test "update_agenda_entry/2 with invalid data returns error changeset" do
       agenda_entry = insert(:agenda_entry)
-      assert {:error, %Ecto.Changeset{}} = Sessions.update_agenda_entry(agenda_entry, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Sessions.update_agenda_entry(agenda_entry, @invalid_attrs)
+
       assert agenda_entry == Sessions.get_agenda_entry!(agenda_entry.id)
     end
 
@@ -129,8 +156,18 @@ defmodule Sozisel.SessionsTest do
   describe "sessions" do
     alias Sozisel.Model.Sessions.Session
 
-    @valid_attrs %{entry_password: "some entry_password", name: "some name", start_time: "2010-04-17T14:00:00.000000Z", use_jitsi: true}
-    @update_attrs %{entry_password: "some updated entry_password", name: "some updated name", start_time: "2011-05-18T15:01:01.000000Z", use_jitsi: false}
+    @valid_attrs %{
+      entry_password: "some entry_password",
+      name: "some name",
+      start_time: "2010-04-17T14:00:00.000000Z",
+      use_jitsi: true
+    }
+    @update_attrs %{
+      entry_password: "some updated entry_password",
+      name: "some updated name",
+      start_time: "2011-05-18T15:01:01.000000Z",
+      use_jitsi: false
+    }
     @invalid_attrs %{entry_password: nil, name: nil, start_time: nil, use_jitsi: nil}
 
     test "list_sessions/0 returns all sessions" do
@@ -152,11 +189,17 @@ defmodule Sozisel.SessionsTest do
     test "create_session/1 with valid data creates a session" do
       user = insert(:user)
       template = insert(:template)
-      valid_attrs = Map.put(@valid_attrs, :user_id, user.id) |> Map.put(:session_template_id, template.id)
+
+      valid_attrs =
+        Map.put(@valid_attrs, :user_id, user.id) |> Map.put(:session_template_id, template.id)
+
       assert {:ok, %Session{} = session} = Sessions.create_session(valid_attrs)
       assert session.entry_password == "some entry_password"
       assert session.name == "some name"
-      assert session.start_time == DateTime.from_naive!(~N[2010-04-17T14:00:00.000000Z], "Etc/UTC")
+
+      assert session.start_time ==
+               DateTime.from_naive!(~N[2010-04-17T14:00:00.000000Z], "Etc/UTC")
+
       assert session.use_jitsi == true
     end
 
@@ -169,7 +212,10 @@ defmodule Sozisel.SessionsTest do
       assert {:ok, %Session{} = session} = Sessions.update_session(session, @update_attrs)
       assert session.entry_password == "some updated entry_password"
       assert session.name == "some updated name"
-      assert session.start_time == DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
+
+      assert session.start_time ==
+               DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
+
       assert session.use_jitsi == false
     end
 
