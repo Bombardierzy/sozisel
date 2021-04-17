@@ -10,7 +10,6 @@ defmodule Sozisel.Model.Sessions do
 
   @doc """
   Returns the list of session_templates.
-  TODO add preload
   """
   def list_session_templates do
     Repo.all(Template)
@@ -18,7 +17,6 @@ defmodule Sozisel.Model.Sessions do
 
   @doc """
   Returns the list of session_templates that belongs to user
-  TODO add preload
   """
   def list_user_templates(user_id) do
     from(t in Template, where: t.user_id == ^user_id)
@@ -27,7 +25,6 @@ defmodule Sozisel.Model.Sessions do
 
   @doc """
   Returns the list of public session_templates
-  TODO add preload
   """
   def list_public_templates do
     from(t in Template, where: t.is_public == true)
@@ -38,9 +35,10 @@ defmodule Sozisel.Model.Sessions do
   Gets a single template.
 
   Raises `Ecto.NoResultsError` if the Template does not exist.
-  TODO add preload
   """
-  def get_template!(id), do: Repo.get!(Template, id)
+  def get_template!(id) do
+    Repo.get!(Template, id)
+  end
 
   @doc """
   Creates a template.
@@ -122,7 +120,6 @@ defmodule Sozisel.Model.Sessions do
 
   @doc """
   Returns the list of sessions.
-  TODO add preload
   """
   def list_sessions do
     Repo.all(Session)
@@ -130,7 +127,6 @@ defmodule Sozisel.Model.Sessions do
 
   @doc """
   Returns the list of sessions that belongs to user
-  TODO add preload
   """
   def list_user_sessions(user_id) do
     from(s in Session, where: s.user_id == ^user_id)
@@ -141,9 +137,10 @@ defmodule Sozisel.Model.Sessions do
   Gets a single session.
 
   Raises `Ecto.NoResultsError` if the Session does not exist.
-  TODO add preload
   """
-  def get_session!(id), do: Repo.get!(Session, id)
+  def get_session!(id) do
+    Repo.get!(Session, id)
+  end
 
   @doc """
   Creates a session.

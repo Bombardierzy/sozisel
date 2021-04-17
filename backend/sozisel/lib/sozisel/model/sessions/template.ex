@@ -33,7 +33,7 @@ defmodule Sozisel.Model.Sessions.Template do
   has_many :events Event
   """
   schema "session_templates" do
-    field :deleted_at, :utc_datetime_usec
+    field :deleted_at, :utc_datetime_usec, default: nil
     field :estimated_time, :integer
     field :is_abstract, :boolean, default: false
     field :is_public, :boolean, default: false
@@ -47,8 +47,8 @@ defmodule Sozisel.Model.Sessions.Template do
 
   def create_changeset(template, attrs) do
     template
-    |> cast(attrs, [:name, :estimated_time, :is_abstract, :is_public, :deleted_at, :user])
-    |> validate_required([:name, :estimated_time, :is_abstract, :is_public, :deleted_at, :user])
+    |> cast(attrs, [:name, :estimated_time, :is_abstract, :is_public, :deleted_at, :user_id])
+    |> validate_required([:name, :estimated_time, :user_id])
     |> assoc_constraint(:user)
   end
 
@@ -61,6 +61,6 @@ defmodule Sozisel.Model.Sessions.Template do
   def update_changeset(template, attrs) do
     template
     |> cast(attrs, [:name, :estimated_time, :is_abstract, :is_public, :deleted_at])
-    |> validate_required([:name, :estimated_time, :is_abstract, :is_public, :deleted_at])
+    |> validate_required([:name, :estimated_time])
   end
 end

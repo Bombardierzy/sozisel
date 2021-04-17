@@ -10,7 +10,7 @@ defmodule Sozisel.Repo.Migrations.CreateSessions do
       add :session_template_id, references(:session_templates, on_delete: :nothing)
       add :user_id, references(:users, on_delete: :nothing)
 
-      timestamps()
+      timestamps(type: :utc_datetime_usec)
     end
 
     create index(:sessions, [:session_template_id])

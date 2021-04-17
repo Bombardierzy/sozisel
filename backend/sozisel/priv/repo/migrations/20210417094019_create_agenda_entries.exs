@@ -7,7 +7,7 @@ defmodule Sozisel.Repo.Migrations.CreateAgendaEntries do
       add :start_minute, :integer
       add :session_template_id, references(:session_templates, on_delete: :nothing)
 
-      timestamps()
+      timestamps(type: :utc_datetime_usec)
     end
 
     create index(:agenda_entries, [:session_template_id])

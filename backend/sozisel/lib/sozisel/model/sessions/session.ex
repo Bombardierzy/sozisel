@@ -28,8 +28,8 @@ defmodule Sozisel.Model.Sessions.Session do
 
   def create_changeset(session, attrs) do
     session
-    |> cast(attrs, [:name, :start_time, :entry_password, :use_jitsi, :session_template, :user])
-    |> validate_required([:name, :start_time, :entry_password, :use_jitsi, :session_template, :user])
+    |> cast(attrs, [:name, :start_time, :entry_password, :use_jitsi, :user_id, :session_template_id])
+    |> validate_required([:name, :start_time, :entry_password, :session_template_id, :user_id])
     |> assoc_constraint(:session_template)
     |> assoc_constraint(:user)
   end
