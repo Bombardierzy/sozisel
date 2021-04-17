@@ -11,7 +11,7 @@ export default function ErrorMessage({
   ...props
 }: ErrorMessageProps): ReactElement {
   return (
-    <p {...props} className="error-message">
+    <p {...props} className="ErrorMessage">
       {message}
     </p>
   );

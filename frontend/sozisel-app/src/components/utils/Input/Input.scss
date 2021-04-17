@@ -1,6 +1,6 @@
 @import "../../../styles/styles";
 
-.input {
+.Input {
   label {
     margin: $spacing-03 0 $spacing-02 10%;
     font-size: 12px;
@@ -22,7 +22,7 @@
     }
   }
 
-  .input-error {
-    border: $error-border
+  .InputError {
+    border: $error-border;
   }
 }

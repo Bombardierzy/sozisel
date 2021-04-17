@@ -9,7 +9,7 @@ export default function Navbar(): ReactElement {
   const { t } = useTranslation("common");
 
   return (
-    <nav className="navbar">
+    <nav className="Navbar">
       <ul>
         <li>
           <img src={logo} alt="logo" />
@@ -17,13 +17,13 @@ export default function Navbar(): ReactElement {
         <li>{t("components.Navbar.aboutLink")}</li>
       </ul>
 
-      <ul className="login-nav">
+      <ul className="LoginNav">
         <li>
           <Link to="/register">{t("components.Navbar.registerLink")}</Link>
         </li>
         <li>
           <Link to="/login">
-            <button className="login-button">
+            <button className="LoginButton">
               {t("components.Navbar.loginLink")}
             </button>
           </Link>

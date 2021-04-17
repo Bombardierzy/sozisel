@@ -1,6 +1,6 @@
 @import "../../styles/styles";
 
-.container {
+.Container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,8 +16,4 @@
       margin-top: $spacing-05;
     }
   }
-}
-
-.spinner {
-  font-size: 5px !important;
 }

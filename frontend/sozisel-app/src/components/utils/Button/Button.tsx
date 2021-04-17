@@ -13,7 +13,7 @@ export default function Button({
   ...props
 }: ButtonProps): ReactElement {
   return (
-    <button {...props} type={type} className="button">
+    <button {...props} type={type} className="Button">
       {name}
     </button>
   );

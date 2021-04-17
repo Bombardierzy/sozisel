@@ -71,7 +71,7 @@ export default function Register(): ReactElement {
   return (
     <>
       <Navbar />
-      <div className="container">
+      <div className="Container">
         <img src={conference_img} />
         <Card>
           <form onSubmit={handleSubmit(onSubmit)}>
