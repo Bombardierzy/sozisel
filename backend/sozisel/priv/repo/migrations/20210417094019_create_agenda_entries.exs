@@ -3,9 +3,9 @@ defmodule Sozisel.Repo.Migrations.CreateAgendaEntries do
 
   def change do
     create table(:agenda_entries) do
-      add :name, :string
-      add :start_minute, :integer
-      add :session_template_id, references(:session_templates, on_delete: :nothing)
+      add :name, :string, null: false
+      add :start_minute, :integer, null: false
+      add :session_template_id, references(:session_templates, on_delete: :nothing), null: false
 
       timestamps(type: :utc_datetime_usec)
     end
