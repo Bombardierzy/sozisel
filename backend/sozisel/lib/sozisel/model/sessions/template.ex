@@ -29,8 +29,6 @@ defmodule Sozisel.Model.Sessions.Template do
   :user -> creator and owner of session template
   :agenda_entries -> entries in session template agenda
   :sessions -> sessions created based on that template
-  TODO
-  has_many :events Event
   """
   schema "session_templates" do
     field :deleted_at, :utc_datetime_usec, default: nil
@@ -41,6 +39,8 @@ defmodule Sozisel.Model.Sessions.Template do
     belongs_to :user, User
     has_many :agenda_entries, AgendaEntry, foreign_key: :session_template_id
     has_many :sessions, Session, foreign_key: :session_template_id
+    # TODO
+    # has_many :events Event, foreign_key: :session_template_id
 
     timestamps()
   end
@@ -52,12 +52,10 @@ defmodule Sozisel.Model.Sessions.Template do
     |> assoc_constraint(:user)
   end
 
-  @doc """
-  TODO
-  Remember to check if any session was created based on a template
-  if yes, template can't be edited
-  user can only copy, or delete it
-  """
+  # TODO
+  # Remember to check if any session was created based on a template
+  # if yes, template can't be edited
+  # user can only copy, or delete it
   def update_changeset(template, attrs) do
     template
     |> cast(attrs, [:name, :estimated_time, :is_abstract, :is_public, :deleted_at])
