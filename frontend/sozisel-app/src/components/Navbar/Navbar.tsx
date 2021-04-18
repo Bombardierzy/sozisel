@@ -23,7 +23,7 @@ export default function Navbar(): ReactElement {
         </li>
         <li>
           <Link to="/login">
-            <button className="LoginButton">
+            <button className="loginButton">
               {t("components.Navbar.loginLink")}
             </button>
           </Link>

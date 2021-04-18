@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <div className="Input">
         <label htmlFor={name}>{label}</label>
         <input
-          className={error === undefined ? "Input" : "InputError"}
+          className={error === undefined ? "" : "inputError"}
           name={name}
           {...props}
           ref={ref}
