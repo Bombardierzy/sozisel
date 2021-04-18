@@ -24,7 +24,7 @@ defmodule Sozisel.Model.Sessions.AgendaEntry do
     agenda_entry
     |> cast(attrs, [:name, :start_minute, :session_template_id])
     |> validate_required([:name, :start_minute, :session_template_id])
-    |> assoc_constraint(:session_template)
+    |> foreign_key_constraint(:session_template_id)
   end
 
   def update_changeset(agenda_entry, attrs) do

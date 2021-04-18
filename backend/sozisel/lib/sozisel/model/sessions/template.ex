@@ -49,7 +49,7 @@ defmodule Sozisel.Model.Sessions.Template do
     template
     |> cast(attrs, [:name, :estimated_time, :is_abstract, :is_public, :deleted_at, :user_id])
     |> validate_required([:name, :estimated_time, :user_id])
-    |> assoc_constraint(:user)
+    |> foreign_key_constraint(:user_id)
   end
 
   # TODO

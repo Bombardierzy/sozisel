@@ -37,8 +37,8 @@ defmodule Sozisel.Model.Sessions.Session do
       :session_template_id
     ])
     |> validate_required([:name, :start_time, :session_template_id, :user_id])
-    |> assoc_constraint(:session_template)
-    |> assoc_constraint(:user)
+    |> foreign_key_constraint(:session_template_id)
+    |> foreign_key_constraint(:user_id)
   end
 
   def update_changeset(session, attrs) do
