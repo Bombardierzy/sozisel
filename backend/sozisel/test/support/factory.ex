@@ -24,7 +24,7 @@ defmodule Sozisel.Factory do
       is_abstract: attrs[:is_abstract] || sequence(:is_abstract, [false, true]),
       is_public: attrs[:is_public] || sequence(:is_public, [false, true]),
       name: attrs[:name] || sequence(:name, &"Template name no. #{&1}"),
-      user_id: attrs[:user_id] || build(:user).id
+      user_id: attrs[:user_id] || insert(:user).id
     }
   end
 
@@ -32,7 +32,7 @@ defmodule Sozisel.Factory do
     %AgendaEntry{
       start_minute: attrs[:start_minute] || sequence(:start_minute, & &1),
       name: attrs[:name] || sequence(:name, &"Agenda entry name no. #{&1}"),
-      session_template_id: attrs[:session_template_id] || build(:template).id
+      session_template_id: attrs[:session_template_id] || insert(:template).id
     }
   end
 
@@ -42,8 +42,8 @@ defmodule Sozisel.Factory do
       start_time: attrs[:start_time] || "2011-05-18T15:01:01.000000Z",
       use_jitsi: attrs[:use_jitsi] || sequence(:use_jitsi, [false, true]),
       name: attrs[:name] || sequence(:name, &"Session name no. #{&1}"),
-      user_id: attrs[:user_id] || build(:user).id,
-      session_template_id: attrs[:session_template_id] || build(:template).id
+      user_id: attrs[:user_id] || insert(:user).id,
+      session_template_id: attrs[:session_template_id] || insert(:template).id
     }
   end
 end
