@@ -19,7 +19,7 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, "dist"),
   },
   resolve: {
     extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
@@ -40,12 +40,12 @@ module.exports = {
       {
         test: /\.m?js/,
         resolve: {
-            fullySpecified: false
-        }
+          fullySpecified: false,
+        },
       },
       {
-        test: /\.(sa|sc|c)ss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
@@ -54,30 +54,19 @@ module.exports = {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-              outputPath: "fonts/",
-              publicPath: "/bundle/fonts/",
             },
           },
         ],
       },
       {
-        test: /\.(jp(e)?g|png)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "[name].[ext]",
-              outputPath: "images/",
-              publicPath: "/bundle/images/",
-            },
-          },
-        ],
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
       },
     ],
   },
   plugins: [
     new HtmlWebPackPlugin({
-        template: path.join(__dirname, 'src', 'index.html')
+      template: path.join(__dirname, "src", "index.html"),
     }),
     new CleanWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
@@ -110,7 +99,7 @@ module.exports = {
   ].filter(Boolean),
   devServer: {
     port: 3000,
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, "dist"),
     compress: true,
     historyApiFallback: true,
     open: true,

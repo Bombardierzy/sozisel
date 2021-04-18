@@ -1,5 +1,5 @@
 mutation SendHello($from: String!) {
-    hello(from: $from) {
-        message
-    }
+  hello(from: $from) {
+    message
+  }
 }

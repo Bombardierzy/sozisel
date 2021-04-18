@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Rubik";
+  src: url("./assets/fonts/Rubik-Light.ttf");
+}
+
+body {
+  font-size: 16px !important;
+  font-family: "Rubik", sans-serif;
+  color: #4f5665;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}

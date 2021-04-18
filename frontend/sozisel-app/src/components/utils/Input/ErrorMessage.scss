@@ -1,0 +1,11 @@
+@import "../../../styles/styles";
+
+.ErrorMessage {
+  color: red;
+  font-size: 13px;
+  margin: 0 $spacing-08 + $spacing-02;
+  padding: $spacing-02;
+  border-radius: 5px;
+  background-color: white;
+  border: $error-border;
+}

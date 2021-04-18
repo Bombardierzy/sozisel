@@ -1,5 +1,5 @@
 subscription HelloMessages {
-    helloMessages {
-        message
-    }
+  helloMessages {
+    message
+  }
 }

@@ -1,0 +1,28 @@
+@import "../../../styles/styles";
+
+.Input {
+  label {
+    margin: $spacing-03 0 $spacing-02 10%;
+    font-size: 12px;
+    display: block;
+    text-align: left;
+  }
+
+  input {
+    width: 80%;
+    height: 35px;
+    padding: 0 $spacing-03;
+    margin-bottom: $spacing-03;
+    border: 1px solid #d1cece;
+    border-radius: 5px;
+    &:hover,
+    &:focus {
+      outline: none;
+      border: $main-border;
+    }
+  }
+
+  .inputError {
+    border: $error-border;
+  }
+}
