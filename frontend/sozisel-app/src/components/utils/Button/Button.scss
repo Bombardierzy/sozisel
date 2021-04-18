@@ -1,0 +1,17 @@
+@import "../../../styles/styles";
+
+.Button {
+  background-color: white;
+  border-radius: 10px;
+  display: block;
+  margin: $spacing-05 auto;
+  padding: $spacing-03 $spacing-08;
+  font-weight: 600;
+  color: $main-color;
+  border: $main-border;
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    outline: none;
+  }
+}

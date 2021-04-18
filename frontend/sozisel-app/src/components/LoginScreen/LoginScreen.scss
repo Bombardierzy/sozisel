@@ -1,0 +1,19 @@
+@import "../../styles/styles";
+
+.Container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  img {
+    width: 1000px;
+    height: 600px;
+    margin-left: 5%;
+  }
+  form {
+    margin-top: $spacing-08;
+    text-align: center;
+    button {
+      margin-top: $spacing-05;
+    }
+  }
+}
