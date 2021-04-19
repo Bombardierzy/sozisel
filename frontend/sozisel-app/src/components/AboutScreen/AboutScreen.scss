@@ -1,0 +1,16 @@
+@import "../../styles/styles";
+
+.Container {
+    h2, h4, b {
+        color: $main-color;
+        font-weight: 400;
+    }
+    .text {
+        width: 800px;
+        margin-right: 5%;
+    }
+    ul {
+        list-style-type:circle;
+        padding-left: 20px;
+    }
+}
