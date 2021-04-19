@@ -36,7 +36,8 @@
     .loginButton {
       background-color: white;
       padding: $spacing-05 $spacing-08;
-      font-size: 16px;
+      font-size: inherit;
+      font-family: inherit;
       border: $main-border;
       color: $main-color;
       border-radius: $spacing-08;
