@@ -14,7 +14,10 @@ defmodule SoziselWeb.Context do
 
   def call(conn, _) do
     context = build_context(conn)
-    Absinthe.Plug.put_options(conn, context: context)
+
+    Absinthe.Plug.put_options(conn,
+      context: context |> Map.put(:loader, SoziselWeb.Dataloader.new())
+    )
   end
 
   @doc """
@@ -48,6 +51,10 @@ defmodule SoziselWeb.Context do
       end
 
     %{current_user: user}
+  end
+
+  def current_user!(%{context: %{current_user: user}}) when not is_nil(user) do
+    user
   end
 
   defp authorize(token) do

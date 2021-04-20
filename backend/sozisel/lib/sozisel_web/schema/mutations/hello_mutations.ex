@@ -1,5 +1,5 @@
 defmodule SoziselWeb.Schema.Mutations.HelloMutations do
-  use Absinthe.Schema.Notation
+  use SoziselWeb.Schema.Notation
 
   alias SoziselWeb.Schema.Resolvers.HelloResolvers
 

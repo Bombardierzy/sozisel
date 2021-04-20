@@ -1,11 +1,19 @@
 defmodule SoziselWeb.Schema.Types.UserTypes do
-  use Absinthe.Schema.Notation
+  use SoziselWeb.Schema.Notation
 
   object :user do
     field :id, non_null(:id)
     field :email, non_null(:string)
     field :first_name, non_null(:string)
     field :last_name, non_null(:string)
+  end
+
+  object :me do
+    import_fields(:user)
+
+    field :session_templates, strong_list_of(:session_template) do
+      resolve dataloader(:db)
+    end
   end
 
   object :login_result do
