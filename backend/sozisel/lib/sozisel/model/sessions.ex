@@ -123,10 +123,11 @@ defmodule Sozisel.Model.Sessions do
     |> Repo.update()
   end
 
+  # TODO: do the event cloning when they get implemented
   def clone_template(%Template{} = template, %User{} = user) do
     agenda_entries =
       Repo.preload(template, :agenda_entries).agenda_entries
-      |> Enum.map(& Map.from_struct/1)
+      |> Enum.map(&Map.from_struct/1)
 
     copy_template =
       template

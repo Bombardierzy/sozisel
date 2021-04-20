@@ -42,7 +42,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionTemplateResolvers do
     user = Context.current_user!(ctx)
 
     with %Template{is_public: is_public} = template <- Sessions.get_template(id),
-         true <- (is_public || template.user_id == user.id) do
+         true <- is_public || template.user_id == user.id do
       Sessions.clone_template(template, user)
     else
       nil ->
