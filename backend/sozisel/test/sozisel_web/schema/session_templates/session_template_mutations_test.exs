@@ -52,6 +52,19 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
   }
   """
 
+  @clone_template """
+  mutation CloneTemplate($id: ID!) {
+    cloneSessionTemplate(id: $id) {
+      id
+      name
+      agendaEntries {
+        id
+        name
+      }
+    }
+  }
+  """
+
   describe "Session template mutations should" do
     setup do
       user = insert(:user)
@@ -127,6 +140,57 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
              } = run_query(ctx.conn, @delete_template, variables)
 
       assert not is_nil(deleted_at)
+    end
+
+    test "clone session template", ctx do
+      template = insert(:template, is_public: true, user_id: ctx.user.id)
+      agenda_entry = insert(:agenda_entry, session_template_id: template.id)
+
+      name = template.name
+
+      variables = %{
+        id: template.id
+      }
+
+      assert %{
+        data: %{
+          "cloneSessionTemplate" => %{
+            "id" => _,
+            "name" => ^name,
+            "agendaEntries" => [%{"id" => entry_id, "name" => entry_name}]
+          }
+        }
+      } = run_query(ctx.conn, @clone_template, variables)
+
+      assert entry_id != agenda_entry.id
+      assert entry_name == agenda_entry.name
+
+
+      # template is public so another user should be able to clone that
+      assert %{
+        data: %{
+          "cloneSessionTemplate" => %{
+            "id" => _,
+            "name" => ^name,
+            "agendaEntries" => [%{"id" => entry_id, "name" => entry_name}]
+          }
+        }
+      } = run_query(test_conn(insert(:user)), @clone_template, variables)
+
+      assert entry_id != agenda_entry.id
+      assert entry_name == agenda_entry.name
+
+      assert %{errors: nil} = run_query(ctx.conn, @update_template, %{input: %{id: template.id, is_public: false}})
+
+      # template is not private so forbid others but for the owner to clone it
+      assert %{errors: nil} = run_query(ctx.conn, @clone_template, %{id: template.id})
+
+      assert %{
+        data: %{
+          "cloneSessionTemplate" => nil,
+        },
+        errors: [%{"message" => "unauthorized"}]
+      } = run_query(test_conn(insert(:user)), @clone_template, %{id: template.id})
     end
 
     test "forbid create by unauthorized user" do

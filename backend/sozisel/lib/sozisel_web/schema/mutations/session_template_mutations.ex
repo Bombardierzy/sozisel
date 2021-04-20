@@ -23,5 +23,11 @@ defmodule SoziselWeb.Schema.Mutations.SessionTemplateMutations do
       middleware Middlewares.Authorization
       resolve &SessionTemplateResolvers.delete/3
     end
+
+    field :clone_session_template, :session_template do
+      arg :id, non_null(:id)
+      middleware Middlewares.Authorization
+      resolve &SessionTemplateResolvers.clone/3
+    end
   end
 end

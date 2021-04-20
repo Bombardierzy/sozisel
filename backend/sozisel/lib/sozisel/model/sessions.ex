@@ -7,6 +7,7 @@ defmodule Sozisel.Model.Sessions do
   alias Sozisel.Repo
 
   alias Sozisel.Model.Sessions.{AgendaEntry, Template}
+  alias Sozisel.Model.Users.User
 
   @doc """
   Returns the list of session_templates.
@@ -120,6 +121,19 @@ defmodule Sozisel.Model.Sessions do
     template
     |> Template.update_changeset(attrs)
     |> Repo.update()
+  end
+
+  def clone_template(%Template{} = template, %User{} = user) do
+    agenda_entries =
+      Repo.preload(template, :agenda_entries).agenda_entries
+      |> Enum.map(& Map.from_struct/1)
+
+    copy_template =
+      template
+      |> Map.from_struct()
+      |> Map.merge(%{id: nil, user_id: user.id, agenda_entries: agenda_entries})
+
+    create_template_with_agenda(copy_template)
   end
 
   @doc """
