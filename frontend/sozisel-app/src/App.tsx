@@ -1,5 +1,6 @@
 import { Redirect, Route, BrowserRouter as Router } from "react-router-dom";
 
+import AboutScreen from "./components/AboutScreen/AboutScreen";
 import { ApolloProvider } from "@apollo/client";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import HomePage from "./components/HomePage/HomePage";
@@ -20,6 +21,7 @@ export default function App(): ReactElement {
         <AuthRoute path="/home" component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/about" component={AboutScreen} />
       </Router>
     </ApolloProvider>
   );

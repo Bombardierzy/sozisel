@@ -1,5 +1,13 @@
 @import "../../styles/styles";
 
+@mixin disableLinkDecoration {
+  a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
 .Navbar {
   display: flex;
   justify-content: space-between;
@@ -10,6 +18,7 @@
     margin-top: $spacing-01;
     list-style-type: none;
     li {
+      @include disableLinkDecoration();
       margin-left: $spacing-07;
       padding: $spacing-01;
       img {
@@ -27,19 +36,15 @@
   .LoginNav {
     margin-right: 10%;
     li {
-      a {
-        display: block;
-        text-decoration: none;
-        color: inherit;
-      }
+      @include disableLinkDecoration();
     }
-    .loginButton {
+    button {
+      color: inherit;
       background-color: white;
-      padding: $spacing-05 $spacing-08;
-      font-size: 16px;
-      border: $main-border;
-      color: $main-color;
-      border-radius: $spacing-08;
+      padding: $spacing-04 $spacing-07;
+      font-size: inherit;
+      font-family: inherit;
+      border: 0;
       &:hover,
       &:focus {
         outline: none;
@@ -47,4 +52,13 @@
       }
     }
   }
+
+  .activeLink {
+    color: $main-color !important;
+    button {
+      border: $main-border;
+      border-radius: $spacing-08;
+    }
+  }
+
 }
