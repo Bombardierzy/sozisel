@@ -46,7 +46,8 @@ defmodule Sozisel.MixProject do
       {:bcrypt_elixir, "~> 2.3"},
       {:guardian, "~> 2.1"},
       {:ex_machina, "~> 2.7.0"},
-      {:crudry, "~> 2.3.1"}
+      {:crudry, "~> 2.3.1"},
+      {:polymorphic_embed, "~> 1.3.4"}
     ]
   end
 
