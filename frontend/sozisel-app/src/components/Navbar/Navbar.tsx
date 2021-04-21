@@ -1,6 +1,6 @@
 import "./Navbar.scss";
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ReactElement } from "react";
 import logo from "../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
@@ -14,19 +14,23 @@ export default function Navbar(): ReactElement {
         <li>
           <img src={logo} alt="logo" />
         </li>
-        <li>{t("components.Navbar.aboutLink")}</li>
+        <li>
+          <NavLink to="/about" activeClassName="activeLink">
+            <p>{t("components.Navbar.aboutLink")}</p>
+          </NavLink>
+        </li>
       </ul>
 
       <ul className="LoginNav">
         <li>
-          <Link to="/register">{t("components.Navbar.registerLink")}</Link>
+          <NavLink to="/register" activeClassName="activeLink">
+            <button>{t("components.Navbar.registerLink")}</button>
+          </NavLink>
         </li>
         <li>
-          <Link to="/login">
-            <button className="loginButton">
-              {t("components.Navbar.loginLink")}
-            </button>
-          </Link>
+          <NavLink to="/login" activeClassName="activeLink">
+            <button>{t("components.Navbar.loginLink")}</button>
+          </NavLink>
         </li>
       </ul>
     </nav>
