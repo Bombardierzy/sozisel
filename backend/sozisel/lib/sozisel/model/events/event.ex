@@ -3,42 +3,47 @@ defmodule Sozisel.Model.Events.Event do
   import Ecto.Changeset
   import PolymorphicEmbed, only: [cast_polymorphic_embed: 3]
 
+  alias Sozisel.Model.Sessions.Template
+  alias Sozisel.Model.Quizzes.Quiz
+
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
           name: String.t(),
-          # first_name: String.t(),
-          # last_name: String.t(),
-          # password_hash: String.t(),
-          # password: String.t() | nil,
-          # inserted_at: DateTime.t(),
-          # updated_at: DateTime.t()
+          start_minute: Integer.t(),
+          event_type: PolymorphicEmbed.t(),
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
         }
 
   schema "events" do
+    field :name, :string
+    field :start_minute, :integer
+
     field :event_type, PolymorphicEmbed,
       types: [
-        # quiz: Sozisel.Quizzes.Quiz
-        quiz: [module: Sozisel.Quizzes.Quiz, identify_by_fields: [:quiz_questions]]
+        quiz: Quiz
       ],
       on_type_not_found: :raise,
       on_replace: :update
-
-    field :name, :string
-    field :start_minute, :integer
-    # field :session_template_id, :id
+    belongs_to :session_template, Template
 
     timestamps()
   end
 
-  @doc false
-  def changeset(event, attrs) do
+  def create_changeset(event, attrs \\ %{}) do
     event
-    # |> cast(attrs, [:name, :start_minute, :type])
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :start_minute, :session_template_id])
     |> cast_polymorphic_embed(:event_type, required: true)
-    # |> validate_required([:name, :start_minute, :type])
-    |> validate_required([:name])
+    |> validate_required([:name, :start_minute, :session_template_id])
+    # |> validate_required([:name, :start_minute, :event_type, :session_template_id])
+    |> foreign_key_constraint(:session_template_id)
   end
+
+  def update_changeset(event, attrs \\ %{}) do
+    event
+    |> cast(attrs, [:name, :start_minute])
+    |> cast_polymorphic_embed(:event_type, required: true)
+    |> validate_required([:name, :start_minute, :event_type])
+  end
+
 end

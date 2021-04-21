@@ -1,12 +1,11 @@
 defmodule Sozisel.Factory do
   use ExMachina.Ecto, repo: Sozisel.Repo
 
-  alias Sozisel.Model.Users
+  alias Sozisel.Model.{ Users, Sessions, Events, Quizzes }
   alias Users.User
-  alias Sozisel.Model.Sessions
-  alias Sessions.Template
-  alias Sessions.AgendaEntry
-  alias Sessions.Session
+  alias Sessions.{ Template, AgendaEntry, Session }
+  alias Events.Event
+  alias Quizzes.{ Quiz, Quiz_question }
 
   def user_factory(attrs) do
     %User{
@@ -43,6 +42,25 @@ defmodule Sozisel.Factory do
       use_jitsi: attrs[:use_jitsi] || sequence(:use_jitsi, [false, true]),
       name: attrs[:name] || sequence(:name, &"Session name no. #{&1}"),
       user_id: attrs[:user_id] || insert(:user).id,
+      session_template_id: attrs[:session_template_id] || insert(:template).id
+    }
+  end
+
+  def event_factory(attrs) do
+    %Event{
+      name: attrs[:name] || sequence(:name, &"Event name no. #{&1}"),
+      start_minute: attrs[:start_minute] || sequence(:start_minute, [5, 10, 15, 20, 25, 33]),
+      event_type: attrs[:event_type] || %Quiz{
+        duration_time: 52, 
+        number_of_targets: 21, 
+        quiz_questions: [
+          %Quiz_question{
+            question: "Is this question?", 
+            answers: ["First answer", "Second answer"], 
+            correct_answers: [2]
+          }
+        ]
+      },
       session_template_id: attrs[:session_template_id] || insert(:template).id
     }
   end

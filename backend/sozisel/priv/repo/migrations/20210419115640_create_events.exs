@@ -6,11 +6,11 @@ defmodule Sozisel.Repo.Migrations.CreateEvents do
       add :name, :string, null: false
       add :start_minute, :integer
       add :event_type, :map
-      # add :session_template_id, references(:session_templates, on_delete: :nothing)
+      add :session_template_id, references(:session_templates, on_delete: :nothing), null: false
 
       timestamps(type: :utc_datetime_usec)
     end
 
-    # create index(:events, [:session_template_id])
+    create index(:events, [:session_template_id])
   end
 end
