@@ -2,23 +2,22 @@ defmodule Sozisel.EventsTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.Events
+  alias Events.Event
 
   import Sozisel.Factory
 
   describe "events" do
-    alias Sozisel.Model.Events.Event
-
     @valid_attrs %{
-      name: "some name", 
+      name: "some name",
       start_minute: 42
     }
     @update_attrs %{
-      name: "some updated name", 
+      name: "some updated name",
       start_minute: 43
     }
     @invalid_attrs %{
-      event_type: nil, 
-      name: nil, 
+      event_type: nil,
+      name: nil,
       start_minute: nil
     }
 

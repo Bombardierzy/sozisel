@@ -25,6 +25,7 @@ defmodule Sozisel.Model.Events.Event do
       ],
       on_type_not_found: :raise,
       on_replace: :update
+
     belongs_to :session_template, Template
 
     timestamps()
@@ -45,5 +46,4 @@ defmodule Sozisel.Model.Events.Event do
     |> cast_polymorphic_embed(:event_type, required: true)
     |> validate_required([:name, :start_minute, :event_type])
   end
-
 end

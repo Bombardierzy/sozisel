@@ -3,7 +3,7 @@ defmodule Sozisel.Model.Sessions.Template do
   import Ecto.Changeset
 
   alias Sozisel.Model.Users.User
-  alias Sozisel.Model.Sessions.{ AgendaEntry, Session }
+  alias Sozisel.Model.Sessions.{AgendaEntry, Session}
   alias Sozisel.Model.Events.Event
 
   @type t :: %__MODULE__{
