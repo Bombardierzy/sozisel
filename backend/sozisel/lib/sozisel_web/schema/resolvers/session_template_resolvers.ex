@@ -52,4 +52,14 @@ defmodule SoziselWeb.Schema.Resolvers.SessionTemplateResolvers do
         {:error, "unauthorized"}
     end
   end
+
+  def query(_parent, %{include_public: include_public, name: name}, ctx) do
+    with true <- include_public do
+      {:ok, Sessions.list_public_templates(name)}
+    else
+      false ->
+        user = Context.current_user!(ctx)
+        {:ok, Sessions.list_user_templates(user.id, name)}
+    end
+  end
 end

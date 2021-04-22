@@ -17,18 +17,24 @@ defmodule Sozisel.Model.Sessions do
   end
 
   @doc """
-  Returns the list of session_templates that belongs to user
+  Returns the list of session_templates that belongs to user and which name matches given pattern.
+  If pattern is not provided, then all user's session templates will be returned.
   """
-  def list_user_templates(user_id) do
-    from(t in Template, where: t.user_id == ^user_id)
+  def list_user_templates(user_id, pattern \\ "") do
+    from(t in Template,
+      where: t.user_id == ^user_id and ilike(t.name, ^"%#{String.replace(pattern, "%", "\\%")}%")
+    )
     |> Repo.all()
   end
 
   @doc """
-  Returns the list of public session_templates
+  Returns the list of public session_templates which name matches given pattern.
+  If pattern is not provided, then all public session templates will be returned.
   """
-  def list_public_templates do
-    from(t in Template, where: t.is_public == true)
+  def list_public_templates(pattern \\ "") do
+    from(t in Template,
+      where: t.is_public == true and ilike(t.name, ^"%#{String.replace(pattern, "%", "\\%")}%")
+    )
     |> Repo.all()
   end
 
