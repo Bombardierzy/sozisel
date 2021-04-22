@@ -2,9 +2,8 @@ defmodule Sozisel.Model.Sessions.Template do
   use Sozisel.Model.Schema
   import Ecto.Changeset
 
-  alias Sozisel.Model.Users.User
-  alias Sozisel.Model.Sessions.{AgendaEntry, Session}
-  alias Sozisel.Model.Events.Event
+  alias Sozisel.Model.{Users.User, Sessions, Events.Event}
+  alias Sessions.{AgendaEntry, Session}
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),

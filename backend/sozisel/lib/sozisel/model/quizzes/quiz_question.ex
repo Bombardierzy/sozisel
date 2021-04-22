@@ -4,8 +4,8 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
 
   @type t :: %__MODULE__{
           question: String.t(),
-          answers: [String],
-          correct_answers: [Integer]
+          answers: [String.t()],
+          correct_answers: [String.t()]
         }
 
   @primary_key false
@@ -13,7 +13,7 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
   embedded_schema do
     field :question, :string
     field :answers, {:array, :string}
-    field :correct_answers, {:array, :integer}
+    field :correct_answers, {:array, :string}
   end
 
   def changeset(quiz_question, attrs) do

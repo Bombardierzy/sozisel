@@ -46,30 +46,4 @@ defmodule Sozisel.Factory do
       session_template_id: attrs[:session_template_id] || insert(:template).id
     }
   end
-
-  def event_factory(attrs) do
-    %Event{
-      name: attrs[:name] || sequence(:name, &"Event name no. #{&1}"),
-      start_minute: attrs[:start_minute] || sequence(:start_minute, [5, 10, 15, 20, 25, 33]),
-      event_type:
-        attrs[:event_type] ||
-          %Quiz{
-            duration_time: 52,
-            number_of_targets: 21,
-            quiz_questions: [
-              %QuizQuestion{
-                question: "Is this question?",
-                answers: ["First answer", "Second answer"],
-                correct_answers: [1]
-              },
-              %QuizQuestion{
-                question: "Is this second question?",
-                answers: ["Correct answer", "Also correct answer", "Wrong answer"],
-                correct_answers: [0, 1]
-              }
-            ]
-          },
-      session_template_id: attrs[:session_template_id] || insert(:template).id
-    }
-  end
 end
