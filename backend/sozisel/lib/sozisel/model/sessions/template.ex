@@ -11,6 +11,10 @@ defmodule Sozisel.Model.Sessions.Template do
           estimated_time: Integer.t(),
           is_abstract: Boolean.t(),
           is_public: Boolean.t(),
+          user_id: Ecto.UUID.t(),
+          user: User.t() | Ecto.Association.NotLoaded.t(),
+          agenda_entries: [AgendaEntry.t()] | Ecto.Association.NotLoaded.t(),
+          sessions: [Session.t()] | Ecto.Association.NotLoaded.t(),
           deleted_at: DateTime.t() | nil,
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()

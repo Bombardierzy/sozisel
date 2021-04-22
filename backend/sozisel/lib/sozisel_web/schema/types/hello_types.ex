@@ -1,5 +1,5 @@
 defmodule SoziselWeb.Schema.Types.HelloTypes do
-  use Absinthe.Schema.Notation
+  use SoziselWeb.Schema.Notation
 
   object :hello_message do
     field :message, non_null(:string)

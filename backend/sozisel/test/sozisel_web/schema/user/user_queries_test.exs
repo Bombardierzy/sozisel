@@ -9,6 +9,9 @@ defmodule SoziselWeb.Schema.UserQueriesTest do
       email
       firstName
       lastName
+      sessionTemplates {
+        id
+      }
     }
   }
   """
@@ -20,6 +23,7 @@ defmodule SoziselWeb.Schema.UserQueriesTest do
 
     test "return current user", ctx do
       conn = test_conn(ctx.me)
+      _ = insert(:template, user_id: ctx.me.id)
       %{email: email, first_name: first_name, last_name: last_name} = ctx.me
 
       assert %{
@@ -27,10 +31,13 @@ defmodule SoziselWeb.Schema.UserQueriesTest do
                  "me" => %{
                    "email" => ^email,
                    "firstName" => ^first_name,
-                   "lastName" => ^last_name
+                   "lastName" => ^last_name,
+                   "sessionTemplates" => templates
                  }
                }
              } = run_query(conn, @me_query, %{})
+
+      assert templates |> length == 1
     end
 
     test "return an error on me query if user is not authorized" do

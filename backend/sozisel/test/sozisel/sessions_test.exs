@@ -66,6 +66,57 @@ defmodule Sozisel.SessionsTest do
       assert {:error, %Ecto.Changeset{}} = Sessions.create_template(@invalid_attrs)
     end
 
+    test "create_template_with_agenda/1 with valid data creates template with agenda entries" do
+      user = insert(:user)
+
+      agenda_entries = [
+        %{name: "First point", start_minute: 1},
+        %{name: "Second point", start_minute: 2}
+      ]
+
+      attrs = Map.merge(@valid_attrs, %{user_id: user.id, agenda_entries: agenda_entries})
+
+      assert {:ok, %Template{} = template} = Sessions.create_template_with_agenda(attrs)
+      template = Repo.preload(template, :agenda_entries)
+
+      assert template.agenda_entries |> length == 2
+    end
+
+    test "update_template_with_agenda/1 with valid data updates template with agenda entries" do
+      user = insert(:user)
+
+      agenda_entries = [
+        %{name: "First point", start_minute: 1},
+        %{name: "Second point", start_minute: 2}
+      ]
+
+      attrs = Map.merge(@valid_attrs, %{user_id: user.id, agenda_entries: agenda_entries})
+
+      entries_count = fn template ->
+        Repo.preload(template, :agenda_entries).agenda_entries |> length
+      end
+
+      assert {:ok, %Template{} = template} = Sessions.create_template_with_agenda(attrs)
+
+      assert entries_count.(template) == 2
+
+      assert {:ok, %Template{} = template} =
+               Sessions.update_template_with_agenda(template, %{name: "updated name"})
+
+      assert template.name == "updated name"
+
+      # update does not change entries
+      assert entries_count.(template) == 2
+
+      new_entry = %{name: "New entry", start_minute: 1}
+
+      assert {:ok, %Template{} = template} =
+               Sessions.update_template_with_agenda(template, %{agenda_entries: [new_entry]})
+
+      # should replace old entries with a single one
+      assert entries_count.(template) == 1
+    end
+
     test "update_template/2 with valid data updates the template" do
       template = insert(:template)
       assert {:ok, %Template{} = template} = Sessions.update_template(template, @update_attrs)

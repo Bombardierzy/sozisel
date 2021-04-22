@@ -2,8 +2,10 @@ defmodule SoziselWeb.Schema do
   use Absinthe.Schema
 
   # Types
+  import_types Absinthe.Type.Custom
   import_types(SoziselWeb.Schema.Types.HelloTypes)
   import_types(SoziselWeb.Schema.Types.UserTypes)
+  import_types(SoziselWeb.Schema.Types.SessionTemplateTypes)
 
   # Queries
   import_types(SoziselWeb.Schema.Queries.HelloQueries)
@@ -12,6 +14,7 @@ defmodule SoziselWeb.Schema do
   # Mutations
   import_types(SoziselWeb.Schema.Mutations.HelloMutations)
   import_types(SoziselWeb.Schema.Mutations.UserMutations)
+  import_types(SoziselWeb.Schema.Mutations.SessionTemplateMutations)
 
   # Subscriptionis
   import_types(SoziselWeb.Schema.Subscriptions.HelloSubscriptions)
@@ -24,6 +27,7 @@ defmodule SoziselWeb.Schema do
   mutation do
     import_fields(:hello_mutations)
     import_fields(:user_mutations)
+    import_fields(:session_template_mutations)
   end
 
   subscription do
