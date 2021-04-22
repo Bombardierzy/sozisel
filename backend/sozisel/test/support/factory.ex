@@ -1,5 +1,4 @@
 defmodule Sozisel.Factory do
-  # use ExMachina.Ecto, repo: Sozisel.Repo
   use Sozisel.ExMachina.PolymorphicEcto, repo: Sozisel.Repo
 
   alias Sozisel.Model.{Users, Sessions, Events, Quizzes}
