@@ -22,6 +22,20 @@ defmodule Sozisel.Model.Events do
   end
 
   @doc """
+  Returns the list of events that belongs to template
+
+  ## Examples
+
+      iex> list_template_events(123)
+      [%Event{}, ...]
+
+  """
+  def list_template_events(session_template_id) do
+    from(e in Event, where: e.session_template_id == ^session_template_id)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single event.
 
   Raises `Ecto.NoResultsError` if the Event does not exist.

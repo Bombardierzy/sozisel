@@ -1,4 +1,4 @@
-defmodule Sozisel.Model.Quizzes.Quiz_question do
+defmodule Sozisel.Model.Quizzes.QuizQuestion do
   use Sozisel.Model.Schema
   import Ecto.Changeset
 

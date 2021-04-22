@@ -6,7 +6,7 @@ defmodule Sozisel.Factory do
   alias Users.User
   alias Sessions.{Template, AgendaEntry, Session}
   alias Events.Event
-  alias Quizzes.{Quiz, Quiz_question}
+  alias Quizzes.{Quiz, QuizQuestion}
 
   def user_factory(attrs) do
     %User{
@@ -57,10 +57,15 @@ defmodule Sozisel.Factory do
             duration_time: 52,
             number_of_targets: 21,
             quiz_questions: [
-              %Quiz_question{
+              %QuizQuestion{
                 question: "Is this question?",
                 answers: ["First answer", "Second answer"],
-                correct_answers: [2]
+                correct_answers: [1]
+              },
+              %QuizQuestion{
+                question: "Is this second question?",
+                answers: ["Correct answer", "Also correct answer", "Wrong answer"],
+                correct_answers: [0,1]
               }
             ]
           },

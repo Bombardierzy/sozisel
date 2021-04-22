@@ -21,7 +21,7 @@ defmodule Sozisel.Model.Events.Event do
 
     field :event_type, PolymorphicEmbed,
       types: [
-        quiz: Quiz
+        quiz: [module: Quiz, identify_by_fields: [:quiz_questions]]
       ],
       on_type_not_found: :raise,
       on_replace: :update
@@ -35,8 +35,7 @@ defmodule Sozisel.Model.Events.Event do
     event
     |> cast(attrs, [:name, :start_minute, :session_template_id])
     |> cast_polymorphic_embed(:event_type, required: true)
-    |> validate_required([:name, :start_minute, :session_template_id])
-    # |> validate_required([:name, :start_minute, :event_type, :session_template_id])
+    |> validate_required([:name, :start_minute, :event_type, :session_template_id])
     |> foreign_key_constraint(:session_template_id)
   end
 
