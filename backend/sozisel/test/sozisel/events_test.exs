@@ -12,7 +12,7 @@ defmodule Sozisel.EventsTest do
       start_minute: 42,
       event_type: %{
         duration_time_sec: 12,
-        target_percentage_of_students: 2,
+        target_percentage_of_participants: 2,
         quiz_questions: [
           %{
             question: "What is the capital of Poland?",
@@ -32,7 +32,7 @@ defmodule Sozisel.EventsTest do
       start_minute: 43,
       event_type: %{
         duration_time_sec: 13,
-        target_percentage_of_students: 4,
+        target_percentage_of_participants: 4,
         quiz_questions: [
           %{
             question: "What color is the banana?",
@@ -82,11 +82,11 @@ defmodule Sozisel.EventsTest do
 
       assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
 
-      assert Map.fetch(event.event_type, :target_percentage_of_students) == {:ok, 2}
+      assert Map.fetch(event.event_type, :target_percentage_of_participants) == {:ok, 2}
 
       assert event.event_type == %Sozisel.Model.Quizzes.Quiz{
                duration_time_sec: 12,
-               target_percentage_of_students: 2,
+               target_percentage_of_participants: 2,
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "What is the capital of Poland?",
@@ -114,11 +114,11 @@ defmodule Sozisel.EventsTest do
       event = event_fixture(%{session_template_id: template.id})
       assert {:ok, %Event{} = event} = Events.update_event(event, @update_attrs)
 
-      assert Map.fetch(event.event_type, :target_percentage_of_students) == {:ok, 4}
+      assert Map.fetch(event.event_type, :target_percentage_of_participants) == {:ok, 4}
 
       assert event.event_type == %Sozisel.Model.Quizzes.Quiz{
                duration_time_sec: 13,
-               target_percentage_of_students: 4,
+               target_percentage_of_participants: 4,
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "What color is the banana?",
