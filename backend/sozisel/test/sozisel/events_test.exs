@@ -85,21 +85,21 @@ defmodule Sozisel.EventsTest do
       assert Map.fetch(event.event_type, :target_percentage_of_students) == {:ok, 2}
 
       assert event.event_type == %Sozisel.Model.Quizzes.Quiz{
-        duration_time_sec: 12,
-        target_percentage_of_students: 2,
-        quiz_questions: [
-          %Sozisel.Model.Quizzes.QuizQuestion{
-            question: "What is the capital of Poland?",
-            answers: ["Cracow", "Warsaw", "Podlasie"],
-            correct_answers: ["Warsaw"]
-          },
-          %Sozisel.Model.Quizzes.QuizQuestion{
-            question: "First question?",
-            answers: ["Answer 1", "Answer 2"],
-            correct_answers: ["Answer 1"]
-          }
-        ]
-      }
+               duration_time_sec: 12,
+               target_percentage_of_students: 2,
+               quiz_questions: [
+                 %Sozisel.Model.Quizzes.QuizQuestion{
+                   question: "What is the capital of Poland?",
+                   answers: ["Cracow", "Warsaw", "Podlasie"],
+                   correct_answers: ["Warsaw"]
+                 },
+                 %Sozisel.Model.Quizzes.QuizQuestion{
+                   question: "First question?",
+                   answers: ["Answer 1", "Answer 2"],
+                   correct_answers: ["Answer 1"]
+                 }
+               ]
+             }
 
       assert event.name == "some name"
       assert event.start_minute == 42
@@ -117,16 +117,16 @@ defmodule Sozisel.EventsTest do
       assert Map.fetch(event.event_type, :target_percentage_of_students) == {:ok, 4}
 
       assert event.event_type == %Sozisel.Model.Quizzes.Quiz{
-        duration_time_sec: 13,
-        target_percentage_of_students: 4,
-        quiz_questions:  [
-          %Sozisel.Model.Quizzes.QuizQuestion{
-            question: "What color is the banana?",
-            answers: ["Red", "Black", "Yellow", "Green"],
-            correct_answers: ["Yellow", "Green"]
-          }
-        ]
-      }
+               duration_time_sec: 13,
+               target_percentage_of_students: 4,
+               quiz_questions: [
+                 %Sozisel.Model.Quizzes.QuizQuestion{
+                   question: "What color is the banana?",
+                   answers: ["Red", "Black", "Yellow", "Green"],
+                   correct_answers: ["Yellow", "Green"]
+                 }
+               ]
+             }
 
       assert event.name == "some updated name"
       assert event.start_minute == 43
