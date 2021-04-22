@@ -73,12 +73,12 @@ defmodule Sozisel.EventsTest do
 
       assert Map.fetch(event.event_type, :number_of_targets) == {:ok, 2}
 
-      assert event.event_type 
-        |> Map.fetch(:quiz_questions) 
-        |> elem(1) 
-        |> Enum.at(1) 
-        |> Map.fetch(:question) == {:ok, "First question?"}
-      
+      assert event.event_type
+             |> Map.fetch(:quiz_questions)
+             |> elem(1)
+             |> Enum.at(1)
+             |> Map.fetch(:question) == {:ok, "First question?"}
+
       assert event.name == "some name"
       assert event.start_minute == 42
     end
@@ -93,11 +93,11 @@ defmodule Sozisel.EventsTest do
 
       assert Map.fetch(event.event_type, :number_of_targets) == {:ok, 4}
 
-      assert event.event_type 
-        |> Map.fetch(:quiz_questions) 
-        |> elem(1) 
-        |> Enum.at(0) 
-        |> Map.fetch(:answers) == {:ok, ["Red", "Black", "Yellow", "Green"]}
+      assert event.event_type
+             |> Map.fetch(:quiz_questions)
+             |> elem(1)
+             |> Enum.at(0)
+             |> Map.fetch(:answers) == {:ok, ["Red", "Black", "Yellow", "Green"]}
 
       assert event.name == "some updated name"
       assert event.start_minute == 43

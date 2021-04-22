@@ -65,7 +65,7 @@ defmodule Sozisel.Factory do
               %QuizQuestion{
                 question: "Is this second question?",
                 answers: ["Correct answer", "Also correct answer", "Wrong answer"],
-                correct_answers: [0,1]
+                correct_answers: [0, 1]
               }
             ]
           },
