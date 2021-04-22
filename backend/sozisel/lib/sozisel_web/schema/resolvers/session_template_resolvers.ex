@@ -53,7 +53,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionTemplateResolvers do
     end
   end
 
-  def query(_parent, %{include_public: include_public, name: name}, ctx) do
+  def search(_parent, %{include_public: include_public, name: name}, ctx) do
     with true <- include_public do
       {:ok, Sessions.list_public_templates(name)}
     else

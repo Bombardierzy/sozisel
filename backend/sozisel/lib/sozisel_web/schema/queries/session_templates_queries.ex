@@ -9,7 +9,7 @@ defmodule SoziselWeb.Schema.Queries.SessionTemplatesQueries do
       arg :name, :string, default_value: ""
 
       middleware Middlewares.Authorization
-      resolve &SessionTemplateResolvers.query/3
+      resolve &SessionTemplateResolvers.search/3
     end
   end
 end
