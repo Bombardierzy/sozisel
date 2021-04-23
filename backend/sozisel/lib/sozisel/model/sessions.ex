@@ -6,7 +6,8 @@ defmodule Sozisel.Model.Sessions do
   import Ecto.Query, warn: false
   alias Sozisel.Repo
 
-  alias Sozisel.Model.Sessions.Template
+  alias Sozisel.Model.Sessions.{AgendaEntry, Template}
+  alias Sozisel.Model.Users.User
 
   @doc """
   Returns the list of session_templates.
@@ -40,6 +41,10 @@ defmodule Sozisel.Model.Sessions do
     Repo.get!(Template, id)
   end
 
+  def get_template(id) do
+    Repo.get(Template, id)
+  end
+
   @doc """
   Creates a template.
   """
@@ -47,6 +52,66 @@ defmodule Sozisel.Model.Sessions do
     %Template{}
     |> Template.create_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_template_with_agenda(attrs \\ %{}) do
+    agenda_entries = attrs[:agenda_entries] || []
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:template, Template.create_changeset(%Template{}, attrs))
+    |> add_template_agenda_entries(agenda_entries)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{template: template}} ->
+        {:ok, template}
+
+      {:error, _name, value, _changes_so_far} ->
+        {:error, value}
+    end
+  end
+
+  def update_template_with_agenda(template, attrs) do
+    delete_entries? = Map.has_key?(attrs, :agenda_entries)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:template, Template.update_changeset(template, attrs))
+    |> delete_agenda_entries(template, delete_entries?)
+    |> add_template_agenda_entries(attrs[:agenda_entries])
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{template: template}} ->
+        {:ok, template}
+
+      {:error, _name, value, _changes_so_far} ->
+        {:error, value}
+    end
+  end
+
+  defp delete_agenda_entries(multi, template, delete?) do
+    if delete? do
+      multi |> Ecto.Multi.delete_all(:deleted_entries, Ecto.assoc(template, :agenda_entries))
+    else
+      multi
+    end
+  end
+
+  defp add_template_agenda_entries(multi, nil) do
+    multi
+  end
+
+  defp add_template_agenda_entries(multi, agenda_entries) do
+    agenda_entries
+    |> Enum.reduce({0, multi}, fn entry, {idx, multi} ->
+      multi =
+        multi
+        |> Ecto.Multi.insert(idx, fn %{template: template} ->
+          %AgendaEntry{}
+          |> AgendaEntry.create_changeset(Map.put(entry, :session_template_id, template.id))
+        end)
+
+      {idx + 1, multi}
+    end)
+    |> elem(1)
   end
 
   @doc """
@@ -58,6 +123,20 @@ defmodule Sozisel.Model.Sessions do
     |> Repo.update()
   end
 
+  # TODO: do the event cloning when they get implemented
+  def clone_template(%Template{} = template, %User{} = user) do
+    agenda_entries =
+      Repo.preload(template, :agenda_entries).agenda_entries
+      |> Enum.map(&Map.from_struct/1)
+
+    copy_template =
+      template
+      |> Map.from_struct()
+      |> Map.merge(%{id: nil, user_id: user.id, agenda_entries: agenda_entries})
+
+    create_template_with_agenda(copy_template)
+  end
+
   @doc """
   Performs soft delete
   """
@@ -66,8 +145,6 @@ defmodule Sozisel.Model.Sessions do
     |> Template.update_changeset(%{deleted_at: DateTime.utc_now()})
     |> Repo.update()
   end
-
-  alias Sozisel.Model.Sessions.AgendaEntry
 
   @doc """
   Returns the list of agenda_entries.

@@ -2,9 +2,8 @@ defmodule Sozisel.Model.Sessions.Template do
   use Sozisel.Model.Schema
   import Ecto.Changeset
 
-  alias Sozisel.Model.Users.User
-  alias Sozisel.Model.Sessions.AgendaEntry
-  alias Sozisel.Model.Sessions.Session
+  alias Sozisel.Model.{Users.User, Sessions, Events.Event}
+  alias Sessions.{AgendaEntry, Session}
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -12,6 +11,10 @@ defmodule Sozisel.Model.Sessions.Template do
           estimated_time: Integer.t(),
           is_abstract: Boolean.t(),
           is_public: Boolean.t(),
+          user_id: Ecto.UUID.t(),
+          user: User.t() | Ecto.Association.NotLoaded.t(),
+          agenda_entries: [AgendaEntry.t()] | Ecto.Association.NotLoaded.t(),
+          sessions: [Session.t()] | Ecto.Association.NotLoaded.t(),
           deleted_at: DateTime.t() | nil,
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
@@ -39,8 +42,7 @@ defmodule Sozisel.Model.Sessions.Template do
     belongs_to :user, User
     has_many :agenda_entries, AgendaEntry, foreign_key: :session_template_id
     has_many :sessions, Session, foreign_key: :session_template_id
-    # TODO
-    # has_many :events Event, foreign_key: :session_template_id
+    has_many :events, Event, foreign_key: :session_template_id
 
     timestamps()
   end

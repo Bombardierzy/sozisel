@@ -11,6 +11,10 @@ defmodule Sozisel.Model.Sessions.Session do
           entry_password: String.t() | nil,
           start_time: Integer.t(),
           use_jitsi: Boolean.t(),
+          user_id: Ecto.UUID.t(),
+          user: User.t() | Ecto.Association.NotLoaded.t(),
+          session_template_id: Ecto.UUID.t(),
+          session_template: Template.t() | Ecto.Association.NotLoaded.t(),
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
         }

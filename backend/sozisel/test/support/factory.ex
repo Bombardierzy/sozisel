@@ -1,12 +1,11 @@
 defmodule Sozisel.Factory do
-  use ExMachina.Ecto, repo: Sozisel.Repo
+  use Sozisel.ExMachina.PolymorphicEcto, repo: Sozisel.Repo
 
-  alias Sozisel.Model.Users
+  alias Sozisel.Model.{Users, Sessions, Events, Quizzes}
   alias Users.User
-  alias Sozisel.Model.Sessions
-  alias Sessions.Template
-  alias Sessions.AgendaEntry
-  alias Sessions.Session
+  alias Sessions.{Template, AgendaEntry, Session}
+  alias Events.Event
+  alias Quizzes.{Quiz, QuizQuestion}
 
   def user_factory(attrs) do
     %User{

@@ -1,5 +1,5 @@
 defmodule SoziselWeb.Schema.Queries.HelloQueries do
-  use Absinthe.Schema.Notation
+  use SoziselWeb.Schema.Notation
 
   object :hello_queries do
     field :hello, non_null(:hello_message) do

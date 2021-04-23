@@ -3,6 +3,7 @@ defmodule Sozisel.Model.Users.User do
   import Ecto.Changeset
 
   alias Sozisel.Model.Users.Security
+  alias Sozisel.Model.Sessions.Template
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -21,6 +22,8 @@ defmodule Sozisel.Model.Users.User do
     field :password_hash, :string
 
     field :password, :string, virtual: true
+
+    has_many :session_templates, Template
 
     timestamps()
   end
