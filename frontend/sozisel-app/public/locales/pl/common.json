@@ -22,9 +22,17 @@
       "placeholder": "Ta strona jest dostępna tylko po zalogowaniu!"
     },
     "AboutScreen": {
-      "projectDescription" : "Głowny celem projektu jest stworzenie narzędzia wspomagającego orgnizację i pożniejszą analizę sesji audio-wizualnych służacych nauce.",
+      "projectDescription": "Głowny celem projektu jest stworzenie narzędzia wspomagającego orgnizację i pożniejszą analizę sesji audio-wizualnych służacych nauce.",
       "projectScope": "duża modularności;prostota użytkowania zarówno dla uczestnika jak i prowadzącego;staranne monitorowanie aktywności słuchaczy",
       "header": "Podstawowe cechy :"
+    },
+    "MainNavbar": {
+      "sessionsLinkText": "Sesje",
+      "templatesLinkText": "Szablony",
+      "logoutText": "Wyloguj się"
+    },
+    "TemplateCreation": {
+      "header": "Agenda"
     }
   },
   "inputErrors": {

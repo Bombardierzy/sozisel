@@ -1,0 +1,24 @@
+@import "../../styles/styles";
+
+.TemplateContainer {
+    height: 100%;
+    background-color: $bg-01;
+    margin: 0;
+    display: flex;
+    .agenda {
+        h6 {
+            color: $main-color;
+            margin-left: $spacing-06;
+            font-weight: 800;
+        }
+        margin: $spacing-06;
+        width: 15%;
+        height: 80%;
+        @include resize($extra-large, 25%, 80%);
+        ol {
+            max-height: 60%;
+            overflow: auto;
+            margin-left: $spacing-03 + $spacing-01; //10px
+        }
+    }
+}
