@@ -12,8 +12,16 @@ $large: 1400px;
 $extra-large: 1600px;
 
 @mixin resize($screenSize, $width, $height) {
-    @media screen and (max-width: $screenSize) {
-      width: $width;
-      height: $height;
-    }
+  @media screen and (max-width: $screenSize) {
+    width: $width;
+    height: $height;
   }
+}
+
+@mixin disableLinkDecoration {
+  a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+}

@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 export default function MainNavbar(): ReactElement {
   const { t } = useTranslation("common");
   return (
-    <nav className="Navbar">
+    <nav className="MainNavbar">
       <ul>
         <li>
           <img src={logo} alt="logo" />

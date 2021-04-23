@@ -1,6 +1,9 @@
 @import "../../styles/styles";
 
-.Navbar {
+.MainNavbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
     .link {
         margin-left: $spacing-03;
         display: flex;
@@ -18,7 +21,27 @@
     }
 
     ul {
+        list-style-type: none;
         width: 100%;
+        display: flex;
+        align-items: center;
+        margin-top: $spacing-01;
+        margin-bottom: 0;
+        list-style-type: none;
+        li {
+            @include disableLinkDecoration();
+            margin-left: $spacing-07;
+            padding: $spacing-01;
+            img {
+                width: 140px;
+                height: 70px;
+                margin-top: $spacing-01;
+            }
+            &:hover {
+                color: $main-color;
+                cursor: pointer;
+            }
+        }
         li:last-child {
             margin-left: auto;
             margin-right: $spacing-08;
@@ -27,5 +50,6 @@
 
     .activeLink {
         border-bottom: $active-link-border;
+        color: $main-color;
     }
 }
