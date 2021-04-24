@@ -10,7 +10,7 @@ defmodule SoziselWeb.Schema do
   # Queries
   import_types(SoziselWeb.Schema.Queries.HelloQueries)
   import_types(SoziselWeb.Schema.Queries.UserQueries)
-  import_types(SoziselWeb.Schema.Queries.SessionTemplatesQueries)
+  import_types(SoziselWeb.Schema.Queries.SessionTemplateQueries)
 
   # Mutations
   import_types(SoziselWeb.Schema.Mutations.HelloMutations)
@@ -23,7 +23,7 @@ defmodule SoziselWeb.Schema do
   query do
     import_fields(:hello_queries)
     import_fields(:user_queries)
-    import_fields(:session_templates_queries)
+    import_fields(:session_template_queries)
   end
 
   mutation do

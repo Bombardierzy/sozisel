@@ -5,6 +5,7 @@ defmodule Sozisel.Model.Sessions do
 
   import Ecto.Query, warn: false
   alias Sozisel.Repo
+  alias Sozisel.Model.Utils
 
   alias Sozisel.Model.Sessions.{AgendaEntry, Template}
   alias Sozisel.Model.Users.User
@@ -17,24 +18,21 @@ defmodule Sozisel.Model.Sessions do
   end
 
   @doc """
-  Returns the list of session_templates that belongs to user and which name matches given pattern.
-  If pattern is not provided, then all user's session templates will be returned.
+  Returns list of session_template that matches given filters.
+  Example filters: [user_id: "id", is_public: true, name: "Sozisel"]
   """
-  def list_user_templates(user_id, pattern \\ "") do
-    from(t in Template,
-      where: t.user_id == ^user_id and ilike(t.name, ^"%#{String.replace(pattern, "%", "\\%")}%")
-    )
-    |> Repo.all()
-  end
+  def list_session_templates(filters) do
+    filters
+    |> Enum.reduce(Template, fn
+      {:user_id, user_id}, template ->
+        from t in template, where: t.user_id == ^user_id
 
-  @doc """
-  Returns the list of public session_templates which name matches given pattern.
-  If pattern is not provided, then all public session templates will be returned.
-  """
-  def list_public_templates(pattern \\ "") do
-    from(t in Template,
-      where: t.is_public == true and ilike(t.name, ^"%#{String.replace(pattern, "%", "\\%")}%")
-    )
+      {:is_public, true}, template ->
+        from t in template, where: t.is_public == true
+
+      {:name, name}, template ->
+        from t in template, where: ilike(t.name, ^"%#{Utils.escape_wildcards(name)}%")
+    end)
     |> Repo.all()
   end
 

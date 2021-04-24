@@ -35,28 +35,28 @@ defmodule Sozisel.SessionsTest do
       assert Sessions.list_session_templates() == [template]
     end
 
-    test "list_user_templates/1 returns all user's session_templates" do
+    test "list_session_templates/1 returns all user's session_templates" do
       user = insert(:user)
       template = insert(:template, %{user_id: user.id})
-      assert Sessions.list_user_templates(user.id) == [template]
+      assert Sessions.list_session_templates(user_id: user.id) == [template]
     end
 
-    test "list_user_templates/2 returns all user's session_templates with matching name" do
+    test "list_session_templates/1 returns all user's session_templates with matching name" do
       user = insert(:user)
       template = insert(:template, %{user_id: user.id, name: "Sozisel"})
       insert(:template, %{user_id: user.id, name: "other_name"})
-      assert Sessions.list_user_templates(user.id, "ozis") == [template]
+      assert Sessions.list_session_templates(user_id: user.id, name: "ozis") == [template]
     end
 
-    test "list_public_templates/0 returns all public session_templates" do
+    test "list_session_templates/1 returns all public session_templates" do
       template = insert(:template, %{is_public: true})
-      assert Sessions.list_public_templates() == [template]
+      assert Sessions.list_session_templates(is_public: true) == [template]
     end
 
-    test "list_public_templates/0 returns all public session_templates with matching name" do
+    test "list_session_templates/1 returns all public session_templates with matching name" do
       template = insert(:template, %{is_public: true, name: "Sozisel"})
       insert(:template, %{is_public: true, name: "other_name"})
-      assert Sessions.list_public_templates("ozis") == [template]
+      assert Sessions.list_session_templates(is_public: true, name: "ozis") == [template]
     end
 
     test "get_template!/1 returns the template with given id" do

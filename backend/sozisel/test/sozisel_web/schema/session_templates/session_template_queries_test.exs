@@ -24,8 +24,8 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
   """
 
   @search_template_with_params """
-  query SearchPublicTemplates($include_public: Boolean!, $name: String!) {
-    searchSessionTemplates(include_public: $include_public, name: $name) {
+  query SearchPublicTemplates($includePublic: Boolean!, $name: String!) {
+    searchSessionTemplates(include_public: $includePublic, name: $name) {
       id
       name
       estimatedTime
@@ -70,7 +70,7 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
       _ = insert(:template, name: "Sozisel")
 
       variables = %{
-        include_public: false,
+        includePublic: false,
         name: "ozi"
       }
 
@@ -95,7 +95,7 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
       _ = insert(:template, is_public: false, name: "other2")
 
       variables = %{
-        include_public: true,
+        includePublic: true,
         name: "oth"
       }
 

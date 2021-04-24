@@ -54,12 +54,11 @@ defmodule SoziselWeb.Schema.Resolvers.SessionTemplateResolvers do
   end
 
   def search(_parent, %{include_public: include_public, name: name}, ctx) do
-    with true <- include_public do
-      {:ok, Sessions.list_public_templates(name)}
+    if include_public do
+      {:ok, Sessions.list_session_templates(is_public: true, name: name)}
     else
-      false ->
-        user = Context.current_user!(ctx)
-        {:ok, Sessions.list_user_templates(user.id, name)}
+      user = Context.current_user!(ctx)
+      {:ok, Sessions.list_session_templates(user_id: user.id, name: name)}
     end
   end
 end
