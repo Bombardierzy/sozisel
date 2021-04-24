@@ -5,7 +5,6 @@ defmodule SoziselWeb.Schema.Types.SessionTemplateTypes do
     field :id, non_null(:id)
     field :name, non_null(:string)
     field :estimated_time, non_null(:integer)
-    field :is_abstract, non_null(:boolean)
     field :is_public, non_null(:boolean)
     field :deleted_at, :datetime
 
@@ -36,7 +35,6 @@ defmodule SoziselWeb.Schema.Types.SessionTemplateTypes do
   input_object :create_session_template_input do
     field :name, non_null(:string)
     field :estimated_time, non_null(:integer)
-    field :is_abstract, non_null(:boolean)
     field :is_public, non_null(:boolean)
     field :agenda_entries, strong_list_of(:agenda_entry_input)
   end
@@ -45,7 +43,6 @@ defmodule SoziselWeb.Schema.Types.SessionTemplateTypes do
     field :id, non_null(:id)
     field :name, :string
     field :estimated_time, :integer
-    field :is_abstract, :boolean
     field :is_public, :boolean
     field :agenda_entries, list_of(non_null(:agenda_entry_input))
   end

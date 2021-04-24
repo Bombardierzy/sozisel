@@ -5,7 +5,6 @@ defmodule Sozisel.Repo.Migrations.CreateSessionTemplates do
     create table(:session_templates) do
       add :name, :string, null: false
       add :estimated_time, :integer, null: false
-      add :is_abstract, :boolean, default: false, null: false
       add :is_public, :boolean, default: false, null: false
       add :deleted_at, :utc_datetime_usec
       add :user_id, references(:users, on_delete: :nothing), null: false

@@ -11,21 +11,18 @@ defmodule Sozisel.SessionsTest do
     @valid_attrs %{
       deleted_at: nil,
       estimated_time: 42,
-      is_abstract: false,
       is_public: false,
       name: "some name"
     }
     @update_attrs %{
       deleted_at: "2011-05-18T15:01:01.000000Z",
       estimated_time: 43,
-      is_abstract: false,
       is_public: false,
       name: "some updated name"
     }
     @invalid_attrs %{
       deleted_at: nil,
       estimated_time: nil,
-      is_abstract: nil,
       is_public: nil,
       name: nil
     }
@@ -35,15 +32,28 @@ defmodule Sozisel.SessionsTest do
       assert Sessions.list_session_templates() == [template]
     end
 
-    test "list_user_templates/1 returns all user session_templates" do
+    test "list_session_templates/1 returns all user's session_templates" do
       user = insert(:user)
       template = insert(:template, %{user_id: user.id})
-      assert Sessions.list_user_templates(user.id) == [template]
+      assert Sessions.list_session_templates(user_id: user.id) == [template]
     end
 
-    test "list_public_templates/0 returns all public session_templates" do
+    test "list_session_templates/1 returns all user's session_templates with matching name" do
+      user = insert(:user)
+      template = insert(:template, %{user_id: user.id, name: "Sozisel"})
+      insert(:template, %{user_id: user.id, name: "other_name"})
+      assert Sessions.list_session_templates(user_id: user.id, name: "ozis") == [template]
+    end
+
+    test "list_session_templates/1 returns all public session_templates" do
       template = insert(:template, %{is_public: true})
-      assert Sessions.list_public_templates() == [template]
+      assert Sessions.list_session_templates(is_public: true) == [template]
+    end
+
+    test "list_session_templates/1 returns all public session_templates with matching name" do
+      template = insert(:template, %{is_public: true, name: "Sozisel"})
+      insert(:template, %{is_public: true, name: "other_name"})
+      assert Sessions.list_session_templates(is_public: true, name: "ozis") == [template]
     end
 
     test "get_template!/1 returns the template with given id" do
@@ -57,7 +67,6 @@ defmodule Sozisel.SessionsTest do
       assert {:ok, %Template{} = template} = Sessions.create_template(valid_attrs)
       assert template.deleted_at == nil
       assert template.estimated_time == 42
-      assert template.is_abstract == false
       assert template.is_public == false
       assert template.name == "some name"
     end
@@ -125,7 +134,6 @@ defmodule Sozisel.SessionsTest do
                DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
 
       assert template.estimated_time == 43
-      assert template.is_abstract == false
       assert template.is_public == false
       assert template.name == "some updated name"
     end
