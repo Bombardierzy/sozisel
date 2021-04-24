@@ -20,7 +20,6 @@ defmodule Sozisel.Factory do
     %Template{
       deleted_at: attrs[:deleted_at] || nil,
       estimated_time: attrs[:estimated_time] || sequence(:estimated_time, & &1),
-      is_abstract: Map.get(attrs, :is_abstract, sequence(:is_abstract, [false, true])),
       is_public: Map.get(attrs, :is_public, sequence(:is_public, [false, true])),
       name: attrs[:name] || sequence(:name, &"Template name no. #{&1}"),
       user_id: attrs[:user_id] || insert(:user).id

@@ -9,7 +9,6 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
       id
       name
       estimatedTime
-      isAbstract
       isPublic
       owner {
         id
@@ -29,7 +28,6 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
       id
       name
       estimatedTime
-      isAbstract
       isPublic
       owner {
         id

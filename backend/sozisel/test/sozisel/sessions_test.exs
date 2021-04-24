@@ -11,21 +11,18 @@ defmodule Sozisel.SessionsTest do
     @valid_attrs %{
       deleted_at: nil,
       estimated_time: 42,
-      is_abstract: false,
       is_public: false,
       name: "some name"
     }
     @update_attrs %{
       deleted_at: "2011-05-18T15:01:01.000000Z",
       estimated_time: 43,
-      is_abstract: false,
       is_public: false,
       name: "some updated name"
     }
     @invalid_attrs %{
       deleted_at: nil,
       estimated_time: nil,
-      is_abstract: nil,
       is_public: nil,
       name: nil
     }
@@ -70,7 +67,6 @@ defmodule Sozisel.SessionsTest do
       assert {:ok, %Template{} = template} = Sessions.create_template(valid_attrs)
       assert template.deleted_at == nil
       assert template.estimated_time == 42
-      assert template.is_abstract == false
       assert template.is_public == false
       assert template.name == "some name"
     end
@@ -138,7 +134,6 @@ defmodule Sozisel.SessionsTest do
                DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
 
       assert template.estimated_time == 43
-      assert template.is_abstract == false
       assert template.is_public == false
       assert template.name == "some updated name"
     end
