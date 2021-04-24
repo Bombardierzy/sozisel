@@ -8,6 +8,7 @@ import Login from "./components/LoginScreen/LoginScreen";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
 import { createApolloClient } from "./apolloClient";
+import TemplateList from "./components/TemplatesList/TemplateList";
 
 const client = createApolloClient();
 
@@ -18,7 +19,7 @@ export default function App(): ReactElement {
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>
-        <AuthRoute path="/home" component={HomePage} />
+        <AuthRoute path="/home" component={TemplateList} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/about" component={AboutScreen} />

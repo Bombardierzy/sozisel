@@ -3,7 +3,7 @@
 
 $error-border: 1px solid red;
 $main-border: 1px solid $main-color;
-
+$active-link-border: 2px solid $main-color;
 $extra-small: 600px;
 $small: 800px;
 $medium: 1000px;
@@ -16,3 +16,11 @@ $extra-large: 1600px;
       height: $height;
     }
   }
+
+@mixin disableLinkDecoration {
+  a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+} 

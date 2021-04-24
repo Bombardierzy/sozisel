@@ -1,0 +1,12 @@
+@import "../../styles/styles";
+
+.TemplateListContainer {
+    height: 100%;
+    background-color: $bg-01;
+    margin: 0;
+    display: flex;
+    .searchBar{
+        height: 15%;
+        padding: 10px 10px 10px 10px;
+    }
+}
