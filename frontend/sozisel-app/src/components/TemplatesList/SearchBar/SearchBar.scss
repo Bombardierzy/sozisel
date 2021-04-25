@@ -1,0 +1,15 @@
+@import "../../../styles/styles";
+
+.searchBar{
+    padding: 10px 50px 10px 50px;
+
+    .gridItem{
+        display: flex;
+        align-items: center;
+    }
+    
+    .searchBarButton{
+        padding: 15px 10px 15px 10px;
+    }
+}
+

@@ -30,6 +30,15 @@
       "sessionsLinkText": "Sesje",
       "templatesLinkText": "Szablony",
       "logoutText": "Wyloguj się"
+    },
+    "TemplatesList":{
+      "private": "Prywatne",
+      "public": "Publiczne",
+      "searchButtonText": "Szukaj",
+      "addButtonText": "Dodaj",
+      "access": "Dostęp",
+      "author": "Autor",
+      "planSessionText": "Zaplanuj Sesję"
     }
   },
   "inputErrors": {

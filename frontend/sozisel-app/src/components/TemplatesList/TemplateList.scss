@@ -5,8 +5,12 @@
     background-color: $bg-01;
     margin: 0;
     display: flex;
-    .searchBar{
-        height: 15%;
-        padding: 10px 10px 10px 10px;
+    flex-flow: column;
+
+    .TemplatesList{
+        display: flex;
+        flex-flow: column;
+        padding: 10px 50px 10px 50px;
     }
 }
+
