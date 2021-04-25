@@ -9,7 +9,6 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
       id
       name
       estimatedTime
-      isAbstract
       isPublic
       owner {
         id
@@ -29,7 +28,6 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
       id
       name
       estimatedTime
-      isAbstract
       isPublic
       owner {
         id
@@ -76,7 +74,6 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
         input: %{
           name: "template",
           estimatedTime: 10,
-          isAbstract: false,
           isPublic: false,
           agendaEntries: [%{name: "agenda point", startMinute: 1}]
         }
@@ -105,7 +102,6 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
           id: template.id,
           name: "new name",
           estimatedTime: 10,
-          isAbstract: false,
           isPublic: false,
           agendaEntries: []
         }
@@ -200,7 +196,6 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
         input: %{
           name: "template",
           estimatedTime: 10,
-          isAbstract: false,
           isPublic: false,
           agendaEntries: [%{name: "agenda point", startMinute: 1}]
         }

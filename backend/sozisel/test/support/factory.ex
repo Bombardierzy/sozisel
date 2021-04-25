@@ -20,8 +20,7 @@ defmodule Sozisel.Factory do
     %Template{
       deleted_at: attrs[:deleted_at] || nil,
       estimated_time: attrs[:estimated_time] || sequence(:estimated_time, & &1),
-      is_abstract: attrs[:is_abstract] || sequence(:is_abstract, [false, true]),
-      is_public: attrs[:is_public] || sequence(:is_public, [false, true]),
+      is_public: Map.get(attrs, :is_public, sequence(:is_public, [false, true])),
       name: attrs[:name] || sequence(:name, &"Template name no. #{&1}"),
       user_id: attrs[:user_id] || insert(:user).id
     }
@@ -39,7 +38,7 @@ defmodule Sozisel.Factory do
     %Session{
       entry_password: attrs[:entry_password] || sequence(:entry_password, &"some_password-#{&1}"),
       start_time: attrs[:start_time] || "2011-05-18T15:01:01.000000Z",
-      use_jitsi: attrs[:use_jitsi] || sequence(:use_jitsi, [false, true]),
+      use_jitsi: Map.get(attrs, :use_jitsi, sequence(:use_jitsi, [false, true])),
       name: attrs[:name] || sequence(:name, &"Session name no. #{&1}"),
       user_id: attrs[:user_id] || insert(:user).id,
       session_template_id: attrs[:session_template_id] || insert(:template).id
