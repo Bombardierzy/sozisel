@@ -1,0 +1,11 @@
+mutation CloneSessionTemplate($id: ID!){
+    cloneSessionTemplate(id: $id){
+        id
+    }
+}
+
+mutation DeleteSessionTemplate($id: ID!){
+    deleteSessionTemplate(id: $id){
+        id
+    }
+}

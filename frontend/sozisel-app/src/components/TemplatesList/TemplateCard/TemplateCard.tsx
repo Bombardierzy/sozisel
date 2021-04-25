@@ -1,5 +1,5 @@
 import "./TemplateCard.scss";
-import { ReactElement } from "react";
+import { BaseSyntheticEvent, ReactElement } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
@@ -10,19 +10,36 @@ import FileCopyIcon from "@material-ui/icons/FileCopy";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
-import { SessionTemplate } from "../../../models/SessionTemplate";
+import { useState } from "react";
+import { useEffect } from "react";
+import { SessionTemplate } from "../../../graphql";
 
 export interface TemplateCardProps {
   template: SessionTemplate;
 }
+
 export default function TemplateCard({
   template,
 }: TemplateCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const avatar = getRandomAvatar();
+  const [raised, setRaised] = useState(false);
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    setAvatar(getRandomAvatar());
+  }, []);
+
+  const onMouseOverChange = (event: BaseSyntheticEvent) => {
+    setRaised(!raised);
+  };
 
   return (
-    <Card className="templateCard">
+    <Card
+      className="templateCard"
+      raised={raised}
+      onMouseOver={onMouseOverChange}
+      onMouseOut={onMouseOverChange}
+    >
       <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
       <CardContent className="cardContent">
         <Typography component="h5" variant="h5">

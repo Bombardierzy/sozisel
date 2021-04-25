@@ -13,7 +13,11 @@ import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import { useTranslation } from "react-i18next";
 
-export default function SearchBar(): ReactElement {
+export interface SearchBarProps {
+  onSearch: (name: string, includePublic: boolean) => void;
+}
+
+export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
   const { t } = useTranslation("common");
   const [searchText, setSearchText] = useState("");
   const [searchPublic, setSearchPublic] = useState(0);
@@ -24,6 +28,15 @@ export default function SearchBar(): ReactElement {
 
   const onSearchPublicChange = (event: BaseSyntheticEvent) => {
     setSearchPublic(event.target.value);
+  };
+
+  const onSearchButtonClicked = () => {
+    onSearch(searchText, searchPublic == 1);
+  };
+
+  const onSearchTextCleared = () => {
+    setSearchText("");
+    onSearch("", searchPublic == 1);
   };
 
   return (
@@ -47,7 +60,7 @@ export default function SearchBar(): ReactElement {
                   {searchText != "" && (
                     <ClearIcon
                       color="primary"
-                      onClick={() => setSearchText("")}
+                      onClick={() => onSearchTextCleared()}
                       cursor="pointer"
                     />
                   )}
@@ -83,6 +96,7 @@ export default function SearchBar(): ReactElement {
             color="primary"
             fullWidth
             className="searchBarButton"
+            onClick={() => onSearchButtonClicked()}
           >
             {t("components.TemplatesList.searchButtonText")}
           </Button>
