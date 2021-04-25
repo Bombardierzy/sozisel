@@ -1,4 +1,4 @@
 export interface AgendaPoint {
-  title: string;
+  name: string;
   startMinute: number;
 }

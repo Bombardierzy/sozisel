@@ -22,6 +22,7 @@ import { AgendaPoint } from "../../model/Agenda";
 import EventCreation from "./EventCreation/EventCreation";
 import MainNavbar from "../MainNavbar/MainNavbar";
 import ModuleList from "./ModuleList/ModuleList";
+import { useCreateSessionTemplateMutation } from "../../graphql";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -65,12 +66,22 @@ export default function TemplateCreation(): ReactElement {
   const [agenda, setAgenda] = useState<AgendaPoint[]>([]);
   const [durationTime, setDurationTime] = useState<number>();
   const [isPublic, setIsPublic] = useState<boolean>(false);
+  const [
+    createSessionTemplateMutation,
+    { error },
+  ] = useCreateSessionTemplateMutation();
 
-  const onSubmit = (data: SessionDetails) => {
-    console.log(data.durationTime);
-    console.log(data.templateName);
-    console.log(agenda);
-    console.log(isPublic);
+  const onSubmit = (sessionDetails: SessionDetails) => {
+    createSessionTemplateMutation({
+      variables: {
+        input: {
+          isPublic,
+          estimatedTime: sessionDetails.durationTime,
+          agendaEntries: agenda,
+          name: sessionDetails.templateName,
+        },
+      },
+    });
   };
 
   const { t } = useTranslation("common");
@@ -133,7 +144,7 @@ export default function TemplateCreation(): ReactElement {
                 name="durationTime"
                 control={control}
                 defaultValue=""
-                render={(field) => (
+                render={() => (
                   <TextField
                     name="durationTime"
                     variant="outlined"
@@ -151,8 +162,8 @@ export default function TemplateCreation(): ReactElement {
             </div>
             <span className="error">
               {errors.durationTime && t(errors.durationTime.message)}
+              {error}
             </span>
-
             <Button color="primary" type="submit" variant="contained">
               {t("components.TemplateCreation.createTemplateButtonText")}
             </Button>

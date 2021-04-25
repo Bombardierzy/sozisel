@@ -28,7 +28,7 @@ export default function Agenda({
           .map((element, idx) => (
             <AgendaEntry
               key={idx}
-              title={element.title}
+              title={element.name}
               time={element.startMinute}
               idx={idx}
               onDelete={() =>

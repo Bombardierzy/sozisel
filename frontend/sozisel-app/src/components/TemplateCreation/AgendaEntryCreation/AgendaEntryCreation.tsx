@@ -17,7 +17,7 @@ interface AgendaEntryCreationProps {
 }
 
 const agendaSchema = yup.object().shape({
-  title: yup.string().required("inputErrors.fieldRequired"),
+  name: yup.string().required("inputErrors.fieldRequired"),
   startMinute: yup
     .number()
     .typeError("inputErrors.fieldRequired")
@@ -52,7 +52,7 @@ export default function AgendaEntryCreation({
       return;
     }
     setAgenda([...agenda, data]);
-    setValue("title", "");
+    setValue("name", "");
     setValue("startMinute", "");
   };
 
@@ -67,17 +67,17 @@ export default function AgendaEntryCreation({
           {t("components.TemplateCreation.AgendaEntryCreation.contextHeader")}
         </InputLabel>
         <Controller
-          name="title"
+          name="name"
           control={control}
           defaultValue=""
           as={
             <TextField
-              name="title"
+              name="name"
               variant="outlined"
               size="small"
               className="input"
-              error={!!errors.title}
-              helperText={errors.title && t(errors.title.message)}
+              error={!!errors.name}
+              helperText={errors.name && t(errors.name.message)}
             />
           }
         />

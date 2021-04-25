@@ -36,7 +36,7 @@ const useStyles = ({ palette }: Theme) =>
     },
     moduleType: {
       width: "100%",
-      marginTop: 10,
+      marginTop: 20,
     },
     select: {
       "&:not([multiple]) option": {

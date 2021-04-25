@@ -22,13 +22,13 @@ export default function MainNavbar(): ReactElement {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/home" activeClassName="activeLink" className="link">
+          <NavLink to="/template-creation" activeClassName="activeLink" className="link">
             <FolderOpenIcon />
             <p>{t("components.MainNavbar.templatesLinkText")}</p>
           </NavLink>
         </li>
         <li>
-          <NavLink to="/login" activeClassName="activeLink" className="link">
+          <NavLink to="/login" activeClassName="activeLink" className="link" onClick={() => localStorage.removeItem("token")}>
             <p>{t("components.MainNavbar.logoutText")}</p>
           </NavLink>
         </li>
