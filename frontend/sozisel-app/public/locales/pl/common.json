@@ -32,12 +32,33 @@
       "logoutText": "Wyloguj się"
     },
     "TemplateCreation": {
-      "header": "Agenda"
+      "defaultTemplateName": "Nazwa szablonu sesji",
+      "isPublicLabel": "Publiczne",
+      "isAbstractLabel": "Abstrakcyjne",
+      "timeDurationLabel": "Czas trwania (w minutach)",
+      "createTemplateButtonText": "Zatwierdź",
+      "Agenda": {
+        "header": "Agenda"
+      },
+      "AgendaEntryCreation": {
+        "header": "Dodaj nowy punkt",
+        "contextHeader": "Treść",
+        "startTime": "Czas rozpoczęcia (w minutach)",
+        "submitButtonLabel": "Dodaj"
+      },
+      "EventCreation": {
+        "moduleName": "Nazwa modułu",
+        "moduleType": "Typ modułu",
+        "startTime": "Czas rozpoczęcia (w minutach)",
+        "submitButtonLabel": "Dodaj"
+      }
     }
   },
   "inputErrors": {
     "fieldRequired": "To pole jest wymagane!",
     "invalidEmailFormat": "Niepoprawny format email!",
-    "passwordsNotMatch": "Podane hasła nie są identyczne!"
+    "passwordsNotMatch": "Podane hasła nie są identyczne!",
+    "agendaEntryExists": "Już istenie punkt w agencie, który rozpoczyna się o tej minucie",
+    "agendaIncorrectTime": "Nie można dodawać punktu do agendy, który rozpoczyna się po zakonczeniu sesji"
   }
 }

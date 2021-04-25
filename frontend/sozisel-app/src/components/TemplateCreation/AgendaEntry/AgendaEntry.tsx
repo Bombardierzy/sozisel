@@ -1,25 +1,25 @@
-import "./AgendaPoint.scss";
+import "./AgendaEntry.scss";
 
 import { ListItem, Typography } from "@material-ui/core";
 import React, { ReactElement } from "react";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 
-interface AgendaPointProps {
+interface AgendaEntryProps {
   title: string;
   time: number;
   idx: number;
   onDelete: () => void;
 }
 
-export default function AgendaPoint({
+export default function AgendaEntry({
   title,
   time,
   idx,
   onDelete,
-}: AgendaPointProps): ReactElement {
+}: AgendaEntryProps): ReactElement {
   return (
-    <ListItem className="AgendaPoint">
+    <ListItem className="AgendaEntry">
       <Typography className="pointTitle">{`${idx + 1}. ${title}`}</Typography>
       <Typography className="pointTime">{`(${time} min)`}</Typography>
       <DeleteIcon onClick={() => onDelete()} className="deleteIcon" />

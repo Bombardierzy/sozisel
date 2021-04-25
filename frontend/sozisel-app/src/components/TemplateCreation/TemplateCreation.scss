@@ -1,24 +1,41 @@
 @import "../../styles/styles";
 
-.TemplateContainer {
+.TemplateCreation {
     height: 100%;
     background-color: $bg-01;
     margin: 0;
     display: flex;
-    .agenda {
-        h6 {
-            color: $main-color;
-            margin-left: $spacing-06;
-            font-weight: 800;
-        }
+    .container {
         margin: $spacing-06;
         width: 15%;
-        height: 80%;
-        @include resize($extra-large, 25%, 80%);
-        ol {
-            max-height: 60%;
-            overflow: auto;
-            margin-left: $spacing-03 + $spacing-01; //10px
+        height: 85%;
+        @include resize($extra-large, 25%, 85%);
+        .templateDetails {
+            font-size: 12px;
+            padding: $spacing-04;
+            border-bottom: 1px solid $bg-01;
+            .durationTime {
+                display: flex;
+                align-items: flex-start;
+                .durationTimeLabel {
+                    padding-top: $spacing-03 + $spacing-02; //12px
+                }
+                .durationTimeInput {
+                    width: 40%;
+                    margin-left: $spacing-03;
+                }
+            }
+            .error {
+                color:red;
+            }
+            .label {
+                margin-left: 0;
+            }
+            button {
+                margin-top: $spacing-04;
+                width: 100%;
+            }
         }
+
     }
 }

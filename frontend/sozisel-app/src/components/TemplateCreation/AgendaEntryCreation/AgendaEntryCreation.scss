@@ -1,7 +1,8 @@
 @import "../../../styles/styles";
 
 .PointCreationContainer {
-    margin: $spacing-04;
+    margin-top: $spacing-02;
+    padding: $spacing-02 $spacing-04;
 
     .header {
         color: $main-color;
@@ -22,11 +23,8 @@
             margin: $spacing-03 0;
         }
         button {
-            background-color: $main-color;
-            color: white;
-            margin-left: 10%;
             margin-top: $spacing-03;
-            width: 80%;
+            width: 100%;
         }
     }
 }

@@ -3,5 +3,6 @@ query Me {
     email
     lastName
     firstName
+    id
   }
 }
