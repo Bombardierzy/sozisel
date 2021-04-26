@@ -12,6 +12,7 @@ import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 
 export interface SearchBarProps {
   onSearch: ({
@@ -27,6 +28,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
   const { t } = useTranslation("common");
   const [name, setName] = useState("");
   const [includePublic, setIncludePublic] = useState(0);
+  const history = useHistory();
 
   const onSearchTextChange = (event: BaseSyntheticEvent) => {
     setName(event.target.value);
@@ -118,6 +120,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
             fullWidth
             startIcon={<AddIcon />}
             className="searchBarButton"
+            onClick={() => history.push("/templates/create")}
           >
             {t("components.TemplatesList.addButtonText")}
           </Button>

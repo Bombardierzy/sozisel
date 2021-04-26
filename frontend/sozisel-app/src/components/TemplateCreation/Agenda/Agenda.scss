@@ -1,0 +1,19 @@
+@import "../../../styles/styles";
+
+.Agenda {
+    max-height: 40%;
+    overflow: auto;
+    padding-top: $spacing-03;
+    h6 {
+        color: $main-color;
+        margin-left: $spacing-05;
+        font-weight: 800;
+    }
+    ol {
+        margin-left: $spacing-03 + $spacing-01; //10px
+        li {
+            display: flex;
+            align-items: flex-start;
+        }
+    }
+}

@@ -1,29 +1,22 @@
 @import "../../styles/styles";
 
-@mixin disableLinkDecoration {
-  a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-}
-
 .Navbar {
   display: flex;
   justify-content: space-between;
-
+  margin-bottom: 0;
   ul {
     display: flex;
     align-items: center;
     margin-top: $spacing-01;
+    margin-bottom: 0;
     list-style-type: none;
     li {
       @include disableLinkDecoration();
       margin-left: $spacing-07;
       padding: $spacing-01;
       img {
-        width: 160px;
-        height: 80px;
+        width: 7 * $spacing-05; // 140px
+        height: $spacing-09 + $spacing-03; // 68px
         margin-top: $spacing-01;
       }
       &:hover {

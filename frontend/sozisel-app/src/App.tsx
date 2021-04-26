@@ -3,10 +3,10 @@ import { Redirect, Route, BrowserRouter as Router } from "react-router-dom";
 import AboutScreen from "./components/AboutScreen/AboutScreen";
 import { ApolloProvider } from "@apollo/client";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
-import HomePage from "./components/HomePage/HomePage";
 import Login from "./components/LoginScreen/LoginScreen";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
+import TemplateCreation from "./components/TemplateCreation/TemplateCreation";
 import { createApolloClient } from "./apolloClient";
 import TemplateList from "./components/TemplatesList/TemplateList";
 
@@ -17,9 +17,13 @@ export default function App(): ReactElement {
     <ApolloProvider client={client}>
       <Router>
         <Route exact path="/">
-          <Redirect to="/home" />
+          <Redirect to="/templates" />
         </Route>
-        <AuthRoute path="/home" component={TemplateList} />
+        <Route exact path="/home">
+          <Redirect to="/templates" />
+        </Route>
+        <AuthRoute path="/templates" component={TemplateList} />
+        <AuthRoute path="/templates/create" component={TemplateCreation} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/about" component={AboutScreen} />

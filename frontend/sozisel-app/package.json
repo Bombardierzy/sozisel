@@ -10,6 +10,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/icons": "^4.11.2",
     "@fractalsoftware/random-avatar-generator": "^1.0.6",
+    "@material-ui/styles": "^4.11.3",
     "apollo-link-http": "^1.5.17",
     "graphql": "^15.5.0",
     "i18next": "^20.1.0",
