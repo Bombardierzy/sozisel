@@ -15,9 +15,12 @@ import { useEffect } from "react";
 import {
   SessionTemplate,
   useCloneSessionTemplateMutation,
+  useDeleteSessionTemplateMutation,
 } from "../../../graphql";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import useMyId from "../../../hooks/useMyId";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -33,10 +36,18 @@ export default function TemplateCard({
   refetch,
 }: TemplateCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const [cloneMutation, { error, loading }] = useCloneSessionTemplateMutation();
+  const [
+    cloneMutation,
+    { error: cloneError, loading: cloneLoading },
+  ] = useCloneSessionTemplateMutation();
+  const [
+    deleteMutation,
+    { error: deleteError, loading: deleteLoading },
+  ] = useDeleteSessionTemplateMutation();
   const [raised, setRaised] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>("");
   const [successMsg, setSuccessMsg] = useState<string>("");
+  const currentUserId = useMyId();
 
   useEffect(() => {
     setAvatar(getRandomAvatar());
@@ -45,6 +56,8 @@ export default function TemplateCard({
   const onMouseOverChange = (event: BaseSyntheticEvent) => {
     setRaised(!raised);
   };
+
+  //TODO move to parent
 
   const onCopyIconClicked = async () => {
     try {
@@ -55,6 +68,20 @@ export default function TemplateCard({
       });
       refetch({});
       setSuccessMsg("Skopiowano szablon!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onDeleteIconClicked = async () => {
+    try {
+      await deleteMutation({
+        variables: {
+          id: template.id,
+        },
+      });
+      refetch({});
+      setSuccessMsg("Pomyślnie usunięto szablon!");
     } catch (error) {
       console.error(error);
     }
@@ -87,7 +114,10 @@ export default function TemplateCard({
           <IconButton onClick={onCopyIconClicked}>
             <FileCopyIcon />
           </IconButton>
-          <IconButton>
+          <IconButton
+            onClick={onDeleteIconClicked}
+            disabled={currentUserId != template.owner.id}
+          >
             <DeleteIcon />
           </IconButton>
         </div>
@@ -96,18 +126,25 @@ export default function TemplateCard({
           color="primary"
           fullWidth
           className="actionButton"
+          disabled={currentUserId != template.owner.id}
         >
           {t("components.TemplatesList.planSessionText")}
         </Button>
       </CardActions>
       <Snackbar
-        open={successMsg != ""}
+        open={successMsg !== ""}
         autoHideDuration={6000}
         onClose={() => setSuccessMsg("")}
       >
         <Alert onClose={() => setSuccessMsg("")} severity="success">
           {successMsg}
         </Alert>
+      </Snackbar>
+      <Snackbar open={cloneLoading || deleteLoading} autoHideDuration={3000}>
+        <CircularProgress />
+      </Snackbar>
+      <Snackbar open={!!cloneError || !!deleteError} autoHideDuration={6000}>
+        <Alert severity="error">This is an error message!</Alert>
       </Snackbar>
     </Card>
   );

@@ -32,6 +32,12 @@ defmodule Sozisel.SessionsTest do
       assert Sessions.list_session_templates() == [template]
     end
 
+    test "list_session_templates/1 doesn not return deleted session_templates" do
+      template = insert(:template)
+      assert {:ok, template} = Sessions.delete_template(template)
+      assert Sessions.list_session_templates(deleted: false) == []
+    end
+
     test "list_session_templates/1 returns all user's session_templates" do
       user = insert(:user)
       template = insert(:template, %{user_id: user.id})
