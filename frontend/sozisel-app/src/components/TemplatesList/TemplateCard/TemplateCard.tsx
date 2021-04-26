@@ -12,18 +12,31 @@ import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useEffect } from "react";
-import { SessionTemplate } from "../../../graphql";
+import {
+  SessionTemplate,
+  useCloneSessionTemplateMutation,
+} from "../../../graphql";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export interface TemplateCardProps {
   template: SessionTemplate;
+  refetch: ({}) => void;
 }
 
 export default function TemplateCard({
   template,
+  refetch,
 }: TemplateCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const [raised, setRaised] = useState(false);
-  const [avatar, setAvatar] = useState("");
+  const [cloneMutation, { error, loading }] = useCloneSessionTemplateMutation();
+  const [raised, setRaised] = useState<boolean>(false);
+  const [avatar, setAvatar] = useState<string>("");
+  const [successMsg, setSuccessMsg] = useState<string>("");
 
   useEffect(() => {
     setAvatar(getRandomAvatar());
@@ -31,6 +44,20 @@ export default function TemplateCard({
 
   const onMouseOverChange = (event: BaseSyntheticEvent) => {
     setRaised(!raised);
+  };
+
+  const onCopyIconClicked = async () => {
+    try {
+      await cloneMutation({
+        variables: {
+          id: template.id,
+        },
+      });
+      refetch({});
+      setSuccessMsg("Skopiowano szablon!");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -57,10 +84,10 @@ export default function TemplateCard({
       </CardContent>
       <CardActions className="cardActions">
         <div className="iconButtons">
-          <IconButton>
+          <IconButton onClick={onCopyIconClicked}>
             <FileCopyIcon />
           </IconButton>
-          <IconButton aria-label="play/pause">
+          <IconButton>
             <DeleteIcon />
           </IconButton>
         </div>
@@ -73,6 +100,15 @@ export default function TemplateCard({
           {t("components.TemplatesList.planSessionText")}
         </Button>
       </CardActions>
+      <Snackbar
+        open={successMsg != ""}
+        autoHideDuration={6000}
+        onClose={() => setSuccessMsg("")}
+      >
+        <Alert onClose={() => setSuccessMsg("")} severity="success">
+          {successMsg}
+        </Alert>
+      </Snackbar>
     </Card>
   );
 }

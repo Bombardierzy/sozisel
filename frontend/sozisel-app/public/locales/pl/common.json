@@ -38,7 +38,8 @@
       "addButtonText": "Dodaj",
       "access": "Dostęp",
       "author": "Autor",
-      "planSessionText": "Zaplanuj Sesję"
+      "planSessionText": "Zaplanuj Sesję",
+      "errorMsg": "Błąd łądowania szablonów. Spróbuj ponownie później."
     }
   },
   "inputErrors": {

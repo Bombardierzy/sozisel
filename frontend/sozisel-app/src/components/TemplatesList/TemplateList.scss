@@ -3,15 +3,29 @@
 .TemplateListContainer {
     height: 100%;
     background-color: $bg-01;
-    margin: 0;
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
     padding: 0 10%;
+    box-sizing: border-box;
+    overflow: auto;
+    padding-bottom: 80px; //size of the navbar
 
     .TemplatesList{
         display: flex;
-        flex-flow: column;
+        flex-direction: column;
         padding: 10px 50px 10px 50px;
+    }
+
+    .ContentContainer{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        padding: 10px 50px 10px 50px;
+    }
+
+    .ErrorAlert{
+        padding: 20px;
+        margin: 50px;
     }
 }
 

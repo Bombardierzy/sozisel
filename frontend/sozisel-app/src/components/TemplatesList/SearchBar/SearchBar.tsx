@@ -14,29 +14,39 @@ import AddIcon from "@material-ui/icons/Add";
 import { useTranslation } from "react-i18next";
 
 export interface SearchBarProps {
-  onSearch: (name: string, includePublic: boolean) => void;
+  onSearch: ({
+    nameSearch,
+    includePublicSearch,
+  }: {
+    nameSearch?: string;
+    includePublicSearch?: boolean;
+  }) => void;
 }
 
 export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
   const { t } = useTranslation("common");
-  const [searchText, setSearchText] = useState("");
-  const [searchPublic, setSearchPublic] = useState(0);
+  const [name, setName] = useState("");
+  const [includePublic, setIncludePublic] = useState(0);
 
   const onSearchTextChange = (event: BaseSyntheticEvent) => {
-    setSearchText(event.target.value);
+    setName(event.target.value);
   };
 
   const onSearchPublicChange = (event: BaseSyntheticEvent) => {
-    setSearchPublic(event.target.value);
+    setIncludePublic(event.target.value);
+    onSearch({
+      nameSearch: name,
+      includePublicSearch: event.target.value == 1,
+    });
   };
 
   const onSearchButtonClicked = () => {
-    onSearch(searchText, searchPublic == 1);
+    onSearch({ nameSearch: name, includePublicSearch: includePublic == 1 });
   };
 
   const onSearchTextCleared = () => {
-    setSearchText("");
-    onSearch("", searchPublic == 1);
+    setName("");
+    onSearch({ nameSearch: "", includePublicSearch: includePublic == 1 });
   };
 
   return (
@@ -46,7 +56,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
           <FormControl fullWidth variant="filled">
             <FilledInput
               id="searchTextInput"
-              value={searchText}
+              value={name}
               disableUnderline
               inputProps={{ style: { padding: "20px 10px 20px 10px" } }}
               onChange={onSearchTextChange}
@@ -57,7 +67,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
               }
               endAdornment={
                 <InputAdornment position="end">
-                  {searchText != "" && (
+                  {name != "" && (
                     <ClearIcon
                       color="primary"
                       onClick={() => onSearchTextCleared()}
@@ -78,7 +88,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
                 style: { padding: "20px 50px 20px 10px" },
               }}
               id="accessSelect"
-              value={searchPublic}
+              value={includePublic}
               onChange={onSearchPublicChange}
             >
               <MenuItem value={0}>
