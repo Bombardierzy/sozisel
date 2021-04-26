@@ -29,7 +29,7 @@ export default function Agenda({
             <AgendaEntry
               key={idx}
               title={element.name}
-              time={element.startMinute}
+              startMinute={element.startMinute}
               idx={idx}
               onDelete={() =>
                 setAgenda(agenda.filter((ele) => ele !== element))

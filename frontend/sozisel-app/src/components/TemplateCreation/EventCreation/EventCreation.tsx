@@ -17,6 +17,7 @@ import React, { ReactElement, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
+// TODO Move this styles to scss
 const useStyles = ({ palette }: Theme) =>
   makeStyles({
     moduleName: {

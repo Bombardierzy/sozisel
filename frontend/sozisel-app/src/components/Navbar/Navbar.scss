@@ -15,8 +15,8 @@
       margin-left: $spacing-07;
       padding: $spacing-01;
       img {
-        width: 140px;
-        height: 70px;
+        width: 7 * $spacing-05; // 140px
+        height: $spacing-09 + $spacing-03; // 68px
         margin-top: $spacing-01;
       }
       &:hover {

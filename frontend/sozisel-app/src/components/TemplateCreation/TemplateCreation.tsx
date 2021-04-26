@@ -27,6 +27,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+// TODO Move this styles to scss
 const useStyles = ({ palette }: Theme) =>
   makeStyles({
     templateName: {
@@ -90,7 +91,7 @@ export default function TemplateCreation(): ReactElement {
   });
   return (
     <>
-      <MainNavbar></MainNavbar>
+      <MainNavbar />
       <div className="TemplateCreation">
         <Paper className="container" elevation={2}>
           <form className="templateDetails" onSubmit={handleSubmit(onSubmit)}>

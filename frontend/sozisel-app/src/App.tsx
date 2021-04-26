@@ -16,9 +16,9 @@ export default function App(): ReactElement {
     <ApolloProvider client={client}>
       <Router>
         <Route exact path="/">
-          <Redirect to="/template-creation" />
+          <Redirect to="/templates/create" />
         </Route>
-        <AuthRoute path="/template-creation" component={TemplateCreation} />
+        <AuthRoute path="/templates/create" component={TemplateCreation} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/about" component={AboutScreen} />

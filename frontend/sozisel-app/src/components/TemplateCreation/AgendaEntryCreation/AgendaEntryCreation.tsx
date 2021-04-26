@@ -13,7 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 interface AgendaEntryCreationProps {
   setAgenda: (state: AgendaPoint[]) => void;
   agenda: AgendaPoint[];
-  sessionDurationTime: number | undefined;
+  sessionDurationTime?: number;
 }
 
 const agendaSchema = yup.object().shape({

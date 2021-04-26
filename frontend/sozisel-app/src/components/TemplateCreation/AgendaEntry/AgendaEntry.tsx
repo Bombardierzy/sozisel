@@ -7,21 +7,21 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 interface AgendaEntryProps {
   title: string;
-  time: number;
+  startMinute: number;
   idx: number;
   onDelete: () => void;
 }
 
 export default function AgendaEntry({
   title,
-  time,
+  startMinute,
   idx,
   onDelete,
 }: AgendaEntryProps): ReactElement {
   return (
     <ListItem className="AgendaEntry">
       <Typography className="pointTitle">{`${idx + 1}. ${title}`}</Typography>
-      <Typography className="pointTime">{`(${time} min)`}</Typography>
+      <Typography className="pointTime">{`(${startMinute} min)`}</Typography>
       <DeleteIcon onClick={() => onDelete()} className="deleteIcon" />
     </ListItem>
   );
