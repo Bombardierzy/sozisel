@@ -65,21 +65,21 @@ defmodule SoziselWeb.Schema.EventMutationsTest do
   """
 
   @valid_attrs %{
-      name: "some name",
-      start_minute: 42,
-      event_type: %{
-        duration_time_sec: 12,
-        target_percentage_of_participants: 2,
-        tracking_mode: true,
-        quiz_questions: [
-          %{
-            question: "What is the capital of Poland?",
-            answers: ["Cracow", "Warsaw", "Podlasie"],
-            correct_answers: ["Warsaw"]
-          }
-        ]
-      }
+    name: "some name",
+    start_minute: 42,
+    event_type: %{
+      duration_time_sec: 12,
+      target_percentage_of_participants: 2,
+      tracking_mode: true,
+      quiz_questions: [
+        %{
+          question: "What is the capital of Poland?",
+          answers: ["Cracow", "Warsaw", "Podlasie"],
+          correct_answers: ["Warsaw"]
+        }
+      ]
     }
+  }
 
   describe "Event mutations should" do
     setup do
@@ -97,24 +97,25 @@ defmodule SoziselWeb.Schema.EventMutationsTest do
     end
 
     test "create a new event", ctx do
-
       template = insert(:template)
 
       variables = %{
         input: %{
-            name: "event",
-            start_minute: 10,
-            event_type: %{
-                duration_time_sec: 25,
-                target_percentage_of_participants: 90,
-                tracking_mode: true,
-                quiz_questions: [%{
-                    question: "First question?",
-                    answers: ["First", "Second", "Third"],
-                    correct_answers: ["Second"]
-                }],
-            },
-            session_template_id: template.id,
+          name: "event",
+          start_minute: 10,
+          event_type: %{
+            duration_time_sec: 25,
+            target_percentage_of_participants: 90,
+            tracking_mode: true,
+            quiz_questions: [
+              %{
+                question: "First question?",
+                answers: ["First", "Second", "Third"],
+                correct_answers: ["Second"]
+              }
+            ]
+          },
+          session_template_id: template.id
         }
       }
 
@@ -125,13 +126,16 @@ defmodule SoziselWeb.Schema.EventMutationsTest do
                    "name" => "event",
                    "start_minute" => 10,
                    "event_type" => %{
-                       "duration_time_sec" => 25,
-                       "target_percentage_of_participants" => 90,
-                       "tracking_mode" => true,
-                       "quiz_questions" => [%{
-                           "question" => "First question?",
-                           "answers" => ["First", "Second", "Third"],"correct_answers" => ["Second"]
-                       }],
+                     "duration_time_sec" => 25,
+                     "target_percentage_of_participants" => 90,
+                     "tracking_mode" => true,
+                     "quiz_questions" => [
+                       %{
+                         "question" => "First question?",
+                         "answers" => ["First", "Second", "Third"],
+                         "correct_answers" => ["Second"]
+                       }
+                     ]
                    }
                  }
                }
@@ -144,19 +148,19 @@ defmodule SoziselWeb.Schema.EventMutationsTest do
 
       variables = %{
         input: %{
-            id: event.id,
-            name: "updated_event",
-            start_minute: 50,
-            event_type: %{
-                duration_time_sec: 42,
-                target_percentage_of_participants: 25,
-                tracking_mode: false,
-                quiz_questions: %{
-                    question: "Updated question?",
-                    answers: ["Fourth", "Fifth", "Sixth"],
-                    correct_answers: ["Fifth", "Sixth"]
-                }
-            },
+          id: event.id,
+          name: "updated_event",
+          start_minute: 50,
+          event_type: %{
+            duration_time_sec: 42,
+            target_percentage_of_participants: 25,
+            tracking_mode: false,
+            quiz_questions: %{
+              question: "Updated question?",
+              answers: ["Fourth", "Fifth", "Sixth"],
+              correct_answers: ["Fifth", "Sixth"]
+            }
+          }
         }
       }
 
@@ -167,17 +171,16 @@ defmodule SoziselWeb.Schema.EventMutationsTest do
                    "name" => "updated_event",
                    "start_minute" => 50,
                    "event_type" => %{
-                       "duration_time_sec" => 42,
-                       "target_percentage_of_participants" => 25,
-                       "tracking_mode" => false,
-                       "quiz_questions" => quiz_questions,
+                     "duration_time_sec" => 42,
+                     "target_percentage_of_participants" => 25,
+                     "tracking_mode" => false,
+                     "quiz_questions" => quiz_questions
                    }
                  }
                }
              } = run_query(ctx.conn, @update_event, variables)
 
-    assert quiz_questions |> length == 1
-
+      assert quiz_questions |> length == 1
     end
 
     test "soft delete an existing template", ctx do
@@ -198,7 +201,6 @@ defmodule SoziselWeb.Schema.EventMutationsTest do
                  }
                }
              } = run_query(ctx.conn, @delete_event, variables)
-
     end
 
     test "clone event", ctx do

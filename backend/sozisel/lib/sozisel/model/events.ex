@@ -41,17 +41,16 @@ defmodule Sozisel.Model.Events do
   end
 
   def clone_event(%Event{} = event) do
-
     es = Utils.from_deep_struct(event.event_type)
 
     # ela = Map.from_struct(List.first(es.quiz_questions))
 
     # esa = Map.merge(es, %{quiz_questions: []})
 
-      event
-      |> Utils.from_deep_struct()
-      |> Map.merge(%{id: nil, event_type: es})
-      |> create_event()
+    event
+    |> Utils.from_deep_struct()
+    |> Map.merge(%{id: nil, event_type: es})
+    |> create_event()
   end
 
   def change_event(%Event{} = event, attrs \\ %{}) do

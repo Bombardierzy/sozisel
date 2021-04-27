@@ -138,7 +138,11 @@ defmodule Sozisel.Model.Sessions do
       |> Map.merge(%{id: nil, user_id: user.id, agenda_entries: agenda_entries})
 
     new_template = create_template_with_agenda(copy_template)
-    Enum.each(Events.list_template_events(template.id), fn event -> event |> Map.from_struct() |> Map.merge(%{id: new_template.id}) |> Events.create_event() end)
+
+    Enum.each(Events.list_template_events(template.id), fn event ->
+      event |> Map.from_struct() |> Map.merge(%{id: new_template.id}) |> Events.create_event()
+    end)
+
     new_template
   end
 
