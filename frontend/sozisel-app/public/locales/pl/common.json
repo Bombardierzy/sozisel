@@ -22,14 +22,43 @@
       "placeholder": "Ta strona jest dostępna tylko po zalogowaniu!"
     },
     "AboutScreen": {
-      "projectDescription" : "Głowny celem projektu jest stworzenie narzędzia wspomagającego orgnizację i pożniejszą analizę sesji audio-wizualnych służacych nauce.",
+      "projectDescription": "Głowny celem projektu jest stworzenie narzędzia wspomagającego oragnizację i pożniejszą analizę sesji audio-wizualnych służacych nauce.",
       "projectScope": "duża modularności;prostota użytkowania zarówno dla uczestnika jak i prowadzącego;staranne monitorowanie aktywności słuchaczy",
       "header": "Podstawowe cechy :"
+    },
+    "MainNavbar": {
+      "sessionsLinkText": "Sesje",
+      "templatesLinkText": "Szablony",
+      "logoutText": "Wyloguj się"
+    },
+    "TemplateCreation": {
+      "defaultTemplateName": "Nazwa szablonu sesji",
+      "isPublicLabel": "Publiczne",
+      "isAbstractLabel": "Abstrakcyjne",
+      "timeDurationLabel": "Czas trwania (w minutach)",
+      "createTemplateButtonText": "Zatwierdź",
+      "Agenda": {
+        "header": "Agenda"
+      },
+      "AgendaEntryCreation": {
+        "header": "Dodaj nowy punkt",
+        "contextHeader": "Treść",
+        "startTime": "Czas rozpoczęcia (w minutach)",
+        "submitButtonLabel": "Dodaj"
+      },
+      "EventCreation": {
+        "moduleName": "Nazwa modułu",
+        "moduleType": "Typ modułu",
+        "startTime": "Czas rozpoczęcia (w minutach)",
+        "submitButtonLabel": "Dodaj"
+      }
     }
   },
   "inputErrors": {
     "fieldRequired": "To pole jest wymagane!",
     "invalidEmailFormat": "Niepoprawny format email!",
-    "passwordsNotMatch": "Podane hasła nie są identyczne!"
+    "passwordsNotMatch": "Podane hasła nie są identyczne!",
+    "agendaEntryExists": "Już istenie punkt w agencie, który rozpoczyna się o tej minucie",
+    "agendaIncorrectTime": "Nie można dodawać punktu do agendy, który rozpoczyna się po zakonczeniu sesji"
   }
 }
