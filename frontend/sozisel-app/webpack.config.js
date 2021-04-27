@@ -20,7 +20,6 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
   },
   resolve: {
     extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
@@ -64,9 +63,6 @@ module.exports = {
         type: "asset/resource",
       },
     ],
-  },
-  devServer: {
-    historyApiFallback: true
   },
   plugins: [
     new HtmlWebPackPlugin({

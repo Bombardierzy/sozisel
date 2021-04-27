@@ -5,7 +5,7 @@ defmodule Sozisel.Model.Sessions do
 
   import Ecto.Query, warn: false
   alias Sozisel.Repo
-  alias Sozisel.Model.Utils
+  alias Sozisel.Model.{Utils, Events}
 
   alias Sozisel.Model.Sessions.{AgendaEntry, Template}
   alias Sozisel.Model.Users.User
@@ -127,7 +127,6 @@ defmodule Sozisel.Model.Sessions do
     |> Repo.update()
   end
 
-  # TODO: do the event cloning when they get implemented
   def clone_template(%Template{} = template, %User{} = user) do
     agenda_entries =
       Repo.preload(template, :agenda_entries).agenda_entries
@@ -138,7 +137,9 @@ defmodule Sozisel.Model.Sessions do
       |> Map.from_struct()
       |> Map.merge(%{id: nil, user_id: user.id, agenda_entries: agenda_entries})
 
-    create_template_with_agenda(copy_template)
+    new_template = create_template_with_agenda(copy_template)
+    Enum.each(Events.list_template_events(template.id), fn event -> event |> Map.from_struct() |> Map.merge(%{id: new_template.id}) |> Events.create_event() end)
+    new_template
   end
 
   @doc """

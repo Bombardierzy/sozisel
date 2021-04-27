@@ -12,6 +12,7 @@ defmodule Sozisel.EventsTest do
       start_minute: 42,
       event_type: %{
         duration_time_sec: 12,
+        tracking_mode: true,
         target_percentage_of_participants: 2,
         quiz_questions: [
           %{
@@ -32,6 +33,7 @@ defmodule Sozisel.EventsTest do
       start_minute: 43,
       event_type: %{
         duration_time_sec: 13,
+        tracking_mode: false,
         target_percentage_of_participants: 4,
         quiz_questions: [
           %{
@@ -87,6 +89,7 @@ defmodule Sozisel.EventsTest do
       assert event.event_type == %Sozisel.Model.Quizzes.Quiz{
                duration_time_sec: 12,
                target_percentage_of_participants: 2,
+               tracking_mode: true,
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "What is the capital of Poland?",
@@ -119,6 +122,7 @@ defmodule Sozisel.EventsTest do
       assert event.event_type == %Sozisel.Model.Quizzes.Quiz{
                duration_time_sec: 13,
                target_percentage_of_participants: 4,
+               tracking_mode: false,
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "What color is the banana?",
