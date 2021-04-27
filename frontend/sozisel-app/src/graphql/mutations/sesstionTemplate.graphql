@@ -1,0 +1,6 @@
+
+mutation CreateSessionTemplate($input: CreateSessionTemplateInput!) {
+  createSessionTemplate(input: $input) {
+    id
+  }
+}
