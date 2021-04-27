@@ -2,10 +2,9 @@
 
 .TemplateListContainer {
     height: 100%;
-    background-color: $bg-01;
     display: flex;
     flex-direction: column;
-    padding: 0 10%;
+    padding: 0 20%;
     box-sizing: border-box;
     overflow: auto;
     padding-bottom: 80px; //size of the navbar
@@ -13,19 +12,19 @@
     .TemplatesList{
         display: flex;
         flex-direction: column;
-        padding: 10px 50px 10px 50px;
+        padding: $spacing-04 $spacing-09;
     }
 
     .ContentContainer{
         display: flex;
-        flex-flow: column;
+        flex-direction: column;
         align-items: center;
-        padding: 10px 50px 10px 50px;
+        padding: $spacing-04 $spacing-09;
     }
 
     .ErrorAlert{
-        padding: 20px;
-        margin: 50px;
+        padding: $spacing-05;
+        margin: $spacing-09;
     }
 }
 

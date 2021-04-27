@@ -2,9 +2,10 @@
 
 .templateCard{
     display: flex;
-    flex-flow: row;
-    padding: 20px;
-    margin-bottom: 10px;
+    flex-direction: row;
+    padding: $spacing-05;
+    margin-bottom: $spacing-04;
+    background: "#f0f0f0";
 
     .cardContent{
         flex: 1 0 auto;
@@ -12,16 +13,12 @@
 
     .cardActions{
         display: flex;
-        flex-flow: column;
+        flex-direction: column;
         justify-content: space-between;
     }
 
     .iconButtons{
         display: flex;
-        flex-flow: row;
-    }
-
-    .actionButton{
-        padding: 15px 10px 15px 10px;
+        flex-direction: row;
     }
 }

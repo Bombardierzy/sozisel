@@ -12,42 +12,25 @@ import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useEffect } from "react";
-import {
-  SessionTemplate,
-  useCloneSessionTemplateMutation,
-  useDeleteSessionTemplateMutation,
-} from "../../../graphql";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import useMyId from "../../../hooks/useMyId";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { SessionTemplate } from "../../../graphql";
 
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import useMyId from "../../../hooks/useMyId";
 
 export interface TemplateCardProps {
   template: SessionTemplate;
-  refetch: ({}) => void;
+  onCopy: (template: SessionTemplate) => void;
+  onDelete: (template: SessionTemplate) => void;
 }
 
 export default function TemplateCard({
   template,
-  refetch,
+  onCopy,
+  onDelete,
 }: TemplateCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const [
-    cloneMutation,
-    { error: cloneError, loading: cloneLoading },
-  ] = useCloneSessionTemplateMutation();
-  const [
-    deleteMutation,
-    { error: deleteError, loading: deleteLoading },
-  ] = useDeleteSessionTemplateMutation();
+  const currentUserId = useMyId();
   const [raised, setRaised] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>("");
-  const [successMsg, setSuccessMsg] = useState<string>("");
-  const currentUserId = useMyId();
 
   useEffect(() => {
     setAvatar(getRandomAvatar());
@@ -57,39 +40,10 @@ export default function TemplateCard({
     setRaised(!raised);
   };
 
-  //TODO move to parent
-
-  const onCopyIconClicked = async () => {
-    try {
-      await cloneMutation({
-        variables: {
-          id: template.id,
-        },
-      });
-      refetch({});
-      setSuccessMsg("Skopiowano szablon!");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const onDeleteIconClicked = async () => {
-    try {
-      await deleteMutation({
-        variables: {
-          id: template.id,
-        },
-      });
-      refetch({});
-      setSuccessMsg("Pomyślnie usunięto szablon!");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <Card
       className="templateCard"
+      style={{ backgroundColor: "#f0f0f0" }}
       raised={raised}
       onMouseOver={onMouseOverChange}
       onMouseOut={onMouseOverChange}
@@ -111,11 +65,11 @@ export default function TemplateCard({
       </CardContent>
       <CardActions className="cardActions">
         <div className="iconButtons">
-          <IconButton onClick={onCopyIconClicked}>
+          <IconButton onClick={() => onCopy(template)}>
             <FileCopyIcon />
           </IconButton>
           <IconButton
-            onClick={onDeleteIconClicked}
+            onClick={() => onDelete(template)}
             disabled={currentUserId != template.owner.id}
           >
             <DeleteIcon />
@@ -131,21 +85,6 @@ export default function TemplateCard({
           {t("components.TemplatesList.planSessionText")}
         </Button>
       </CardActions>
-      <Snackbar
-        open={successMsg !== ""}
-        autoHideDuration={6000}
-        onClose={() => setSuccessMsg("")}
-      >
-        <Alert onClose={() => setSuccessMsg("")} severity="success">
-          {successMsg}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={cloneLoading || deleteLoading} autoHideDuration={3000}>
-        <CircularProgress />
-      </Snackbar>
-      <Snackbar open={!!cloneError || !!deleteError} autoHideDuration={6000}>
-        <Alert severity="error">This is an error message!</Alert>
-      </Snackbar>
     </Card>
   );
 }

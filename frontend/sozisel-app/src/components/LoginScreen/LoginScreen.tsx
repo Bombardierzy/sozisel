@@ -7,7 +7,7 @@ import Card from "../utils/Card/Card";
 import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/Navbar";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import Spinner from "../utils/Spinner/Spinner";
 import conference_img from "../../assets/images/conference_img.png";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,7 @@ import { useHistory } from "react-router";
 import { useLoginMutation } from "../../graphql";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useApolloClient } from "@apollo/client";
 
 interface LoginFormData {
   email: string;
@@ -37,6 +38,11 @@ export default function LoginScreen(): ReactElement {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
   });
+  const client = useApolloClient();
+
+  useEffect(() => {
+    client.clearStore();
+  }, [client]);
 
   const onSubmit = async (loginFormData: LoginFormData) => {
     try {
