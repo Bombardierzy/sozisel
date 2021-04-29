@@ -1,17 +1,18 @@
 import "./SearchBar.scss";
+
 import { BaseSyntheticEvent, ReactElement } from "react";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
-import { useState } from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import Grid from "@material-ui/core/Grid";
-import ClearIcon from "@material-ui/icons/Clear";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+
 import Button from "@material-ui/core/Button";
-import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
+import ClearIcon from "@material-ui/icons/Clear";
+import Grid from "@material-ui/core/Grid";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import MenuItem from "@material-ui/core/MenuItem";
+import SearchIcon from "@material-ui/icons/Search";
+import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
+import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export interface SearchBarProps {
   onSearch: ({
@@ -54,32 +55,34 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
     <>
       <Grid container spacing={3} justify="center" className="searchBar">
         <Grid item sm={12} md={4} className="gridItem">
-          <TextField
-            fullWidth
-            id="searchTextInput"
-            variant="outlined"
-            size="small"
-            value={name}
-            onChange={onSearchTextChange}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  {name != "" && (
-                    <ClearIcon
-                      color="primary"
-                      onClick={() => onSearchTextCleared()}
-                      cursor="pointer"
-                    />
-                  )}
-                </InputAdornment>
-              ),
-            }}
-          />
+          <div className="searchNameContainer">
+            <TextField
+              fullWidth
+              id="searchTextInput"
+              variant="outlined"
+              size="small"
+              value={name}
+              onChange={onSearchTextChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {name != "" && (
+                      <ClearIcon
+                        color="primary"
+                        onClick={() => onSearchTextCleared()}
+                        cursor="pointer"
+                      />
+                    )}
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
         </Grid>
         <Grid item sm={12} md={4} className="gridItem">
           <Select

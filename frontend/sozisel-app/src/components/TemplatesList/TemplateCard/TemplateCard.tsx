@@ -1,20 +1,21 @@
 import "./TemplateCard.scss";
+
 import { BaseSyntheticEvent, ReactElement } from "react";
+
+import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import DeleteIcon from "@material-ui/icons/Delete";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
 import IconButton from "@material-ui/core/IconButton";
+import { SessionTemplate } from "../../../graphql";
 import Typography from "@material-ui/core/Typography";
 import { getRandomAvatar } from "@fractalsoftware/random-avatar-generator";
-import CardActions from "@material-ui/core/CardActions";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Button from "@material-ui/core/Button";
-import { useTranslation } from "react-i18next";
-import { useState } from "react";
 import { useEffect } from "react";
-import { SessionTemplate } from "../../../graphql";
-
 import useMyId from "../../../hooks/useMyId";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export interface TemplateCardProps {
   template: SessionTemplate;

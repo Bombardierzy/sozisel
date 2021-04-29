@@ -1,20 +1,22 @@
 import "./TemplateList.scss";
-import MainNavbar from "../MainNavbar/MainNavbar";
-import SearchBar from "./SearchBar/SearchBar";
-import TemplateCard from "./TemplateCard/TemplateCard";
-import { ReactElement } from "react";
-import List from "@material-ui/core/List";
-import { useTranslation } from "react-i18next";
+
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import {
   SessionTemplate,
   useCloneSessionTemplateMutation,
   useDeleteSessionTemplateMutation,
   useSearchSessionTemplatesQuery,
 } from "../../graphql";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import { useState } from "react";
+import List from "@material-ui/core/List";
+import MainNavbar from "../MainNavbar/MainNavbar";
+import { ReactElement } from "react";
+import SearchBar from "./SearchBar/SearchBar";
 import Snackbar from "@material-ui/core/Snackbar";
+import TemplateCard from "./TemplateCard/TemplateCard";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -22,7 +24,9 @@ function Alert(props: AlertProps) {
 
 export default function TemplateList(): ReactElement {
   const { t } = useTranslation("common");
-  const { data, loading, error, refetch } = useSearchSessionTemplatesQuery();
+  const { data, loading, error, refetch } = useSearchSessionTemplatesQuery({
+    fetchPolicy: "network-only",
+  });
   const [name, setName] = useState<string>("");
   const [includePublic, setIncludePublic] = useState<boolean>(false);
   const [
@@ -55,7 +59,7 @@ export default function TemplateList(): ReactElement {
         },
       });
       refetch({ name: name, includePublic: includePublic });
-      setSuccessMsg("Skopiowano szablon!");
+      setSuccessMsg(`${t("components.TemplatesList.copySuccess")}`);
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +73,7 @@ export default function TemplateList(): ReactElement {
         },
       });
       refetch({ name: name, includePublic: includePublic });
-      setSuccessMsg("Pomyślnie usunięto szablon!");
+      setSuccessMsg(`${t("components.TemplatesList.deleteSuccess")}`);
     } catch (error) {
       console.error(error);
     }
@@ -120,7 +124,9 @@ export default function TemplateList(): ReactElement {
           <CircularProgress />
         </Snackbar>
         <Snackbar open={!!cloneError || !!deleteError} autoHideDuration={6000}>
-          <Alert severity="error">This is an error message!</Alert>
+          <Alert severity="error">
+            {t("components.TemplatesList.errorMsg")}
+          </Alert>
         </Snackbar>
       </>
     );
@@ -132,7 +138,7 @@ export default function TemplateList(): ReactElement {
       <div className="TemplateListContainer">
         <SearchBar onSearch={onSearch}></SearchBar>
         <Alert className="ErrorAlert" variant="outlined" severity="error">
-          {t("components.TemplatesList.errorMsg")}
+          {t("components.TemplatesList.fetchingErrorMsg")}
         </Alert>
       </div>
     </>

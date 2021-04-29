@@ -39,7 +39,10 @@
       "access": "Dostęp",
       "author": "Autor",
       "planSessionText": "Zaplanuj Sesję",
-      "errorMsg": "Błąd łądowania szablonów. Spróbuj ponownie później."
+      "fetchingErrorMsg": "Błąd łądowania szablonów. Spróbuj ponownie później.",
+      "errorMsg": "Błąd podczas wykonywania operacji.",
+      "deleteSuccess": "Pomyślnie usunięto szablon!",
+      "copySuccess": "Skopiowano szablon!"
     },
     "TemplateCreation": {
       "defaultTemplateName": "Nazwa szablonu sesji",

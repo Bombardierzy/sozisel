@@ -6,6 +6,11 @@
     .gridItem{
         display: flex;
         align-items: center;
+
+        .searchNameContainer{
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
     }
 }
 
