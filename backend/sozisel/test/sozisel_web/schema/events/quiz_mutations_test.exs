@@ -178,7 +178,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       assert quiz_questions |> length == 1
     end
 
-    test "soft delete an existing template", ctx do
+    test "soft delete an existing event", ctx do
       template = insert(:template, user_id: ctx.user.id)
       event = event_fixture(%{session_template_id: template.id})
 
