@@ -3,6 +3,8 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
 
   import Sozisel.Factory
 
+  alias Sozisel.Model.Events
+
   @create_template """
   mutation CreateTemplate($input: CreateSessionTemplateInput!) {
     createSessionTemplate(input: $input) {
@@ -63,10 +65,36 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
   }
   """
 
+  @event_valid_attrs %{
+    name: "some name",
+    start_minute: 42,
+    event_structure: %{
+      duration_time_sec: 12,
+      target_percentage_of_participants: 2,
+      tracking_mode: true,
+      quiz_questions: [
+        %{
+          question: "What is the capital of Poland?",
+          answers: ["Cracow", "Warsaw", "Podlasie"],
+          correct_answers: ["Warsaw"]
+        }
+      ]
+    }
+  }
+
   describe "Session template mutations should" do
     setup do
       user = insert(:user)
       [conn: test_conn(user), user: user]
+    end
+
+    def event_fixture(attrs \\ %{}) do
+      {:ok, event} =
+        attrs
+        |> Enum.into(@event_valid_attrs)
+        |> Events.create_event()
+
+      event
     end
 
     test "create a new template", ctx do
@@ -141,6 +169,7 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
     test "clone session template", ctx do
       template = insert(:template, is_public: true, user_id: ctx.user.id)
       agenda_entry = insert(:agenda_entry, session_template_id: template.id)
+      event_fixture(%{session_template_id: template.id})
 
       name = template.name
 
@@ -151,7 +180,7 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
       assert %{
                data: %{
                  "cloneSessionTemplate" => %{
-                   "id" => _,
+                   "id" => new_template_id,
                    "name" => ^name,
                    "agendaEntries" => [%{"id" => entry_id, "name" => entry_name}]
                  }
@@ -160,6 +189,18 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
 
       assert entry_id != agenda_entry.id
       assert entry_name == agenda_entry.name
+
+      events_length_on_default_template =
+        template.id
+        |> Events.list_template_events()
+        |> length()
+
+      events_length_on_new_template =
+        new_template_id
+        |> Events.list_template_events()
+        |> length()
+
+      assert events_length_on_default_template == events_length_on_new_template
 
       # template is public so another user should be able to clone that
       assert %{

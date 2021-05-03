@@ -10,6 +10,11 @@ defmodule Sozisel.Model.Utils do
     |> String.replace("_", "\\_")
   end
 
+  @doc """
+  It turns nested structures into nested map, even 
+  if a list of structures is given as an argument 
+  in the structure, this function will turn us into a list of maps
+  """
   def from_deep_struct(%{} = map), do: convert(map)
 
   defp convert(data) when is_struct(data) do

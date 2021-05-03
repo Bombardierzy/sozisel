@@ -40,10 +40,10 @@ defmodule Sozisel.Model.Events do
     Repo.delete(event)
   end
 
-  def clone_event(%Event{} = event) do
+  def clone_event(%Event{} = event, session_template_id) do
     event
     |> Utils.from_deep_struct()
-    |> Map.merge(%{id: nil})
+    |> Map.merge(%{id: nil, session_template_id: session_template_id})
     |> create_event()
   end
 

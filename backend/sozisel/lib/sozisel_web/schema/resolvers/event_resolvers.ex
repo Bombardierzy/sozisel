@@ -1,34 +1,55 @@
 defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
-  alias Sozisel.Model.{Events, Events.Event}
+  alias SoziselWeb.Context
+  alias Sozisel.Model.{Events, Sessions}
+  alias Events.Event
+  alias Sessions.Template
 
-  def create(_parent, %{input: input}, _ctx) do
-    Events.create_event(input)
-  end
+  def create(_parent, %{input: input}, ctx) do
+    user = Context.current_user!(ctx)
 
-  def update(_parent, %{input: input}, _ctx) do
-    with %Event{} = event <- Events.get_event(input.id) do
-      Events.update_event(event, input)
+    with %Template{} = template <- Sessions.get_template(input.session_template_id),
+         true <- template.user_id == user.id do
+      Events.create_event(input)
     else
       nil ->
-        {:error, "event not found"}
+        {:error, "sessions template not found"}
+
+      false ->
+        {:error, "unauthorized"}
     end
   end
 
-  def delete(_parent, %{id: id}, _ctx) do
-    with %Event{} = event <- Events.get_event(id) do
+  def update(_parent, %{input: input}, ctx) do
+    user = Context.current_user!(ctx)
+
+    with %Event{} = event <- Events.get_event(input.id),
+         %Template{} = template <- Sessions.get_template(event.session_template_id),
+         true <- template.user_id == user.id do
+      input.id
+      |> Events.get_event()
+      |> Events.update_event(input)
+    else
+      nil ->
+        {:error, "sessions template not found"}
+
+      false ->
+        {:error, "unauthorized"}
+    end
+  end
+
+  def delete(_parent, %{id: id}, ctx) do
+    user = Context.current_user!(ctx)
+
+    with %Event{} = event <- Events.get_event(id),
+         %Template{} = template <- Sessions.get_template(event.session_template_id),
+         true <- template.user_id == user.id do
       Events.delete_event(event)
     else
       nil ->
         {:error, "event not found"}
-    end
-  end
 
-  def clone(_parent, %{id: id}, _ctx) do
-    with %Event{} = event <- Events.get_event(id) do
-      Events.clone_event(event)
-    else
-      nil ->
-        {:error, "event not found"}
+      false ->
+        {:error, "unauthorized"}
     end
   end
 end
