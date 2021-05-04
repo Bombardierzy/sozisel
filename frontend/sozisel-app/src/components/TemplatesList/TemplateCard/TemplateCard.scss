@@ -1,11 +1,14 @@
 @import "../../../styles/styles";
 
+.materialCard{
+    margin-bottom: $spacing-04;
+}
+
 .templateCard{
     display: flex;
     flex-direction: row;
     padding: $spacing-05;
-    margin-bottom: $spacing-04;
-    background: "#f0f0f0";
+    background-color: $bg-02;
 
     .cardContent{
         flex: 1 0 auto;

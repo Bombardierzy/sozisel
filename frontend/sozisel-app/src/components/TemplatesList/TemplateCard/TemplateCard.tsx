@@ -11,7 +11,7 @@ import FileCopyIcon from "@material-ui/icons/FileCopy";
 import IconButton from "@material-ui/core/IconButton";
 import { SessionTemplate } from "../../../graphql";
 import Typography from "@material-ui/core/Typography";
-import { getRandomAvatar } from "@fractalsoftware/random-avatar-generator";
+import useAvatarById from "../../../hooks/useAvatarById";
 import { useEffect } from "react";
 import useMyId from "../../../hooks/useMyId";
 import { useState } from "react";
@@ -30,12 +30,8 @@ export default function TemplateCard({
 }: TemplateCardProps): ReactElement {
   const { t } = useTranslation("common");
   const currentUserId = useMyId();
+  const avatar = useAvatarById(template.id);
   const [raised, setRaised] = useState<boolean>(false);
-  const [avatar, setAvatar] = useState<string>("");
-
-  useEffect(() => {
-    setAvatar(getRandomAvatar());
-  }, []);
 
   const onMouseOverChange = (event: BaseSyntheticEvent) => {
     setRaised(!raised);
@@ -43,49 +39,50 @@ export default function TemplateCard({
 
   return (
     <Card
-      className="templateCard"
-      style={{ backgroundColor: "#f0f0f0" }}
       raised={raised}
+      className="materialCard"
       onMouseOver={onMouseOverChange}
       onMouseOut={onMouseOverChange}
     >
-      <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
-      <CardContent className="cardContent">
-        <Typography component="h5" variant="h5">
-          {template.name}
-        </Typography>
-        <Typography variant="subtitle1" color="textSecondary">
-          {t("components.TemplatesList.access")}:{" "}
-          {template.isPublic && t("components.TemplatesList.public")}{" "}
-          {!template.isPublic && t("components.TemplatesList.private")}
-        </Typography>
-        <Typography variant="subtitle2" color="textSecondary">
-          {t("components.TemplatesList.author")}:{" "}
-          {`${template.owner.firstName} ${template.owner.lastName}`}
-        </Typography>
-      </CardContent>
-      <CardActions className="cardActions">
-        <div className="iconButtons">
-          <IconButton onClick={() => onCopy(template)}>
-            <FileCopyIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => onDelete(template)}
+      <div className="templateCard">
+        <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
+        <CardContent className="cardContent">
+          <Typography component="h5" variant="h5">
+            {template.name}
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {t("components.TemplatesList.access")}:{" "}
+            {template.isPublic && t("components.TemplatesList.public")}
+            {!template.isPublic && t("components.TemplatesList.private")}
+          </Typography>
+          <Typography variant="subtitle2" color="textSecondary">
+            {t("components.TemplatesList.author")}:{" "}
+            {`${template.owner.firstName} ${template.owner.lastName}`}
+          </Typography>
+        </CardContent>
+        <CardActions className="cardActions">
+          <div className="iconButtons">
+            <IconButton onClick={() => onCopy(template)}>
+              <FileCopyIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => onDelete(template)}
+              disabled={currentUserId != template.owner.id}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </div>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            className="actionButton"
             disabled={currentUserId != template.owner.id}
           >
-            <DeleteIcon />
-          </IconButton>
-        </div>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          className="actionButton"
-          disabled={currentUserId != template.owner.id}
-        >
-          {t("components.TemplatesList.planSessionText")}
-        </Button>
-      </CardActions>
+            {t("components.TemplatesList.planSessionText")}
+          </Button>
+        </CardActions>
+      </div>
     </Card>
   );
 }

@@ -7,7 +7,7 @@
     padding: 0 20%;
     box-sizing: border-box;
     overflow: auto;
-    padding-bottom: 80px; //size of the navbar
+    padding-bottom: $navbar-height;
 
     .TemplatesList{
         display: flex;

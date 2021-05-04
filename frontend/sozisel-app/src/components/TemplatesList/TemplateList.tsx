@@ -15,6 +15,7 @@ import { ReactElement } from "react";
 import SearchBar from "./SearchBar/SearchBar";
 import Snackbar from "@material-ui/core/Snackbar";
 import TemplateCard from "./TemplateCard/TemplateCard";
+import { useCallback } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -24,11 +25,14 @@ function Alert(props: AlertProps) {
 
 export default function TemplateList(): ReactElement {
   const { t } = useTranslation("common");
+  const [successMsg, setSuccessMsg] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [includePublic, setIncludePublic] = useState<boolean>(false);
+
   const { data, loading, error, refetch } = useSearchSessionTemplatesQuery({
     fetchPolicy: "network-only",
   });
-  const [name, setName] = useState<string>("");
-  const [includePublic, setIncludePublic] = useState<boolean>(false);
+
   const [
     cloneMutation,
     { error: cloneError, loading: cloneLoading },
@@ -37,21 +41,23 @@ export default function TemplateList(): ReactElement {
     deleteMutation,
     { error: deleteError, loading: deleteLoading },
   ] = useDeleteSessionTemplateMutation();
-  const [successMsg, setSuccessMsg] = useState<string>("");
 
-  const onSearch = ({
-    nameSearch = name,
-    includePublicSearch = includePublic,
-  }: {
-    nameSearch?: string;
-    includePublicSearch?: boolean;
-  }) => {
-    refetch({ name: nameSearch, includePublic: includePublicSearch });
-    setName(nameSearch);
-    setIncludePublic(includePublicSearch);
-  };
+  const onSearch = useCallback(
+    ({
+      nameSearch = name,
+      includePublicSearch = includePublic,
+    }: {
+      nameSearch?: string;
+      includePublicSearch?: boolean;
+    }) => {
+      refetch({ name: nameSearch, includePublic: includePublicSearch });
+      setName(nameSearch);
+      setIncludePublic(includePublicSearch);
+    },
+    []
+  );
 
-  const onCopy = async (template: SessionTemplate) => {
+  const onCopy = useCallback(async (template: SessionTemplate) => {
     try {
       await cloneMutation({
         variables: {
@@ -63,9 +69,9 @@ export default function TemplateList(): ReactElement {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
-  const onDelete = async (template: SessionTemplate) => {
+  const onDelete = useCallback(async (template: SessionTemplate) => {
     try {
       await deleteMutation({
         variables: {
@@ -77,7 +83,7 @@ export default function TemplateList(): ReactElement {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
   if (loading) {
     return (

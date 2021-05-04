@@ -119,7 +119,7 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
              } = run_query(ctx.conn, @search_template_with_params, variables)
     end
 
-    test "search not deleted templates", ctx do
+    test "search for non-deleted templates", ctx do
       deleted_template = insert(:template, name: "other", user_id: ctx.user.id)
       template = insert(:template, name: "Sozisel", user_id: ctx.user.id)
 

@@ -15,10 +15,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export interface SearchBarProps {
-  onSearch: ({
-    nameSearch,
-    includePublicSearch,
-  }: {
+  onSearch: (options: {
     nameSearch?: string;
     includePublicSearch?: boolean;
   }) => void;
@@ -26,8 +23,8 @@ export interface SearchBarProps {
 
 export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
   const { t } = useTranslation("common");
-  const [name, setName] = useState("");
-  const [includePublic, setIncludePublic] = useState(0);
+  const [name, setName] = useState<string>("");
+  const [includePublic, setIncludePublic] = useState<boolean>(false);
   const history = useHistory();
 
   const onSearchTextChange = (event: BaseSyntheticEvent) => {
@@ -35,20 +32,20 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
   };
 
   const onSearchPublicChange = (event: BaseSyntheticEvent) => {
-    setIncludePublic(event.target.value);
+    setIncludePublic(event.target.value == "public");
     onSearch({
       nameSearch: name,
-      includePublicSearch: event.target.value == 1,
+      includePublicSearch: event.target.value == "public",
     });
   };
 
   const onSearchButtonClicked = () => {
-    onSearch({ nameSearch: name, includePublicSearch: includePublic == 1 });
+    onSearch({ nameSearch: name, includePublicSearch: includePublic });
   };
 
   const onSearchTextCleared = () => {
     setName("");
-    onSearch({ nameSearch: "", includePublicSearch: includePublic == 1 });
+    onSearch({ nameSearch: "", includePublicSearch: includePublic });
   };
 
   return (
@@ -74,7 +71,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
                     {name != "" && (
                       <ClearIcon
                         color="primary"
-                        onClick={() => onSearchTextCleared()}
+                        onClick={onSearchTextCleared}
                         cursor="pointer"
                       />
                     )}
@@ -92,13 +89,13 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
               style: { padding: "11px" },
             }}
             id="accessSelect"
-            value={includePublic}
+            value={includePublic ? "public" : "private"}
             onChange={onSearchPublicChange}
           >
-            <MenuItem value={0}>
+            <MenuItem value={"private"}>
               {t("components.TemplatesList.private")}
             </MenuItem>
-            <MenuItem value={1}>
+            <MenuItem value={"public"}>
               {t("components.TemplatesList.public")}
             </MenuItem>
           </Select>
@@ -109,7 +106,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
             color="primary"
             fullWidth
             className="searchBarButton"
-            onClick={() => onSearchButtonClicked()}
+            onClick={onSearchButtonClicked}
           >
             {t("components.TemplatesList.searchButtonText")}
           </Button>
