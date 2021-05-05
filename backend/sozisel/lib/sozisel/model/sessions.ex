@@ -5,7 +5,8 @@ defmodule Sozisel.Model.Sessions do
 
   import Ecto.Query, warn: false
   alias Sozisel.Repo
-  alias Sozisel.Model.Utils
+  alias Sozisel.Model.{Utils, Events}
+  alias Events.Event
 
   alias Sozisel.Model.Sessions.{AgendaEntry, Template}
   alias Sozisel.Model.Users.User
@@ -61,12 +62,14 @@ defmodule Sozisel.Model.Sessions do
     |> Repo.insert()
   end
 
-  def create_template_with_agenda(attrs \\ %{}) do
+  def create_template_with_agenda_and_events(attrs \\ %{}) do
     agenda_entries = attrs[:agenda_entries] || []
+    events = attrs[:events] || []
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:template, Template.create_changeset(%Template{}, attrs))
     |> add_template_agenda_entries(agenda_entries)
+    |> add_template_events(events, length(agenda_entries))
     |> Repo.transaction()
     |> case do
       {:ok, %{template: template}} ->
@@ -121,6 +124,27 @@ defmodule Sozisel.Model.Sessions do
     |> elem(1)
   end
 
+  defp add_template_events(multi, [], _) do
+    multi
+  end
+
+  defp add_template_events(multi, events, index) do
+    events
+    |> Enum.reduce({index, multi}, fn event, {idx, multi} ->
+      event = Utils.from_deep_struct(event)
+
+      multi =
+        multi
+        |> Ecto.Multi.insert(idx, fn %{template: template} ->
+          %Event{}
+          |> Event.create_changeset(Map.put(event, :session_template_id, template.id))
+        end)
+
+      {idx + 1, multi}
+    end)
+    |> elem(1)
+  end
+
   @doc """
   Updates a template.
   """
@@ -130,18 +154,21 @@ defmodule Sozisel.Model.Sessions do
     |> Repo.update()
   end
 
-  # TODO: do the event cloning when they get implemented
   def clone_template(%Template{} = template, %User{} = user) do
     agenda_entries =
       Repo.preload(template, :agenda_entries).agenda_entries
       |> Enum.map(&Map.from_struct/1)
 
+    events =
+      template.id
+      |> Events.list_template_events()
+
     copy_template =
       template
       |> Map.from_struct()
-      |> Map.merge(%{id: nil, user_id: user.id, agenda_entries: agenda_entries})
+      |> Map.merge(%{id: nil, user_id: user.id, agenda_entries: agenda_entries, events: events})
 
-    create_template_with_agenda(copy_template)
+    create_template_with_agenda_and_events(copy_template)
   end
 
   @doc """
