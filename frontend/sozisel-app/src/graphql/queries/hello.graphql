@@ -1,5 +1,0 @@
-query GetHello {
-  hello {
-    message
-  }
-}

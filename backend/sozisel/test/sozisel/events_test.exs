@@ -10,8 +10,9 @@ defmodule Sozisel.EventsTest do
     @valid_attrs %{
       name: "some name",
       start_minute: 42,
-      event_type: %{
+      event_data: %{
         duration_time_sec: 12,
+        tracking_mode: true,
         target_percentage_of_participants: 2,
         quiz_questions: [
           %{
@@ -30,8 +31,9 @@ defmodule Sozisel.EventsTest do
     @update_attrs %{
       name: "some updated name",
       start_minute: 43,
-      event_type: %{
+      event_data: %{
         duration_time_sec: 13,
+        tracking_mode: false,
         target_percentage_of_participants: 4,
         quiz_questions: [
           %{
@@ -43,7 +45,7 @@ defmodule Sozisel.EventsTest do
       }
     }
     @invalid_attrs %{
-      event_type: nil,
+      event_data: nil,
       name: nil,
       start_minute: nil
     }
@@ -82,11 +84,12 @@ defmodule Sozisel.EventsTest do
 
       assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
 
-      assert Map.fetch(event.event_type, :target_percentage_of_participants) == {:ok, 2}
+      assert Map.fetch(event.event_data, :target_percentage_of_participants) == {:ok, 2}
 
-      assert event.event_type == %Sozisel.Model.Quizzes.Quiz{
+      assert event.event_data == %Sozisel.Model.Quizzes.Quiz{
                duration_time_sec: 12,
                target_percentage_of_participants: 2,
+               tracking_mode: true,
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "What is the capital of Poland?",
@@ -114,11 +117,12 @@ defmodule Sozisel.EventsTest do
       event = event_fixture(%{session_template_id: template.id})
       assert {:ok, %Event{} = event} = Events.update_event(event, @update_attrs)
 
-      assert Map.fetch(event.event_type, :target_percentage_of_participants) == {:ok, 4}
+      assert Map.fetch(event.event_data, :target_percentage_of_participants) == {:ok, 4}
 
-      assert event.event_type == %Sozisel.Model.Quizzes.Quiz{
+      assert event.event_data == %Sozisel.Model.Quizzes.Quiz{
                duration_time_sec: 13,
                target_percentage_of_participants: 4,
+               tracking_mode: false,
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "What color is the banana?",

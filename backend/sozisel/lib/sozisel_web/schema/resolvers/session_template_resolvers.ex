@@ -5,7 +5,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionTemplateResolvers do
   def create(_parent, %{input: input}, ctx) do
     user = Context.current_user!(ctx)
 
-    Sessions.create_template_with_agenda(input |> Map.put(:user_id, user.id))
+    Sessions.create_template_with_agenda_and_events(input |> Map.put(:user_id, user.id))
   end
 
   def update(_parent, %{input: input}, ctx) do

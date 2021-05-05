@@ -75,7 +75,7 @@ defmodule Sozisel.SessionsTest do
       assert {:error, %Ecto.Changeset{}} = Sessions.create_template(@invalid_attrs)
     end
 
-    test "create_template_with_agenda/1 with valid data creates template with agenda entries" do
+    test "create_template_with_agenda_and_events/1 with valid data creates template with agenda entries" do
       user = insert(:user)
 
       agenda_entries = [
@@ -85,7 +85,9 @@ defmodule Sozisel.SessionsTest do
 
       attrs = Map.merge(@valid_attrs, %{user_id: user.id, agenda_entries: agenda_entries})
 
-      assert {:ok, %Template{} = template} = Sessions.create_template_with_agenda(attrs)
+      assert {:ok, %Template{} = template} =
+               Sessions.create_template_with_agenda_and_events(attrs)
+
       template = Repo.preload(template, :agenda_entries)
 
       assert template.agenda_entries |> length == 2
@@ -105,7 +107,8 @@ defmodule Sozisel.SessionsTest do
         Repo.preload(template, :agenda_entries).agenda_entries |> length
       end
 
-      assert {:ok, %Template{} = template} = Sessions.create_template_with_agenda(attrs)
+      assert {:ok, %Template{} = template} =
+               Sessions.create_template_with_agenda_and_events(attrs)
 
       assert entries_count.(template) == 2
 

@@ -7,6 +7,7 @@ defmodule Sozisel.Model.Events do
   alias Sozisel.Repo
 
   alias Sozisel.Model.Events.Event
+  alias Sozisel.Model.Utils
 
   def list_events do
     Repo.all(Event)
@@ -18,6 +19,10 @@ defmodule Sozisel.Model.Events do
   end
 
   def get_event!(id), do: Repo.get!(Event, id)
+
+  def get_event(id) do
+    Repo.get(Event, id)
+  end
 
   def create_event(attrs \\ %{}) do
     %Event{}
@@ -33,6 +38,13 @@ defmodule Sozisel.Model.Events do
 
   def delete_event(%Event{} = event) do
     Repo.delete(event)
+  end
+
+  def clone_event(%Event{} = event, session_template_id) do
+    event
+    |> Utils.from_deep_struct()
+    |> Map.merge(%{id: nil, session_template_id: session_template_id})
+    |> create_event()
   end
 
   def change_event(%Event{} = event, attrs \\ %{}) do
