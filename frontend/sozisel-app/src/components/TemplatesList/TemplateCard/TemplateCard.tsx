@@ -1,6 +1,6 @@
 import "./TemplateCard.scss";
 
-import { BaseSyntheticEvent, ReactElement } from "react";
+import { BaseSyntheticEvent, ReactElement, useState } from "react";
 
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -12,12 +12,11 @@ import IconButton from "@material-ui/core/IconButton";
 import { SessionTemplate } from "../../../graphql";
 import Typography from "@material-ui/core/Typography";
 import useAvatarById from "../../../hooks/useAvatarById";
-import { useEffect } from "react";
 import useMyId from "../../../hooks/useMyId";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export interface TemplateCardProps {
+  key: string;
   template: SessionTemplate;
   onCopy: (template: SessionTemplate) => void;
   onDelete: (template: SessionTemplate) => void;
@@ -33,7 +32,7 @@ export default function TemplateCard({
   const avatar = useAvatarById(template.id);
   const [raised, setRaised] = useState<boolean>(false);
 
-  const onMouseOverChange = (event: BaseSyntheticEvent) => {
+  const onMouseOverChange = (_: BaseSyntheticEvent) => {
     setRaised(!raised);
   };
 

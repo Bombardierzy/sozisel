@@ -1,6 +1,6 @@
 import "./SearchBar.scss";
 
-import { BaseSyntheticEvent, ReactElement } from "react";
+import { BaseSyntheticEvent, ReactElement, useState } from "react";
 
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -11,7 +11,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import { useHistory } from "react-router-dom";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export interface SearchBarProps {

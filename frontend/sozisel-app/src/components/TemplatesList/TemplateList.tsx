@@ -1,6 +1,7 @@
 import "./TemplateList.scss";
 
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { ReactElement, useCallback, useState } from "react";
 import {
   SessionTemplate,
   useCloneSessionTemplateMutation,
@@ -11,12 +12,9 @@ import {
 import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import MainNavbar from "../MainNavbar/MainNavbar";
-import { ReactElement } from "react";
 import SearchBar from "./SearchBar/SearchBar";
 import Snackbar from "@material-ui/core/Snackbar";
 import TemplateCard from "./TemplateCard/TemplateCard";
-import { useCallback } from "react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 function Alert(props: AlertProps) {
@@ -25,11 +23,11 @@ function Alert(props: AlertProps) {
 
 export default function TemplateList(): ReactElement {
   const { t } = useTranslation("common");
-  const [successMsg, setSuccessMsg] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [includePublic, setIncludePublic] = useState<boolean>(false);
 
-  const { data, loading, error, refetch } = useSearchSessionTemplatesQuery({
+  const { data, loading, refetch } = useSearchSessionTemplatesQuery({
     fetchPolicy: "network-only",
   });
 
@@ -54,36 +52,42 @@ export default function TemplateList(): ReactElement {
       setName(nameSearch);
       setIncludePublic(includePublicSearch);
     },
-    []
+    [includePublic, name, refetch]
   );
 
-  const onCopy = useCallback(async (template: SessionTemplate) => {
-    try {
-      await cloneMutation({
-        variables: {
-          id: template.id,
-        },
-      });
-      refetch({ name: name, includePublic: includePublic });
-      setSuccessMsg(`${t("components.TemplatesList.copySuccess")}`);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const onCopy = useCallback(
+    async (template: SessionTemplate) => {
+      try {
+        await cloneMutation({
+          variables: {
+            id: template.id,
+          },
+        });
+        refetch({ name: name, includePublic: includePublic });
+        setSuccessMessage(`${t("components.TemplatesList.copySuccess")}`);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [includePublic, name, refetch, cloneMutation, t]
+  );
 
-  const onDelete = useCallback(async (template: SessionTemplate) => {
-    try {
-      await deleteMutation({
-        variables: {
-          id: template.id,
-        },
-      });
-      refetch({ name: name, includePublic: includePublic });
-      setSuccessMsg(`${t("components.TemplatesList.deleteSuccess")}`);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const onDelete = useCallback(
+    async (template: SessionTemplate) => {
+      try {
+        await deleteMutation({
+          variables: {
+            id: template.id,
+          },
+        });
+        refetch({ name: name, includePublic: includePublic });
+        setSuccessMessage(`${t("components.TemplatesList.deleteSuccess")}`);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [includePublic, name, refetch, deleteMutation, t]
+  );
 
   if (loading) {
     return (
@@ -107,8 +111,9 @@ export default function TemplateList(): ReactElement {
           <SearchBar onSearch={onSearch}></SearchBar>
           <div className="TemplatesList">
             <List>
-              {data.searchSessionTemplates.map((element, index) => (
+              {data.searchSessionTemplates.map((element, _) => (
                 <TemplateCard
+                  key={element.id}
                   template={element}
                   onCopy={onCopy}
                   onDelete={onDelete}
@@ -118,12 +123,12 @@ export default function TemplateList(): ReactElement {
           </div>
         </div>
         <Snackbar
-          open={successMsg !== ""}
+          open={successMessage !== ""}
           autoHideDuration={6000}
-          onClose={() => setSuccessMsg("")}
+          onClose={() => setSuccessMessage("")}
         >
-          <Alert onClose={() => setSuccessMsg("")} severity="success">
-            {successMsg}
+          <Alert onClose={() => setSuccessMessage("")} severity="success">
+            {successMessage}
           </Alert>
         </Snackbar>
         <Snackbar open={cloneLoading || deleteLoading} autoHideDuration={3000}>

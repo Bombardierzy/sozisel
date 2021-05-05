@@ -29,7 +29,9 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "graphql:gen": "graphql-codegen",
     "graphql:gen_from_file": "graphql-codegen --config codegen_file.yml",
-    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint ./src/**/*.{js,jsx,ts,tsx} --ext .ts,.tsx,.js,.jsx --no-error-on-unmatched-pattern",
+    "lint:prettier": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "build": "webpack build"
   },
   "devDependencies": {
@@ -44,6 +46,7 @@
     "@types/react-dom": "^17.0.2",
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.22.1",
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^7.1.2",
     "copy-webpack-plugin": "^8.0.0",
@@ -62,7 +65,7 @@
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.18",
-    "typescript": "^4.2.3",
+    "typescript": "^4.2.4",
     "url-loader": "^4.1.1",
     "webpack": "^5.28.0",
     "webpack-cli": "^4.5.0",

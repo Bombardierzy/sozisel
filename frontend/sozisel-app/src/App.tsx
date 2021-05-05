@@ -7,8 +7,8 @@ import Login from "./components/LoginScreen/LoginScreen";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
 import TemplateCreation from "./components/TemplateCreation/TemplateCreation";
-import { createApolloClient } from "./apolloClient";
 import TemplateList from "./components/TemplatesList/TemplateList";
+import { createApolloClient } from "./apolloClient";
 
 const client = createApolloClient();
 

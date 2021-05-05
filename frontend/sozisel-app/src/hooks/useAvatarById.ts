@@ -1,7 +1,7 @@
 import { getAvatarFromData } from "@fractalsoftware/random-avatar-generator";
 
 export default function useAvatarById(id: string): string {
-  let asciiSum = id
+  const asciiSum = id
     .split("")
     .map((char) => char.charCodeAt(0))
     .reduce((sum, value) => sum + value);
