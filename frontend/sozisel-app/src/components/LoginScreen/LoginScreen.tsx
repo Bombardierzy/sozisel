@@ -2,14 +2,16 @@ import "./LoginScreen.scss";
 
 import * as yup from "yup";
 
+import { ReactElement, useEffect } from "react";
+
 import Button from "../utils/Button/Button";
 import Card from "../utils/Card/Card";
 import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/Navbar";
-import { ReactElement } from "react";
 import Spinner from "../utils/Spinner/Spinner";
-import conference_img from "../../assets/images/conference_img.png";
+import conferenceImg from "../../assets/images/conference_img.png";
+import { useApolloClient } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { useLoginMutation } from "../../graphql";
@@ -37,6 +39,11 @@ export default function LoginScreen(): ReactElement {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
   });
+  const client = useApolloClient();
+
+  useEffect(() => {
+    client.clearStore();
+  }, [client]);
 
   const onSubmit = async (loginFormData: LoginFormData) => {
     try {
@@ -57,7 +64,7 @@ export default function LoginScreen(): ReactElement {
     <>
       <Navbar />
       <div className="Container">
-        <img src={conference_img} />
+        <img src={conferenceImg} />
         <Card>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input

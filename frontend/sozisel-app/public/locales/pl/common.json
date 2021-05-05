@@ -31,6 +31,19 @@
       "templatesLinkText": "Szablony",
       "logoutText": "Wyloguj się"
     },
+    "TemplatesList":{
+      "private": "Prywatne",
+      "public": "Publiczne",
+      "searchButtonText": "Szukaj",
+      "addButtonText": "Dodaj",
+      "access": "Dostęp",
+      "author": "Autor",
+      "planSessionText": "Zaplanuj Sesję",
+      "fetchingErrorMsg": "Błąd łądowania szablonów. Spróbuj ponownie później.",
+      "errorMsg": "Błąd podczas wykonywania operacji.",
+      "deleteSuccess": "Pomyślnie usunięto szablon!",
+      "copySuccess": "Skopiowano szablon!"
+    },
     "TemplateCreation": {
       "defaultTemplateName": "Nazwa szablonu sesji",
       "isPublicLabel": "Publiczne",

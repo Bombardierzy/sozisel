@@ -20,7 +20,7 @@ defmodule Sozisel.Model.Sessions do
 
   @doc """
   Returns list of session_template that matches given filters.
-  Example filters: [user_id: "id", is_public: true, name: "Sozisel"]
+  Example filters: [user_id: "id", is_public: true, name: "Sozisel", deleted: false]
   """
   def list_session_templates(filters) do
     filters
@@ -33,6 +33,9 @@ defmodule Sozisel.Model.Sessions do
 
       {:name, name}, template ->
         from t in template, where: ilike(t.name, ^"%#{Utils.escape_wildcards(name)}%")
+
+      {:deleted, false}, template ->
+        from t in template, where: is_nil(t.deleted_at)
     end)
     |> Repo.all()
   end

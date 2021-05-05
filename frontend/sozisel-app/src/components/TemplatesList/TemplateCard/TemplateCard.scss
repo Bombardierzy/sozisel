@@ -1,0 +1,27 @@
+@import "../../../styles/styles";
+
+.materialCard{
+    margin-bottom: $spacing-04;
+}
+
+.templateCard{
+    display: flex;
+    flex-direction: row;
+    padding: $spacing-05;
+    background-color: $bg-02;
+
+    .cardContent{
+        flex: 1 0 auto;
+    }
+
+    .cardActions{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .iconButtons{
+        display: flex;
+        flex-direction: row;
+    }
+}

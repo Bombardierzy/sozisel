@@ -23,7 +23,7 @@ export default function MainNavbar(): ReactElement {
         </li>
         <li>
           <NavLink
-            to="/templates/create"
+            to="/templates"
             activeClassName="activeLink"
             className="link"
           >

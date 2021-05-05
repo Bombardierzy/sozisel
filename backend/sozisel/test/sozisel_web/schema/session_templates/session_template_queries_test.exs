@@ -41,6 +41,15 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
   }
   """
 
+  @delete_template """
+  mutation DeleteTemplate($id: ID!) {
+    deleteSessionTemplate(id: $id) {
+      id
+      deletedAt
+    }
+  }
+  """
+
   describe "Session template queries should" do
     setup do
       user = insert(:user)
@@ -108,6 +117,28 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
                  ]
                }
              } = run_query(ctx.conn, @search_template_with_params, variables)
+    end
+
+    test "search for non-deleted templates", ctx do
+      deleted_template = insert(:template, name: "other", user_id: ctx.user.id)
+      template = insert(:template, name: "Sozisel", user_id: ctx.user.id)
+
+      variables = %{
+        id: deleted_template.id
+      }
+
+      run_query(ctx.conn, @delete_template, variables)
+
+      assert %{
+               data: %{
+                 "searchSessionTemplates" => [
+                   %{
+                     "id" => _,
+                     "name" => "Sozisel"
+                   }
+                 ]
+               }
+             } = run_query(ctx.conn, @basic_search_template, %{})
     end
   end
 end

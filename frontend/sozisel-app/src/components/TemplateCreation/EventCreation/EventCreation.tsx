@@ -65,6 +65,7 @@ export default function EventCreation(): ReactElement {
           {t("components.TemplateCreation.EventCreation.moduleType")}
         </InputLabel>
         <Select
+          variant="outlined"
           value={moduleType}
           onChange={(e) => setModuleType(e.target.value as string)}
           inputProps={{

@@ -7,6 +7,7 @@ import Login from "./components/LoginScreen/LoginScreen";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
 import TemplateCreation from "./components/TemplateCreation/TemplateCreation";
+import TemplateList from "./components/TemplatesList/TemplateList";
 import { createApolloClient } from "./apolloClient";
 
 const client = createApolloClient();
@@ -16,8 +17,12 @@ export default function App(): ReactElement {
     <ApolloProvider client={client}>
       <Router>
         <Route exact path="/">
-          <Redirect to="/templates/create" />
+          <Redirect to="/templates" />
         </Route>
+        <Route exact path="/home">
+          <Redirect to="/templates" />
+        </Route>
+        <AuthRoute path="/templates" component={TemplateList} />
         <AuthRoute path="/templates/create" component={TemplateCreation} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />

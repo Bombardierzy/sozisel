@@ -1,0 +1,30 @@
+@import "../../styles/styles";
+
+.TemplateListContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20%;
+    box-sizing: border-box;
+    overflow: auto;
+    padding-bottom: $navbar-height;
+
+    .TemplatesList{
+        display: flex;
+        flex-direction: column;
+        padding: $spacing-04 $spacing-09;
+    }
+
+    .ContentContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: $spacing-04 $spacing-09;
+    }
+
+    .ErrorAlert{
+        padding: $spacing-05;
+        margin: $spacing-09;
+    }
+}
+

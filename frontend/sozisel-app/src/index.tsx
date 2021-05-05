@@ -37,6 +37,14 @@ export const mainTheme = createMuiTheme({
       input: {
         background: "#f0f0f0",
       },
+      root: {
+        borderRadius: 8,
+      },
+    },
+    MuiButton: {
+      root: {
+        borderRadius: 8,
+      },
     },
   },
 });
