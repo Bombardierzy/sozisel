@@ -11,11 +11,7 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
          true <- template.user_id == user.id do
       Events.create_event(input)
     else
-      nil ->
-        {:error, "sessions template not found"}
-
-      false ->
-        {:error, "unauthorized"}
+      other -> handle_other(other)
     end
   end
 
@@ -29,11 +25,7 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
       |> Events.get_event()
       |> Events.update_event(input)
     else
-      nil ->
-        {:error, "sessions template not found"}
-
-      false ->
-        {:error, "unauthorized"}
+      other -> handle_other(other)
     end
   end
 
@@ -50,6 +42,13 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
 
       false ->
         {:error, "unauthorized"}
+    end
+  end
+
+  defp handle_other(value) do
+    case value do
+      nil -> {:error, "sessions template not found"}
+      false -> {:error, "unauthorized"}
     end
   end
 end

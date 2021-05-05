@@ -121,7 +121,7 @@ defmodule Sozisel.Model.Sessions do
     |> elem(1)
   end
 
-  defp add_template_events(multi, nil, _) do
+  defp add_template_events(multi, [], _) do
     multi
   end
 

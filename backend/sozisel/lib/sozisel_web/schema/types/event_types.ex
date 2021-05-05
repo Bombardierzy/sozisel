@@ -7,13 +7,16 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
     field :id, non_null(:id)
     field :name, non_null(:string)
     field :start_minute, non_null(:integer)
-    field :event_structure, non_null(:event_structure)
-    field :session_template_id, non_null(:string)
+    field :event_data, non_null(:event_data)
+
+    field :session_template, non_null(:session_template) do
+      resolve(dataloader(:db))
+    end
 
     timestamps()
   end
 
-  union :event_structure do
+  union :event_data do
     types [:quiz]
 
     resolve_type fn

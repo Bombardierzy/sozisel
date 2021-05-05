@@ -10,20 +10,22 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
     createQuiz(input: $input) {
       id
       name
-      start_minute
-      event_structure {
+      startMinute
+      eventData {
         ... on Quiz {
-          duration_time_sec
-          target_percentage_of_participants
-          tracking_mode
-          quiz_questions {
+          durationTimeSec
+          targetPercentageOfParticipants
+          trackingMode
+          quizQuestions {
               question
               answers
-              correct_answers
+              correctAnswers
           }
         }
       }
-      session_template_id
+      sessionTemplate {
+        id
+      }
     }
   }
   """
@@ -33,16 +35,16 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
     updateQuiz(input: $input) {
       id
       name
-      start_minute
-      event_structure {
+      startMinute
+      eventData {
         ... on Quiz {
-          duration_time_sec
-          target_percentage_of_participants
-          tracking_mode
-          quiz_questions {
+          durationTimeSec
+          targetPercentageOfParticipants
+          trackingMode
+          quizQuestions {
               question
               answers
-              correct_answers
+              correctAnswers
           }
         }
       }
@@ -62,7 +64,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
   @valid_attrs %{
     name: "some name",
     start_minute: 42,
-    event_structure: %{
+    event_data: %{
       duration_time_sec: 12,
       target_percentage_of_participants: 2,
       tracking_mode: true,
@@ -97,12 +99,12 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       variables = %{
         input: %{
           name: "event",
-          start_minute: 10,
-          event_structure: %{
-            duration_time_sec: 25,
-            target_percentage_of_participants: 90,
-            tracking_mode: true,
-            quiz_questions: [
+          startMinute: 10,
+          eventData: %{
+            durationTimeSec: 25,
+            targetPercentageOfParticipants: 90,
+            trackingMode: true,
+            quizQuestions: [
               %{
                 question: "First question?",
                 answers: ["First", "Second", "Third"],
@@ -110,7 +112,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
               }
             ]
           },
-          session_template_id: template.id
+          sessionTemplateId: template.id
         }
       }
 
@@ -119,18 +121,21 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                  "createQuiz" => %{
                    "id" => _,
                    "name" => "event",
-                   "start_minute" => 10,
-                   "event_structure" => %{
-                     "duration_time_sec" => 25,
-                     "target_percentage_of_participants" => 90,
-                     "tracking_mode" => true,
-                     "quiz_questions" => [
+                   "startMinute" => 10,
+                   "eventData" => %{
+                     "durationTimeSec" => 25,
+                     "targetPercentageOfParticipants" => 90,
+                     "trackingMode" => true,
+                     "quizQuestions" => [
                        %{
                          "question" => "First question?",
                          "answers" => ["First", "Second", "Third"],
-                         "correct_answers" => ["Second"]
+                         "correctAnswers" => ["Second"]
                        }
                      ]
+                   },
+                   "sessionTemplate" => %{
+                     "id" => _
                    }
                  }
                }
@@ -144,16 +149,16 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       variables = %{
         input: %{
           id: event.id,
-          name: "updated_event",
-          start_minute: 50,
-          event_structure: %{
-            duration_time_sec: 42,
-            target_percentage_of_participants: 25,
+          name: "updated event",
+          startMinute: 50,
+          eventData: %{
+            durationTimeSec: 42,
+            targetPercentageOfParticipants: 25,
             tracking_mode: false,
-            quiz_questions: %{
+            quizQuestions: %{
               question: "Updated question?",
               answers: ["Fourth", "Fifth", "Sixth"],
-              correct_answers: ["Fifth", "Sixth"]
+              correctAnswers: ["Fifth", "Sixth"]
             }
           }
         }
@@ -163,13 +168,13 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                data: %{
                  "updateQuiz" => %{
                    "id" => _,
-                   "name" => "updated_event",
-                   "start_minute" => 50,
-                   "event_structure" => %{
-                     "duration_time_sec" => 42,
-                     "target_percentage_of_participants" => 25,
-                     "tracking_mode" => false,
-                     "quiz_questions" => quiz_questions
+                   "name" => "updated event",
+                   "startMinute" => 50,
+                   "eventData" => %{
+                     "durationTimeSec" => 42,
+                     "targetPercentageOfParticipants" => 25,
+                     "trackingMode" => false,
+                     "quizQuestions" => quiz_questions
                    }
                  }
                }
@@ -204,20 +209,20 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       variables = %{
         input: %{
           name: "event",
-          start_minute: 10,
-          event_structure: %{
-            duration_time_sec: 25,
-            target_percentage_of_participants: 90,
-            tracking_mode: true,
-            quiz_questions: [
+          startMinute: 10,
+          eventData: %{
+            durationTimeSec: 25,
+            targetPercentageOfParticipants: 90,
+            trackingMode: true,
+            quizQuestions: [
               %{
                 question: "First question?",
                 answers: ["First", "Second", "Third"],
-                correct_answers: ["Second"]
+                correctAnswers: ["Second"]
               }
             ]
           },
-          session_template_id: template.id
+          sessionTemplateId: template.id
         }
       }
 
@@ -238,16 +243,16 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       variables = %{
         input: %{
           id: event.id,
-          name: "updated_event",
-          start_minute: 50,
-          event_structure: %{
-            duration_time_sec: 42,
-            target_percentage_of_participants: 25,
-            tracking_mode: false,
-            quiz_questions: %{
+          name: "updated event",
+          startMinute: 50,
+          eventData: %{
+            durationTimeSec: 42,
+            targetPercentageOfParticipants: 25,
+            trackingMode: false,
+            quizQuestions: %{
               question: "Updated question?",
               answers: ["Fourth", "Fifth", "Sixth"],
-              correct_answers: ["Fifth", "Sixth"]
+              correctAnswers: ["Fifth", "Sixth"]
             }
           }
         }
