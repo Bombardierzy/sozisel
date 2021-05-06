@@ -31,4 +31,15 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     fetch_resource!(ctx, Session)
     |> Sessions.end_session()
   end
+
+  def search(_parent, %{input: filters}, ctx) do
+    user = Context.current_user!(ctx)
+
+    sessions =
+      filters
+      |> Map.put(:user_id, user.id)
+      |> Sessions.list_sessions()
+
+    {:ok, sessions}
+  end
 end

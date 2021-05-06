@@ -21,6 +21,20 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     timestamps()
   end
 
+  enum :session_status do
+    value(:any)
+    value(:scheduled)
+    value(:in_progress)
+    value(:ended)
+  end
+
+  input_object :search_sessions_input do
+    field :status, non_null(:session_status)
+    field :date_from, :datetime
+    field :date_to, :datetime
+    field :name, :string, default_value: ""
+  end
+
   input_object :create_session_input do
     field :name, non_null(:string)
     field :scheduled_start_time, non_null(:datetime)
