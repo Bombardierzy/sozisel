@@ -317,7 +317,7 @@ defmodule Sozisel.SessionsTest do
       refute is_nil(end_time)
     end
 
-    test "setting invalid start/end times does not returns errors" do
+    test "setting invalid start/end times returns and error changeset" do
       session = insert(:session)
 
       assert {:error, _} = session |> Sessions.end_session()
