@@ -12,6 +12,17 @@ defmodule Sozisel.Model.Sessions do
   alias Sozisel.Model.Users.User
 
   @doc """
+  Checks if user is an owner of given template
+  """
+  def is_template_owner(session_template_id, user_id) do
+    from(
+      t in Template,
+      where: t.id == ^session_template_id and t.user_id == ^user_id
+    )
+    |> Repo.exists?()
+  end
+
+  @doc """
   Returns the list of session_templates.
   """
   def list_session_templates do

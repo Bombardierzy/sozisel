@@ -9,6 +9,14 @@ defmodule SoziselWeb do
     end
   end
 
+  def view do
+    quote do
+      use Phoenix.View,
+        root: "lib/sozisel_web/templates",
+        namespace: SoziselWeb
+    end
+  end
+
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
   end

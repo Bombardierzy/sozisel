@@ -4,6 +4,8 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   alias Events.Event
   alias Sessions.Template
 
+  import SoziselWeb.Schema.Middlewares.ResourceAuthorization, only: [fetch_resource!: 2]
+
   def create(_parent, %{input: input}, ctx) do
     user = Context.current_user!(ctx)
 
@@ -16,33 +18,13 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   end
 
   def update(_parent, %{input: input}, ctx) do
-    user = Context.current_user!(ctx)
-
-    with %Event{} = event <- Events.get_event(input.id),
-         %Template{} = template <- Sessions.get_template(event.session_template_id),
-         true <- template.user_id == user.id do
-      input.id
-      |> Events.get_event()
-      |> Events.update_event(input)
-    else
-      other -> handle_other(other)
-    end
+    fetch_resource!(ctx, Event)
+    |> Events.update_event(input)
   end
 
-  def delete(_parent, %{id: id}, ctx) do
-    user = Context.current_user!(ctx)
-
-    with %Event{} = event <- Events.get_event(id),
-         %Template{} = template <- Sessions.get_template(event.session_template_id),
-         true <- template.user_id == user.id do
-      Events.delete_event(event)
-    else
-      nil ->
-        {:error, "event not found"}
-
-      false ->
-        {:error, "unauthorized"}
-    end
+  def delete(_parent, _args, ctx) do
+    fetch_resource!(ctx, Event)
+    |> Events.delete_event()
   end
 
   defp handle_other(value) do

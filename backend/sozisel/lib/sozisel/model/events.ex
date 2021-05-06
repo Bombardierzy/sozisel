@@ -6,8 +6,7 @@ defmodule Sozisel.Model.Events do
   import Ecto.Query, warn: false
   alias Sozisel.Repo
 
-  alias Sozisel.Model.Events.Event
-  alias Sozisel.Model.Utils
+  alias Sozisel.Model.{Events.Event, Utils}
 
   def list_events do
     Repo.all(Event)
