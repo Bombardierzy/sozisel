@@ -37,11 +37,13 @@ defmodule Sozisel.Factory do
   def session_factory(attrs) do
     %Session{
       entry_password: attrs[:entry_password] || sequence(:entry_password, &"some_password-#{&1}"),
-      start_time: attrs[:start_time] || "2011-05-18T15:01:01.000000Z",
       use_jitsi: Map.get(attrs, :use_jitsi, sequence(:use_jitsi, [false, true])),
       name: attrs[:name] || sequence(:name, &"Session name no. #{&1}"),
       user_id: attrs[:user_id] || insert(:user).id,
-      session_template_id: attrs[:session_template_id] || insert(:template).id
+      session_template_id: attrs[:session_template_id] || insert(:template).id,
+      scheduled_start_time: attrs[:scheduled_start_time] || "2011-05-18T15:01:01.000000Z",
+      start_time: attrs[:start_time],
+      end_time: attrs[:end_time]
     }
   end
 end

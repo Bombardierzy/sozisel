@@ -12,14 +12,14 @@ defmodule SoziselWeb.Schema.Mutations.SessionMutations do
       resolve &SessionResolvers.create/3
     end
 
-    field :update_session_template, :session do
+    field :update_session, :session do
       arg :input, non_null(:update_session_input)
 
       middleware Middleware.ResourceAuthorization, {:update_session, Session}
       resolve &SessionResolvers.update/3
     end
 
-    field :delete_session_template, :session do
+    field :delete_session, :session do
       arg :id, non_null(:id)
 
       middleware Middleware.ResourceAuthorization, {:delete_session, Session}
