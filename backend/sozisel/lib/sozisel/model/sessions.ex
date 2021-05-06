@@ -73,11 +73,11 @@ defmodule Sozisel.Model.Sessions do
     |> Repo.insert()
   end
 
-  def start_session(%Session{start_time: nil} = session) do
+  def start_session(%Session{} = session) do
     session |> update_session(%{start_time: DateTime.utc_now()})
   end
 
-  def end_session(%Session{end_time: nil} = session) do
+  def end_session(%Session{} = session) do
     session |> update_session(%{end_time: DateTime.utc_now()})
   end
 

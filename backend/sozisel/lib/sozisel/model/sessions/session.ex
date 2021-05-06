@@ -54,7 +54,14 @@ defmodule Sozisel.Model.Sessions.Session do
 
   def update_changeset(session, attrs) do
     session
-    |> cast(attrs, [:name, :scheduled_start_time, :start_time, :end_time,  :entry_password, :use_jitsi])
+    |> cast(attrs, [
+      :name,
+      :scheduled_start_time,
+      :start_time,
+      :end_time,
+      :entry_password,
+      :use_jitsi
+    ])
     |> validate_required([:name, :scheduled_start_time, :use_jitsi])
     |> validate_start_and_end_times()
   end

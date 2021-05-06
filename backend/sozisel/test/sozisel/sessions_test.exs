@@ -323,10 +323,16 @@ defmodule Sozisel.SessionsTest do
       assert {:error, _} = session |> Sessions.end_session()
 
       # setting end_time when start_time is not set
-      assert %Ecto.Changeset{valid?: false} = session |> Session.update_changeset(%{end_time: DateTime.utc_now()})
+      assert %Ecto.Changeset{valid?: false} =
+               session |> Session.update_changeset(%{end_time: DateTime.utc_now()})
 
       # setting start_time before end_time
-      assert %Ecto.Changeset{valid?: false} = session |> Session.update_changeset(%{start_time: DateTime.utc_now() |> DateTime.add(10, :second), end_time: DateTime.utc_now()})
+      assert %Ecto.Changeset{valid?: false} =
+               session
+               |> Session.update_changeset(%{
+                 start_time: DateTime.utc_now() |> DateTime.add(10, :second),
+                 end_time: DateTime.utc_now()
+               })
     end
   end
 end
