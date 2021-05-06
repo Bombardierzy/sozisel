@@ -5,9 +5,8 @@
     overflow: auto;
     padding-top: $spacing-03;
     h6 {
-        color: $main-color;
         margin-left: $spacing-05;
-        font-weight: 800;
+        @include header-02
     }
     ol {
         margin-left: $spacing-03 + $spacing-01; //10px

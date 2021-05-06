@@ -10,15 +10,13 @@
     align-items: center;
     .label {
         margin-top: $spacing-05;
-        color: $main-color;
-        font-weight: 600;
-        font-size: 14px;
+        @include header-01;
     }
     .input {
         width: 100%;
         margin: $spacing-03 0;
     }
-    button {
+    .submitButton {
         background-color: $main-color;
         color: white;
         margin-left: 30%;
@@ -27,5 +25,16 @@
     }
     .option:hover {
         background-color: yellow !important;
+    }
+    .eventName {
+        width: 100%;
+        input {
+            @include header-02;
+            text-align: center;
+        }
+    }
+    .moduleType {
+        width: 100%;
+        margin-top: $spacing-05;
     }
 }

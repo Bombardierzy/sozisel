@@ -49,7 +49,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
 
   return (
     <>
-      <Grid container spacing={3} justify="center" className="searchBar">
+      <Grid container spacing={3} justify="center" className="SearchBar">
         <Grid item sm={12} md={4} className="gridItem">
           <div className="searchNameContainer">
             <TextField

@@ -34,8 +34,8 @@
             margin-left: $spacing-07;
             padding: $spacing-01;
             img {
-                width: 140px;
-                height: 70px;
+                width: $logo-width;
+                height: $logo-height;
                 margin-top: $spacing-01;
             }
             &:hover {
