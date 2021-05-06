@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.Middlewares.ResourceAuthorization do
+defmodule SoziselWeb.Schema.Middleware.ResourceAuthorization do
   @moduledoc """
   Middleware for loading a resource and checking if current user is allowed
   to access it for a specific method declared in `Sozisel.Model.Bodyguard` module.
@@ -42,7 +42,8 @@ defmodule SoziselWeb.Schema.Middlewares.ResourceAuthorization do
          :ok <- Sozisel.Model.Bodyguard.authorize(method, user, resource) do
       resolution |> Map.put(:__resource__, {resource_type, resource})
     else
-      _ -> unauthorized_resolution(resolution)
+      _ ->
+        unauthorized_resolution(resolution)
     end
   end
 

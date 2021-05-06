@@ -4,7 +4,7 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   alias Events.Event
   alias Sessions.Template
 
-  import SoziselWeb.Schema.Middlewares.ResourceAuthorization, only: [fetch_resource!: 2]
+  import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
   def create(_parent, %{input: input}, ctx) do
     user = Context.current_user!(ctx)
@@ -13,7 +13,8 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
          true <- template.user_id == user.id do
       Events.create_event(input)
     else
-      other -> handle_other(other)
+      nil -> {:error, "sessions template not found"}
+      false -> {:error, "unauthorized"}
     end
   end
 
@@ -25,12 +26,5 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   def delete(_parent, _args, ctx) do
     fetch_resource!(ctx, Event)
     |> Events.delete_event()
-  end
-
-  defp handle_other(value) do
-    case value do
-      nil -> {:error, "sessions template not found"}
-      false -> {:error, "unauthorized"}
-    end
   end
 end

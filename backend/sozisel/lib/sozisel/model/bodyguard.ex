@@ -15,6 +15,8 @@ defmodule Sozisel.Model.Bodyguard do
   @impl true
   def authorize(:update_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
   def authorize(:delete_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
+  def authorize(:start_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
+  def authorize(:end_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
 
   # Session templates
   def authorize(:update_session_template, %User{id: user_id}, %Template{user_id: user_id}),
@@ -24,6 +26,12 @@ defmodule Sozisel.Model.Bodyguard do
     do: :ok
 
   def authorize(:clone_session_template, %User{}, %Template{is_public: true}), do: :ok
+
+  def authorize(:clone_session_template, %User{id: user_id}, %Template{
+        user_id: user_id,
+        is_public: false
+      }),
+      do: :ok
 
   # Events
   def authorize(:create_event, %User{id: user_id}, %Template{user_id: user_id}), do: :ok

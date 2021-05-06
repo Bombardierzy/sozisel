@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.Middlewares.Authorization do
+defmodule SoziselWeb.Schema.Middleware.Authorization do
   @moduledoc """
   Middleware for checking if there is any user in absinthe resolution.
   """
