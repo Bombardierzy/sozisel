@@ -1,6 +1,6 @@
 @import "../../../styles/styles";
 
-.searchBar{
+.SearchBar{
     padding: $spacing-04 $spacing-09;
 
     .gridItem{
@@ -8,8 +8,8 @@
         align-items: center;
 
         .searchNameContainer{
-            background-color: #f0f0f0;
-            border-radius: 8px;
+            background-color: $bg-02;
+            border-radius: $spacing-03;
         }
     }
 }

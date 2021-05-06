@@ -6,7 +6,7 @@
 
     .header {
         color: $main-color;
-        font-weight: 600;
+        @include header-01;
     }
 
     .form {
@@ -15,8 +15,7 @@
         .label {
             margin-top: $spacing-02;
             color: $main-color;
-            font-weight: 600;
-            font-size: 14px;
+            @include header-01;
         }
         .input {
             width: 100%;

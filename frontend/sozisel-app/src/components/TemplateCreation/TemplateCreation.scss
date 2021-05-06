@@ -11,9 +11,14 @@
         height: 85%;
         @include resize($extra-large, 25%, 85%);
         .templateDetails {
-            font-size: 12px;
             padding: $spacing-04;
             border-bottom: 1px solid $bg-01;
+            .templateName {
+                input {
+                    text-align: center;
+                    @include header-02;
+                }
+            }
             .durationTime {
                 display: flex;
                 align-items: flex-start;

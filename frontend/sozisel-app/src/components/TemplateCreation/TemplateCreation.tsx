@@ -8,10 +8,7 @@ import {
   Paper,
   Switch,
   TextField,
-  Theme,
   Typography,
-  makeStyles,
-  useTheme,
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import React, { ReactElement } from "react";
@@ -27,27 +24,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-// TODO Move this styles to scss
-const useStyles = ({ palette }: Theme) =>
-  makeStyles({
-    templateName: {
-      width: "100%",
-      "& .MuiInputBase-input": {
-        textAlign: "center",
-        color: palette.primary.main,
-        fontSize: 18,
-        fontWeight: 600,
-        paddingLeft: 20,
-      },
-      "& .MuiInput-underline:before,  & .MuiInput-underline:after": {
-        border: 0,
-      },
-      "&:hover .MuiOutlinedInput-input": {
-        border: 0,
-      },
-    },
-  });
-
 interface SessionDetails {
   templateName: string;
   durationTime: number;
@@ -62,8 +38,6 @@ const templateDetailsSchema = yup.object().shape({
 });
 
 export default function TemplateCreation(): ReactElement {
-  const mainTheme = useTheme();
-  const styles = useStyles(mainTheme)();
   const [agenda, setAgenda] = useState<AgendaPoint[]>([]);
   const [durationTime, setDurationTime] = useState<number>();
   const [isPublic, setIsPublic] = useState<boolean>(false);
@@ -105,7 +79,7 @@ export default function TemplateCreation(): ReactElement {
                 <TextField
                   size="small"
                   variant="outlined"
-                  className={styles.templateName}
+                  className="templateName"
                   error={!!errors.templateName}
                   helperText={
                     errors.templateName && t(errors.templateName.message)

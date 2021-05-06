@@ -1,9 +1,10 @@
 @import "./color";
 @import "./spacing";
+@import "./text";
 
 $error-border: 1px solid red;
 $main-border: 1px solid $main-color;
-$active-link-border: 2px solid $main-color;
+$active-link-border: 3px solid $main-color;
 $extra-small: 600px;
 $small: 800px;
 $medium: 1000px;

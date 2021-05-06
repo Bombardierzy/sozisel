@@ -1,0 +1,23 @@
+@import "./color";
+
+@mixin text-01 {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+@mixin text-02 {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@mixin header-01 {
+    font-size: 14px;
+    font-weight: 600;
+    color: $main-color;
+}
+
+@mixin header-02 {
+    font-size: 20px;
+    font-weight: 600;
+    color: $main-color;
+}

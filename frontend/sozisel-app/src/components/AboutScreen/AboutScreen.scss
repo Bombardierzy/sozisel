@@ -2,8 +2,7 @@
 
 .Container {
     h2, h4, b {
-        color: $main-color;
-        font-weight: 400;
+        @include header-01;
     }
     .text {
         width: 800px;
@@ -11,6 +10,6 @@
     }
     ul {
         list-style-type:circle;
-        padding-left: 20px;
+        padding-left: $spacing-05;
     }
 }
