@@ -13,6 +13,7 @@ defmodule Sozisel.Model.Bodyguard do
 
   # Sessions
   @impl true
+  def authorize(:query_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
   def authorize(:update_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
   def authorize(:delete_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
   def authorize(:start_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
