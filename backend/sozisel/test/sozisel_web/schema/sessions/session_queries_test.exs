@@ -3,6 +3,14 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
 
   import Sozisel.Factory
 
+  @get_session """
+  query GetSession($id: ID!) {
+    session(id: $id) {
+      id
+    }
+  }
+  """
+
   @search_sessions """
   query SearchSessions($status: SessionStatus!, $dateFrom: DateTime, $dateTo: DateTime, $name: String) {
     searchSessions(input: {status: $status, dateFrom: $dateFrom, dateTo: $dateTo, name: $name}) {
@@ -29,6 +37,28 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
     setup do
       user = insert(:user)
       [conn: test_conn(user), user: user]
+    end
+
+    test "get session by id", ctx do
+      session_id = insert(:session, user_id: ctx.user.id).id
+
+      assert %{
+               data: %{
+                 "session" => %{"id" => ^session_id}
+               }
+             } = run_query(ctx.conn, @get_session, %{id: session_id})
+
+      assert %{
+               data: %{
+                 "session" => nil
+               }
+             } = run_query(ctx.conn, @get_session, %{id: Ecto.UUID.generate()})
+
+      other_conn = test_conn(insert(:user))
+
+      assert %{
+               errors: [%{"message" => "unauthorized"}]
+             } = run_query(other_conn, @get_session, %{id: session_id})
     end
 
     test "search by name", ctx do

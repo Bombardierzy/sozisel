@@ -1,8 +1,20 @@
 defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
   alias SoziselWeb.Context
+  alias Sozisel.Repo
   alias Sozisel.Model.{Sessions, Sessions.Session}
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
+
+  def get_session(_parent, %{id: session_id}, ctx) do
+    user_id = Context.current_user!(ctx).id
+
+    with %Session{user_id: ^user_id} = session <- Repo.get(Session, session_id) do
+      {:ok, session}
+    else
+      %Session{} -> {:error, :unauthorized}
+      nil -> {:ok, nil}
+    end
+  end
 
   def create(_parent, %{input: input}, ctx) do
     user = Context.current_user!(ctx)
