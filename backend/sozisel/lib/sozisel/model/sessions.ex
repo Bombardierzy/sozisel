@@ -79,7 +79,7 @@ defmodule Sozisel.Model.Sessions do
       {:status, :scheduled}, session ->
         from s in session, where: is_nil(s.start_time) and s.scheduled_start_time >= ^now
 
-      {:status, :running}, session ->
+      {:status, :in_progress}, session ->
         from s in session, where: not is_nil(s.start_time) and is_nil(s.end_time)
 
       {:status, :ended}, session ->

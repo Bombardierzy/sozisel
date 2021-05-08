@@ -4,19 +4,22 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
   import Sozisel.Factory
 
   @search_sessions """
-  query SearchSessions {
-    searchSessions {
+  query SearchSessions($status: SessionStatus!, $dateFrom: DateTime, $dateTo: DateTime, $name: String) {
+    searchSessions(input: {status: $status, dateFrom: $dateFrom, dateTo: $dateTo, name: $name}) {
       id
       name
-      estimatedTime
-      isPublic
+      entryPassword
+      scheduledStartTime
+      startTime
+      endTime
+      useJitsi
+
       owner {
         id
       }
-      agendaEntries {
+
+      sessionTemplate {
         id
-        name
-        startMinute
       }
     }
   }
@@ -27,5 +30,227 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
       user = insert(:user)
       [conn: test_conn(user), user: user]
     end
+
+    test "search by name", ctx do
+      session_a = insert(:session, user_id: ctx.user.id, name: "a")
+      _session_b = insert(:session, user_id: ctx.user.id, name: "b")
+      session_ab = insert(:session, user_id: ctx.user.id, name: "ab")
+
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{name: "a", status: "ANY"})
+
+      assert sessions_id_set(sessions) == sessions_id_set([session_a, session_ab])
+
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{name: "", status: "ANY"})
+
+      assert length(sessions) == 3
+    end
+
+    test "search by dates", ctx do
+      date_a = ~U[2021-05-01 12:00:00Z]
+      date_b = ~U[2021-05-15 12:00:00Z]
+      date_c = ~U[2021-05-31 12:00:00Z]
+
+      session_a = insert(:session, user_id: ctx.user.id, scheduled_start_time: date_a)
+      session_b = insert(:session, user_id: ctx.user.id, scheduled_start_time: date_b)
+      session_c = insert(:session, user_id: ctx.user.id, scheduled_start_time: date_c)
+
+      # without dates
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{status: "ANY"})
+
+      assert length(sessions) == 3
+
+      # date from
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } =
+               run_query(ctx.conn, @search_sessions, %{
+                 dateFrom: DateTime.add(date_b, -3600, :second) |> DateTime.to_iso8601(),
+                 status: "ANY"
+               })
+
+      assert sessions_id_set(sessions) == sessions_id_set([session_b, session_c])
+
+      # date to
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } =
+               run_query(ctx.conn, @search_sessions, %{
+                 dateTo: DateTime.to_iso8601(~U[2021-05-16 12:00:00Z]),
+                 status: "ANY"
+               })
+
+      assert sessions_id_set(sessions) == sessions_id_set([session_a, session_b])
+
+      # both date from and date to
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } =
+               run_query(ctx.conn, @search_sessions, %{
+                 dateFrom: DateTime.to_iso8601(~U[2021-05-10 12:00:00Z]),
+                 dateTo: DateTime.to_iso8601(~U[2021-05-20 12:00:00Z]),
+                 status: "ANY"
+               })
+
+      assert sessions_id_set(sessions) == sessions_id_set(session_b)
+
+      # out of time frame
+      assert %{
+               data: %{
+                 "searchSessions" => []
+               }
+             } =
+               run_query(ctx.conn, @search_sessions, %{
+                 dateFrom: DateTime.to_iso8601(~U[1986-05-10 12:00:00Z]),
+                 dateTo: DateTime.to_iso8601(~U[1986-05-20 12:00:00Z]),
+                 status: "ANY"
+               })
+    end
+
+    test "search by status", ctx do
+      alias Sozisel.Model.Sessions
+
+      scheduled_session =
+        insert(:session,
+          user_id: ctx.user.id,
+          scheduled_start_time: DateTime.utc_now() |> DateTime.add(3600 * 24 * 7, :second)
+        )
+
+      in_progress_session = insert(:session, user_id: ctx.user.id)
+      ended_session = insert(:session, user_id: ctx.user.id)
+
+      in_progress_session |> Sessions.start_session()
+      ended_session |> Sessions.start_session() |> elem(1) |> Sessions.end_session()
+
+      # any status
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{status: "ANY"})
+
+      assert length(sessions) == 3
+
+      # scheduled status
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{status: "SCHEDULED"})
+
+      assert sessions_id_set(sessions) == sessions_id_set(scheduled_session)
+
+      # in_progress status
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{status: "IN_PROGRESS"})
+
+      assert sessions_id_set(sessions) == sessions_id_set(in_progress_session)
+
+      # ended status
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{status: "ENDED"})
+
+      assert sessions_id_set(sessions) == sessions_id_set(ended_session)
+    end
+
+    test "filters combined", ctx do
+      alias Sozisel.Model.Sessions
+
+      session_a = insert(:session, user_id: ctx.user.id, name: "a")
+      _ = insert(:session, user_id: ctx.user.id, name: "b")
+
+      session_ab =
+        insert(:session,
+          user_id: ctx.user.id,
+          name: "ab",
+          scheduled_start_time: ~U[2021-05-01 12:00:00Z]
+        )
+
+      session_bc =
+        insert(:session,
+          user_id: ctx.user.id,
+          name: "bc",
+          scheduled_start_time: ~U[2021-05-01 12:00:00Z]
+        )
+
+      session_a |> Sessions.start_session()
+      session_ab |> Sessions.start_session() |> elem(1) |> Sessions.end_session()
+
+      # in progress and 'a' name
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{name: "a", status: "IN_PROGRESS"})
+
+      assert sessions_id_set(sessions) == sessions_id_set(session_a)
+
+      # any and 'a' name
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{name: "a", status: "ANY"})
+
+      assert sessions_id_set(sessions) == sessions_id_set([session_a, session_ab])
+
+      # dateFrom, name and status any
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } =
+               run_query(ctx.conn, @search_sessions, %{
+                 dateFrom: ~U[2021-01-01 12:00:00Z] |> DateTime.to_iso8601(),
+                 name: "b",
+                 status: "ANY"
+               })
+
+      assert sessions_id_set(sessions) == sessions_id_set([session_ab, session_bc])
+
+      # dateFrom, name, status ended
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } =
+               run_query(ctx.conn, @search_sessions, %{
+                 dateFrom: ~U[2021-01-01 12:00:00Z] |> DateTime.to_iso8601(),
+                 name: "b",
+                 status: "ENDED"
+               })
+
+      assert sessions_id_set(sessions) == sessions_id_set([session_ab])
+    end
+  end
+
+  defp sessions_id_set(sessions) do
+    sessions
+    |> List.wrap()
+    |> Enum.map(&(Map.get(&1, "id") || Map.get(&1, :id)))
+    |> MapSet.new()
   end
 end

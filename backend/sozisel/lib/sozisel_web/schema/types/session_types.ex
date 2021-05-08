@@ -21,10 +21,25 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     timestamps()
   end
 
+  @desc "Current session status"
   enum :session_status do
+    @desc "Any status."
     value(:any)
+
+    @desc """
+    Session is scheduled in the future, does not regard sessions
+    that has not been started but are planned in the past.
+    """
     value(:scheduled)
+
+    @desc """
+    Session is currently in progress (startTime is set and endTime is null)
+    """
     value(:in_progress)
+
+    @desc """
+    Session has ended.
+    """
     value(:ended)
   end
 
