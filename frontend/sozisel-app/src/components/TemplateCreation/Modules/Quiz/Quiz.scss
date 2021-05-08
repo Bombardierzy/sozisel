@@ -1,0 +1,17 @@
+@import "../../../../styles/styles";
+
+
+.Quiz {
+    .quizForm {
+        padding: 0 $spacing-03;
+    }
+    .percentageOfParticipants {
+        width: 100%;
+        div {
+            background-color: $bg-02;
+        }
+    }
+    .durationTime {
+        width: 100%;
+    }
+}

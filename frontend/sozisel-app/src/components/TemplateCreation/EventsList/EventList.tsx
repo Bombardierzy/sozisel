@@ -1,4 +1,4 @@
-import "./ModuleList.scss";
+import "./EventsList.scss";
 
 import React, { ReactElement } from "react";
 

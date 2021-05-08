@@ -18,7 +18,7 @@ import AgendaEntryCreation from "./AgendaEntryCreation/AgendaEntryCreation";
 import { AgendaPoint } from "../../model/Agenda";
 import EventCreation from "./EventCreation/EventCreation";
 import MainNavbar from "../MainNavbar/MainNavbar";
-import ModuleList from "./ModuleList/ModuleList";
+import ModuleList from "./EventsList/EventList";
 import { useCreateSessionTemplateMutation } from "../../graphql";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

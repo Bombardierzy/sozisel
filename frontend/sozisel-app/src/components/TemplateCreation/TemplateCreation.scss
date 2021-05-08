@@ -32,6 +32,7 @@
             }
             .error {
                 color:red;
+                @include text-01;
             }
             .label {
                 margin-left: 0;

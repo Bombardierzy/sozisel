@@ -60,10 +60,19 @@
         "submitButtonLabel": "Dodaj"
       },
       "EventCreation": {
-        "moduleName": "Nazwa modułu",
+        "moduleName": "Nazwa wydarzenia",
         "moduleType": "Typ modułu",
         "startTime": "Czas rozpoczęcia (w minutach)",
         "submitButtonLabel": "Dodaj"
+      },
+      "Quiz": {
+        "Question": {
+          "defaultAnswer": "Odpowiedź...",
+          "defaultQuestion": "Treść pytania..."
+        },
+        "durationTime": "Czas trwania (w minutach)",
+        "percentageOfParticipants": "Procent uczestników",
+        "trackingMode": "Śledzenie odpowiedzi"
       }
     }
   },
@@ -72,6 +81,7 @@
     "invalidEmailFormat": "Niepoprawny format email!",
     "passwordsNotMatch": "Podane hasła nie są identyczne!",
     "agendaEntryExists": "Już istenie punkt w agencie, który rozpoczyna się o tej minucie",
-    "agendaIncorrectTime": "Nie można dodawać punktu do agendy, który rozpoczyna się po zakonczeniu sesji"
+    "agendaIncorrectTime": "Nie można dodawać punktu do agendy, który rozpoczyna się po zakonczeniu sesji",
+    "incorrectPercentageValue": "Podana wartości nie mieści się w przedziale 0-100"
   }
 }
