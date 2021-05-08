@@ -1,7 +1,15 @@
-defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
+defmodule SoziselWeb.Schema.SessionTemplateQueriesTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
+
+  @get_session_template """
+  query GetSessionTemplate($id: ID!) {
+    sessionTemplate(id: $id) {
+      id
+    }
+  }
+  """
 
   @basic_search_template """
   query SearchTemplate {
@@ -54,6 +62,25 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
     setup do
       user = insert(:user)
       [conn: test_conn(user), user: user]
+    end
+
+    test "return session template with given id", ctx do
+      template_id = insert(:template, user_id: ctx.user.id).id
+
+      assert %{
+               data: %{
+                 "sessionTemplate" => %{"id" => ^template_id}
+               }
+             } = run_query(ctx.conn, @get_session_template, %{id: template_id})
+
+      other_conn = test_conn(insert(:user))
+
+      assert %{
+               data: %{
+                 "sessionTemplate" => nil
+               },
+               errors: [%{"message" => "unauthorized"}]
+             } = run_query(other_conn, @get_session_template, %{id: template_id})
     end
 
     test "search templates with no params", ctx do
@@ -121,7 +148,7 @@ defmodule SoziselWeb.Schema.SessionTemplateQueryTest do
 
     test "search for non-deleted templates", ctx do
       deleted_template = insert(:template, name: "other", user_id: ctx.user.id)
-      template = insert(:template, name: "Sozisel", user_id: ctx.user.id)
+      _ = insert(:template, name: "Sozisel", user_id: ctx.user.id)
 
       variables = %{
         id: deleted_template.id

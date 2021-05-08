@@ -47,7 +47,8 @@ defmodule Sozisel.MixProject do
       {:guardian, "~> 2.1"},
       {:ex_machina, "~> 2.7.0"},
       {:crudry, "~> 2.3.1"},
-      {:polymorphic_embed, "~> 1.3.4"}
+      {:polymorphic_embed, "~> 1.3.4"},
+      {:bodyguard, "~> 2.4"}
     ]
   end
 

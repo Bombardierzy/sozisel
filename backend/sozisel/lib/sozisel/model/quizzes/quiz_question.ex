@@ -31,13 +31,10 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
     correct_answers =
       get_change(changeset, :correct_answers) || get_field(changeset, :correct_answers)
 
-    case Enum.all?(correct_answers, &Enum.member?(answers, &1)) do
-      true ->
-        changeset
-
-      false ->
-        changeset =
-          add_error(changeset, :correct_answers, "Correct answers must be included in answers")
+    if Enum.all?(correct_answers, &Enum.member?(answers, &1)) do
+      changeset
+    else
+      add_error(changeset, :correct_answers, "Correct answers must be included in answers")
     end
   end
 end

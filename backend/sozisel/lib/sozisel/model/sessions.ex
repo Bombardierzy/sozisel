@@ -8,8 +8,19 @@ defmodule Sozisel.Model.Sessions do
   alias Sozisel.Model.{Utils, Events}
   alias Events.Event
 
-  alias Sozisel.Model.Sessions.{AgendaEntry, Template}
+  alias Sozisel.Model.Sessions.{AgendaEntry, Session, Template}
   alias Sozisel.Model.Users.User
+
+  @doc """
+  Checks if user is an owner of given template
+  """
+  def is_template_owner(session_template_id, user_id) do
+    from(
+      t in Template,
+      where: t.id == ^session_template_id and t.user_id == ^user_id
+    )
+    |> Repo.exists?()
+  end
 
   @doc """
   Returns the list of session_templates.
@@ -19,8 +30,13 @@ defmodule Sozisel.Model.Sessions do
   end
 
   @doc """
-  Returns list of session_template that matches given filters.
-  Example filters: [user_id: "id", is_public: true, name: "Sozisel", deleted: false]
+  Returns list of session_template that match given filters.
+
+  Available filters:
+  * `user_id` - owner of given templates
+  * `is_public` - a boolean whether templates should be public or not
+  * `name` - phrase to match templates' names on
+  * `deleted` - a boolean whether to include soft deleted templates
   """
   def list_session_templates(filters) do
     filters
@@ -36,6 +52,47 @@ defmodule Sozisel.Model.Sessions do
 
       {:deleted, false}, template ->
         from t in template, where: is_nil(t.deleted_at)
+    end)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns list of sessions that match given filters.
+
+  Available filters:
+  * `status` - either :scheduled | :running | :ended | :any
+  * `name` - phrase to match session's name on
+  * `date_from` - date from which scheduled_start_time should start
+  * `date_to` - date up to which scheduled_start_time should end
+  """
+  def list_sessions(filters) do
+    now = DateTime.utc_now()
+
+    filters
+    |> Enum.reduce(Session, fn
+      {:user_id, user_id}, session ->
+        from s in session, where: s.user_id == ^user_id
+
+      {:name, name}, session ->
+        from s in session, where: ilike(s.name, ^"%#{Utils.escape_wildcards(name)}%")
+
+      {:status, :scheduled}, session ->
+        from s in session, where: is_nil(s.start_time) and s.scheduled_start_time >= ^now
+
+      {:status, :in_progress}, session ->
+        from s in session, where: not is_nil(s.start_time) and is_nil(s.end_time)
+
+      {:status, :ended}, session ->
+        from s in session, where: not is_nil(s.end_time)
+
+      {:status, :any}, session ->
+        session
+
+      {:date_from, date_from}, session ->
+        from s in session, where: s.scheduled_start_time >= ^date_from
+
+      {:date_to, date_to}, session ->
+        from s in session, where: s.scheduled_start_time <= ^date_to
     end)
     |> Repo.all()
   end
@@ -60,6 +117,14 @@ defmodule Sozisel.Model.Sessions do
     %Template{}
     |> Template.create_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def start_session(%Session{} = session) do
+    session |> update_session(%{start_time: DateTime.utc_now()})
+  end
+
+  def end_session(%Session{} = session) do
+    session |> update_session(%{end_time: DateTime.utc_now()})
   end
 
   def create_template_with_agenda_and_events(attrs \\ %{}) do
