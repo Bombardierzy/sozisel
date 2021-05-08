@@ -34,7 +34,7 @@ defmodule Sozisel.SessionsTest do
 
     test "list_session_templates/1 doesn not return deleted session_templates" do
       template = insert(:template)
-      assert {:ok, template} = Sessions.delete_template(template)
+      assert {:ok, _template} = Sessions.delete_template(template)
       assert Sessions.list_session_templates(deleted: false) == []
     end
 
@@ -227,16 +227,16 @@ defmodule Sozisel.SessionsTest do
     @valid_attrs %{
       entry_password: "some entry_password",
       name: "some name",
-      start_time: "2010-04-17T14:00:00.000000Z",
+      scheduled_start_time: "2010-04-17T14:00:00.000000Z",
       use_jitsi: true
     }
     @update_attrs %{
       entry_password: "some updated entry_password",
       name: "some updated name",
-      start_time: "2011-05-18T15:01:01.000000Z",
+      scheduled_start_time: "2011-05-18T15:01:01.000000Z",
       use_jitsi: false
     }
-    @invalid_attrs %{entry_password: nil, name: nil, start_time: nil, use_jitsi: nil}
+    @invalid_attrs %{entry_password: nil, name: nil, scheduled_start_time: nil, use_jitsi: nil}
 
     test "list_sessions/0 returns all sessions" do
       session = insert(:session)
@@ -265,7 +265,7 @@ defmodule Sozisel.SessionsTest do
       assert session.entry_password == "some entry_password"
       assert session.name == "some name"
 
-      assert session.start_time ==
+      assert session.scheduled_start_time ==
                DateTime.from_naive!(~N[2010-04-17T14:00:00.000000Z], "Etc/UTC")
 
       assert session.use_jitsi == true
@@ -281,7 +281,7 @@ defmodule Sozisel.SessionsTest do
       assert session.entry_password == "some updated entry_password"
       assert session.name == "some updated name"
 
-      assert session.start_time ==
+      assert session.scheduled_start_time ==
                DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")
 
       assert session.use_jitsi == false
@@ -297,6 +297,42 @@ defmodule Sozisel.SessionsTest do
       session = insert(:session)
       assert {:ok, %Session{}} = Sessions.delete_session(session)
       assert_raise Ecto.NoResultsError, fn -> Sessions.get_session!(session.id) end
+    end
+
+    test "start_session/1 sets start_time field" do
+      session = insert(:session)
+      assert is_nil(session.start_time)
+
+      assert {:ok, %Session{start_time: start_time}} = session |> Sessions.start_session()
+
+      refute is_nil(start_time)
+    end
+
+    test "end_session/1 sets end_time field" do
+      session = insert(:session, start_time: DateTime.utc_now())
+      assert is_nil(session.end_time)
+
+      assert {:ok, %Session{end_time: end_time}} = session |> Sessions.end_session()
+
+      refute is_nil(end_time)
+    end
+
+    test "setting invalid start/end times returns and error changeset" do
+      session = insert(:session)
+
+      assert {:error, _} = session |> Sessions.end_session()
+
+      # setting end_time when start_time is not set
+      assert %Ecto.Changeset{valid?: false} =
+               session |> Session.update_changeset(%{end_time: DateTime.utc_now()})
+
+      # setting start_time before end_time
+      assert %Ecto.Changeset{valid?: false} =
+               session
+               |> Session.update_changeset(%{
+                 start_time: DateTime.utc_now() |> DateTime.add(10, :second),
+                 end_time: DateTime.utc_now()
+               })
     end
   end
 end

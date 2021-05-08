@@ -5,7 +5,9 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :id, non_null(:id)
     field :name, non_null(:string)
     field :entry_password, :string
-    field :start_time, non_null(:integer)
+    field :scheduled_start_time, non_null(:datetime)
+    field :start_time, :datetime
+    field :end_time, :datetime
     field :use_jitsi, non_null(:boolean)
 
     field :owner, non_null(:user) do
@@ -17,5 +19,21 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     end
 
     timestamps()
+  end
+
+  input_object :create_session_input do
+    field :name, non_null(:string)
+    field :scheduled_start_time, non_null(:datetime)
+    field :use_jitsi, :boolean
+    field :entry_password, :string
+    field :session_template_id, non_null(:id)
+  end
+
+  input_object :update_session_input do
+    field :id, non_null(:id)
+    field :name, :string
+    field :scheduled_start_time, :datetime
+    field :use_jitsi, :boolean
+    field :entry_password, :string
   end
 end

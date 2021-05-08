@@ -8,8 +8,19 @@ defmodule Sozisel.Model.Sessions do
   alias Sozisel.Model.{Utils, Events}
   alias Events.Event
 
-  alias Sozisel.Model.Sessions.{AgendaEntry, Template}
+  alias Sozisel.Model.Sessions.{AgendaEntry, Session, Template}
   alias Sozisel.Model.Users.User
+
+  @doc """
+  Checks if user is an owner of given template
+  """
+  def is_template_owner(session_template_id, user_id) do
+    from(
+      t in Template,
+      where: t.id == ^session_template_id and t.user_id == ^user_id
+    )
+    |> Repo.exists?()
+  end
 
   @doc """
   Returns the list of session_templates.
@@ -60,6 +71,14 @@ defmodule Sozisel.Model.Sessions do
     %Template{}
     |> Template.create_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def start_session(%Session{} = session) do
+    session |> update_session(%{start_time: DateTime.utc_now()})
+  end
+
+  def end_session(%Session{} = session) do
+    session |> update_session(%{end_time: DateTime.utc_now()})
   end
 
   def create_template_with_agenda_and_events(attrs \\ %{}) do

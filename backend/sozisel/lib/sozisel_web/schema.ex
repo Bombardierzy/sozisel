@@ -3,11 +3,11 @@ defmodule SoziselWeb.Schema do
 
   # Types
   import_types Absinthe.Type.Custom
-  import_types(SoziselWeb.Schema.Types.HelloTypes)
   import_types(SoziselWeb.Schema.Types.UserTypes)
   import_types(SoziselWeb.Schema.Types.SessionTemplateTypes)
   import_types(SoziselWeb.Schema.Types.EventTypes)
   import_types(SoziselWeb.Schema.Types.QuizTypes)
+  import_types(SoziselWeb.Schema.Types.SessionTypes)
 
   # Queries
   import_types(SoziselWeb.Schema.Queries.UserQueries)
@@ -17,9 +17,9 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Mutations.UserMutations)
   import_types(SoziselWeb.Schema.Mutations.SessionTemplateMutations)
   import_types(SoziselWeb.Schema.Mutations.QuizMutations)
+  import_types(SoziselWeb.Schema.Mutations.SessionMutations)
 
   # Subscriptionis
-  import_types(SoziselWeb.Schema.Subscriptions.HelloSubscriptions)
 
   query do
     import_fields(:user_queries)
@@ -30,10 +30,7 @@ defmodule SoziselWeb.Schema do
     import_fields(:user_mutations)
     import_fields(:session_template_mutations)
     import_fields(:quiz_mutations)
-  end
-
-  subscription do
-    import_fields(:hello_subscriptions)
+    import_fields(:session_mutations)
   end
 
   def middleware(middleware, _field, _config) do
