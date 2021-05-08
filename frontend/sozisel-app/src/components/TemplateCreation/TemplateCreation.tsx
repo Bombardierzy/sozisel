@@ -39,7 +39,7 @@ const templateDetailsSchema = yup.object().shape({
 
 export default function TemplateCreation(): ReactElement {
   const [agenda, setAgenda] = useState<AgendaPoint[]>([]);
-  const [durationTime, setDurationTime] = useState<number>();
+  const [durationTime, setDurationTime] = useState<number>(90);
   const [isPublic, setIsPublic] = useState<boolean>(false);
   const [
     createSessionTemplateMutation,
@@ -118,11 +118,11 @@ export default function TemplateCreation(): ReactElement {
               <Controller
                 name="durationTime"
                 control={control}
-                defaultValue=""
                 render={() => (
                   <TextField
                     name="durationTime"
                     variant="outlined"
+                    defaultValue="90"
                     size="small"
                     className="durationTimeInput"
                     type="number"

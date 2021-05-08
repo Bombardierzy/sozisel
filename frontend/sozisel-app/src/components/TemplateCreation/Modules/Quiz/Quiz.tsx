@@ -11,7 +11,7 @@ import { Control, Controller, DeepMap, FieldError } from "react-hook-form";
 import React, { ReactElement, useState } from "react";
 
 import QuestionsList from "./QuestionsList/QuestionsList";
-import { QuizType } from "../../../../model/Quiz";
+import { useCreateQuizMutation } from "../../../../graphql";
 import { useQuizContext } from "../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
 
@@ -21,18 +21,27 @@ interface QuizProps {
   handleSubmit: any;
 }
 
+interface QuizData {
+  eventName: string;
+  durationTime: number;
+  startMinute: number;
+  percentageOfParticipants: number;
+}
+
 export default function Quiz({
   errors,
   control,
   handleSubmit,
 }: QuizProps): ReactElement {
+  const [createQuiz, { error }] = useCreateQuizMutation();
   const { t } = useTranslation("common");
   const [trackingMode, setTrackingMode] = useState<boolean>(false);
   const [questions] = useQuizContext();
-  const onSubmit = (data: QuizType) => {
+  const onSubmit = (data: QuizData) => {
     console.log(data);
     console.log(questions);
     console.log(trackingMode);
+    // createQuiz({variables: {input:{name: data.eventName, }}})
   };
 
   return (

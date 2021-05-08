@@ -10,6 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import SearchIcon from "@material-ui/icons/Search";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
+import { useCreateSessionTemplateMutation } from "../../../graphql";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -25,6 +26,26 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
   const [name, setName] = useState<string>("");
   const [includePublic, setIncludePublic] = useState<boolean>(false);
   const history = useHistory();
+
+  const initialTemplateData = {
+    isPublic: false,
+    estimatedTime: 90,
+    agendaEntries: [],
+    name: t("components.TemplateCreation.defaultTemplateName"),
+  };
+
+  const [createSessionTemplateMutation] = useCreateSessionTemplateMutation();
+
+  const onAdd = async () => {
+    const { data } = await createSessionTemplateMutation({
+      variables: { input: initialTemplateData },
+    });
+    console.log(data?.createSessionTemplate?.id);
+    history.push({
+      pathname: "/templates/create",
+      state: { id: data?.createSessionTemplate?.id },
+    });
+  };
 
   const onSearchTextChange = (event: BaseSyntheticEvent) => {
     setName(event.target.value);
@@ -116,7 +137,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
             color="primary"
             fullWidth
             className="searchBarButton"
-            onClick={() => history.push("/templates/create")}
+            onClick={() => onAdd()}
           >
             {t("components.TemplatesList.addButtonText")}
           </Button>

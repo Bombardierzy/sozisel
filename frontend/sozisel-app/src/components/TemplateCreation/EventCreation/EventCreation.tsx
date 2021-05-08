@@ -52,9 +52,7 @@ export default function EventCreation(): ReactElement {
                 size="small"
                 className="eventName"
                 error={errors.eventName}
-                helperText={
-                  errors.eventName && t(errors.eventName.message)
-                }
+                helperText={errors.eventName && t(errors.eventName.message)}
               />
             }
           />
