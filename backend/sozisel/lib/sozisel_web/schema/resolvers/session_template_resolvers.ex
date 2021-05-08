@@ -4,6 +4,17 @@ defmodule SoziselWeb.Schema.Resolvers.SessionTemplateResolvers do
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
+  def get_session_template(_parent, %{id: id}, ctx) do
+    user_id = Context.current_user!(ctx).id
+
+    with %Template{user_id: ^user_id} = template <- Sessions.get_template(id) do
+      {:ok, template}
+    else
+      %Template{} -> {:error, :unauthorized}
+      nil -> {:ok, nil}
+    end
+  end
+
   def create(_parent, %{input: input}, ctx) do
     user = Context.current_user!(ctx)
 
