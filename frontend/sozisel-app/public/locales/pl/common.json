@@ -65,6 +65,14 @@
         "startTime": "Czas rozpoczęcia (w minutach)",
         "submitButtonLabel": "Dodaj"
       }
+    },
+    "SessionDetails": {
+      "defaultSessionName": "Nazwa sesji",
+      "useJitsiLabel": "Wideokonferencja",
+      "authorization": "Autoryzacja",
+      "datetime": "Data i godzina",
+      "submitSession": "Zatwierdź",
+      "sessionPasswordPlaceholder": "Hasło"
     }
   },
   "inputErrors": {

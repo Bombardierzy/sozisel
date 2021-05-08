@@ -1,0 +1,38 @@
+@import "../../../styles/styles";
+
+.container {
+    margin: $spacing-06;
+    width: 15%;
+    height: 85%;
+    @include resize($extra-large, 25%, 85%);
+    .sessionDetails {
+        padding: $spacing-04;
+        border-bottom: 1px solid $bg-01;
+
+        .sessionName {
+            input {
+                text-align: center;
+                @include header-02;
+            }
+            margin-bottom: $spacing-03;
+        }
+        .formElement {
+            margin-bottom: $spacing-03;
+        }
+        .input {
+            width: 100%;
+        }
+        .error {
+            color:red;
+        }
+        .label {
+            margin-left: 0;
+            margin-bottom: $spacing-02;
+        }
+        button {
+            margin-top: $spacing-04;
+            width: 100%;
+        }
+    }
+
+}

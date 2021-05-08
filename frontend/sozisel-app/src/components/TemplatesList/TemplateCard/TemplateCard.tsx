@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { SessionTemplate } from "../../../graphql";
 import Typography from "@material-ui/core/Typography";
 import useAvatarById from "../../../hooks/useAvatarById";
+import { useHistory } from "react-router-dom";
 import useMyId from "../../../hooks/useMyId";
 import { useTranslation } from "react-i18next";
 
@@ -28,12 +29,17 @@ export default function TemplateCard({
   onDelete,
 }: TemplateCardProps): ReactElement {
   const { t } = useTranslation("common");
+  const history = useHistory();
   const currentUserId = useMyId();
   const avatar = useAvatarById(template.id);
   const [raised, setRaised] = useState<boolean>(false);
 
   const onMouseOverChange = (_: BaseSyntheticEvent) => {
     setRaised(!raised);
+  };
+
+  const onPlanSession = () => {
+    history.push("/sessions/create");
   };
 
   return (
@@ -77,6 +83,7 @@ export default function TemplateCard({
             fullWidth
             className="actionButton"
             disabled={currentUserId != template.owner.id}
+            onClick={onPlanSession}
           >
             {t("components.TemplatesList.planSessionText")}
           </Button>
