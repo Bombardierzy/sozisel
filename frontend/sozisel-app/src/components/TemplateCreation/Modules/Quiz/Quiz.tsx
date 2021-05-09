@@ -11,6 +11,9 @@ import { Control, Controller, DeepMap, FieldError } from "react-hook-form";
 import React, { ReactElement, useState } from "react";
 
 import QuestionsList from "./QuestionsList/QuestionsList";
+import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
+import { mapQuizQuestions } from "../../../../contexts/Quiz/quizReducer";
+import { useContext } from "react";
 import { useCreateQuizMutation } from "../../../../graphql";
 import { useQuizContext } from "../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
@@ -33,15 +36,27 @@ export default function Quiz({
   control,
   handleSubmit,
 }: QuizProps): ReactElement {
+  const { id } = useContext(TemplateContext);
   const [createQuiz, { error }] = useCreateQuizMutation();
   const { t } = useTranslation("common");
   const [trackingMode, setTrackingMode] = useState<boolean>(false);
   const [questions] = useQuizContext();
   const onSubmit = (data: QuizData) => {
-    console.log(data);
-    console.log(questions);
-    console.log(trackingMode);
-    // createQuiz({variables: {input:{name: data.eventName, }}})
+    createQuiz({
+      variables: {
+        input: {
+          name: data.eventName,
+          eventData: {
+            durationTimeSec: data.durationTime,
+            trackingMode,
+            quizQuestions: mapQuizQuestions(questions.questions),
+            targetPercentageOfParticipants: data.percentageOfParticipants,
+          },
+          sessionTemplateId: id,
+          startMinute: data.startMinute,
+        },
+      },
+    });
   };
 
   return (
@@ -101,7 +116,7 @@ export default function Quiz({
         </Typography>
 
         <QuestionsList />
-
+        {error && error.message}
         <Button
           color="primary"
           onClick={() => handleSubmit(onSubmit)()}

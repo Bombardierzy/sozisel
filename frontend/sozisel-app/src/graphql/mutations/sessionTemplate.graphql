@@ -15,3 +15,9 @@ mutation CreateSessionTemplate($input: CreateSessionTemplateInput!) {
     id
   }
 }
+
+mutation UpdateSessionTemplateInput($input: UpdateSessionTemplateInput!) {
+  updateSessionTemplate(input: $input) {
+    id
+  }
+}

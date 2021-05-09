@@ -40,7 +40,6 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
     const { data } = await createSessionTemplateMutation({
       variables: { input: initialTemplateData },
     });
-    console.log(data?.createSessionTemplate?.id);
     history.push({
       pathname: "/templates/create",
       state: { id: data?.createSessionTemplate?.id },

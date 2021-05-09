@@ -187,3 +187,10 @@ const toggleCorrectAnswer = (
     return addCorrectAnswer(questions, question, correctAnswer);
   }
 };
+
+export const mapQuizQuestions = (questions: QuizQuestionType[]) =>
+  questions.map((element) => ({
+    question: element.question,
+    correctAnswers: element.correctAnswers.map((answer) => answer.text),
+    answers: element.answers.map((answer) => answer.text),
+  }));

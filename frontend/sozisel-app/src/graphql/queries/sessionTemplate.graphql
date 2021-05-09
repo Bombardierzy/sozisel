@@ -21,3 +21,16 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
         updatedAt
     }
 }
+
+query SessionTemplate($id: ID!) {
+    sessionTemplate(id: $id) {
+        agendaEntries {
+            id
+            name
+            startMinute
+        }
+        estimatedTime
+        isPublic
+        name
+    }
+}
