@@ -5,4 +5,11 @@
     background-color: $bg-01;
     margin: 0;
     display: flex;
+    padding: 0 $spacing-09;
+    .ErrorAlert{
+        padding: $spacing-05;
+        margin: $spacing-09;
+        width: 100%;
+        height: fit-content;
+    }
 }

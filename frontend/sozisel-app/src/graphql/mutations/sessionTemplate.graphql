@@ -9,3 +9,9 @@ mutation DeleteSessionTemplate($id: ID!){
         id
     }
 }
+
+mutation CreateSessionTemplate($input: CreateSessionTemplateInput!) {
+  createSessionTemplate(input: $input) {
+    id
+  }
+}

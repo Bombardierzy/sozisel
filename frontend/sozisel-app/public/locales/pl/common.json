@@ -72,7 +72,14 @@
       "authorization": "Autoryzacja",
       "datetime": "Data i godzina",
       "submitSession": "Zatwierdź",
-      "sessionPasswordPlaceholder": "Hasło"
+      "sessionPasswordPlaceholder": "Hasło",
+      "fetchingErrorMsg": "Błąd łądowania danych. Spróbuj ponownie później.",
+      "durationTime": "Czas trwania",
+      "minutes": "minut",
+      "agenda": "Agenda",
+      "events": "Wydarzenia",
+      "errorMessage": "Nie udało się stworzyć sesji.",
+      "successMessage": "Stworzono sesje"
     }
   },
   "inputErrors": {

@@ -2,7 +2,7 @@
 
 .container {
     margin: $spacing-06;
-    width: 15%;
+    width: 20%;
     height: 85%;
     @include resize($extra-large, 25%, 85%);
     .sessionDetails {
@@ -15,6 +15,7 @@
                 @include header-02;
             }
             margin-bottom: $spacing-03;
+            width: 100%;
         }
         .formElement {
             margin-bottom: $spacing-03;

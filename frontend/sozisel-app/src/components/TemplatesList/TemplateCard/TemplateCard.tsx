@@ -39,7 +39,10 @@ export default function TemplateCard({
   };
 
   const onPlanSession = () => {
-    history.push("/sessions/create");
+    history.push({
+      pathname: "/sessions/create",
+      state: { templateId: template.id },
+    });
   };
 
   return (
