@@ -34,7 +34,8 @@ defmodule SoziselWeb.Schema do
   end
 
   def middleware(middleware, _field, _config) do
-    middleware ++ [Crudry.Middlewares.TranslateErrors]
+    # middleware ++ [Crudry.Middlewares.TranslateErrors]
+    middleware ++ [SoziselWeb.Schema.Middleware.ChangesetErrorTranslator]
   end
 
   def plugins do
