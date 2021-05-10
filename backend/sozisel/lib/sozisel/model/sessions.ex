@@ -60,6 +60,8 @@ defmodule Sozisel.Model.Sessions do
   Returns list of sessions that match given filters.
 
   Available filters:
+  * `user_id` - owner of the session
+  * `template_id` - id of the session's template
   * `status` - either :scheduled | :running | :ended | :any
   * `name` - phrase to match session's name on
   * `date_from` - date from which scheduled_start_time should start
@@ -72,6 +74,9 @@ defmodule Sozisel.Model.Sessions do
     |> Enum.reduce(Session, fn
       {:user_id, user_id}, session ->
         from s in session, where: s.user_id == ^user_id
+
+      {:template_id, template_id}, session ->
+        from s in session, where: s.session_template_id == ^template_id
 
       {:name, name}, session ->
         from s in session, where: ilike(s.name, ^"%#{Utils.escape_wildcards(name)}%")

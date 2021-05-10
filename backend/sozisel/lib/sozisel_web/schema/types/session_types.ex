@@ -48,6 +48,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :date_from, :datetime
     field :date_to, :datetime
     field :name, :string, default_value: ""
+    field :template_id, :id
   end
 
   input_object :create_session_input do

@@ -1,0 +1,40 @@
+query SearchSessions($input: SearchSessionsInput!){
+    searchSessions(input: $input){
+        id
+        name
+        endTime
+        entryPassword
+        owner {
+            id
+            firstName
+            lastName
+            email
+        }
+        scheduledStartTime
+        insertedAt
+        sessionTemplate {
+            id
+            estimatedTime
+            isPublic
+            name
+            owner{
+                id
+                firstName
+                lastName
+                email
+            }
+            agendaEntries{
+                id
+                name
+                startMinute
+                insertedAt
+                updatedAt
+            }
+            insertedAt
+            updatedAt
+        }
+        scheduledStartTime
+        updatedAt
+        useJitsi
+    }
+}

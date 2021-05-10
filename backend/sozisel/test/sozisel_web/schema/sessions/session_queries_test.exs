@@ -12,8 +12,8 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
   """
 
   @search_sessions """
-  query SearchSessions($status: SessionStatus!, $dateFrom: DateTime, $dateTo: DateTime, $name: String) {
-    searchSessions(input: {status: $status, dateFrom: $dateFrom, dateTo: $dateTo, name: $name}) {
+  query SearchSessions($status: SessionStatus!, $dateFrom: DateTime, $dateTo: DateTime, $name: String, $template_id: ID) {
+    searchSessions(input: {status: $status, dateFrom: $dateFrom, dateTo: $dateTo, name: $name, template_id: $template_id}) {
       id
       name
       entryPassword
@@ -206,9 +206,33 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
       assert sessions_id_set(sessions) == sessions_id_set(ended_session)
     end
 
+    test "search by template id", ctx do
+      alias Sozisel.Model.Sessions
+
+      template = insert(:template)
+
+      session =
+        insert(:session,
+          user_id: ctx.user.id,
+          session_template_id: template.id
+        )
+
+      insert(:session, user_id: ctx.user.id)
+
+      assert %{
+               data: %{
+                 "searchSessions" => sessions
+               }
+             } = run_query(ctx.conn, @search_sessions, %{status: "ANY", template_id: template.id})
+
+      assert length(sessions) == 1
+      assert sessions_id_set(sessions) == sessions_id_set(session)
+    end
+
     test "filters combined", ctx do
       alias Sozisel.Model.Sessions
 
+      template = insert(:template)
       session_a = insert(:session, user_id: ctx.user.id, name: "a")
       _ = insert(:session, user_id: ctx.user.id, name: "b")
 
@@ -216,7 +240,8 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
         insert(:session,
           user_id: ctx.user.id,
           name: "ab",
-          scheduled_start_time: ~U[2021-05-01 12:00:00Z]
+          scheduled_start_time: ~U[2021-05-01 12:00:00Z],
+          session_template_id: template.id
         )
 
       session_bc =
@@ -261,7 +286,7 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
 
       assert sessions_id_set(sessions) == sessions_id_set([session_ab, session_bc])
 
-      # dateFrom, name, status ended
+      # dateFrom, name, status ended, template
       assert %{
                data: %{
                  "searchSessions" => sessions
@@ -270,7 +295,8 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
                run_query(ctx.conn, @search_sessions, %{
                  dateFrom: ~U[2021-01-01 12:00:00Z] |> DateTime.to_iso8601(),
                  name: "b",
-                 status: "ENDED"
+                 status: "ENDED",
+                 template_id: template.id
                })
 
       assert sessions_id_set(sessions) == sessions_id_set([session_ab])
