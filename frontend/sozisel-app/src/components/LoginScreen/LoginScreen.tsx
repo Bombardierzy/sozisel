@@ -54,7 +54,8 @@ export default function LoginScreen(): ReactElement {
       });
 
       localStorage.setItem("token", body.data?.login?.token ?? "");
-      history.push("home");
+      // fucking magic
+      window.location.href = "/home";
     } catch (error) {
       console.error(error);
     }
