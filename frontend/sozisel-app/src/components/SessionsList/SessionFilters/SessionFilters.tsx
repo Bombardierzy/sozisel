@@ -11,13 +11,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import {
+  SessionStatus,
+  useSearchSessionTemplatesQuery,
+} from "../../../graphql";
 
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import IconButton from "@material-ui/core/IconButton";
 import TuneIcon from "@material-ui/icons/Tune";
-import { useSearchSessionTemplatesQuery } from "../../../graphql";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -25,12 +28,26 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function SessionFilters(): ReactElement {
+export interface SessionFiltersSchema {
+  status: SessionStatus;
+  templateId: string | undefined;
+  dateFrom: Date | undefined;
+  dateTo: Date | undefined;
+  name: string | undefined;
+}
+
+export interface SessionFiltersProps {
+  onSubmitCallback: (filters: SessionFiltersSchema) => void;
+}
+
+export default function SessionFilters({
+  onSubmitCallback,
+}: SessionFiltersProps): ReactElement {
   const { t } = useTranslation("common");
   const [isStatusFilterActive, setIsStatusFilterActive] = useState<boolean>(
     false
   );
-  const [status, setStatus] = useState<string>("ANY");
+  const [status, setStatus] = useState<SessionStatus>(SessionStatus.Any);
   const [isTemplateFilterActive, setIsTemplateFilterActive] = useState<boolean>(
     false
   );
@@ -47,7 +64,7 @@ export default function SessionFilters(): ReactElement {
 
   const onStatusFilterCleared = () => {
     setIsStatusFilterActive(false);
-    setStatus("ANY");
+    setStatus(SessionStatus.Any);
   };
 
   const onTemplateFilterCleared = () => {
@@ -66,10 +83,13 @@ export default function SessionFilters(): ReactElement {
   };
 
   const onSubmit = () => {
-    console.log(status);
-    console.log(templateId);
-    console.log(dateFrom);
-    console.log(dateTo);
+    onSubmitCallback({
+      status: status,
+      templateId: isTemplateFilterActive ? templateId : undefined,
+      dateFrom: isDateFromFilterActive ? new Date(dateFrom) : undefined,
+      dateTo: isDateToFilterActive ? new Date(dateTo) : undefined,
+      name: undefined,
+    });
   };
 
   if (loading) {
@@ -125,16 +145,16 @@ export default function SessionFilters(): ReactElement {
                 value={status}
                 onChange={(e: BaseSyntheticEvent) => setStatus(e.target.value)}
               >
-                <MenuItem value={"ANY"}>
+                <MenuItem value={SessionStatus.Any}>
                   {t("components.SessionsList.statusAny")}
                 </MenuItem>
-                <MenuItem value={"ENDED"}>
+                <MenuItem value={SessionStatus.Ended}>
                   {t("components.SessionsList.statusEnded")}
                 </MenuItem>
-                <MenuItem value={"IN_PROGRESS"}>
+                <MenuItem value={SessionStatus.InProgress}>
                   {t("components.SessionsList.statusInProgress")}
                 </MenuItem>
-                <MenuItem value={"SCHEDULED"}>
+                <MenuItem value={SessionStatus.Scheduled}>
                   {t("components.SessionsList.statusScheduled")}
                 </MenuItem>
               </Select>
