@@ -4,33 +4,68 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
         estimatedTime
         isPublic
         name
-        owner{
-            id
+        agendaEntries {
+            name
+            startMinute
+        }
+        owner {
+            email
             firstName
             lastName
-            email
+            id
         }
-        agendaEntries{
+        events {
             id
             name
             startMinute
-            insertedAt
-            updatedAt
+            eventData {
+                ... on Quiz {
+                    durationTimeSec
+                    trackingMode
+                    targetPercentageOfParticipants
+                    quizQuestions {
+                        question
+                        answers
+                        correctAnswers
+                    }
+                }
+            }
         }
-        insertedAt
-        updatedAt
     }
 }
 
 query SessionTemplate($id: ID!) {
     sessionTemplate(id: $id) {
-        agendaEntries {
-            id
-            name
-            startMinute
-        }
+        id
         estimatedTime
         isPublic
         name
+        agendaEntries {
+            name
+            startMinute
+        }
+        owner {
+            email
+            firstName
+            lastName
+            id
+        }
+        events {
+            id
+            name
+            startMinute
+            eventData {
+                ... on Quiz {
+                    durationTimeSec
+                    trackingMode
+                    targetPercentageOfParticipants
+                    quizQuestions {
+                        question
+                        answers
+                        correctAnswers
+                    }
+                }
+            }
+        }
     }
 }

@@ -22,9 +22,9 @@ import AgendaEntryCreation from "./AgendaEntryCreation/AgendaEntryCreation";
 import { AgendaPoint } from "../../model/Agenda";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import EventCreation from "./EventCreation/EventCreation";
+import EventList from "./EventsList/EventList";
 import { Grid } from "@material-ui/core";
 import MainNavbar from "../MainNavbar/MainNavbar";
-import ModuleList from "./EventsList/EventList";
 import TemplateContextProvider from "../../contexts/Template/TemplateContext";
 import { useEffect } from "react";
 import { useLocation } from "react-router";
@@ -221,7 +221,7 @@ export default function TemplateCreation(): ReactElement {
                   sessionDurationTime={durationTime}
                 />
               </Paper>
-              <ModuleList />
+              <EventList events={template?.events} />
               <EventCreation />
             </div>
           </>

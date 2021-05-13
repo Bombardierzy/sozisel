@@ -3,7 +3,6 @@ import "./TemplateList.scss";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { ReactElement, useCallback, useState } from "react";
 import {
-  SessionTemplate,
   useCloneSessionTemplateMutation,
   useDeleteSessionTemplateMutation,
   useSearchSessionTemplatesQuery,
@@ -13,6 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import MainNavbar from "../MainNavbar/MainNavbar";
 import SearchBar from "./SearchBar/SearchBar";
+import { SessionTemplate } from "../../model/Template";
 import Snackbar from "@material-ui/core/Snackbar";
 import TemplateCard from "./TemplateCard/TemplateCard";
 import { useTranslation } from "react-i18next";
@@ -111,7 +111,7 @@ export default function TemplateList(): ReactElement {
           <SearchBar onSearch={onSearch}></SearchBar>
           <div className="TemplatesList">
             <List>
-              {data.searchSessionTemplates.map((element, _) => (
+              {data.searchSessionTemplates.map((element) => (
                 <TemplateCard
                   key={element.id}
                   template={element}

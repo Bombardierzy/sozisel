@@ -41,8 +41,8 @@ export default function Quiz({
   const { t } = useTranslation("common");
   const [trackingMode, setTrackingMode] = useState<boolean>(false);
   const [questions] = useQuizContext();
-  const onSubmit = (data: QuizData) => {
-    createQuiz({
+  const onSubmit = async (data: QuizData) => {
+   await createQuiz({
       variables: {
         input: {
           name: data.eventName,
@@ -57,6 +57,12 @@ export default function Quiz({
         },
       },
     });
+
+    console.log(error);
+    console.log(data);
+    console.log( mapQuizQuestions(questions.questions));
+    console.log( trackingMode);
+    console.log( id);
   };
 
   return (
