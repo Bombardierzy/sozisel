@@ -41,7 +41,7 @@ export default function SessionsList(): ReactElement {
   });
   const [searchName, setSearchName] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
-  const { data, loading, refetch, error } = useSearchSessionsQuery({
+  const { data, loading, refetch} = useSearchSessionsQuery({
     variables: { input: { status: SessionStatus.Any } },
   });
   const [
@@ -67,7 +67,7 @@ export default function SessionsList(): ReactElement {
           },
         });
         refetch({ input: filters });
-        setSuccessMessage(`${t("components.SessionList.sessionDeleted")}`);
+        setSuccessMessage(`${t("components.SessionsList.sessionDeleted")}`);
       } catch (error) {
         console.error(error);
       }
@@ -172,8 +172,6 @@ export default function SessionsList(): ReactElement {
       </>
     );
   }
-
-  console.log(error);
 
   return (
     <>
