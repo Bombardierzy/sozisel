@@ -11,7 +11,11 @@ import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import SessionFilters, {
   SessionFiltersSchema,
 } from "./SessionFilters/SessionFilters";
-import { SessionStatus, useSearchSessionsQuery } from "../../graphql";
+import {
+  SessionStatus,
+  useDeleteSessionMutation,
+  useSearchSessionsQuery,
+} from "../../graphql";
 
 import ClearIcon from "@material-ui/icons/Clear";
 import MainNavbar from "../MainNavbar/MainNavbar";
@@ -19,6 +23,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import SessionCard from "./SessionCard/SessionCard";
 import Snackbar from "@material-ui/core/Snackbar";
 import { debounce } from "debounce";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 function Alert(props: AlertProps) {
@@ -39,6 +44,11 @@ export default function SessionsList(): ReactElement {
   const { data, loading, refetch, error } = useSearchSessionsQuery({
     variables: { input: { status: SessionStatus.Any } },
   });
+  const [
+    deleteMutation,
+    { error: deleteError, loading: deleteLoading },
+  ] = useDeleteSessionMutation();
+
   const debounceFetch = useMemo(
     () =>
       debounce((name: string | undefined) => {
@@ -48,11 +58,31 @@ export default function SessionsList(): ReactElement {
     [filters, refetch]
   );
 
-  const onApplyFilters = (filters: SessionFiltersSchema) => {
-    setSearchName("");
-    setFilters(filters);
-    refetch({ input: filters });
-  };
+  const onSessionDelete = useCallback(
+    async (id: string) => {
+      try {
+        await deleteMutation({
+          variables: {
+            id: id,
+          },
+        });
+        refetch({ input: filters });
+        setSuccessMessage(`${t("components.SessionList.sessionDeleted")}`);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [deleteMutation, refetch, filters, t]
+  );
+
+  const onApplyFilters = useCallback(
+    (filters: SessionFiltersSchema) => {
+      setSearchName("");
+      setFilters(filters);
+      refetch({ input: filters });
+    },
+    [refetch]
+  );
 
   const onSearchNameChange = (event: BaseSyntheticEvent) => {
     setSearchName(event.target.value);
@@ -113,11 +143,32 @@ export default function SessionsList(): ReactElement {
             </div>
             <List>
               {data.searchSessions.map((element, _) => (
-                <SessionCard key={element.id} session={element} />
+                <SessionCard
+                  key={element.id}
+                  session={element}
+                  onDelete={onSessionDelete}
+                />
               ))}
             </List>
           </div>
         </div>
+        <Snackbar
+          open={successMessage !== ""}
+          autoHideDuration={6000}
+          onClose={() => setSuccessMessage("")}
+        >
+          <Alert onClose={() => setSuccessMessage("")} severity="success">
+            {successMessage}
+          </Alert>
+        </Snackbar>
+        <Snackbar open={deleteLoading} autoHideDuration={3000}>
+          <CircularProgress />
+        </Snackbar>
+        <Snackbar open={!!deleteError} autoHideDuration={6000}>
+          <Alert severity="error">
+            {t("components.SessionList.errorMessage")}
+          </Alert>
+        </Snackbar>
       </>
     );
   }
