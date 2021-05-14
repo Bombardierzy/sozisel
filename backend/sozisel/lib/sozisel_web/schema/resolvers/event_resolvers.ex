@@ -1,5 +1,6 @@
 defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   alias SoziselWeb.Context
+  alias Sozisel.Repo
   alias Sozisel.Model.{Events, Sessions}
   alias Events.Event
   alias Sessions.Template
@@ -10,10 +11,12 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
     user_id = Context.current_user!(ctx).id
 
     with %Event{} = event <- Repo.get(Event, event_id),
-         %Template{user_id: ^user_id} = template <- Repo.get(Template, event.session_template_id) do
+         %Template{} = template <- Repo.get(Template, event.session_template_id),
+         true <- template.user_id == user_id do
       {:ok, event}
     else
       %Event{} -> {:error, :unauthorized}
+      false -> {:error, :unauthorized}
       nil -> {:ok, nil}
     end
   end
