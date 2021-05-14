@@ -41,7 +41,7 @@ export default function SessionsList(): ReactElement {
   });
   const [searchName, setSearchName] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
-  const { data, loading, refetch} = useSearchSessionsQuery({
+  const { data, loading, refetch } = useSearchSessionsQuery({
     variables: { input: { status: SessionStatus.Any } },
   });
   const [
