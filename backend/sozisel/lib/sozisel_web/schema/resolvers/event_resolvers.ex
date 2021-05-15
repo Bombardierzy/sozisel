@@ -8,15 +8,10 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
   def get_event(_parent, %{id: event_id}, ctx) do
-    user_id = Context.current_user!(ctx).id
-
-    with %Event{} = event <- Repo.get(Event, event_id),
-         %Template{} = template <- Repo.get(Template, event.session_template_id),
-         true <- template.user_id == user_id do
+    with %Event{} = event <- fetch_resource!(ctx, Event) do
       {:ok, event}
     else
       %Event{} -> {:error, :unauthorized}
-      false -> {:error, :unauthorized}
       nil -> {:ok, nil}
     end
   end
