@@ -84,12 +84,12 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
         %{
           question: "What is the capital of Poland?",
           answers: [
-            %{ text: "Cracow", id: "1" },
-            %{ text: "Warsaw", id: "2" },
-            %{ text: "Podlasie", id: "3" }
+            %{text: "Cracow", id: "1"},
+            %{text: "Warsaw", id: "2"},
+            %{text: "Podlasie", id: "3"}
           ],
           correct_answers: [
-            %{ text: "Warsaw", id: "2" }
+            %{text: "Warsaw", id: "2"}
           ]
         }
       ]
@@ -126,12 +126,12 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
               %{
                 question: "First question?",
                 answers: [
-                  %{ text: "First", id: "1" },
-                  %{ text: "Second", id: "2" },
-                  %{ text: "Third", id: "3" }
+                  %{text: "First", id: "1"},
+                  %{text: "Second", id: "2"},
+                  %{text: "Third", id: "3"}
                 ],
                 correct_answers: [
-                  %{ text: "Second", id: "2" }
+                  %{text: "Second", id: "2"}
                 ]
               }
             ]
@@ -154,8 +154,8 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                        %{
                          "question" => "First question?",
                          "answers" => [
-                           %{"id" => "1", "text" => "First"}, 
-                           %{"id" => "2", "text" => "Second"}, 
+                           %{"id" => "1", "text" => "First"},
+                           %{"id" => "2", "text" => "Second"},
                            %{"id" => "3", "text" => "Third"}
                          ],
                          "correctAnswers" => [
@@ -188,13 +188,13 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             quizQuestions: %{
               question: "Updated question?",
               answers: [
-                %{ text: "Fourth", id: "1" },
-                %{ text: "Fifth", id: "2" },
-                %{ text: "Sixth", id: "3" }
+                %{text: "Fourth", id: "1"},
+                %{text: "Fifth", id: "2"},
+                %{text: "Sixth", id: "3"}
               ],
               correct_answers: [
-                %{ text: "Fifth", id: "2" },
-                %{ text: "Sixth", id: "3" }
+                %{text: "Fifth", id: "2"},
+                %{text: "Sixth", id: "3"}
               ]
             }
           }
@@ -255,12 +255,12 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
               %{
                 question: "First question?",
                 answers: [
-                  %{ text: "First", id: "1" },
-                  %{ text: "Second", id: "2" },
-                  %{ text: "Third", id: "3" }
+                  %{text: "First", id: "1"},
+                  %{text: "Second", id: "2"},
+                  %{text: "Third", id: "3"}
                 ],
                 correct_answers: [
-                  %{ text: "Second", id: "2" }
+                  %{text: "Second", id: "2"}
                 ]
               }
             ]
@@ -295,13 +295,13 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             quizQuestions: %{
               question: "Updated question?",
               answers: [
-                %{ text: "Fourth", id: "1" },
-                %{ text: "Fifth", id: "2" },
-                %{ text: "Sixth", id: "3" }
+                %{text: "Fourth", id: "1"},
+                %{text: "Fifth", id: "2"},
+                %{text: "Sixth", id: "3"}
               ],
               correct_answers: [
-                %{ text: "Fifth", id: "2" },
-                %{ text: "Sixth", id: "3" }
+                %{text: "Fifth", id: "2"},
+                %{text: "Sixth", id: "3"}
               ]
             }
           }

@@ -18,22 +18,22 @@ defmodule Sozisel.EventsTest do
           %{
             question: "What is the capital of Poland?",
             answers: [
-              %{ text: "Cracow", id: "1" },
-              %{ text: "Warsaw", id: "2" },
-              %{ text: "Podlasie", id: "3" }
+              %{text: "Cracow", id: "1"},
+              %{text: "Warsaw", id: "2"},
+              %{text: "Podlasie", id: "3"}
             ],
             correct_answers: [
-              %{ text: "Warsaw", id: "2" }
+              %{text: "Warsaw", id: "2"}
             ]
           },
           %{
             question: "First question?",
             answers: [
-              %{ text: "Answer 1", id: "1" },
-              %{ text: "Answer 2", id: "2" }
+              %{text: "Answer 1", id: "1"},
+              %{text: "Answer 2", id: "2"}
             ],
             correct_answers: [
-              %{ text: "Answer 1", id: "1" }
+              %{text: "Answer 1", id: "1"}
             ]
           }
         ]
@@ -50,14 +50,14 @@ defmodule Sozisel.EventsTest do
           %{
             question: "What color is the banana?",
             answers: [
-              %{ text: "Red", id: "1" },
-              %{ text: "Black", id: "2" },
-              %{ text: "Yellow", id: "3" },
-              %{ text: "Green", id: "4" }
+              %{text: "Red", id: "1"},
+              %{text: "Black", id: "2"},
+              %{text: "Yellow", id: "3"},
+              %{text: "Green", id: "4"}
             ],
             correct_answers: [
-              %{ text: "Yellow", id: "3" },
-              %{ text: "Green", id: "4" }
+              %{text: "Yellow", id: "3"},
+              %{text: "Green", id: "4"}
             ]
           }
         ]
@@ -124,7 +124,7 @@ defmodule Sozisel.EventsTest do
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "First question?",
                    answers: [
-                     %Sozisel.Model.Quizzes.Answer{id: "1", text: "Answer 1"}, 
+                     %Sozisel.Model.Quizzes.Answer{id: "1", text: "Answer 1"},
                      %Sozisel.Model.Quizzes.Answer{id: "2", text: "Answer 2"}
                    ],
                    correct_answers: [
@@ -163,7 +163,7 @@ defmodule Sozisel.EventsTest do
                      %Sozisel.Model.Quizzes.Answer{id: "4", text: "Green"}
                    ],
                    correct_answers: [
-                     %Sozisel.Model.Quizzes.Answer{id: "3", text: "Yellow"}, 
+                     %Sozisel.Model.Quizzes.Answer{id: "3", text: "Yellow"},
                      %Sozisel.Model.Quizzes.Answer{id: "4", text: "Green"}
                    ]
                  }

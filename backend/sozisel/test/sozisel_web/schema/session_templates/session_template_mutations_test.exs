@@ -76,12 +76,12 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
         %{
           question: "What is the capital of Poland?",
           answers: [
-            %{ text: "Cracow", id: "1" },
-            %{ text: "Warsaw", id: "2" },
-            %{ text: "Podlasie", id: "3" }
+            %{text: "Cracow", id: "1"},
+            %{text: "Warsaw", id: "2"},
+            %{text: "Podlasie", id: "3"}
           ],
           correct_answers: [
-            %{ text: "Warsaw", id: "2" }
+            %{text: "Warsaw", id: "2"}
           ]
         }
       ]
