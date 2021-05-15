@@ -1,18 +1,16 @@
 defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   alias SoziselWeb.Context
-  alias Sozisel.Repo
   alias Sozisel.Model.{Events, Sessions}
   alias Events.Event
   alias Sessions.Template
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
-  def get_event(_parent, %{id: event_id}, ctx) do
+  def get_event(_parent, _args, ctx) do
     with %Event{} = event <- fetch_resource!(ctx, Event) do
       {:ok, event}
     else
       %Event{} -> {:error, :unauthorized}
-      nil -> {:ok, nil}
     end
   end
 
