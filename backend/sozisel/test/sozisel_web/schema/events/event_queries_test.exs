@@ -18,8 +18,14 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
           trackingMode
           quizQuestions {
               question
-              answers
-              correctAnswers
+              answers {
+                text
+                id
+              }
+              correctAnswers {
+                text
+                id
+              }
           }
         }
       }
@@ -40,8 +46,14 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
       quiz_questions: [
         %{
           question: "What is the capital of Poland?",
-          answers: ["Cracow", "Warsaw", "Podlasie"],
-          correct_answers: ["Warsaw"]
+          answers: [
+            %{ text: "Cracow", id: "1" },
+            %{ text: "Warsaw", id: "2" },
+            %{ text: "Podlasie", id: "3" }
+          ],
+          correct_answers: [
+            %{ text: "Warsaw", id: "2" }
+          ]
         }
       ]
     }
@@ -79,8 +91,14 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
                      "quizQuestions" => [
                        %{
                          "question" => "What is the capital of Poland?",
-                         "answers" => ["Cracow", "Warsaw", "Podlasie"],
-                         "correctAnswers" => ["Warsaw"]
+                         "answers" => [
+                           %{"id" => "1", "text" => "Cracow"}, 
+                           %{"id" => "2", "text" => "Warsaw"}, 
+                           %{"id" => "3", "text" => "Podlasie"}
+                         ],
+                         "correctAnswers" => [
+                           %{"id" => "2", "text" => "Warsaw"}
+                         ]
                        }
                      ]
                    },
