@@ -7,11 +7,7 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
   def get_event(_parent, _args, ctx) do
-    with %Event{} = event <- fetch_resource!(ctx, Event) do
-      {:ok, event}
-    else
-      %Event{} -> {:error, :unauthorized}
-    end
+    {:ok, fetch_resource!(ctx, Event)}
   end
 
   def create(_parent, %{input: input}, ctx) do
