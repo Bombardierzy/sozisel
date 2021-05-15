@@ -10,8 +10,13 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   object :quiz_question do
     field :question, non_null(:string)
-    field :answers, strong_list_of(:string)
-    field :correct_answers, strong_list_of(:string)
+    field :answers, strong_list_of(:answer)
+    field :correct_answers, strong_list_of(:answer)
+  end
+
+  object :answer do
+    field :text, non_null(:string)
+    field :id, non_null(:string)
   end
 
   input_object :quiz_input do
@@ -23,8 +28,13 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   input_object :quiz_question_input do
     field :question, non_null(:string)
-    field :answers, strong_list_of(:string)
-    field :correct_answers, strong_list_of(:string)
+    field :answers, strong_list_of(:answer_input)
+    field :correct_answers, strong_list_of(:answer_input)
+  end
+
+  input_object :answer_input do
+    field :text, non_null(:string)
+    field :id, non_null(:string)
   end
 
   input_object :create_quiz_input do

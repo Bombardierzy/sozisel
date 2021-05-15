@@ -37,6 +37,11 @@ defmodule Sozisel.Model.Bodyguard do
   # Events
   def authorize(:create_event, %User{id: user_id}, %Template{user_id: user_id}), do: :ok
 
+  def authorize(:query_event, %User{id: user_id}, %Event{
+        session_template_id: session_template_id
+      }),
+      do: Sessions.is_template_owner(session_template_id, user_id) |> handle_result()
+
   def authorize(:update_event, %User{id: user_id}, %Event{
         session_template_id: session_template_id
       }),

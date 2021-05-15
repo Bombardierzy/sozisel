@@ -75,8 +75,14 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
       quiz_questions: [
         %{
           question: "What is the capital of Poland?",
-          answers: ["Cracow", "Warsaw", "Podlasie"],
-          correct_answers: ["Warsaw"]
+          answers: [
+            %{text: "Cracow", id: "1"},
+            %{text: "Warsaw", id: "2"},
+            %{text: "Podlasie", id: "3"}
+          ],
+          correct_answers: [
+            %{text: "Warsaw", id: "2"}
+          ]
         }
       ]
     }
