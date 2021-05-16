@@ -274,7 +274,7 @@ export default function SessionFilters({
             {t("components.SessionsList.filters")}
           </Typography>
         </div>
-        <Alert className="ErrorAlert" variant="outlined" severity="error">
+        <Alert className="errorAlert" variant="outlined" severity="error">
           {t("components.SessionsList.fetchingErrorMessage")}
         </Alert>
       </Paper>

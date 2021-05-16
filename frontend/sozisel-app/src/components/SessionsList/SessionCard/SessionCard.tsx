@@ -15,10 +15,10 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-import { Session } from "../../../graphql";
+import { Session } from "../../../model/Session";
 import ShareIcon from "@material-ui/icons/Share";
-import getSessionStatus from "../../../model/utils/session";
 import useAvatarById from "../../../hooks/useAvatarById";
+import useSessionStatus from "../../../hooks/useSessionStatus";
 import { useTranslation } from "react-i18next";
 
 export interface SessionCardProps {
@@ -32,7 +32,8 @@ export default function SessionCard({
   onDelete,
 }: SessionCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const sessionLink = `https://sozisel.pl/sessions/${session.id}/join`;
+  const { status, isScheduled, isEnded } = useSessionStatus(session);
+  const sessionLink = `${window.location.protocol}//${window.location.hostname}/sessions/${session.id}/join`;
   const avatar = useAvatarById(session.id);
   const [raised, setRaised] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -60,19 +61,19 @@ export default function SessionCard({
               {new Date(session.scheduledStartTime).toLocaleString()}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              {t("components.SessionsList.status")}: {getSessionStatus(session)}
+              {t("components.SessionsList.status")}: {status}
             </Typography>
           </CardContent>
           <CardActions className="cardActions">
             <div className="iconButtons">
               <IconButton
-                disabled={getSessionStatus(session) == "Zakończona"}
+                disabled={isEnded}
                 onClick={() => setDialogOpen(true)}
               >
                 <ShareIcon />
               </IconButton>
               <IconButton
-                disabled={getSessionStatus(session) == "Zakończona"}
+                disabled={!isScheduled}
                 onClick={() => onDelete(session.id)}
               >
                 <DeleteIcon />
@@ -83,7 +84,7 @@ export default function SessionCard({
               color="primary"
               fullWidth
               className="actionButton"
-              disabled={getSessionStatus(session) == "Zakończona"}
+              disabled={!isScheduled}
             >
               {t("components.SessionsList.startSession")}
             </Button>
@@ -93,7 +94,7 @@ export default function SessionCard({
       <Dialog
         onClose={() => setDialogOpen(false)}
         open={dialogOpen}
-        maxWidth="md"
+        maxWidth="sm"
         fullWidth
       >
         <div className="shareDialog">
@@ -113,7 +114,7 @@ export default function SessionCard({
               {t("components.SessionsList.shareLabel")}
             </Typography>
             <div className="linkInput">
-              <div className="linkText">{sessionLink}</div>
+              <input className="linkText" value={sessionLink} readOnly />
               <div className="copyIconContainer">
                 <IconButton
                   onClick={() => {

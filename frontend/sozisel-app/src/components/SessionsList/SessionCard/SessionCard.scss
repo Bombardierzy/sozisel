@@ -75,6 +75,9 @@
     .linkText{
         flex: 20 20 auto;
         padding: $spacing-04;
+        border-radius: $spacing-03;
+        border: none;
+        outline: none;
     }
 
     .dialogContent{

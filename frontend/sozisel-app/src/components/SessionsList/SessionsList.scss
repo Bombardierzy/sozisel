@@ -1,10 +1,7 @@
 @import "../../styles/styles";
 
 .SessionsListContainer {
-    // 80px = navbar height
-    // i don't know why, but $navbar-height spacing doesn't work
-    // so i had to hardcoded this value
-    height: calc(100% - 80px);
+    height: calc(100% - #{$navbar-height});
     background-color: $bg-01;
     margin: 0;
     display: flex;
@@ -28,7 +25,7 @@
         padding: 0 5%;
     }
 
-    .ErrorAlert{
+    .errorAlert{
         padding: $spacing-05;
         margin: $spacing-09;
         height: fit-content;

@@ -177,7 +177,7 @@ export default function SessionsList(): ReactElement {
     <>
       <MainNavbar></MainNavbar>
       <div className="SessionsListContainer">
-        <Alert className="ErrorAlert" variant="outlined" severity="error">
+        <Alert className="errorAlert" variant="outlined" severity="error">
           {t("components.SessionsList.fetchingErrorMessage")}
         </Alert>
       </div>
