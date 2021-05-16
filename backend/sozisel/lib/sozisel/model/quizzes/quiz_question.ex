@@ -6,6 +6,7 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
 
   @type t :: %__MODULE__{
           question: String.t(),
+          id: String.t(),
           answers: [String.t()],
           correct_answers: [String.t()]
         }
@@ -14,16 +15,17 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
 
   embedded_schema do
     field :question, :string
+    field :id, :string
     embeds_many :answers, Answer, on_replace: :delete
     embeds_many :correct_answers, Answer, on_replace: :delete
   end
 
   def changeset(quiz_question, attrs) do
     quiz_question
-    |> cast(attrs, [:question])
+    |> cast(attrs, [:question, :id])
     |> cast_embed(:answers)
     |> cast_embed(:correct_answers)
-    |> validate_required([:question, :answers, :correct_answers])
+    |> validate_required([:question, :answers, :correct_answers, :id])
     |> validate_answer_inclusion()
     |> validate_length(:answers, min: 2)
     |> validate_length(:correct_answers, min: 1)

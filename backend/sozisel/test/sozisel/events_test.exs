@@ -17,6 +17,7 @@ defmodule Sozisel.EventsTest do
         quiz_questions: [
           %{
             question: "What is the capital of Poland?",
+            id: "1",
             answers: [
               %{text: "Cracow", id: "1"},
               %{text: "Warsaw", id: "2"},
@@ -28,6 +29,7 @@ defmodule Sozisel.EventsTest do
           },
           %{
             question: "First question?",
+            id: "2",
             answers: [
               %{text: "Answer 1", id: "1"},
               %{text: "Answer 2", id: "2"}
@@ -49,6 +51,7 @@ defmodule Sozisel.EventsTest do
         quiz_questions: [
           %{
             question: "What color is the banana?",
+            id: "3",
             answers: [
               %{text: "Red", id: "1"},
               %{text: "Black", id: "2"},
@@ -112,6 +115,7 @@ defmodule Sozisel.EventsTest do
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "What is the capital of Poland?",
+                   id: "1",
                    answers: [
                      %Sozisel.Model.Quizzes.Answer{id: "1", text: "Cracow"},
                      %Sozisel.Model.Quizzes.Answer{id: "2", text: "Warsaw"},
@@ -123,6 +127,7 @@ defmodule Sozisel.EventsTest do
                  },
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "First question?",
+                   id: "2",
                    answers: [
                      %Sozisel.Model.Quizzes.Answer{id: "1", text: "Answer 1"},
                      %Sozisel.Model.Quizzes.Answer{id: "2", text: "Answer 2"}
@@ -156,6 +161,7 @@ defmodule Sozisel.EventsTest do
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
                    question: "What color is the banana?",
+                   id: "3",
                    answers: [
                      %Sozisel.Model.Quizzes.Answer{id: "1", text: "Red"},
                      %Sozisel.Model.Quizzes.Answer{id: "2", text: "Black"},
