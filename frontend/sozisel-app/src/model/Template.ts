@@ -20,16 +20,23 @@ export interface Event {
 export type EventData = Quiz;
 
 export interface Quiz {
+  __typename?: string;
   durationTimeSec: number;
-  quizQuestions: Array<QuizQuestion>;
+  quizQuestions: QuizQuestion[];
   targetPercentageOfParticipants: number;
   trackingMode: boolean;
 }
 
 export type QuizQuestion = {
-  answers: string[];
-  correctAnswers: string[];
+  id: string;
+  answers: Answer[];
+  correctAnswers: Answer[];
   question: string;
+};
+
+export type Answer = {
+  text: string;
+  id: string;
 };
 
 export interface Owner {

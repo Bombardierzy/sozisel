@@ -20,13 +20,21 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
             startMinute
             eventData {
                 ... on Quiz {
+                    __typename
                     durationTimeSec
                     trackingMode
                     targetPercentageOfParticipants
                     quizQuestions {
+                        id
                         question
-                        answers
-                        correctAnswers
+                        answers {
+                            text
+                            id
+                        }
+                        correctAnswers {
+                            text
+                            id
+                        }
                     }
                 }
             }
@@ -56,13 +64,21 @@ query SessionTemplate($id: ID!) {
             startMinute
             eventData {
                 ... on Quiz {
+                    __typename
                     durationTimeSec
                     trackingMode
                     targetPercentageOfParticipants
                     quizQuestions {
+                        id
                         question
-                        answers
-                        correctAnswers
+                        answers {
+                            text
+                            id
+                        }
+                        correctAnswers {
+                            text
+                            id
+                        }
                     }
                 }
             }

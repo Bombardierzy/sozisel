@@ -63,16 +63,29 @@
         "moduleName": "Nazwa wydarzenia",
         "moduleType": "Typ modułu",
         "startTime": "Czas rozpoczęcia (w minutach)",
-        "submitButtonLabel": "Dodaj"
+        "submitButtonLabel": "Dodaj",
+        "updateButtonLabel": "Zaktualizuj wydarzenie",
+        "endEditButtonLabel": "Zakończ edycje",
+        "onAddEventMessage": "Dodano nowe wydarzenie!",
+        "onEditEventMessage": "Zaktualizowano wydarzenie!"
       },
       "Quiz": {
         "Question": {
           "defaultAnswer": "Odpowiedź...",
           "defaultQuestion": "Treść pytania..."
         },
-        "durationTime": "Czas trwania (w minutach)",
+        "durationTime": "Czas trwania (w sekundach)",
         "percentageOfParticipants": "Procent uczestników",
         "trackingMode": "Śledzenie odpowiedzi"
+      },
+      "EventList": {
+        "Quiz": {
+          "startMinute": "Czas rozpoczęcia: {{value}} minuta",
+          "durationTime": "Czas trwania: {{value}} sekund",
+          "percentageOfParticipants": "Uczestnicy: {{value}}%",
+          "trackingMode": "Śledzenie odpowiedzi: {{value}}",
+          "onDeleteEventMessage": "Usunięto wydarzenie!"
+        }
       }
     }
   },
@@ -82,6 +95,9 @@
     "passwordsNotMatch": "Podane hasła nie są identyczne!",
     "agendaEntryExists": "Już istenie punkt w agencie, który rozpoczyna się o tej minucie",
     "agendaIncorrectTime": "Nie można dodawać punktu do agendy, który rozpoczyna się po zakonczeniu sesji",
-    "incorrectPercentageValue": "Podana wartości nie mieści się w przedziale 0-100"
+    "incorrectPercentageValue": "Podana wartości nie mieści się w przedziale 1-100",
+    "incorrectStartMinute": "Podana wartości musi być większa od 0",
+    "percentageOfParticipants": "Podana wartości musi być większa od 0",
+    "incorrectQuizQuestion": "Pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną !"
   }
 }

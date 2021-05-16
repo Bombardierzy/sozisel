@@ -1,0 +1,20 @@
+@import "../../../../../../styles/styles";
+
+.QuestionContainer {
+    padding: 0;
+    border: 0;
+    margin-top: $spacing-05;
+    .header {
+        @include header-01;
+        font-size: 16px;
+    }
+    .correctAnswer {
+        color: $main-color;
+    }
+    .details {
+        padding-top: 0;
+    }
+    li {
+        cursor: default;
+    }
+}

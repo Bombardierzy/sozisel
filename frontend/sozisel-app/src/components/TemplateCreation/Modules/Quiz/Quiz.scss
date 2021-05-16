@@ -14,4 +14,16 @@
     .durationTime {
         width: 100%;
     }
+    .error {
+        @include error;
+        text-align: center;
+    }
+    .updateButtons {
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .updateButton {
+        width: 40%;
+        margin-top: $spacing-04;
+    }
 }

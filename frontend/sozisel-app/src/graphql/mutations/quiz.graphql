@@ -3,3 +3,16 @@ mutation CreateQuiz($input: CreateQuizInput!) {
     id
   }
 }
+
+mutation UpdateQuiz($input: UpdateQuizInput!) {
+  updateQuiz(input: $input) {
+    id
+  }
+}
+
+mutation DeleteQuiz($id: ID!) {
+  deleteQuiz(id: $id) {
+    id
+  }
+}
+

@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import React, { ReactElement, useCallback } from "react";
+import { useHistory, useLocation } from "react-router";
 import {
   useSessionTemplateQuery,
   useUpdateSessionTemplateInputMutation,
@@ -21,13 +22,13 @@ import Agenda from "./Agenda/Agenda";
 import AgendaEntryCreation from "./AgendaEntryCreation/AgendaEntryCreation";
 import { AgendaPoint } from "../../model/Agenda";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { EventContextProvider } from "../../contexts/Event/EventContext";
 import EventCreation from "./EventCreation/EventCreation";
 import EventList from "./EventsList/EventList";
 import { Grid } from "@material-ui/core";
 import MainNavbar from "../MainNavbar/MainNavbar";
 import TemplateContextProvider from "../../contexts/Template/TemplateContext";
 import { useEffect } from "react";
-import { useLocation } from "react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -47,6 +48,7 @@ const templateDetailsSchema = yup.object().shape({
 
 export default function TemplateCreation(): ReactElement {
   const location = useLocation<{ id: string }>();
+  const history = useHistory();
   const { data, loading } = useSessionTemplateQuery({
     variables: { id: location.state.id },
   });
@@ -108,8 +110,9 @@ export default function TemplateCreation(): ReactElement {
           },
         },
       });
+      history.push("");
     },
-    [updateSessionTemplateInputMutation, location, agenda, isPublic]
+    [updateSessionTemplateInputMutation, location.state.id, isPublic, agenda, history]
   );
 
   const { t } = useTranslation("common");
@@ -221,8 +224,10 @@ export default function TemplateCreation(): ReactElement {
                   sessionDurationTime={durationTime}
                 />
               </Paper>
-              <EventList events={template?.events} />
-              <EventCreation />
+              <EventContextProvider>
+                <EventList events={template?.events} />
+                <EventCreation />
+              </EventContextProvider>
             </div>
           </>
         </TemplateContextProvider>

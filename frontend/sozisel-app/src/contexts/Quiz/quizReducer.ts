@@ -1,36 +1,49 @@
-import { Answer, QuizQuestionType } from "../../model/Quiz";
+import { Answer, QuizQuestion } from "../../model/Template";
+
+import { v4 as uuidv4 } from "uuid";
 
 export type QuizActions =
-  | { type: "ADD_ANSWER"; answer: Answer; question: QuizQuestionType }
-  | { type: "DELETE_ANSWER"; answer: Answer; question: QuizQuestionType }
-  | { type: "UPDATE_ANSWER"; answer: Answer; question: QuizQuestionType }
+  | { type: "ADD_ANSWER"; answer: Answer; question: QuizQuestion }
+  | { type: "SET_DURATION_TIME"; durationTime: number }
+  | { type: "SET_PERCENTAGE_OF_PARTICIPANTS"; percentageOfParticipants: number }
+  | { type: "SET_TRACKING_MODE"; trackingMode: boolean }
+  | { type: "SET_QUESTIONS"; questions: QuizQuestion[] }
+  | { type: "RESET" }
+  | { type: "DELETE_ANSWER"; answer: Answer; question: QuizQuestion }
+  | { type: "UPDATE_ANSWER"; answer: Answer; question: QuizQuestion }
   | {
       type: "TOGGLE_CORRECT_ANSWER";
       correctAnswer: Answer;
-      question: QuizQuestionType;
+      question: QuizQuestion;
     }
   | {
       type: "DELETE_CORRECT_ANSWER";
       correctAnswer: Answer;
-      question: QuizQuestionType;
+      question: QuizQuestion;
     }
-  | { type: "ADD_QUESTION"; question: QuizQuestionType }
-  | { type: "UPDATE_QUESTION"; question: QuizQuestionType }
-  | { type: "DELETE_QUESTION"; question: QuizQuestionType };
+  | { type: "ADD_QUESTION"; question: QuizQuestion }
+  | { type: "UPDATE_QUESTION"; question: QuizQuestion }
+  | { type: "DELETE_QUESTION"; question: QuizQuestion };
 
 export interface QuizStoreInterface {
-  questions: QuizQuestionType[];
+  questions: QuizQuestion[];
+  durationTime: number;
+  percentageOfParticipants: number;
+  trackingMode: boolean;
 }
 
 export const initialQuestion = {
-  id: 0,
+  id: uuidv4(),
   question: "Treść pytania...",
-  answers: [{ id: 0, text: "Odpowiedź..." }],
+  answers: [{ id: uuidv4(), text: "Odpowiedź..." }],
   correctAnswers: [],
 };
 
 export const quizInitialState: QuizStoreInterface = {
   questions: [initialQuestion],
+  durationTime: 0,
+  trackingMode: false,
+  percentageOfParticipants: 0,
 };
 
 export default function quizReducer(
@@ -40,21 +53,41 @@ export default function quizReducer(
   switch (action.type) {
     case "ADD_ANSWER":
       return {
+        ...state,
         questions: addAnswer(state.questions, action.question, action.answer),
+      };
+    case "SET_DURATION_TIME":
+      return {
+        ...state,
+        durationTime: action.durationTime,
+      };
+    case "SET_PERCENTAGE_OF_PARTICIPANTS":
+      return {
+        ...state,
+        percentageOfParticipants: action.percentageOfParticipants,
+      };
+    case "SET_TRACKING_MODE":
+      return {
+        ...state,
+        trackingMode: action.trackingMode,
+      };
+    case "SET_QUESTIONS":
+      return {
+        ...state,
+        questions: action.questions,
       };
     case "UPDATE_ANSWER":
       return {
-        questions: setQuestionAnswers(
+        ...state,
+        questions: updateAnswer(
           state.questions,
           action.question,
-          updateAnswer(
-            getQuestionAnswers(state.questions, action.question),
-            action.answer
-          )
+          action.answer
         ),
       };
     case "DELETE_ANSWER":
       return {
+        ...state,
         questions: deleteQuestionAnswer(
           state.questions,
           action.question,
@@ -63,6 +96,7 @@ export default function quizReducer(
       };
     case "TOGGLE_CORRECT_ANSWER":
       return {
+        ...state,
         questions: toggleCorrectAnswer(
           state.questions,
           action.question,
@@ -70,15 +104,19 @@ export default function quizReducer(
         ),
       };
     case "ADD_QUESTION":
-      return { questions: [...state.questions, action.question] };
+      return { ...state, questions: [...state.questions, action.question] };
+    case "RESET":
+      return quizInitialState;
     case "DELETE_QUESTION":
       return {
+        ...state,
         questions: state.questions.filter(
           (question) => question.id !== action.question.id
         ),
       };
     case "UPDATE_QUESTION":
       return {
+        ...state,
         questions: state.questions.map((question) =>
           question.id === action.question.id ? action.question : question
         ),
@@ -89,8 +127,8 @@ export default function quizReducer(
 }
 
 const addAnswer = (
-  questions: QuizQuestionType[],
-  question: QuizQuestionType,
+  questions: QuizQuestion[],
+  question: QuizQuestion,
   answer: Answer
 ) =>
   questions.map((element) =>
@@ -100,8 +138,8 @@ const addAnswer = (
   );
 
 const addCorrectAnswer = (
-  questions: QuizQuestionType[],
-  question: QuizQuestionType,
+  questions: QuizQuestion[],
+  question: QuizQuestion,
   correctAnswer: Answer
 ) =>
   questions.map((element) =>
@@ -114,8 +152,8 @@ const addCorrectAnswer = (
   );
 
 const deleteQuestionAnswer = (
-  questions: QuizQuestionType[],
-  question: QuizQuestionType,
+  questions: QuizQuestion[],
+  question: QuizQuestion,
   answer: Answer
 ) =>
   questions.map((element) =>
@@ -130,18 +168,9 @@ const deleteQuestionAnswer = (
       : element
   );
 
-const setQuestionAnswers = (
-  questions: QuizQuestionType[],
-  question: QuizQuestionType,
-  answers: Answer[]
-) =>
-  questions.map((element) =>
-    element.id === question.id ? { ...element, answers: answers } : element
-  );
-
 const setCorrectQuestionAnswers = (
-  questions: QuizQuestionType[],
-  question: QuizQuestionType,
+  questions: QuizQuestion[],
+  question: QuizQuestion,
   correctAnswers: Answer[]
 ) =>
   questions.map((element) =>
@@ -153,23 +182,34 @@ const setCorrectQuestionAnswers = (
 const deleteAnswer = (answers: Answer[], answer: Answer) =>
   answers.filter((element) => element.id !== answer.id);
 
-const getQuestionAnswers = (
-  questions: QuizQuestionType[],
-  question: QuizQuestionType
-) => questions.find((element) => element.id === question.id)?.answers || [];
-
 const getQuestionCorrectAnswers = (
-  questions: QuizQuestionType[],
-  question: QuizQuestionType
+  questions: QuizQuestion[],
+  question: QuizQuestion
 ) =>
   questions.find((element) => element.id === question.id)?.correctAnswers || [];
 
-const updateAnswer = (answers: Answer[], newAnswer: Answer) =>
-  answers.map((element) => (element.id === newAnswer.id ? newAnswer : element));
+const updateAnswer = (
+  questions: QuizQuestion[],
+  question: QuizQuestion,
+  answer: Answer
+) =>
+  questions.map((element) =>
+    element.id === question.id
+      ? {
+          ...question,
+          answers: question.answers.map((ele) =>
+            answer.id === ele.id ? answer : ele
+          ),
+          correctAnswers: question.correctAnswers.map((ele) =>
+            answer.id === ele.id ? answer : ele
+          ),
+        }
+      : element
+  );
 
 const toggleCorrectAnswer = (
-  questions: QuizQuestionType[],
-  question: QuizQuestionType,
+  questions: QuizQuestion[],
+  question: QuizQuestion,
   correctAnswer: Answer
 ) => {
   if (
@@ -187,10 +227,3 @@ const toggleCorrectAnswer = (
     return addCorrectAnswer(questions, question, correctAnswer);
   }
 };
-
-export const mapQuizQuestions = (questions: QuizQuestionType[]) =>
-  questions.map((element) => ({
-    question: element.question,
-    correctAnswers: element.correctAnswers.map((answer) => answer.text),
-    answers: element.answers.map((answer) => answer.text),
-  }));

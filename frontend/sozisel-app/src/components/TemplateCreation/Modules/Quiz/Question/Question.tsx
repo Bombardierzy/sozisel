@@ -5,23 +5,18 @@ import React, { ReactElement } from "react";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import ClearIcon from "@material-ui/icons/Clear";
-import { QuizQuestionType } from "../../../../../model/Quiz";
+import { QuizQuestion } from "../../../../../model/Template";
 import { useQuizContext } from "../../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
+import { v4 as uuidv4 } from "uuid";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 interface NewQuestionProp {
-  answersCounter: number;
-  setAnswersCounter: (state: number) => void;
-  question: QuizQuestionType;
+  question: QuizQuestion;
 }
 
-export default function Question({
-  question,
-  answersCounter,
-  setAnswersCounter,
-}: NewQuestionProp): ReactElement {
+export default function Question({ question }: NewQuestionProp): ReactElement {
   const { t } = useTranslation("common");
   const [, dispatch] = useQuizContext();
   return (
@@ -69,7 +64,9 @@ export default function Question({
             })
           }
           className={`answer ${
-            question.correctAnswers.includes(answer) && "correctAnswer"
+            question.correctAnswers.filter(
+              (correctAnswer) => correctAnswer.id === answer.id
+            ).length > 0 && "correctAnswer"
           }`}
           error={answer.text === ""}
           helperText={answer.text === "" && t("inputErrors.fieldRequired")}
@@ -98,12 +95,11 @@ export default function Question({
           className="addButton"
           color="primary"
           onClick={() => {
-            setAnswersCounter(answersCounter + 1);
             dispatch({
               type: "ADD_ANSWER",
               question,
               answer: {
-                id: answersCounter + 1,
+                id: uuidv4(),
                 text: t(
                   "components.TemplateCreation.Quiz.Question.defaultAnswer"
                 ),

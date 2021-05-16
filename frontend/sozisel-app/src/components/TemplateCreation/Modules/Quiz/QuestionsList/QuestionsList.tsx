@@ -1,26 +1,21 @@
 import "./QuestionsList.scss";
 
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 
 import { Button } from "@material-ui/core";
 import Question from "../Question/Question";
-import { QuizQuestionType } from "../../../../../model/Quiz";
+import { QuizQuestion } from "../../../../../model/Template";
 import { initialQuestion } from "../../../../../contexts/Quiz/quizReducer";
 import { useQuizContext } from "../../../../../contexts/Quiz/QuizContext";
+import { v4 as uuidv4 } from "uuid";
 
 export default function QuestionList(): ReactElement {
-  const [answersCounter, setAnswersCounter] = useState<number>(0);
   const [{ questions }, dispatch] = useQuizContext();
 
   return (
     <div className="QuestionsList">
-      {questions.map((question: QuizQuestionType) => (
-        <Question
-          key={question.id}
-          question={question}
-          answersCounter={answersCounter}
-          setAnswersCounter={setAnswersCounter}
-        />
+      {questions.map((question: QuizQuestion) => (
+        <Question key={question.id} question={question} />
       ))}
 
       <Button
@@ -30,7 +25,7 @@ export default function QuestionList(): ReactElement {
         onClick={() =>
           dispatch({
             type: "ADD_QUESTION",
-            question: { ...initialQuestion, id: questions.length + 1 },
+            question: { ...initialQuestion, id: uuidv4() },
           })
         }
       >

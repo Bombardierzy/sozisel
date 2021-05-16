@@ -11,11 +11,12 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 
 import Quiz from "../Modules/Quiz/Quiz";
 import { QuizContextProvider } from "../../../contexts/Quiz/QuizContext";
 import { quizSchema } from "./Schemas";
+import { useEventContext } from "../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -31,9 +32,17 @@ const createSchema = (moduleType: string): yup.AnyObjectSchema => {
 export default function EventCreation(): ReactElement {
   const { t } = useTranslation("common");
   const [moduleType, setModuleType] = useState<string>("Quiz");
-  const { handleSubmit, errors, control } = useForm({
+  const [{ startMinute, name, id }] = useEventContext();
+  const { handleSubmit, errors, control, setValue } = useForm({
     resolver: yupResolver(createSchema(moduleType)),
   });
+
+  useEffect(() => {
+    if (id !== "") {
+      setValue("eventName", name);
+      setValue("startMinute", startMinute);
+    }
+  }, [id, name, setValue, startMinute]);
 
   return (
     <Paper className="EventCreation" elevation={2}>
@@ -102,6 +111,7 @@ export default function EventCreation(): ReactElement {
               handleSubmit={handleSubmit}
               errors={errors}
               control={control}
+              setValue={setValue}
             />
           </QuizContextProvider>
         )}

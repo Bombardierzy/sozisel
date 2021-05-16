@@ -3,18 +3,24 @@ import "./Quiz.scss";
 import {
   Button,
   InputAdornment,
+  Snackbar,
   Switch,
   TextField,
   Typography,
 } from "@material-ui/core";
 import { Control, Controller, DeepMap, FieldError } from "react-hook-form";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
+import {
+  useCreateQuizMutation,
+  useUpdateQuizMutation,
+} from "../../../../graphql";
 
+import { Alert } from "@material-ui/lab";
 import QuestionsList from "./QuestionsList/QuestionsList";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
-import { mapQuizQuestions } from "../../../../contexts/Quiz/quizReducer";
 import { useContext } from "react";
-import { useCreateQuizMutation } from "../../../../graphql";
+import { useEffect } from "react";
+import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useQuizContext } from "../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
 
@@ -22,6 +28,16 @@ interface QuizProps {
   errors: DeepMap<Record<string, any>, FieldError>;
   control: Control;
   handleSubmit: any;
+  setValue: (
+    name: string,
+    value: string | number,
+    config?:
+      | Partial<{
+          shouldValidate: boolean;
+          shouldDirty: boolean;
+        }>
+      | undefined
+  ) => void;
 }
 
 interface QuizData {
@@ -35,35 +51,118 @@ export default function Quiz({
   errors,
   control,
   handleSubmit,
+  setValue,
 }: QuizProps): ReactElement {
   const { id } = useContext(TemplateContext);
-  const [createQuiz, { error }] = useCreateQuizMutation();
+  const [createQuiz, { error: createQuizError }] = useCreateQuizMutation({
+    refetchQueries: ["SessionTemplate"],
+  });
+  const [message, setMessage] = useState<string>("");
+  const [updateQuiz, { error: updateQuizError }] = useUpdateQuizMutation({
+    refetchQueries: ["SessionTemplate"],
+  });
+  const [event, eventDispatch] = useEventContext();
   const { t } = useTranslation("common");
-  const [trackingMode, setTrackingMode] = useState<boolean>(false);
-  const [questions] = useQuizContext();
-  const onSubmit = async (data: QuizData) => {
-   await createQuiz({
-      variables: {
-        input: {
-          name: data.eventName,
-          eventData: {
-            durationTimeSec: data.durationTime,
-            trackingMode,
-            quizQuestions: mapQuizQuestions(questions.questions),
-            targetPercentageOfParticipants: data.percentageOfParticipants,
-          },
-          sessionTemplateId: id,
-          startMinute: data.startMinute,
-        },
-      },
-    });
+  const [
+    { questions, percentageOfParticipants, durationTime, trackingMode },
+    quizDispatch,
+  ] = useQuizContext();
 
-    console.log(error);
-    console.log(data);
-    console.log( mapQuizQuestions(questions.questions));
-    console.log( trackingMode);
-    console.log( id);
-  };
+  useEffect(() => {
+    if (event.id !== "") {
+      quizDispatch({
+        type: "SET_QUESTIONS",
+        questions: event.eventData.quizQuestions,
+      });
+      quizDispatch({
+        type: "SET_TRACKING_MODE",
+        trackingMode: event.eventData.trackingMode,
+      });
+      quizDispatch({
+        type: "SET_PERCENTAGE_OF_PARTICIPANTS",
+        percentageOfParticipants:
+          event.eventData.targetPercentageOfParticipants,
+      });
+      quizDispatch({
+        type: "SET_DURATION_TIME",
+        durationTime: event.eventData.durationTimeSec,
+      });
+    }
+  }, [
+    quizDispatch,
+    event.id,
+    event.eventData.quizQuestions,
+    event.eventData.trackingMode,
+    event.eventData.targetPercentageOfParticipants,
+    event.eventData.durationTimeSec,
+  ]);
+
+  const onReset = useCallback((): void => {
+    setValue(
+      "eventName",
+      String(t("components.TemplateCreation.EventCreation.moduleName"))
+    );
+    setValue("durationTime", "");
+    setValue("startMinute", "");
+    setValue("percentageOfParticipants", "");
+    quizDispatch({ type: "RESET" });
+    eventDispatch({ type: "RESET" });
+  }, [eventDispatch, quizDispatch, setValue, t]);
+
+  useEffect(() => {
+    percentageOfParticipants !== 0 &&
+      setValue("percentageOfParticipants", percentageOfParticipants);
+    durationTime !== 0 && setValue("durationTime", durationTime);
+  }, [percentageOfParticipants, durationTime, setValue]);
+
+  const onUpdate = useCallback(
+    async (data: QuizData) => {
+      await updateQuiz({
+        variables: {
+          input: {
+            name: data.eventName,
+            eventData: {
+              durationTimeSec: data.durationTime,
+              trackingMode: trackingMode,
+              quizQuestions: questions,
+              targetPercentageOfParticipants: data.percentageOfParticipants,
+            },
+            id: event.id,
+            startMinute: data.startMinute,
+          },
+        },
+      });
+      setMessage(
+        t("components.TemplateCreation.EventCreation.onEditEventMessage")
+      );
+    },
+    [event.id, questions, t, trackingMode, updateQuiz]
+  );
+
+  const onSubmit = useCallback(
+    async (data: QuizData) => {
+      setMessage(
+        t("components.TemplateCreation.EventCreation.onAddEventMessage")
+      );
+      await createQuiz({
+        variables: {
+          input: {
+            name: data.eventName,
+            eventData: {
+              durationTimeSec: data.durationTime,
+              trackingMode: trackingMode,
+              quizQuestions: questions,
+              targetPercentageOfParticipants: data.percentageOfParticipants,
+            },
+            sessionTemplateId: id,
+            startMinute: data.startMinute,
+          },
+        },
+      });
+      onReset();
+    },
+    [createQuiz, id, onReset, questions, t, trackingMode]
+  );
 
   return (
     <div className="Quiz">
@@ -115,22 +214,63 @@ export default function Quiz({
         <Typography className="label">
           {t("components.TemplateCreation.Quiz.trackingMode")}
           <Switch
-            defaultChecked={trackingMode}
-            onChange={(e) => setTrackingMode(e.target.checked)}
+            checked={trackingMode}
+            onChange={(e) =>
+              quizDispatch({
+                type: "SET_TRACKING_MODE",
+                trackingMode: e.target.checked,
+              })
+            }
             color="primary"
           />
         </Typography>
 
         <QuestionsList />
-        {error && error.message}
-        <Button
-          color="primary"
-          onClick={() => handleSubmit(onSubmit)()}
-          variant="contained"
-          className="submitButton"
+        {(createQuizError) && (
+          <Typography className="error">
+            {t("inputErrors.incorrectQuizQuestion")}
+          </Typography>
+        )}
+        {event.id ? (
+          <div className="updateButtons">
+            <Button
+              color="primary"
+              onClick={() => handleSubmit(onUpdate)()}
+              variant="contained"
+              className="updateButton"
+            >
+              {t("components.TemplateCreation.EventCreation.updateButtonLabel")}
+            </Button>
+            <Button
+              color="primary"
+              onClick={() => onReset()}
+              variant="contained"
+              className="updateButton"
+            >
+              {t(
+                "components.TemplateCreation.EventCreation.endEditButtonLabel"
+              )}
+            </Button>
+          </div>
+        ) : (
+          <Button
+            color="primary"
+            onClick={() => handleSubmit(onSubmit)()}
+            variant="contained"
+            className="submitButton"
+          >
+            {t("components.TemplateCreation.EventCreation.submitButtonLabel")}
+          </Button>
+        )}
+        <Snackbar
+          open={message !== ""}
+          autoHideDuration={3000}
+          onClose={() => setMessage("")}
         >
-          {t("components.TemplateCreation.EventCreation.submitButtonLabel")}
-        </Button>
+          <Alert severity="success" onClose={() => setMessage("")}>
+            {message}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );
