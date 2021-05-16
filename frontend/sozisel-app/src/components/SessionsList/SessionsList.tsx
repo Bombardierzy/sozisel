@@ -34,10 +34,6 @@ export default function SessionsList(): ReactElement {
   const { t } = useTranslation("common");
   const [filters, setFilters] = useState<SessionFiltersSchema>({
     status: SessionStatus.Any,
-    templateId: undefined,
-    dateFrom: undefined,
-    dateTo: undefined,
-    name: undefined,
   });
   const [searchName, setSearchName] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");

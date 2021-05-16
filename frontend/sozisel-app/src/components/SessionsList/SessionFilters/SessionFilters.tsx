@@ -30,10 +30,10 @@ function Alert(props: AlertProps) {
 
 export interface SessionFiltersSchema {
   status: SessionStatus;
-  templateId: string | undefined;
-  dateFrom: Date | undefined;
-  dateTo: Date | undefined;
-  name: string | undefined;
+  templateId?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
+  name?: string;
 }
 
 export interface SessionFiltersProps {
@@ -88,7 +88,6 @@ export default function SessionFilters({
       templateId: isTemplateFilterActive ? templateId : undefined,
       dateFrom: isDateFromFilterActive ? new Date(dateFrom) : undefined,
       dateTo: isDateToFilterActive ? new Date(dateTo) : undefined,
-      name: undefined,
     });
   };
 
