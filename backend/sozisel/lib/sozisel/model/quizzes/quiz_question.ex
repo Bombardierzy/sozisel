@@ -2,6 +2,8 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
   use Sozisel.Model.Schema
   import Ecto.Changeset
 
+  alias Sozisel.Model.Quizzes.Answer
+
   @type t :: %__MODULE__{
           question: String.t(),
           answers: [String.t()],
@@ -12,13 +14,15 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
 
   embedded_schema do
     field :question, :string
-    field :answers, {:array, :string}
-    field :correct_answers, {:array, :string}
+    embeds_many :answers, Answer, on_replace: :delete
+    embeds_many :correct_answers, Answer, on_replace: :delete
   end
 
   def changeset(quiz_question, attrs) do
     quiz_question
-    |> cast(attrs, [:question, :answers, :correct_answers])
+    |> cast(attrs, [:question])
+    |> cast_embed(:answers)
+    |> cast_embed(:correct_answers)
     |> validate_required([:question, :answers, :correct_answers])
     |> validate_answer_inclusion()
     |> validate_length(:answers, min: 2)

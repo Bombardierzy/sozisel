@@ -6,6 +6,10 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
+  def get_event(_parent, _args, ctx) do
+    {:ok, fetch_resource!(ctx, Event)}
+  end
+
   def create(_parent, %{input: input}, ctx) do
     user = Context.current_user!(ctx)
 
