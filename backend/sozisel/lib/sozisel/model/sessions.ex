@@ -68,8 +68,6 @@ defmodule Sozisel.Model.Sessions do
   * `date_to` - date up to which scheduled_start_time should end
   """
   def list_sessions(filters) do
-    now = DateTime.utc_now()
-
     filters
     |> Enum.reduce(Session, fn
       {:user_id, user_id}, session ->
@@ -82,7 +80,7 @@ defmodule Sozisel.Model.Sessions do
         from s in session, where: ilike(s.name, ^"%#{Utils.escape_wildcards(name)}%")
 
       {:status, :scheduled}, session ->
-        from s in session, where: is_nil(s.start_time) and s.scheduled_start_time >= ^now
+        from s in session, where: is_nil(s.start_time)
 
       {:status, :in_progress}, session ->
         from s in session, where: not is_nil(s.start_time) and is_nil(s.end_time)

@@ -27,8 +27,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     value(:any)
 
     @desc """
-    Session is scheduled in the future, does not regard sessions
-    that has not been started but are planned in the past.
+    Sessions is said to be scheduled if has not been yet started.
     """
     value(:scheduled)
 
