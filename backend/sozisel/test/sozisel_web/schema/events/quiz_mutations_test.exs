@@ -18,6 +18,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
           trackingMode
           quizQuestions {
             question
+            id
             answers {
               text
               id
@@ -49,6 +50,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
           trackingMode
           quizQuestions {
             question
+            id
             answers {
               text
               id
@@ -83,6 +85,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       quiz_questions: [
         %{
           question: "What is the capital of Poland?",
+          id: "1",
           answers: [
             %{text: "Cracow", id: "1"},
             %{text: "Warsaw", id: "2"},
@@ -125,6 +128,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             quizQuestions: [
               %{
                 question: "First question?",
+                id: "1",
                 answers: [
                   %{text: "First", id: "1"},
                   %{text: "Second", id: "2"},
@@ -153,6 +157,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                      "quizQuestions" => [
                        %{
                          "question" => "First question?",
+                         "id" => "1",
                          "answers" => [
                            %{"id" => "1", "text" => "First"},
                            %{"id" => "2", "text" => "Second"},
@@ -187,6 +192,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             tracking_mode: false,
             quizQuestions: %{
               question: "Updated question?",
+              id: "1",
               answers: [
                 %{text: "Fourth", id: "1"},
                 %{text: "Fifth", id: "2"},
@@ -254,6 +260,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             quizQuestions: [
               %{
                 question: "First question?",
+                id: "1",
                 answers: [
                   %{text: "First", id: "1"},
                   %{text: "Second", id: "2"},
@@ -294,6 +301,7 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             trackingMode: false,
             quizQuestions: %{
               question: "Updated question?",
+              id: "1",
               answers: [
                 %{text: "Fourth", id: "1"},
                 %{text: "Fifth", id: "2"},

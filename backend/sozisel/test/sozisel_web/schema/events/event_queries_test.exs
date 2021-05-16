@@ -18,6 +18,7 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
           trackingMode
           quizQuestions {
               question
+              id
               answers {
                 text
                 id
@@ -46,6 +47,7 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
       quiz_questions: [
         %{
           question: "What is the capital of Poland?",
+          id: "1",
           answers: [
             %{text: "Cracow", id: "1"},
             %{text: "Warsaw", id: "2"},
@@ -91,6 +93,7 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
                      "quizQuestions" => [
                        %{
                          "question" => "What is the capital of Poland?",
+                         "id" => "1",
                          "answers" => [
                            %{"id" => "1", "text" => "Cracow"},
                            %{"id" => "2", "text" => "Warsaw"},

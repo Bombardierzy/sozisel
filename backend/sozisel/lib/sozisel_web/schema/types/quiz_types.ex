@@ -10,6 +10,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   object :quiz_question do
     field :question, non_null(:string)
+    field :id, non_null(:string)
     field :answers, strong_list_of(:answer)
     field :correct_answers, strong_list_of(:answer)
   end
@@ -28,6 +29,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   input_object :quiz_question_input do
     field :question, non_null(:string)
+    field :id, non_null(:string)
     field :answers, strong_list_of(:answer_input)
     field :correct_answers, strong_list_of(:answer_input)
   end
