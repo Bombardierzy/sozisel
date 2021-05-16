@@ -65,6 +65,26 @@
         "startTime": "Czas rozpoczęcia (w minutach)",
         "submitButtonLabel": "Dodaj"
       }
+    },
+    "SessionsList": {
+      "filters": "Filtry",
+      "status": "Status",
+      "statusAny": "Dowolny",
+      "statusEnded": "Zakończone",
+      "statusInProgress": "W trakcie",
+      "statusScheduled": "Zaplanowane",
+      "template": "Szablon",
+      "dateFrom": "Data początkowa",
+      "dateTo": "Data końcowa",
+      "applyFilters": "Zastosuj",
+      "fetchingErrorMessage": "Błąd ładowania danych. Spróbuj ponownie później.",
+      "scheduledDate": "Planowana data",
+      "startSession": "Rozpocznij",
+      "sessionDeleted": "Usunięto sesje.",
+      "errorMessage": "Błąd podczas wykonywania operacji.",
+      "shareSession": "Udostępnij sesje",
+      "shareSessionInfo": "Każdy z tym linkiem będzie mógł dołączyć do sesji.",
+      "shareLabel": "Share link"
     }
   },
   "inputErrors": {

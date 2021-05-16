@@ -6,6 +6,7 @@ import AuthRoute from "./components/AuthRoute/AuthRoute";
 import Login from "./components/LoginScreen/LoginScreen";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
+import SessionsList from "./components/SessionsList/SessionsList";
 import TemplateCreation from "./components/TemplateCreation/TemplateCreation";
 import TemplateList from "./components/TemplatesList/TemplateList";
 import { createApolloClient } from "./apolloClient";
@@ -24,6 +25,7 @@ export default function App(): ReactElement {
         </Route>
         <AuthRoute path="/templates" component={TemplateList} />
         <AuthRoute path="/templates/create" component={TemplateCreation} />
+        <AuthRoute path="/sessions" component={SessionsList} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/about" component={AboutScreen} />

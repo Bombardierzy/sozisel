@@ -1,0 +1,9 @@
+query SearchSessions($input: SearchSessionsInput!){
+    searchSessions(input: $input){
+        id
+        name
+        endTime
+        scheduledStartTime
+        startTime
+    }
+}
