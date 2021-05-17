@@ -7,11 +7,12 @@ import Question from "../Question/Question";
 import { QuizQuestion } from "../../../../../model/Template";
 import { initialQuestion } from "../../../../../contexts/Quiz/quizReducer";
 import { useQuizContext } from "../../../../../contexts/Quiz/QuizContext";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
 export default function QuestionList(): ReactElement {
   const [{ questions }, dispatch] = useQuizContext();
-
+  const { t } = useTranslation("common");
   return (
     <div className="QuestionsList">
       {questions.map((question: QuizQuestion) => (
@@ -25,11 +26,11 @@ export default function QuestionList(): ReactElement {
         onClick={() =>
           dispatch({
             type: "ADD_QUESTION",
-            question: { ...initialQuestion, id: uuidv4() },
+            question: { ...initialQuestion(), id: uuidv4() },
           })
         }
       >
-        {"Dodaj kolejne pytanie"}
+        {t("components.TemplateCreation.EventList.Quiz.addNewQuestion")}
       </Button>
     </div>
   );

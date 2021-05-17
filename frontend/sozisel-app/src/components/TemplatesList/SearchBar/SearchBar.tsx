@@ -2,6 +2,7 @@ import "./SearchBar.scss";
 
 import { BaseSyntheticEvent, ReactElement, useState } from "react";
 
+import { Alert } from "@material-ui/lab";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import MenuItem from "@material-ui/core/MenuItem";
 import SearchIcon from "@material-ui/icons/Search";
 import Select from "@material-ui/core/Select";
+import { Snackbar } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { useCreateSessionTemplateMutation } from "../../../graphql";
 import { useHistory } from "react-router-dom";
@@ -34,7 +36,10 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
     name: t("components.TemplateCreation.defaultTemplateName"),
   };
 
-  const [createSessionTemplateMutation] = useCreateSessionTemplateMutation();
+  const [
+    createSessionTemplateMutation,
+    { error },
+  ] = useCreateSessionTemplateMutation();
 
   const onAdd = async () => {
     const { data } = await createSessionTemplateMutation({
@@ -136,12 +141,17 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
             color="primary"
             fullWidth
             className="searchBarButton"
-            onClick={() => onAdd()}
+            onClick={onAdd}
           >
             {t("components.TemplatesList.addButtonText")}
           </Button>
         </Grid>
       </Grid>
+      <Snackbar open={!!error} autoHideDuration={3000}>
+        <Alert severity="error">
+          {t("components.TemplateCreation.addingTemplateError")}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

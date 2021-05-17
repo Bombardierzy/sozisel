@@ -12,15 +12,15 @@ interface Props {
 export type QuizContextType = [QuizStoreInterface, React.Dispatch<QuizActions>];
 
 export const Context = React.createContext<QuizContextType>([
-  quizInitialState,
+  quizInitialState(),
   () => null,
 ]);
 
-export let dispatchToApp: React.Dispatch<QuizActions> = () => null;
+export let dispatchToQuiz: React.Dispatch<QuizActions> = () => null;
 
 export function QuizContextProvider({ children }: Props): JSX.Element {
-  const [store, dispatch] = useReducer(quizReducer, quizInitialState);
-  dispatchToApp = dispatch;
+  const [store, dispatch] = useReducer(quizReducer, quizInitialState());
+  dispatchToQuiz = dispatch;
 
   return (
     <Context.Provider value={[store, dispatch]}>{children}</Context.Provider>

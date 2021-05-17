@@ -27,7 +27,7 @@ import { useTranslation } from "react-i18next";
 interface QuizProps {
   errors: DeepMap<Record<string, any>, FieldError>;
   control: Control;
-  handleSubmit: any;
+  handleSubmit: (cb: any) => () => void;
   setValue: (
     name: string,
     value: string | number,
@@ -132,18 +132,16 @@ export default function Quiz({
           },
         },
       });
-      setMessage(
-        t("components.TemplateCreation.EventCreation.onEditEventMessage")
-      );
+      updateQuizError &&
+        setMessage(
+          t("components.TemplateCreation.EventCreation.onEditEventMessage")
+        );
     },
-    [event.id, questions, t, trackingMode, updateQuiz]
+    [event.id, questions, t, trackingMode, updateQuiz, updateQuizError]
   );
 
   const onSubmit = useCallback(
     async (data: QuizData) => {
-      setMessage(
-        t("components.TemplateCreation.EventCreation.onAddEventMessage")
-      );
       await createQuiz({
         variables: {
           input: {
@@ -159,9 +157,13 @@ export default function Quiz({
           },
         },
       });
+      createQuizError &&
+        setMessage(
+          t("components.TemplateCreation.EventCreation.onAddEventMessage")
+        );
       onReset();
     },
-    [createQuiz, id, onReset, questions, t, trackingMode]
+    [createQuiz, createQuizError, id, onReset, questions, t, trackingMode]
   );
 
   return (
@@ -226,32 +228,23 @@ export default function Quiz({
         </Typography>
 
         <QuestionsList />
-        {(createQuizError) && (
+        {(createQuizError || updateQuizError) && (
           <Typography className="error">
             {t("inputErrors.incorrectQuizQuestion")}
           </Typography>
         )}
         {event.id ? (
-          <div className="updateButtons">
-            <Button
-              color="primary"
-              onClick={() => handleSubmit(onUpdate)()}
-              variant="contained"
-              className="updateButton"
-            >
-              {t("components.TemplateCreation.EventCreation.updateButtonLabel")}
-            </Button>
-            <Button
-              color="primary"
-              onClick={() => onReset()}
-              variant="contained"
-              className="updateButton"
-            >
-              {t(
-                "components.TemplateCreation.EventCreation.endEditButtonLabel"
-              )}
-            </Button>
-          </div>
+          <Button
+            color="primary"
+            onClick={() => {
+              handleSubmit(onUpdate)();
+              onReset();
+            }}
+            variant="contained"
+            className="updateButton"
+          >
+            {t("components.TemplateCreation.EventCreation.updateButtonLabel")}
+          </Button>
         ) : (
           <Button
             color="primary"

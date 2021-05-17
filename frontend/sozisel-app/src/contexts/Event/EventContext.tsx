@@ -14,11 +14,11 @@ export const Context = React.createContext<EventContextType>([
   () => null,
 ]);
 
-export let dispatchToApp: React.Dispatch<EventActions> = () => null;
+export let dispatchToEvent: React.Dispatch<EventActions> = () => null;
 
 export function EventContextProvider({ children }: Props): JSX.Element {
   const [store, dispatch] = useReducer(EventReducer, eventInitialState);
-  dispatchToApp = dispatch;
+  dispatchToEvent = dispatch;
 
   return (
     <Context.Provider value={[store, dispatch]}>{children}</Context.Provider>

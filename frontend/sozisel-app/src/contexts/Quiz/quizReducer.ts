@@ -32,22 +32,23 @@ export interface QuizStoreInterface {
   trackingMode: boolean;
 }
 
-export const initialQuestion = {
+// FIXME: get rid of hard coded translation
+export const initialQuestion = (): QuizQuestion => ({
   id: uuidv4(),
   question: "Treść pytania...",
   answers: [{ id: uuidv4(), text: "Odpowiedź..." }],
   correctAnswers: [],
-};
+});
 
-export const quizInitialState: QuizStoreInterface = {
-  questions: [initialQuestion],
+export const quizInitialState = (): QuizStoreInterface => ({
+  questions: [initialQuestion()],
   durationTime: 0,
   trackingMode: false,
   percentageOfParticipants: 0,
-};
+});
 
 export default function quizReducer(
-  state: QuizStoreInterface = quizInitialState,
+  state: QuizStoreInterface = quizInitialState(),
   action: QuizActions
 ): QuizStoreInterface {
   switch (action.type) {
@@ -106,7 +107,7 @@ export default function quizReducer(
     case "ADD_QUESTION":
       return { ...state, questions: [...state.questions, action.question] };
     case "RESET":
-      return quizInitialState;
+      return quizInitialState();
     case "DELETE_QUESTION":
       return {
         ...state,

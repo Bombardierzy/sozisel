@@ -25,7 +25,7 @@ const createSchema = (moduleType: string): yup.AnyObjectSchema => {
     case "Quiz":
       return quizSchema;
     default:
-      return quizSchema;
+      throw Error("Incorrect module type!!!");
   }
 };
 
@@ -38,7 +38,7 @@ export default function EventCreation(): ReactElement {
   });
 
   useEffect(() => {
-    if (id !== "") {
+    if (id) {
       setValue("eventName", name);
       setValue("startMinute", startMinute);
     }

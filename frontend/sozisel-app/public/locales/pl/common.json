@@ -45,6 +45,7 @@
       "copySuccess": "Skopiowano szablon!"
     },
     "TemplateCreation": {
+      "addingTemplateError": "Błąd podczas tworzenia szablonu. Spróbuj ponownie później.",
       "defaultTemplateName": "Nazwa szablonu sesji",
       "isPublicLabel": "Publiczne",
       "isAbstractLabel": "Abstrakcyjne",
@@ -65,7 +66,6 @@
         "startTime": "Czas rozpoczęcia (w minutach)",
         "submitButtonLabel": "Dodaj",
         "updateButtonLabel": "Zaktualizuj wydarzenie",
-        "endEditButtonLabel": "Zakończ edycje",
         "onAddEventMessage": "Dodano nowe wydarzenie!",
         "onEditEventMessage": "Zaktualizowano wydarzenie!"
       },
@@ -84,7 +84,10 @@
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
           "trackingMode": "Śledzenie odpowiedzi: {{value}}",
-          "onDeleteEventMessage": "Usunięto wydarzenie!"
+          "onDeleteEventMessage": "Usunięto wydarzenie!",
+          "addNewQuestion": "Dodaj kolejne pytanie",
+          "enableTrackingMode": "włączone",
+          "disableTrackingMode": "wyłączone"
         }
       }
     },
@@ -117,6 +120,7 @@
     "agendaIncorrectTime": "Nie można dodawać punktu do agendy, który rozpoczyna się po zakonczeniu sesji",
     "incorrectPercentageValue": "Podana wartości nie mieści się w przedziale 1-100",
     "incorrectStartMinute": "Podana wartości musi być większa od 0",
+    "incorrectDurationTime": "Podana wartości musi być większa od 0",
     "percentageOfParticipants": "Podana wartości musi być większa od 0",
     "incorrectQuizQuestion": "Pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną !"
   }

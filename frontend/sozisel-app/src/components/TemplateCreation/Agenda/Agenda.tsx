@@ -25,17 +25,17 @@ export default function Agenda({
       <List component="ol">
         {agenda
           .sort((a, b) => (a.startMinute <= b.startMinute ? -1 : 1))
-          .map((agendaEntry, idx) => (
+          .map(({ name, startMinute }, idx) => (
             <AgendaEntry
               key={idx}
-              title={agendaEntry.name}
-              startMinute={agendaEntry.startMinute}
+              title={name}
+              startMinute={startMinute}
               idx={idx}
               onDelete={() =>
                 agenda &&
                 updateAgendaEntries(
                   agenda.filter(
-                    (element) => agendaEntry.startMinute !== element.startMinute
+                    (element) => startMinute !== element.startMinute
                   )
                 )
               }

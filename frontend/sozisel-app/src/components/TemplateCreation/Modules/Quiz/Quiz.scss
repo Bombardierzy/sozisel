@@ -18,12 +18,9 @@
         @include error;
         text-align: center;
     }
-    .updateButtons {
-        display: flex;
-        justify-content: space-evenly;
-    }
     .updateButton {
-        width: 40%;
+        margin-left: 20%;
+        width: 60%;
         margin-top: $spacing-04;
     }
 }
