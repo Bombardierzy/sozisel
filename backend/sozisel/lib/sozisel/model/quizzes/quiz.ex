@@ -25,6 +25,18 @@ defmodule Sozisel.Model.Quizzes.Quiz do
     |> cast(attrs, [:duration_time_sec, :target_percentage_of_participants, :tracking_mode])
     |> cast_embed(:quiz_questions)
     |> validate_required([:duration_time_sec, :target_percentage_of_participants, :tracking_mode])
+    |> validate_question_length()
     |> validate_inclusion(:target_percentage_of_participants, 1..100)
+  end
+
+  def validate_question_length(changeset) do
+    quiz_questions =
+      get_change(changeset, :quiz_questions) || get_field(changeset, :quiz_questions)
+
+    if length(quiz_questions) >= 1 do
+      changeset
+    else
+      add_error(changeset, :quiz_questions, "Quiz_questions must contain at least 1 element")
+    end
   end
 end

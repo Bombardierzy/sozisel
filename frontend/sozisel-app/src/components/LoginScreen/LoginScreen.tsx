@@ -13,7 +13,6 @@ import Spinner from "../utils/Spinner/Spinner";
 import conferenceImg from "../../assets/images/conference_img.png";
 import { useApolloClient } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router";
 import { useLoginMutation } from "../../graphql";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -35,7 +34,6 @@ export default function LoginScreen(): ReactElement {
   const { t } = useTranslation("common");
 
   const [loginMutation, { error, loading }] = useLoginMutation({});
-  const history = useHistory();
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
   });
@@ -54,7 +52,8 @@ export default function LoginScreen(): ReactElement {
       });
 
       localStorage.setItem("token", body.data?.login?.token ?? "");
-      history.push("home");
+      // fucking magic
+      window.location.href = "/home";
     } catch (error) {
       console.error(error);
     }
