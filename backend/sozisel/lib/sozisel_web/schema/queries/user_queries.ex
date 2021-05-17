@@ -10,7 +10,7 @@ defmodule SoziselWeb.Schema.Queries.UserQueries do
       resolve(&UserResolvers.me/3)
     end
 
-    field :get_jitsi_token, non_null(:jitsi_token) do
+    field :generate_jitsi_token, non_null(:jitsi_token) do
       arg :room_id, non_null(:id)
       arg :email, non_null(:string)
       arg :display_name, non_null(:string)

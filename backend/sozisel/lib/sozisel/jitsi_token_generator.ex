@@ -21,8 +21,8 @@ defmodule Sozisel.JitsiTokenGenerator do
           %{
             "user" => %{
               "id" => Ecto.UUID.generate(),
-              "name" => "user_name",
-              "email" => "email@email.com"
+              "name" => display_name,
+              "email" => email
             }
           }
         end,
