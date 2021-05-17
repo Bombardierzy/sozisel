@@ -1,0 +1,35 @@
+@import "../../styles/styles";
+
+.SessionsListContainer {
+    height: calc(100% - #{$navbar-height});
+    background-color: $bg-01;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    padding-left: $spacing-09;
+
+    .searchBarContainer{
+        margin-bottom: $spacing-05;
+        background-color: $bg-02;
+        border-radius: $spacing-03;
+    }
+    
+    .listWithSearchBar{
+        margin: $spacing-06 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        overflow: scroll;
+        padding: 0 5%;
+    }
+
+    .errorAlert{
+        padding: $spacing-05;
+        margin: $spacing-09;
+        height: fit-content;
+        width: 100%;
+    }
+}
+

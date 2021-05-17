@@ -1,0 +1,55 @@
+@import "../../../styles/styles";
+
+.container {
+    margin: $spacing-06;
+    width: 20%;
+    height: 85%;
+    @include resize($extra-large, 25%, 85%);
+    padding: $spacing-04;
+    display: flex;
+    flex-direction: column;
+    .headerWithIcon {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: $spacing-02;
+
+        .header{
+            font-size: large;
+            font-weight: 600;
+            padding: 0 $spacing-02;
+        }
+    }
+    
+    .filter{
+        display: flex;
+        flex-direction: column;
+        padding: $spacing-02 0;
+
+        .filterHeading{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .filterLabel{
+                font-weight: 600;
+            }
+        }
+
+        .inputContainer{
+            background-color: $bg-02;
+            border-radius: $spacing-03;
+        }
+    }
+    
+    .applyButton{
+        margin: $spacing-02 0;
+    }
+
+    .errorAlert{
+        padding: $spacing-05;
+        margin: $spacing-09;
+    }
+}
