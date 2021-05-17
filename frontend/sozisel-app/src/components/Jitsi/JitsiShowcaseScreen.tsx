@@ -19,7 +19,11 @@ export default function JitsiShowcaseScreen(): ReactElement {
       <MainNavbar />
       <div className="Container">
         {!loading && data?.generateJitsiToken.token && (
-          <JitsiFrame roomId="room" token={data.generateJitsiToken.token} />
+          <JitsiFrame
+            roomId="room"
+            token={data.generateJitsiToken.token}
+            displayName={data.generateJitsiToken.displayName}
+          />
         )}
       </div>
     </>

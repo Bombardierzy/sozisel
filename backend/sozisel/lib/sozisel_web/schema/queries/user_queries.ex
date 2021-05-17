@@ -17,7 +17,7 @@ defmodule SoziselWeb.Schema.Queries.UserQueries do
 
       resolve fn _parent, %{room_id: room_id, email: email, display_name: display_name}, _ctx ->
         {:ok, token} = Sozisel.JitsiTokenGenerator.generate(room_id, email, display_name)
-        {:ok, %{token: token}}
+        {:ok, %{token: token, email: email, display_name: display_name}}
       end
     end
   end

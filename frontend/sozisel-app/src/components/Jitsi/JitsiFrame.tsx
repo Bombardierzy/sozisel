@@ -6,11 +6,6 @@ import { ReactElement, useEffect, useState } from "react";
 import { CircularProgress } from "@material-ui/core";
 import Jitsi from "react-jitsi";
 
-interface JitsiFrameProps {
-  roomId: string;
-  token: string;
-}
-
 const OPTIONS: InterfaceConfigOptions = {
   SHOW_WATERMARK_FOR_GUESTS: false,
   SHOW_BRAND_WATERMARK: false,
@@ -52,6 +47,12 @@ const OPTIONS: InterfaceConfigOptions = {
   HIDE_KICK_BUTTON_FOR_GUESTS: true,
 };
 
+interface JitsiFrameProps {
+  roomId: string;
+  token: string;
+  displayName: string;
+}
+
 const Loader = () => {
   return (
     <div className="Loader">
@@ -63,12 +64,17 @@ const Loader = () => {
 export default function JitsiFrame({
   roomId,
   token,
+  displayName,
 }: JitsiFrameProps): ReactElement {
   const [api, setApi] = useState<JitsiMeetAPI | undefined>();
 
   useEffect(() => {
     if (api) {
       console.log("GOT API");
+
+      (api as any).addEventListener("readyToClose", () => {
+        window.location.href = "/";
+      });
     }
   }, [api]);
 
@@ -80,6 +86,9 @@ export default function JitsiFrame({
         onAPILoad={(api) => setApi(api)}
         roomName={roomId}
         interfaceConfig={OPTIONS}
+        displayName={displayName}
+        // password="password"
+        jwt={token}
       ></Jitsi>
     </>
   );

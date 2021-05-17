@@ -11,5 +11,7 @@ query Me {
 query GenerateJitsiToken($displayName: String!, $email: String!, $roomId: ID!) {
   generateJitsiToken(displayName: $displayName, email: $email, roomId: $roomId) {
     token
+    email
+    displayName
   }
 }
