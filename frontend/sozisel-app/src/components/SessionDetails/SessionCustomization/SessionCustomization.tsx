@@ -38,13 +38,23 @@ export interface SessionCustomizationProps {
     scheduledDateTime: Date;
     useJitsi: boolean;
   }) => void;
+  currentName?: string;
+  currentPassword?: string;
+  currentScheduledDateTime?: Date;
+  currentUseJitsi?: boolean;
 }
 
 export default function SessionCustomization({
   onValidSubmit,
+  currentName,
+  currentPassword,
+  currentScheduledDateTime,
+  currentUseJitsi,
 }: SessionCustomizationProps): ReactElement {
-  const [useJitsi, setUseJitsi] = useState<boolean>(true);
-  const [authorization, setAuthorization] = useState<boolean>(false);
+  const [useJitsi, setUseJitsi] = useState<boolean>(currentUseJitsi ?? true);
+  const [authorization, setAuthorization] = useState<boolean>(
+    currentPassword != undefined
+  );
   const { t } = useTranslation("common");
   const { handleSubmit, errors, control } = useForm({
     resolver: yupResolver(sessionDetailsSchema),
@@ -61,12 +71,14 @@ export default function SessionCustomization({
 
   return (
     <>
-      <Paper className="container" elevation={2}>
+      <Paper className="sessionDetailsContainer" elevation={2}>
         <form className="sessionDetails" onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="sessionName"
             control={control}
-            defaultValue={t("components.SessionDetails.defaultSessionName")}
+            defaultValue={
+              currentName ?? t("components.SessionDetails.defaultSessionName")
+            }
             as={
               <TextField
                 size="small"
@@ -117,7 +129,7 @@ export default function SessionCustomization({
               <Controller
                 name="entryPassword"
                 control={control}
-                defaultValue=""
+                defaultValue={currentPassword ?? ""}
                 as={
                   <TextField
                     name="entryPassword"
@@ -140,7 +152,13 @@ export default function SessionCustomization({
             <Controller
               name="scheduledDateTime"
               control={control}
-              defaultValue=""
+              defaultValue={
+                currentScheduledDateTime != null
+                  ? new Date(currentScheduledDateTime)
+                      .toISOString()
+                      .slice(0, 16)
+                  : ""
+              }
               as={
                 <TextField
                   name="scheduledDateTime"

@@ -12,11 +12,11 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import OverviewListElement from "../OverviewListElement/OverviewListElement";
 import { ReactElement } from "react";
-import { SessionTemplate } from "../../../graphql";
+import { Template } from "../../../model/Template";
 import { useTranslation } from "react-i18next";
 
 export interface TemplateOverviewProps {
-  template: SessionTemplate;
+  template: Template;
 }
 
 export default function TemplateOverview({
@@ -76,8 +76,7 @@ export default function TemplateOverview({
           </AccordionSummary>
           <AccordionDetails>
             <List className="overviewList">
-              {/* TODO change for events */}
-              {template.agendaEntries.map((element, index) => (
+              {template.events.map((element, index) => (
                 <OverviewListElement
                   key={element.id}
                   name={element.name}

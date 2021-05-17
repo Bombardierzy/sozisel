@@ -18,6 +18,7 @@ import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { Session } from "../../../model/Session";
 import ShareIcon from "@material-ui/icons/Share";
 import useAvatarById from "../../../hooks/useAvatarById";
+import { useHistory } from "react-router-dom";
 import useSessionStatus from "../../../hooks/useSessionStatus";
 import { useTranslation } from "react-i18next";
 
@@ -32,6 +33,7 @@ export default function SessionCard({
   onDelete,
 }: SessionCardProps): ReactElement {
   const { t } = useTranslation("common");
+  const history = useHistory();
   const { status, isScheduled, isEnded } = useSessionStatus(session);
   const sessionLink = `${window.location.protocol}//${window.location.hostname}/sessions/${session.id}/join`;
   const avatar = useAvatarById(session.id);
@@ -42,6 +44,13 @@ export default function SessionCard({
     setRaised(!raised);
   };
 
+  const onCardClick = () => {
+    history.push({
+      pathname: "/sessions/edit",
+      state: { sessionId: session.id },
+    });
+  };
+
   return (
     <>
       <Card
@@ -49,6 +58,7 @@ export default function SessionCard({
         className="materialCard"
         onMouseOver={onMouseOverChange}
         onMouseOut={onMouseOverChange}
+        onClick={onCardClick}
       >
         <div className="sessionCard">
           <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
@@ -68,13 +78,19 @@ export default function SessionCard({
             <div className="iconButtons">
               <IconButton
                 disabled={isEnded}
-                onClick={() => setDialogOpen(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDialogOpen(true);
+                }}
               >
                 <ShareIcon />
               </IconButton>
               <IconButton
                 disabled={!isScheduled}
-                onClick={() => onDelete(session.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(session.id);
+                }}
               >
                 <DeleteIcon />
               </IconButton>

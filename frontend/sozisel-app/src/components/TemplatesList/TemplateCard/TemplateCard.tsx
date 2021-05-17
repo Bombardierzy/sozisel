@@ -9,7 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import IconButton from "@material-ui/core/IconButton";
-import { SessionTemplate } from "../../../graphql";
+import { Template } from "../../../model/Template";
 import Typography from "@material-ui/core/Typography";
 import useAvatarById from "../../../hooks/useAvatarById";
 import { useHistory } from "react-router-dom";
@@ -18,9 +18,9 @@ import { useTranslation } from "react-i18next";
 
 export interface TemplateCardProps {
   key: string;
-  template: SessionTemplate;
-  onCopy: (template: SessionTemplate) => void;
-  onDelete: (template: SessionTemplate) => void;
+  template: Template;
+  onCopy: (template: Template) => void;
+  onDelete: (template: Template) => void;
 }
 
 export default function TemplateCard({

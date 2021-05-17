@@ -1,10 +1,7 @@
 @import "../../../styles/styles";
 
-.container {
-    margin: $spacing-06;
-    width: 20%;
+.sessionDetailsContainer {
     height: 85%;
-    @include resize($extra-large, 25%, 85%);
     .sessionDetails {
         padding: $spacing-04;
         border-bottom: 1px solid $bg-01;

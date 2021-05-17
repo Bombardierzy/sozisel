@@ -3,7 +3,6 @@ import "./TemplateList.scss";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { ReactElement, useCallback, useState } from "react";
 import {
-  SessionTemplate,
   useCloneSessionTemplateMutation,
   useDeleteSessionTemplateMutation,
   useSearchSessionTemplatesQuery,
@@ -14,6 +13,7 @@ import List from "@material-ui/core/List";
 import MainNavbar from "../MainNavbar/MainNavbar";
 import SearchBar from "./SearchBar/SearchBar";
 import Snackbar from "@material-ui/core/Snackbar";
+import { Template } from "../../model/Template";
 import TemplateCard from "./TemplateCard/TemplateCard";
 import { useTranslation } from "react-i18next";
 
@@ -56,7 +56,7 @@ export default function TemplateList(): ReactElement {
   );
 
   const onCopy = useCallback(
-    async (template: SessionTemplate) => {
+    async (template: Template) => {
       try {
         await cloneMutation({
           variables: {
@@ -73,7 +73,7 @@ export default function TemplateList(): ReactElement {
   );
 
   const onDelete = useCallback(
-    async (template: SessionTemplate) => {
+    async (template: Template) => {
       try {
         await deleteMutation({
           variables: {
