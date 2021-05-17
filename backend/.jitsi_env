@@ -146,13 +146,14 @@ ETHERPAD_SKIN_VARIANTS=super-light-toolbar super-light-editor light-background f
 #
 
 # Application identifier
-#JWT_APP_ID=my_jitsi_app_id
+JWT_APP_ID=sozisel_app
 
 # Application secret known only to your token
-#JWT_APP_SECRET=my_jitsi_app_secret
+# IMPORTANT: this is a development secret, should be changed when reaching produciton
+JWT_APP_SECRET=9mrcPkvUfoqzuHrfQfP/ExOynZgpL7w
 
 # (Optional) Set asap_accepted_issuers as a comma separated list
-#JWT_ACCEPTED_ISSUERS=my_web_client,my_app_client
+#JWT_ACCEPTED_ISSUERS=sozisel_backend
 
 # (Optional) Set asap_accepted_audiences as a comma separated list
 #JWT_ACCEPTED_AUDIENCES=my_server1,my_server2

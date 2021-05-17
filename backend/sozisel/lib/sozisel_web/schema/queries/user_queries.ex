@@ -9,5 +9,16 @@ defmodule SoziselWeb.Schema.Queries.UserQueries do
       middleware(Middleware.Authorization)
       resolve(&UserResolvers.me/3)
     end
+
+    field :get_jitsi_token, non_null(:jitsi_token) do
+      arg :room_id, non_null(:id)
+      arg :email, non_null(:string)
+      arg :display_name, non_null(:string)
+
+      resolve fn _parent, %{room_id: room_id, email: email, display_name: display_name}, _ctx ->
+        {:ok, token} = Sozisel.JitsiTokenGenerator.generate(room_id, email, display_name)
+        {:ok, %{token: token}}
+      end
+    end
   end
 end

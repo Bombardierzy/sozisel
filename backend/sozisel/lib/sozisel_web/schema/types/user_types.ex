@@ -16,6 +16,10 @@ defmodule SoziselWeb.Schema.Types.UserTypes do
     end
   end
 
+  object :jitsi_token do
+    field :token, non_null(:string)
+  end
+
   object :login_result do
     field :token, non_null(:string)
   end

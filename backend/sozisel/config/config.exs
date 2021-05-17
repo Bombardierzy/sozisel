@@ -20,10 +20,11 @@ config :sozisel, SoziselWeb.Endpoint,
   pubsub_server: Sozisel.PubSub,
   live_view: [signing_salt: "9+uRncbw"]
 
-config :sozisel, Sozisel.Model.Users.Token,
-  issuer: "sozisel",
-  secret_key: "cSYEgyeugeMk3s8BtFO93HBQQdJeSyUlgO8FP3jWPZQWDpm5FImpQIz+mHwiqv/X",
-  ttl: {7 * 24, :hours}
+config :joken, default_signer: "secret"
+
+config :sozisel, Sozisel.JitsiTokenGenerator,
+  issuer: "sozisel_app",
+  secret_key: "9mrcPkvUfoqzuHrfQfP/ExOynZgpL7w"
 
 # Configures Elixir's Logger
 config :logger, :console,
