@@ -8,7 +8,8 @@ defmodule Sozisel.Model.EventResults.EventResult do
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
-          participant_token: String.t(),
+          participant_id: Ecto.UUID.t(),
+          participant: Participant.t() | Ecto.Association.NotLoaded.t(),
           result_data: PolymorphicEmbed.t(),
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
@@ -23,17 +24,17 @@ defmodule Sozisel.Model.EventResults.EventResult do
       on_type_not_found: :raise,
       on_replace: :update
 
-    belongs_to :participant_token, Participant, foreign_key: :token_id
+    belongs_to :participant, Participant, foreign_key: :participant_id
 
     timestamps()
   end
 
   def create_changeset(event_result, attrs) do
     event_result
-    |> cast(attrs, [:participant_token])
+    |> cast(attrs, [:participant_id])
     |> cast_polymorphic_embed(:result_data, required: true)
-    |> validate_required([:participant_token, :result_data])
-    |> foreign_key_constraint(:participant_token)
+    |> validate_required([:participant_id, :result_data])
+    |> foreign_key_constraint(:participant_id)
   end
 
   def update_changeset(event_result, attrs) do

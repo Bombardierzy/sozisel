@@ -9,7 +9,7 @@ defmodule Sozisel.Model.Participants.Participant do
           id: Ecto.UUID.t(),
           full_name: String.t(),
           email: String.t(),
-          token_id: String.t(),
+          token: String.t(),
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
         }
@@ -17,8 +17,8 @@ defmodule Sozisel.Model.Participants.Participant do
   schema "participants" do
     field :email, :string
     field :full_name, :string
-    field :token_id, :string
-    has_many :event_results, EventResult, foreign_key: :token_id
+    field :token, :string
+    has_many :event_results, EventResult, foreign_key: :participant_id
 
     timestamps()
   end

@@ -3,20 +3,20 @@ defmodule Sozisel.Model.Quizzes.TrackNode do
   import Ecto.Changeset
 
   @type t :: %__MODULE__{
-          fractional_second: Float.t(),
+          reaction_time: Float.t(),
           answer: String.t()
         }
 
   @primary_key false
 
   embedded_schema do
-    field :fractional_second, :float
+    field :reaction_time, :float
     field :answer, :string
   end
 
   def changeset(track_node, attrs) do
     track_node
-    |> cast(attrs, [:fractional_second, :answer])
-    |> validate_required([:fractional_second, :answer])
+    |> cast(attrs, [:reaction_time, :answer])
+    |> validate_required([:reaction_time, :answer])
   end
 end

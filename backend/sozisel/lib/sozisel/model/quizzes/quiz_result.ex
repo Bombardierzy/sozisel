@@ -11,7 +11,7 @@ defmodule Sozisel.Model.Quizzes.QuizResult do
   @primary_key false
 
   embedded_schema do
-    embeds_many :participant_answers, QuizQuestion, on_replace: :delete
+    embeds_many :participant_answers, ParticipantAnswer, on_replace: :delete
   end
 
   def changeset(quiz_result, attrs) do

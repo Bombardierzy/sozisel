@@ -5,7 +5,9 @@ defmodule Sozisel.Model.Quizzes.ParticipantAnswer do
   alias Sozisel.Model.Quizzes.TrackNode
 
   @type t :: %__MODULE__{
-          final_answer: String.t(),
+          question: String.t(),
+          all_answers: [String.t()],
+          final_answers: [String.t()],
           is_correct: Boolean.t(),
           track_nodes: [TrackNode.t()]
         }
@@ -13,15 +15,17 @@ defmodule Sozisel.Model.Quizzes.ParticipantAnswer do
   @primary_key false
 
   embedded_schema do
-    field :final_answer, :string
+    field :question, :string
+    field :all_answers, {:array, :string}
+    field :final_answers, {:array, :string}
     field :is_correct, :boolean
     embeds_many :track_nodes, TrackNode, on_replace: :delete
   end
 
   def changeset(participant_answer, attrs) do
     participant_answer
-    |> cast(attrs, [:is_correct])
+    |> cast(attrs, [:question, :all_answers, :is_correct])
     |> cast_embed(:track_nodes)
-    |> validate_required([:is_correct])
+    |> validate_required([:question, :all_answers, :is_correct])
   end
 end

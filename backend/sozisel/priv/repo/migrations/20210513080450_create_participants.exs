@@ -3,13 +3,13 @@ defmodule Sozisel.Repo.Migrations.CreateParticipants do
 
   def change do
     create table(:participants) do
-      add :full_name, :string
-      add :email, :string
-      add :token_id, :string
+      add :full_name, :string, null: false
+      add :email, :string, null: false
+      add :token, :string, null: false
 
       timestamps(type: :utc_datetime_usec)
     end
 
-    create unique_index(:participants, :token_id)
+    create unique_index(:participants, :token)
   end
 end

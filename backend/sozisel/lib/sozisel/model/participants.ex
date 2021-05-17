@@ -17,6 +17,7 @@ defmodule Sozisel.Model.Participants do
   def create_participant(attrs \\ %{}) do
     %Participant{}
     |> Participant.create_changeset(attrs)
+    |> IO.inspect()
     |> Repo.insert()
   end
 
@@ -30,7 +31,7 @@ defmodule Sozisel.Model.Participants do
 
   def generate_token(%Ecto.Changeset{valid?: true, changes: %{full_name: full_name, email: email}} = changeset) do
     token = :crypto.hash(:md5 , full_name <> email) |> Base.encode16()
-    changeset |> Ecto.Changeset.change(%{token_id: token})
+    changeset |> Ecto.Changeset.change(%{token: token})
   end
 
   def generate_token(changeset), do: changeset
