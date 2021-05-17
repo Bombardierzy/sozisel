@@ -71,6 +71,27 @@ defmodule Sozisel.EventsTest do
       name: nil,
       start_minute: nil
     }
+    @invalid_attrs_with_no_correct_answers %{
+      name: "some updated name",
+      start_minute: 43,
+      event_data: %{
+        duration_time_sec: 13,
+        tracking_mode: false,
+        target_percentage_of_participants: 4,
+        quiz_questions: [
+          %{
+            question: "What color is the banana?",
+            answers: [
+              %{text: "Red", id: "1"},
+              %{text: "Black", id: "2"},
+              %{text: "Yellow", id: "3"},
+              %{text: "Green", id: "4"}
+            ],
+            correct_answers: []
+          }
+        ]
+      }
+    }
 
     def event_fixture(attrs \\ %{}) do
       {:ok, event} =
@@ -145,6 +166,7 @@ defmodule Sozisel.EventsTest do
 
     test "create_event/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Events.create_event(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Events.create_event(@invalid_attrs_with_no_correct_answers)
     end
 
     test "update_event/2 with valid data updates the event" do
@@ -184,6 +206,7 @@ defmodule Sozisel.EventsTest do
       template = insert(:template)
       event = event_fixture(%{session_template_id: template.id})
       assert {:error, %Ecto.Changeset{}} = Events.update_event(event, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Events.update_event(event, @invalid_attrs_with_no_correct_answers)
       assert event == Events.get_event!(event.id)
     end
 
