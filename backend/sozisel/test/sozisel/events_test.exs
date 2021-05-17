@@ -166,7 +166,9 @@ defmodule Sozisel.EventsTest do
 
     test "create_event/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Events.create_event(@invalid_attrs)
-      assert {:error, %Ecto.Changeset{}} = Events.create_event(@invalid_attrs_with_no_correct_answers)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Events.create_event(@invalid_attrs_with_no_correct_answers)
     end
 
     test "update_event/2 with valid data updates the event" do
@@ -206,7 +208,10 @@ defmodule Sozisel.EventsTest do
       template = insert(:template)
       event = event_fixture(%{session_template_id: template.id})
       assert {:error, %Ecto.Changeset{}} = Events.update_event(event, @invalid_attrs)
-      assert {:error, %Ecto.Changeset{}} = Events.update_event(event, @invalid_attrs_with_no_correct_answers)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Events.update_event(event, @invalid_attrs_with_no_correct_answers)
+
       assert event == Events.get_event!(event.id)
     end
 

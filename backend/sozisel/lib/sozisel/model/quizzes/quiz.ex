@@ -30,7 +30,8 @@ defmodule Sozisel.Model.Quizzes.Quiz do
   end
 
   def validate_question_length(changeset) do
-    quiz_questions = get_change(changeset, :quiz_questions) || get_field(changeset, :quiz_questions)
+    quiz_questions =
+      get_change(changeset, :quiz_questions) || get_field(changeset, :quiz_questions)
 
     if length(quiz_questions) >= 1 do
       changeset

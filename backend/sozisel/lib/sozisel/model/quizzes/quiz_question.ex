@@ -52,7 +52,8 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
       add_error(changeset, :answers, "Answers must contain at least 2 elements")
     end
 
-    correct_answers = get_change(changeset, :correct_answers) || get_field(changeset, :correct_answers)
+    correct_answers =
+      get_change(changeset, :correct_answers) || get_field(changeset, :correct_answers)
 
     if length(correct_answers) >= 1 do
       changeset
