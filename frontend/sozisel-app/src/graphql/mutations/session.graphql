@@ -3,3 +3,9 @@ mutation CreateSession($input: CreateSessionInput!) {
     id
   }
 }
+  
+mutation DeleteSession($id: ID!){
+  deleteSession(id: $id){
+      id
+  }
+}

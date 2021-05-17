@@ -17,9 +17,16 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
           targetPercentageOfParticipants
           trackingMode
           quizQuestions {
-              question
-              answers
-              correctAnswers
+            question
+            id
+            answers {
+              text
+              id
+            }
+            correctAnswers {
+              text
+              id
+            }
           }
         }
       }
@@ -42,9 +49,16 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
           targetPercentageOfParticipants
           trackingMode
           quizQuestions {
-              question
-              answers
-              correctAnswers
+            question
+            id
+            answers {
+              text
+              id
+            }
+            correctAnswers {
+              text
+              id
+            }
           }
         }
       }
@@ -71,8 +85,15 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       quiz_questions: [
         %{
           question: "What is the capital of Poland?",
-          answers: ["Cracow", "Warsaw", "Podlasie"],
-          correct_answers: ["Warsaw"]
+          id: "1",
+          answers: [
+            %{text: "Cracow", id: "1"},
+            %{text: "Warsaw", id: "2"},
+            %{text: "Podlasie", id: "3"}
+          ],
+          correct_answers: [
+            %{text: "Warsaw", id: "2"}
+          ]
         }
       ]
     }
@@ -107,8 +128,15 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             quizQuestions: [
               %{
                 question: "First question?",
-                answers: ["First", "Second", "Third"],
-                correct_answers: ["Second"]
+                id: "1",
+                answers: [
+                  %{text: "First", id: "1"},
+                  %{text: "Second", id: "2"},
+                  %{text: "Third", id: "3"}
+                ],
+                correct_answers: [
+                  %{text: "Second", id: "2"}
+                ]
               }
             ]
           },
@@ -129,8 +157,15 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                      "quizQuestions" => [
                        %{
                          "question" => "First question?",
-                         "answers" => ["First", "Second", "Third"],
-                         "correctAnswers" => ["Second"]
+                         "id" => "1",
+                         "answers" => [
+                           %{"id" => "1", "text" => "First"},
+                           %{"id" => "2", "text" => "Second"},
+                           %{"id" => "3", "text" => "Third"}
+                         ],
+                         "correctAnswers" => [
+                           %{"id" => "2", "text" => "Second"}
+                         ]
                        }
                      ]
                    },
@@ -157,8 +192,16 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             tracking_mode: false,
             quizQuestions: %{
               question: "Updated question?",
-              answers: ["Fourth", "Fifth", "Sixth"],
-              correctAnswers: ["Fifth", "Sixth"]
+              id: "1",
+              answers: [
+                %{text: "Fourth", id: "1"},
+                %{text: "Fifth", id: "2"},
+                %{text: "Sixth", id: "3"}
+              ],
+              correct_answers: [
+                %{text: "Fifth", id: "2"},
+                %{text: "Sixth", id: "3"}
+              ]
             }
           }
         }
@@ -217,8 +260,15 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             quizQuestions: [
               %{
                 question: "First question?",
-                answers: ["First", "Second", "Third"],
-                correctAnswers: ["Second"]
+                id: "1",
+                answers: [
+                  %{text: "First", id: "1"},
+                  %{text: "Second", id: "2"},
+                  %{text: "Third", id: "3"}
+                ],
+                correct_answers: [
+                  %{text: "Second", id: "2"}
+                ]
               }
             ]
           },
@@ -251,8 +301,16 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
             trackingMode: false,
             quizQuestions: %{
               question: "Updated question?",
-              answers: ["Fourth", "Fifth", "Sixth"],
-              correctAnswers: ["Fifth", "Sixth"]
+              id: "1",
+              answers: [
+                %{text: "Fourth", id: "1"},
+                %{text: "Fifth", id: "2"},
+                %{text: "Sixth", id: "3"}
+              ],
+              correct_answers: [
+                %{text: "Fifth", id: "2"},
+                %{text: "Sixth", id: "3"}
+              ]
             }
           }
         }

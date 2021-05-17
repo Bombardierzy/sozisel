@@ -12,6 +12,7 @@ defmodule SoziselWeb.Schema do
   # Queries
   import_types(SoziselWeb.Schema.Queries.UserQueries)
   import_types(SoziselWeb.Schema.Queries.SessionTemplateQueries)
+  import_types(SoziselWeb.Schema.Queries.EventQueries)
   import_types(SoziselWeb.Schema.Queries.SessionQueries)
 
   # Mutations
@@ -23,6 +24,7 @@ defmodule SoziselWeb.Schema do
   query do
     import_fields(:user_queries)
     import_fields(:session_template_queries)
+    import_fields(:event_queries)
     import_fields(:session_queries)
   end
 
@@ -34,7 +36,8 @@ defmodule SoziselWeb.Schema do
   end
 
   def middleware(middleware, _field, _config) do
-    middleware ++ [Crudry.Middlewares.TranslateErrors]
+    # middleware ++ [Crudry.Middlewares.TranslateErrors]
+    middleware ++ [SoziselWeb.Schema.Middleware.ChangesetErrorTranslator]
   end
 
   def plugins do

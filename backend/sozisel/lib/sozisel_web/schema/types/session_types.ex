@@ -27,8 +27,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     value(:any)
 
     @desc """
-    Session is scheduled in the future, does not regard sessions
-    that has not been started but are planned in the past.
+    Sessions is said to be scheduled if has not been yet started.
     """
     value(:scheduled)
 
@@ -48,6 +47,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :date_from, :datetime
     field :date_to, :datetime
     field :name, :string, default_value: ""
+    field :template_id, :id
   end
 
   input_object :create_session_input do
