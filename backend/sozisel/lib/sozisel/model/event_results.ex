@@ -1,5 +1,4 @@
 defmodule Sozisel.Model.EventResults do
-
   import Ecto.Query, warn: false
   alias Sozisel.Repo
 

@@ -48,7 +48,7 @@ defmodule Sozisel.EventResultsTest do
               %{reaction_time: 1.01, answer: "Yellow", selected: true},
               %{reaction_time: 3.11, answer: "Red", selected: true},
               %{reaction_time: 5.25, answer: "Red", selected: false},
-              %{reaction_time: 6.61, answer: "Green", selected: true},
+              %{reaction_time: 6.61, answer: "Green", selected: true}
             ]
           }
         ]
@@ -120,28 +120,40 @@ defmodule Sozisel.EventResultsTest do
       event = event_fixture(%{session_template_id: template.id})
       participant = insert(:participant)
 
-      valid_attrs = 
-      @valid_attrs
-      |> Map.put(:event_id, event.id)
-      |> Map.put(:participant_id, participant.id)
+      valid_attrs =
+        @valid_attrs
+        |> Map.put(:event_id, event.id)
+        |> Map.put(:participant_id, participant.id)
 
       assert {:ok, %EventResult{} = event_result} = EventResults.create_event_result(valid_attrs)
 
       assert event_result.result_data == %Sozisel.Model.Quizzes.QuizResult{
-        participant_answers: [
-          %Sozisel.Model.Quizzes.ParticipantAnswer{
-            all_answers: ["Cracow", "Warsaw", "Podlasie"], 
-            final_answers: ["Podlasie"], 
-            is_correct: false, 
-            question: "What is the capital of Poland?", 
-            track_nodes: [
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Warsaw", reaction_time: 3.32, selected: true}, 
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Cracow", reaction_time: 5.41, selected: true}, 
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Podlasie", reaction_time: 7.25, selected: true}
-            ]
-          }
-        ]
-      }
+               participant_answers: [
+                 %Sozisel.Model.Quizzes.ParticipantAnswer{
+                   all_answers: ["Cracow", "Warsaw", "Podlasie"],
+                   final_answers: ["Podlasie"],
+                   is_correct: false,
+                   question: "What is the capital of Poland?",
+                   track_nodes: [
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Warsaw",
+                       reaction_time: 3.32,
+                       selected: true
+                     },
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Cracow",
+                       reaction_time: 5.41,
+                       selected: true
+                     },
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Podlasie",
+                       reaction_time: 7.25,
+                       selected: true
+                     }
+                   ]
+                 }
+               ]
+             }
 
       assert event_result.event_id == event.id
       assert event_result.participant_id == participant.id
@@ -157,35 +169,64 @@ defmodule Sozisel.EventResultsTest do
       participant = insert(:participant)
       event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
 
-      assert {:ok, %EventResult{} = event_result} = EventResults.update_event_result(event_result, @update_attrs)
-      
+      assert {:ok, %EventResult{} = event_result} =
+               EventResults.update_event_result(event_result, @update_attrs)
+
       assert event_result.result_data == %Sozisel.Model.Quizzes.QuizResult{
-        participant_answers: [
-          %Sozisel.Model.Quizzes.ParticipantAnswer{
-            all_answers: ["Cracow", "Warsaw", "Podlasie"], 
-            final_answers: ["Podlasie"], 
-            is_correct: false, 
-            question: "What is the capital of Poland?", 
-            track_nodes: [
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Warsaw", reaction_time: 3.32, selected: true}, 
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Cracow", reaction_time: 5.41, selected: true}, 
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Podlasie", reaction_time: 7.25, selected: true}
-            ]
-          }, 
-          %Sozisel.Model.Quizzes.ParticipantAnswer{
-            all_answers: ["Red", "Black", "Yellow", "Green"], 
-            final_answers: ["Yellow", "Green"],
-            is_correct: true, 
-            question: "What color is the banana?", 
-            track_nodes: [
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Yellow", reaction_time: 1.01, selected: true}, 
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Red", reaction_time: 3.11, selected: true}, 
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Red", reaction_time: 5.25, selected: false}, 
-              %Sozisel.Model.Quizzes.TrackNode{answer: "Green", reaction_time: 6.61, selected: true}
-            ]
-          }
-        ]
-      }
+               participant_answers: [
+                 %Sozisel.Model.Quizzes.ParticipantAnswer{
+                   all_answers: ["Cracow", "Warsaw", "Podlasie"],
+                   final_answers: ["Podlasie"],
+                   is_correct: false,
+                   question: "What is the capital of Poland?",
+                   track_nodes: [
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Warsaw",
+                       reaction_time: 3.32,
+                       selected: true
+                     },
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Cracow",
+                       reaction_time: 5.41,
+                       selected: true
+                     },
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Podlasie",
+                       reaction_time: 7.25,
+                       selected: true
+                     }
+                   ]
+                 },
+                 %Sozisel.Model.Quizzes.ParticipantAnswer{
+                   all_answers: ["Red", "Black", "Yellow", "Green"],
+                   final_answers: ["Yellow", "Green"],
+                   is_correct: true,
+                   question: "What color is the banana?",
+                   track_nodes: [
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Yellow",
+                       reaction_time: 1.01,
+                       selected: true
+                     },
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Red",
+                       reaction_time: 3.11,
+                       selected: true
+                     },
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Red",
+                       reaction_time: 5.25,
+                       selected: false
+                     },
+                     %Sozisel.Model.Quizzes.TrackNode{
+                       answer: "Green",
+                       reaction_time: 6.61,
+                       selected: true
+                     }
+                   ]
+                 }
+               ]
+             }
 
       assert event_result.event_id == event.id
       assert event_result.participant_id == participant.id
@@ -197,7 +238,9 @@ defmodule Sozisel.EventResultsTest do
       participant = insert(:participant)
       event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
 
-      assert {:error, %Ecto.Changeset{}} = EventResults.update_event_result(event_result, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+               EventResults.update_event_result(event_result, @invalid_attrs)
+
       assert event_result == EventResults.get_event_result!(event_result.id)
     end
 
@@ -216,7 +259,7 @@ defmodule Sozisel.EventResultsTest do
       event = event_fixture(%{session_template_id: template.id})
       participant = insert(:participant)
       event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
-      
+
       assert %Ecto.Changeset{} = EventResults.change_event_result(event_result)
     end
   end

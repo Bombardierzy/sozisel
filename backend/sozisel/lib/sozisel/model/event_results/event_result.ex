@@ -19,7 +19,6 @@ defmodule Sozisel.Model.EventResults.EventResult do
         }
 
   schema "event_results" do
-
     field :result_data, PolymorphicEmbed,
       types: [
         quiz_result: [module: QuizResult, identify_by_fields: [:participant_answers]]

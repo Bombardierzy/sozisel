@@ -6,7 +6,7 @@ defmodule Sozisel.Repo.Migrations.CreateEventResults do
       add :result_data, :map, null: false
       add :participant_id, references(:participants, on_delete: :nothing), null: false
       add :event_id, references(:events, on_delete: :nothing), null: false
-      
+
       timestamps(type: :utc_datetime_usec)
     end
 

@@ -8,11 +8,11 @@ defmodule Sozisel.ParticipantsTest do
 
   describe "participants" do
     @valid_attrs %{
-      email: "some@email.com", 
+      email: "some@email.com",
       full_name: "some full_name"
     }
     @invalid_attrs %{
-      email: nil, 
+      email: nil,
       full_name: nil
     }
 
