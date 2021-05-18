@@ -1,0 +1,18 @@
+mutation CreateQuiz($input: CreateQuizInput!) {
+  createQuiz(input: $input) {
+    id
+  }
+}
+
+mutation UpdateQuiz($input: UpdateQuizInput!) {
+  updateQuiz(input: $input) {
+    id
+  }
+}
+
+mutation DeleteQuiz($id: ID!) {
+  deleteQuiz(id: $id) {
+    id
+  }
+}
+

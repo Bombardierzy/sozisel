@@ -1,0 +1,45 @@
+@import "../../../../../styles/styles";
+
+.QuizEvent {
+    margin-top: $spacing-05;
+    & > div {
+        background-color: $bg-02;
+    }
+    .accordionSummary {
+        align-items: flex-start;
+        .accordionHeader {
+            display: flex;
+            .logo {
+                margin-left: $spacing-02;
+                margin-top: $spacing-03;
+                width: 100px;
+                height: 100px;
+            }
+            .description {
+                margin-left: $spacing-09;
+                display: flex;
+                flex-direction: column;
+                .header{
+                    @include header-02;
+                }
+            }
+            .deleteButton, .editButton {
+                position: absolute;
+                top: 0;
+            }
+            .deleteButton {
+                right: 2*$spacing-09;
+            }
+            .editButton {
+                right: $spacing-09;
+            }
+        }
+    }
+    .questions {
+        & > div {
+            background-color: $bg-04;
+        }
+        display: flex;
+        flex-direction: column;
+    }
+}

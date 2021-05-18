@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 interface AgendaEntryCreationProps {
-  setAgenda: (state: AgendaPoint[]) => void;
-  agenda: AgendaPoint[];
+  agenda?: AgendaPoint[];
   sessionDurationTime?: number;
+  updateAgendaEntries: (agendaEntry: AgendaPoint[]) => void;
 }
 
 const agendaSchema = yup.object().shape({
@@ -25,18 +25,21 @@ const agendaSchema = yup.object().shape({
 });
 
 export default function AgendaEntryCreation({
-  setAgenda,
   agenda,
   sessionDurationTime,
+  updateAgendaEntries,
 }: AgendaEntryCreationProps): ReactElement {
   const { t } = useTranslation("common");
   const { handleSubmit, errors, control, setValue, setError } = useForm({
     resolver: yupResolver(agendaSchema),
   });
-  const onSubmit = (data: AgendaPoint) => {
+
+  const onSubmit = (agendaEntry: AgendaPoint) => {
     if (
-      agenda.filter((element) => data.startMinute === element.startMinute)
-        .length > 0
+      agenda &&
+      agenda.filter(
+        (element) => agendaEntry.startMinute === element.startMinute
+      ).length > 0
     ) {
       setError("startMinute", {
         type: "manual",
@@ -44,16 +47,19 @@ export default function AgendaEntryCreation({
       });
       return;
     }
-    if (!!sessionDurationTime && data.startMinute >= sessionDurationTime) {
+    if (
+      !!sessionDurationTime &&
+      agendaEntry.startMinute >= sessionDurationTime
+    ) {
       setError("startMinute", {
         type: "manual",
         message: "inputErrors.agendaIncorrectTime",
       });
       return;
     }
-    setAgenda([...agenda, data]);
     setValue("name", "");
     setValue("startMinute", "");
+    agenda && updateAgendaEntries([...agenda, agendaEntry]);
   };
 
   return (

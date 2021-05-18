@@ -9,7 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import IconButton from "@material-ui/core/IconButton";
-import { SessionTemplate } from "../../../graphql";
+import { SessionTemplate } from "../../../model/Template";
 import Typography from "@material-ui/core/Typography";
 import useAvatarById from "../../../hooks/useAvatarById";
 import useMyId from "../../../hooks/useMyId";
