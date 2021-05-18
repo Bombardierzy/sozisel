@@ -2,7 +2,7 @@ import "./SearchBar.scss";
 
 import { BaseSyntheticEvent, ReactElement, useState } from "react";
 
-import { AUTO_HIDE_DURATION } from "../../../common/globals";
+import { AUTO_HIDE_DURATION } from "../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";

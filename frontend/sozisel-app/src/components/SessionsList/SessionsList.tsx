@@ -17,7 +17,7 @@ import {
   useSearchSessionsQuery,
 } from "../../graphql";
 
-import { AUTO_HIDE_DURATION } from "../../common/globals";
+import { AUTO_HIDE_DURATION } from "../../common/consts";
 import ClearIcon from "@material-ui/icons/Clear";
 import MainNavbar from "../MainNavbar/MainNavbar";
 import SearchIcon from "@material-ui/icons/Search";

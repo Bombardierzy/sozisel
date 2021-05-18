@@ -21,7 +21,7 @@ import {
   useUpdateQuizMutation,
 } from "../../../../graphql";
 
-import { AUTO_HIDE_DURATION } from "../../../../common/globals";
+import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import QuestionsList from "./QuestionsList/QuestionsList";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";

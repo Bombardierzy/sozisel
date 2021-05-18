@@ -8,7 +8,7 @@ import {
   useSearchSessionTemplatesQuery,
 } from "../../graphql";
 
-import { AUTO_HIDE_DURATION } from "../../common/globals";
+import { AUTO_HIDE_DURATION } from "../../common/consts";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import MainNavbar from "../MainNavbar/MainNavbar";
