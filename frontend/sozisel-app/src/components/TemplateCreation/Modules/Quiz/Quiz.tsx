@@ -9,25 +9,32 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Control, Controller, DeepMap, FieldError } from "react-hook-form";
-import React, { ReactElement, useCallback, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   useCreateQuizMutation,
   useUpdateQuizMutation,
 } from "../../../../graphql";
 
+import { AUTO_HIDE_DURATION } from "../../../../common/globals";
 import { Alert } from "@material-ui/lab";
 import QuestionsList from "./QuestionsList/QuestionsList";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
-import { useContext } from "react";
-import { useEffect } from "react";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useQuizContext } from "../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
 
 interface QuizProps {
+  /*eslint-disable */
   errors: DeepMap<Record<string, any>, FieldError>;
-  control: Control;
   handleSubmit: (cb: any) => () => void;
+  /*eslint-enable */
+  control: Control;
   setValue: (
     name: string,
     value: string | number,
@@ -257,7 +264,7 @@ export default function Quiz({
         )}
         <Snackbar
           open={message !== ""}
-          autoHideDuration={3000}
+          autoHideDuration={AUTO_HIDE_DURATION}
           onClose={() => setMessage("")}
         >
           <Alert severity="success" onClose={() => setMessage("")}>

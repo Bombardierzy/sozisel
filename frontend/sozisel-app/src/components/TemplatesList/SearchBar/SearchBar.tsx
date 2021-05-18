@@ -2,6 +2,7 @@ import "./SearchBar.scss";
 
 import { BaseSyntheticEvent, ReactElement, useState } from "react";
 
+import { AUTO_HIDE_DURATION } from "../../../common/globals";
 import { Alert } from "@material-ui/lab";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -147,7 +148,7 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
           </Button>
         </Grid>
       </Grid>
-      <Snackbar open={!!error} autoHideDuration={3000}>
+      <Snackbar open={!!error} autoHideDuration={AUTO_HIDE_DURATION}>
         <Alert severity="error">
           {t("components.TemplateCreation.addingTemplateError")}
         </Alert>

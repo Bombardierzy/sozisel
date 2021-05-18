@@ -25,7 +25,7 @@ const createSchema = (moduleType: string): yup.AnyObjectSchema => {
     case "Quiz":
       return quizSchema;
     default:
-      throw Error("Incorrect module type!!!");
+      throw Error(`Encountered unknown module type: ${moduleType}`);
   }
 };
 
