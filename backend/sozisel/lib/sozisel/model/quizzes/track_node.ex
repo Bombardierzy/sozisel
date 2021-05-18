@@ -12,11 +12,12 @@ defmodule Sozisel.Model.Quizzes.TrackNode do
   embedded_schema do
     field :reaction_time, :float
     field :answer, :string
+    field :selected, :boolean
   end
 
   def changeset(track_node, attrs) do
     track_node
-    |> cast(attrs, [:reaction_time, :answer])
-    |> validate_required([:reaction_time, :answer])
+    |> cast(attrs, [:reaction_time, :answer, :selected])
+    |> validate_required([:reaction_time, :answer, :selected])
   end
 end

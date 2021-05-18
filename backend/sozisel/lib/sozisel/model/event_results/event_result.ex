@@ -44,6 +44,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
 
   def update_changeset(event_result, attrs) do
     event_result
+    |> cast(attrs, [])
     |> cast_polymorphic_embed(:result_data, required: true)
     |> validate_required([:result_data])
   end

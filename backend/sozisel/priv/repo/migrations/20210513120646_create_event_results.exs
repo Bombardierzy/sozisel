@@ -3,7 +3,7 @@ defmodule Sozisel.Repo.Migrations.CreateEventResults do
 
   def change do
     create table(:event_results) do
-      add :result_data, :string
+      add :result_data, :map, null: false
       add :participant_id, references(:participants, on_delete: :nothing), null: false
       add :event_id, references(:events, on_delete: :nothing), null: false
       

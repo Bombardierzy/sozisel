@@ -16,7 +16,8 @@ defmodule Sozisel.Model.Quizzes.QuizResult do
 
   def changeset(quiz_result, attrs) do
     quiz_result
-    |> cast(attrs, [:participant_answers])
+    |> cast(attrs, [])
+    |> cast_embed(:participant_answers)
     |> validate_required([:participant_answers])
   end
 end
