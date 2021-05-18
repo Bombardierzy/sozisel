@@ -3,7 +3,7 @@ defmodule Sozisel.Model.Participants.Participant do
   import Ecto.Changeset
 
   alias Sozisel.Model.Participants
-  alias Sozisel.Model.Events.EventResult
+  alias Sozisel.Model.EventResults.EventResult
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -18,7 +18,7 @@ defmodule Sozisel.Model.Participants.Participant do
     field :email, :string
     field :full_name, :string
     field :token, :string
-    has_many :event_results, EventResult, foreign_key: :participant_id
+    has_many :event_results, EventResult
 
     timestamps()
   end

@@ -17,7 +17,6 @@ defmodule Sozisel.Model.Participants do
   def create_participant(attrs \\ %{}) do
     %Participant{}
     |> Participant.create_changeset(attrs)
-    |> IO.inspect()
     |> Repo.insert()
   end
 

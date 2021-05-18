@@ -51,7 +51,8 @@ defmodule Sozisel.Factory do
   def participant_factory(attrs) do
     %Participant{
       email: attrs[:email] || sequence(:email, &"email-#{&1}@example.com"),
-      full_name: attrs[:full_name] || sequence(:full_name,  &"Michael Smith no. #{&1}")
+      full_name: attrs[:full_name] || sequence(:full_name,  &"Michael Smith no. #{&1}"),
+      token: attrs[:token] || :crypto.hash(:md5 , "token") |> Base.encode16()
     }
   end
 end

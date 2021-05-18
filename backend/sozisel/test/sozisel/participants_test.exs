@@ -26,7 +26,8 @@ defmodule Sozisel.ParticipantsTest do
     end
 
     test "list_participants/0 returns all participants" do
-      participant = participant_fixture()
+      template = insert(:participant)
+      # participant = participant_fixture()
       # assert Participants.list_participants() == [participant]
     end
 

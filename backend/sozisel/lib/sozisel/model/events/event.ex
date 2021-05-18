@@ -5,6 +5,7 @@ defmodule Sozisel.Model.Events.Event do
 
   alias Sozisel.Model.Sessions.Template
   alias Sozisel.Model.Quizzes.Quiz
+  alias Sozisel.Model.EventResults.EventResult
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -27,6 +28,7 @@ defmodule Sozisel.Model.Events.Event do
       on_replace: :update
 
     belongs_to :session_template, Template
+    has_many :event_results, EventResult
 
     timestamps()
   end
