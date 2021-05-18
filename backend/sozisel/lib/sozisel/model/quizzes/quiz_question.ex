@@ -6,6 +6,7 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
 
   @type t :: %__MODULE__{
           question: String.t(),
+          id: String.t(),
           answers: [String.t()],
           correct_answers: [String.t()]
         }
@@ -14,19 +15,19 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
 
   embedded_schema do
     field :question, :string
+    field :id, :string
     embeds_many :answers, Answer, on_replace: :delete
     embeds_many :correct_answers, Answer, on_replace: :delete
   end
 
   def changeset(quiz_question, attrs) do
     quiz_question
-    |> cast(attrs, [:question])
+    |> cast(attrs, [:question, :id])
     |> cast_embed(:answers)
     |> cast_embed(:correct_answers)
     |> validate_required([:question, :answers, :correct_answers])
+    |> validate_answers_and_correct_answers_length()
     |> validate_answer_inclusion()
-    |> validate_length(:answers, min: 2)
-    |> validate_length(:correct_answers, min: 1)
   end
 
   def validate_answer_inclusion(changeset) do
@@ -39,6 +40,25 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
       changeset
     else
       add_error(changeset, :correct_answers, "Correct answers must be included in answers")
+    end
+  end
+
+  def validate_answers_and_correct_answers_length(changeset) do
+    answers = get_change(changeset, :answers) || get_field(changeset, :answers)
+
+    if length(answers) >= 2 do
+      changeset
+    else
+      add_error(changeset, :answers, "Answers must contain at least 2 elements")
+    end
+
+    correct_answers =
+      get_change(changeset, :correct_answers) || get_field(changeset, :correct_answers)
+
+    if length(correct_answers) >= 1 do
+      changeset
+    else
+      add_error(changeset, :correct_answers, "Correct answers must contain at least 1 element")
     end
   end
 end
