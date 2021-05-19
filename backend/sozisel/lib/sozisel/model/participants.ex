@@ -28,10 +28,8 @@ defmodule Sozisel.Model.Participants do
     Participant.create_changeset(participant, attrs)
   end
 
-  def generate_token(
-        %Ecto.Changeset{valid?: true} = changeset
-      ) do
-    token = :crypto.strong_rand_bytes(24) |> Base.encode16
+  def generate_token(%Ecto.Changeset{valid?: true} = changeset) do
+    token = :crypto.strong_rand_bytes(24) |> Base.encode16()
     changeset |> Ecto.Changeset.change(%{token: token})
   end
 
