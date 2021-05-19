@@ -8,13 +8,13 @@ import { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 
 interface AgendaProps {
-  setAgenda: (state: AgendaPoint[]) => void;
+  updateAgendaEntries: (state: AgendaPoint[]) => void;
   agenda: AgendaPoint[];
 }
 
 export default function Agenda({
   agenda,
-  setAgenda,
+  updateAgendaEntries,
 }: AgendaProps): ReactElement {
   const { t } = useTranslation("common");
   return (
@@ -25,14 +25,19 @@ export default function Agenda({
       <List component="ol">
         {agenda
           .sort((a, b) => (a.startMinute <= b.startMinute ? -1 : 1))
-          .map((element, idx) => (
+          .map(({ name, startMinute }, idx) => (
             <AgendaEntry
               key={idx}
-              title={element.name}
-              startMinute={element.startMinute}
+              title={name}
+              startMinute={startMinute}
               idx={idx}
               onDelete={() =>
-                setAgenda(agenda.filter((ele) => ele !== element))
+                agenda &&
+                updateAgendaEntries(
+                  agenda.filter(
+                    (element) => startMinute !== element.startMinute
+                  )
+                )
               }
             />
           ))}

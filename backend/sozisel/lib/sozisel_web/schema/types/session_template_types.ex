@@ -16,6 +16,10 @@ defmodule SoziselWeb.Schema.Types.SessionTemplateTypes do
       resolve(dataloader(:db))
     end
 
+    field :events, strong_list_of(:event) do
+      resolve(dataloader(:db))
+    end
+
     timestamps()
   end
 
