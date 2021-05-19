@@ -63,13 +63,18 @@ export function useLiveSessionParticipation({
         .map(({ key }) => key);
 
       setParticipation((p) => {
+        const currentParticipantKeys = p.participants.map(({ key }) => key);
+        const newParticipants = joiningParticipants.filter(
+          ({ key }) => !currentParticipantKeys.includes(key)
+        );
+
         return {
           ...p,
           participants: [
             ...p.participants.filter(
               ({ key }) => !leavingParticipantKeys.includes(key)
             ),
-            ...joiningParticipants,
+            ...newParticipants,
           ],
         };
       });
