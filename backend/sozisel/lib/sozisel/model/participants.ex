@@ -29,9 +29,9 @@ defmodule Sozisel.Model.Participants do
   end
 
   def generate_token(
-        %Ecto.Changeset{valid?: true, changes: %{full_name: full_name, email: email}} = changeset
+        %Ecto.Changeset{valid?: true} = changeset
       ) do
-    token = :crypto.hash(:md5, full_name <> email) |> Base.encode16()
+    token = :crypto.strong_rand_bytes(24) |> Base.encode16
     changeset |> Ecto.Changeset.change(%{token: token})
   end
 

@@ -12,14 +12,13 @@ defmodule Sozisel.EventResultsTest do
       result_data: %{
         participant_answers: [
           %{
-            question: "What is the capital of Poland?",
-            all_answers: ["Cracow", "Warsaw", "Podlasie"],
-            final_answers: ["Podlasie"],
+            question_id: "1",
+            final_answer_ids: ["3"],
             is_correct: false,
             track_nodes: [
-              %{reaction_time: 3.32, answer: "Warsaw", selected: true},
-              %{reaction_time: 5.41, answer: "Cracow", selected: true},
-              %{reaction_time: 7.25, answer: "Podlasie", selected: true}
+              %{reaction_time: 3.32, answer_id: "2", selected: true},
+              %{reaction_time: 5.41, answer_id: "1", selected: true},
+              %{reaction_time: 7.25, answer_id: "3", selected: true}
             ]
           }
         ]
@@ -29,26 +28,24 @@ defmodule Sozisel.EventResultsTest do
       result_data: %{
         participant_answers: [
           %{
-            question: "What is the capital of Poland?",
-            all_answers: ["Cracow", "Warsaw", "Podlasie"],
-            final_answers: ["Podlasie"],
+            question_id: "1",
+            final_answer_ids: ["3"],
             is_correct: false,
             track_nodes: [
-              %{reaction_time: 3.32, answer: "Warsaw", selected: true},
-              %{reaction_time: 5.41, answer: "Cracow", selected: true},
-              %{reaction_time: 7.25, answer: "Podlasie", selected: true}
+              %{reaction_time: 3.32, answer_id: "2", selected: true},
+              %{reaction_time: 5.41, answer_id: "1", selected: true},
+              %{reaction_time: 7.25, answer_id: "3", selected: true}
             ]
           },
           %{
-            question: "What color is the banana?",
-            all_answers: ["Red", "Black", "Yellow", "Green"],
-            final_answers: ["Yellow", "Green"],
+            question_id: "2",
+            final_answer_ids: ["3", "4"],
             is_correct: true,
             track_nodes: [
-              %{reaction_time: 1.01, answer: "Yellow", selected: true},
-              %{reaction_time: 3.11, answer: "Red", selected: true},
-              %{reaction_time: 5.25, answer: "Red", selected: false},
-              %{reaction_time: 6.61, answer: "Green", selected: true}
+              %{reaction_time: 1.01, answer_id: "3", selected: true},
+              %{reaction_time: 3.11, answer_id: "1", selected: true},
+              %{reaction_time: 5.25, answer_id: "1", selected: false},
+              %{reaction_time: 6.61, answer_id: "4", selected: true}
             ]
           }
         ]
@@ -73,6 +70,20 @@ defmodule Sozisel.EventResultsTest do
             ],
             correct_answers: [
               %{text: "Warsaw", id: "2"}
+            ]
+          },
+          %{
+            question: "What color is the banana?",
+            id: "2",
+            answers: [
+              %{text: "Red", id: "1"},
+              %{text: "Black", id: "2"},
+              %{text: "Yellow", id: "3"},
+              %{text: "Green", id: "4"}
+            ],
+            correct_answers: [
+              %{text: "Yellow", id: "3"},
+              %{text: "Green", id: "4"}
             ]
           }
         ]
@@ -130,23 +141,22 @@ defmodule Sozisel.EventResultsTest do
       assert event_result.result_data == %Sozisel.Model.Quizzes.QuizResult{
                participant_answers: [
                  %Sozisel.Model.Quizzes.ParticipantAnswer{
-                   all_answers: ["Cracow", "Warsaw", "Podlasie"],
-                   final_answers: ["Podlasie"],
+                   final_answer_ids: ["3"],
                    is_correct: false,
-                   question: "What is the capital of Poland?",
+                   question_id: "1",
                    track_nodes: [
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Warsaw",
+                       answer_id: "2",
                        reaction_time: 3.32,
                        selected: true
                      },
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Cracow",
+                       answer_id: "1",
                        reaction_time: 5.41,
                        selected: true
                      },
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Podlasie",
+                       answer_id: "3",
                        reaction_time: 7.25,
                        selected: true
                      }
@@ -175,51 +185,49 @@ defmodule Sozisel.EventResultsTest do
       assert event_result.result_data == %Sozisel.Model.Quizzes.QuizResult{
                participant_answers: [
                  %Sozisel.Model.Quizzes.ParticipantAnswer{
-                   all_answers: ["Cracow", "Warsaw", "Podlasie"],
-                   final_answers: ["Podlasie"],
+                   final_answer_ids: ["3"],
                    is_correct: false,
-                   question: "What is the capital of Poland?",
+                   question_id: "1",
                    track_nodes: [
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Warsaw",
+                       answer_id: "2",
                        reaction_time: 3.32,
                        selected: true
                      },
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Cracow",
+                       answer_id: "1",
                        reaction_time: 5.41,
                        selected: true
                      },
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Podlasie",
+                       answer_id: "3",
                        reaction_time: 7.25,
                        selected: true
                      }
                    ]
                  },
                  %Sozisel.Model.Quizzes.ParticipantAnswer{
-                   all_answers: ["Red", "Black", "Yellow", "Green"],
-                   final_answers: ["Yellow", "Green"],
+                   final_answer_ids: ["3", "4"],
                    is_correct: true,
-                   question: "What color is the banana?",
+                   question_id: "2",
                    track_nodes: [
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Yellow",
+                       answer_id: "3",
                        reaction_time: 1.01,
                        selected: true
                      },
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Red",
+                       answer_id: "1",
                        reaction_time: 3.11,
                        selected: true
                      },
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Red",
+                       answer_id: "1",
                        reaction_time: 5.25,
                        selected: false
                      },
                      %Sozisel.Model.Quizzes.TrackNode{
-                       answer: "Green",
+                       answer_id: "4",
                        reaction_time: 6.61,
                        selected: true
                      }
