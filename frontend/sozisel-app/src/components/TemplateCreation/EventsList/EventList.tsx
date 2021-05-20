@@ -14,14 +14,16 @@ export default function EventList({ events }: EventListProps): ReactElement {
   return (
     <Paper className="EventList" elevation={2}>
       {events &&
-        events.map((event: Event) => {
-          switch (event.eventData.__typename) {
-            case "Quiz":
-              return <Quiz key={event.id} event={event} />;
-            default:
-              return <></>;
-          }
-        })}
+        [...events]
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((event: Event) => {
+            switch (event.eventData.__typename) {
+              case "Quiz":
+                return <Quiz key={event.id} event={event} />;
+              default:
+                return <></>;
+            }
+          })}
     </Paper>
   );
 }

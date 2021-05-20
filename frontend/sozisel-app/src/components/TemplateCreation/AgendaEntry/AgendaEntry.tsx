@@ -20,7 +20,8 @@ export default function AgendaEntry({
 }: AgendaEntryProps): ReactElement {
   return (
     <ListItem className="AgendaEntry">
-      <Typography className="pointTitle">{`${idx + 1}. ${title}`}</Typography>
+      <Typography>{`${idx + 1}.`}</Typography>
+      <Typography className="pointTitle">{title}</Typography>
       <Typography className="pointTime">{`(${startMinute} min)`}</Typography>
       <DeleteIcon onClick={() => onDelete()} className="deleteIcon" />
     </ListItem>

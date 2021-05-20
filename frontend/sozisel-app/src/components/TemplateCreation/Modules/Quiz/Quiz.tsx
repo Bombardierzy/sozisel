@@ -75,6 +75,18 @@ export default function Quiz({
     quizDispatch,
   ] = useQuizContext();
 
+  const onReset = useCallback((): void => {
+    setValue(
+      "eventName",
+      String(t("components.TemplateCreation.EventCreation.moduleName"))
+    );
+    setValue("durationTime", "");
+    setValue("startMinute", "");
+    setValue("percentageOfParticipants", "");
+    quizDispatch({ type: "RESET" });
+    eventDispatch({ type: "RESET" });
+  }, [eventDispatch, quizDispatch, setValue, t]);
+
   useEffect(() => {
     if (event.id !== "") {
       quizDispatch({
@@ -94,6 +106,8 @@ export default function Quiz({
         type: "SET_DURATION_TIME",
         durationTime: event.eventData.durationTimeSec,
       });
+    } else {
+      onReset();
     }
   }, [
     quizDispatch,
@@ -102,19 +116,8 @@ export default function Quiz({
     event.eventData.trackingMode,
     event.eventData.targetPercentageOfParticipants,
     event.eventData.durationTimeSec,
+    onReset,
   ]);
-
-  const onReset = useCallback((): void => {
-    setValue(
-      "eventName",
-      String(t("components.TemplateCreation.EventCreation.moduleName"))
-    );
-    setValue("durationTime", "");
-    setValue("startMinute", "");
-    setValue("percentageOfParticipants", "");
-    quizDispatch({ type: "RESET" });
-    eventDispatch({ type: "RESET" });
-  }, [eventDispatch, quizDispatch, setValue, t]);
 
   useEffect(() => {
     percentageOfParticipants !== 0 &&
@@ -143,8 +146,9 @@ export default function Quiz({
         setMessage(
           t("components.TemplateCreation.EventCreation.onEditEventMessage")
         );
+      onReset();
     },
-    [event.id, questions, t, trackingMode, updateQuiz, updateQuizError]
+    [event.id, onReset, questions, t, trackingMode, updateQuiz, updateQuizError]
   );
 
   const onSubmit = useCallback(
@@ -243,10 +247,7 @@ export default function Quiz({
         {event.id ? (
           <Button
             color="primary"
-            onClick={() => {
-              handleSubmit(onUpdate)();
-              onReset();
-            }}
+            onClick={() => handleSubmit(onUpdate)()}
             variant="contained"
             className="updateButton"
           >
