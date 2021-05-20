@@ -1,0 +1,28 @@
+@import "../../styles/styles";
+
+.Register {
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media screen and (max-width: $large){
+      justify-content: center;
+    }
+
+    img {
+      width: 1000px;
+      height: 600px;
+      margin-left: 5%;
+      @include resize($extra-large, 800px, 600px);
+      @include resize($large, 0, 0);
+    }
+
+    form {
+      margin-top: $spacing-08;
+      text-align: center;
+      button {
+        margin-top: $spacing-05;
+      }
+    }
+  }
