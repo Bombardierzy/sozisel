@@ -65,7 +65,6 @@ export default function TemplateCreation(): ReactElement {
   useEffect(() => {
     setAgenda(
       template?.agendaEntries?.map((element) => ({
-        id: element.id,
         name: element.name,
         startMinute: element.startMinute,
       })) || []

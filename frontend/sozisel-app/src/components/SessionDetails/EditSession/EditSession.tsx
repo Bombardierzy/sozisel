@@ -1,7 +1,11 @@
 import "./EditSession.scss";
 
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import React, { ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
+import {
+  useSessionDetailsQuery,
+  useUpdateSessionMutation,
+} from "../../../graphql";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MainNavbar from "../../MainNavbar/MainNavbar";
@@ -9,7 +13,6 @@ import SessionCustomization from "../SessionCustomization/SessionCustomization";
 import Snackbar from "@material-ui/core/Snackbar";
 import TemplateOverview from "../TemplateOverview/TemplateOverview";
 import { useLocation } from "react-router-dom";
-import { useSessionDetailsQuery } from "../../../graphql";
 import { useTranslation } from "react-i18next";
 
 function Alert(props: AlertProps) {
@@ -30,11 +33,11 @@ export default function EditSession(): ReactElement {
       id: (location.state as SessionEditProps).sessionId,
     },
   });
-  // TODO add update mutation
-  //   const [
-  //     createMutation,
-  //     { error: createError, loading: createLoading },
-  //   ] = useCreateSessionMutation();
+
+  const [
+    updateMutation,
+    { error: updateError, loading: updateLoading },
+  ] = useUpdateSessionMutation();
 
   const onSubmit = async ({
     sessionName,
@@ -47,23 +50,24 @@ export default function EditSession(): ReactElement {
     scheduledDateTime: Date;
     useJitsi: boolean;
   }) => {
-    // try {
-    //   await createMutation({
-    //     variables: {
-    //       input: {
-    //         entryPassword: entryPassword,
-    //         name: sessionName,
-    //         scheduledStartTime: scheduledDateTime,
-    //         sessionTemplateId: (location.state as SessionCreationProps)
-    //           .templateId,
-    //         useJitsi: useJitsi,
-    //       },
-    //     },
-    //   });
-    //   setSuccessMessage(`${t("components.SessionDetails.successMessage")}`);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      await updateMutation({
+        variables: {
+          input: {
+            id: (location.state as SessionEditProps).sessionId,
+            entryPassword: entryPassword,
+            name: sessionName,
+            scheduledStartTime: scheduledDateTime,
+            useJitsi: useJitsi,
+          },
+        },
+      });
+      setSuccessMessage(
+        `${t("components.SessionDetails.updateSuccessMessage")}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (loading) {
@@ -86,6 +90,7 @@ export default function EditSession(): ReactElement {
             onValidSubmit={onSubmit}
             currentName={data.session.name}
             currentPassword={data.session.entryPassword ?? undefined}
+            currentUseJitsi={data.session.useJitsi}
             currentScheduledDateTime={data.session.scheduledStartTime}
           />
           <TemplateOverview
@@ -100,14 +105,14 @@ export default function EditSession(): ReactElement {
               {successMessage}
             </Alert>
           </Snackbar>
-          {/* <Snackbar open={createLoading} autoHideDuration={3000}>
+          <Snackbar open={updateLoading} autoHideDuration={3000}>
             <CircularProgress />
           </Snackbar>
-          <Snackbar open={!!createError} autoHideDuration={6000}>
+          <Snackbar open={!!updateError} autoHideDuration={6000}>
             <Alert severity="error">
-              {t("components.SessionDetails.errorMessage")}
+              {t("components.SessionDetails.updateErrorMessage")}
             </Alert>
-          </Snackbar> */}
+          </Snackbar>
         </div>
       </>
     );

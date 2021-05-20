@@ -54,9 +54,9 @@ export default function TemplateOverview({
             <List className="overviewList">
               {template.agendaEntries.map((element, index) => (
                 <OverviewListElement
-                  key={element.id}
+                  key={index}
                   name={element.name}
-                  index={index}
+                  index={index + 1}
                   trailingText={`(${element.startMinute.toString()} min)`}
                 />
               ))}
@@ -80,7 +80,7 @@ export default function TemplateOverview({
                 <OverviewListElement
                   key={element.id}
                   name={element.name}
-                  index={index}
+                  index={index + 1}
                   trailingText={`(${element.startMinute.toString()} min)`}
                 />
               ))}

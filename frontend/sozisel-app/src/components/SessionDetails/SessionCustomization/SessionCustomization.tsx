@@ -11,8 +11,8 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
-import React, { ReactElement } from "react";
 
+import { ReactElement } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -51,9 +51,11 @@ export default function SessionCustomization({
   currentScheduledDateTime,
   currentUseJitsi,
 }: SessionCustomizationProps): ReactElement {
-  const [useJitsi, setUseJitsi] = useState<boolean>(currentUseJitsi ?? true);
+  const [useJitsi, setUseJitsi] = useState<boolean>(
+    currentUseJitsi === undefined ? true : currentUseJitsi
+  );
   const [authorization, setAuthorization] = useState<boolean>(
-    currentPassword != undefined
+    currentPassword !== undefined
   );
   const { t } = useTranslation("common");
   const { handleSubmit, errors, control } = useForm({
@@ -65,7 +67,7 @@ export default function SessionCustomization({
       sessionName: sessionDetails.sessionName,
       scheduledDateTime: sessionDetails.scheduledDateTime,
       useJitsi: useJitsi,
-      entryPassword: sessionDetails.entryPassword,
+      entryPassword: authorization ? sessionDetails.entryPassword : "",
     });
   };
 
@@ -139,7 +141,7 @@ export default function SessionCustomization({
                     placeholder={t(
                       "components.SessionDetails.sessionPasswordPlaceholder"
                     )}
-                    type="password"
+                    type="text"
                   />
                 }
               />

@@ -104,7 +104,9 @@
       "agenda": "Agenda",
       "events": "Wydarzenia",
       "errorMessage": "Nie udało się stworzyć sesji.",
-      "successMessage": "Stworzono sesje"
+      "successMessage": "Stworzono sesje",
+      "updateSuccessMessage": "Zaktualizowano sesje",
+      "updateErrorMessage": "Nie udało się zaaktualizować sesji."
     },
     "SessionsList": {
       "filters": "Filtry",
