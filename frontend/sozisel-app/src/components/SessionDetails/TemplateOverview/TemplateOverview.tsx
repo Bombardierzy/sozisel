@@ -12,11 +12,11 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import OverviewListElement from "../OverviewListElement/OverviewListElement";
 import { ReactElement } from "react";
-import { Template } from "../../../model/Template";
+import { SessionTemplate } from "../../../model/Template";
 import { useTranslation } from "react-i18next";
 
 export interface TemplateOverviewProps {
-  template: Template;
+  template: SessionTemplate;
 }
 
 export default function TemplateOverview({

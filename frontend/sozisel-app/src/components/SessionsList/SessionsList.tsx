@@ -17,6 +17,7 @@ import {
   useSearchSessionsQuery,
 } from "../../graphql";
 
+import { AUTO_HIDE_DURATION } from "../../common/consts";
 import ClearIcon from "@material-ui/icons/Clear";
 import MainNavbar from "../MainNavbar/MainNavbar";
 import SearchIcon from "@material-ui/icons/Search";
@@ -150,17 +151,17 @@ export default function SessionsList(): ReactElement {
         </div>
         <Snackbar
           open={successMessage !== ""}
-          autoHideDuration={6000}
+          autoHideDuration={AUTO_HIDE_DURATION}
           onClose={() => setSuccessMessage("")}
         >
           <Alert onClose={() => setSuccessMessage("")} severity="success">
             {successMessage}
           </Alert>
         </Snackbar>
-        <Snackbar open={deleteLoading} autoHideDuration={3000}>
+        <Snackbar open={deleteLoading} autoHideDuration={AUTO_HIDE_DURATION}>
           <CircularProgress />
         </Snackbar>
-        <Snackbar open={!!deleteError} autoHideDuration={6000}>
+        <Snackbar open={!!deleteError} autoHideDuration={AUTO_HIDE_DURATION}>
           <Alert severity="error">
             {t("components.SessionList.errorMessage")}
           </Alert>

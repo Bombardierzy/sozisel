@@ -1,11 +1,12 @@
 defmodule Sozisel.Factory do
   use Sozisel.ExMachina.PolymorphicEcto, repo: Sozisel.Repo
 
-  alias Sozisel.Model.{Users, Sessions, Events, Quizzes}
+  alias Sozisel.Model.{Users, Sessions, Events, Quizzes, Participants}
   alias Users.User
   alias Sessions.{Template, AgendaEntry, Session}
   alias Events.Event
   alias Quizzes.{Quiz, QuizQuestion}
+  alias Participants.Participant
 
   def user_factory(attrs) do
     %User{
@@ -44,6 +45,14 @@ defmodule Sozisel.Factory do
       scheduled_start_time: attrs[:scheduled_start_time] || "2011-05-18T15:01:01.000000Z",
       start_time: attrs[:start_time],
       end_time: attrs[:end_time]
+    }
+  end
+
+  def participant_factory(attrs) do
+    %Participant{
+      email: attrs[:email] || sequence(:email, &"email-#{&1}@example.com"),
+      full_name: attrs[:full_name] || sequence(:full_name, &"Michael Smith no. #{&1}"),
+      token: attrs[:token] || :crypto.hash(:md5, "token") |> Base.encode16()
     }
   end
 end

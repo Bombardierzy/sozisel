@@ -4,18 +4,18 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
         estimatedTime
         isPublic
         name
-        owner{
-            id
-            firstName
-            lastName
-            email
-        }
-        agendaEntries{
+        agendaEntries {
             id
             name
             startMinute
         }
-         events {
+        owner {
+            email
+            firstName
+            lastName
+            id
+        }
+        events {
             id
             name
             startMinute
@@ -43,22 +43,22 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
     }
 }
 
-query SessionTemplate($id: ID!){
-    sessionTemplate(id: $id){
+query SessionTemplate($id: ID!) {
+    sessionTemplate(id: $id) {
         id
         estimatedTime
         isPublic
         name
-        owner{
-            id
-            firstName
-            lastName
-            email
-        }
-        agendaEntries{
+        agendaEntries {
             id
             name
             startMinute
+        }
+        owner {
+            email
+            firstName
+            lastName
+            id
         }
         events {
             id

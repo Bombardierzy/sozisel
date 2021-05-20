@@ -8,12 +8,13 @@ import {
   useSearchSessionTemplatesQuery,
 } from "../../graphql";
 
+import { AUTO_HIDE_DURATION } from "../../common/consts";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import MainNavbar from "../MainNavbar/MainNavbar";
 import SearchBar from "./SearchBar/SearchBar";
+import { SessionTemplate } from "../../model/Template";
 import Snackbar from "@material-ui/core/Snackbar";
-import { Template } from "../../model/Template";
 import TemplateCard from "./TemplateCard/TemplateCard";
 import { useTranslation } from "react-i18next";
 
@@ -56,7 +57,7 @@ export default function TemplateList(): ReactElement {
   );
 
   const onCopy = useCallback(
-    async (template: Template) => {
+    async (template: SessionTemplate) => {
       try {
         await cloneMutation({
           variables: {
@@ -73,7 +74,7 @@ export default function TemplateList(): ReactElement {
   );
 
   const onDelete = useCallback(
-    async (template: Template) => {
+    async (template: SessionTemplate) => {
       try {
         await deleteMutation({
           variables: {
@@ -111,7 +112,7 @@ export default function TemplateList(): ReactElement {
           <SearchBar onSearch={onSearch}></SearchBar>
           <div className="TemplatesList">
             <List>
-              {data.searchSessionTemplates.map((element, _) => (
+              {data.searchSessionTemplates.map((element) => (
                 <TemplateCard
                   key={element.id}
                   template={element}
@@ -124,17 +125,23 @@ export default function TemplateList(): ReactElement {
         </div>
         <Snackbar
           open={successMessage !== ""}
-          autoHideDuration={6000}
+          autoHideDuration={AUTO_HIDE_DURATION}
           onClose={() => setSuccessMessage("")}
         >
           <Alert onClose={() => setSuccessMessage("")} severity="success">
             {successMessage}
           </Alert>
         </Snackbar>
-        <Snackbar open={cloneLoading || deleteLoading} autoHideDuration={3000}>
+        <Snackbar
+          open={cloneLoading || deleteLoading}
+          autoHideDuration={AUTO_HIDE_DURATION}
+        >
           <CircularProgress />
         </Snackbar>
-        <Snackbar open={!!cloneError || !!deleteError} autoHideDuration={6000}>
+        <Snackbar
+          open={!!cloneError || !!deleteError}
+          autoHideDuration={AUTO_HIDE_DURATION}
+        >
           <Alert severity="error">
             {t("components.TemplatesList.errorMsg")}
           </Alert>

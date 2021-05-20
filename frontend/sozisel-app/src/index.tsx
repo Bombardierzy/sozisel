@@ -35,9 +35,15 @@ export const mainTheme = createMuiTheme({
   overrides: {
     MuiOutlinedInput: {
       input: {
+        borderRadius: 8,
         background: "#f0f0f0",
       },
       root: {
+        borderRadius: 8,
+      },
+    },
+    MuiSelect: {
+      outlined: {
         borderRadius: 8,
       },
     },

@@ -101,7 +101,7 @@ export default function SessionFilters({
               {t("components.SessionsList.filters")}
             </Typography>
           </div>
-          <CircularProgress></CircularProgress>
+          <CircularProgress />
         </Paper>
       </>
     );

@@ -15,6 +15,7 @@
     "debounce": "^1.2.1",
     "graphql": "^15.5.0",
     "i18next": "^20.1.0",
+    "omit-deep-lodash": "^1.1.5",
     "phoenix": "^1.5.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -23,6 +24,7 @@
     "react-jitsi": "^1.0.4",
     "react-router-dom": "^5.2.0",
     "react-spinners": "^0.10.6",
+    "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
   "scripts": {
@@ -44,9 +46,11 @@
     "@types/absinthe__socket-apollo-link": "^0.2.1",
     "@types/debounce": "^1.2.0",
     "@types/history": "^4.7.8",
+    "@types/omit-deep-lodash": "^1.1.1",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "@types/react-router-dom": "^5.1.7",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.22.1",
     "clean-webpack-plugin": "^3.0.0",

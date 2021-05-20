@@ -4,21 +4,26 @@
     width: 30%;
     margin: $spacing-06 $spacing-05;
     height: calc(85% - 2*#{$spacing-05});
-    padding: $spacing-05 $spacing-09;
+    padding: $spacing-05 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: auto;
+    .eventForm {
+        padding: 0 $spacing-03;
+    }
+    .creationForm {
+        width: 80%;
+        padding: 0 $spacing-03;
+    }
     .label {
         margin-top: $spacing-05;
         @include header-01;
     }
     .input {
         width: 100%;
-        margin: $spacing-03 0;
     }
     .submitButton {
-        background-color: $main-color;
-        color: white;
         margin-left: 30%;
         margin-top: $spacing-03;
         width: 40%;
@@ -34,6 +39,7 @@
         }
     }
     .moduleType {
+        display: flex;
         width: 100%;
         margin-top: $spacing-05;
     }

@@ -4,6 +4,7 @@ import AboutScreen from "./components/AboutScreen/AboutScreen";
 import { ApolloProvider } from "@apollo/client";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import EditSession from "./components/SessionDetails/EditSession/EditSession";
+import JitsiShowcaseScreen from "./components/Jitsi/JitsiShowcaseScreen";
 import Login from "./components/LoginScreen/LoginScreen";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
@@ -22,6 +23,7 @@ export default function App(): ReactElement {
         <Route exact path="/">
           <Redirect to="/templates" />
         </Route>
+        <Route exact path="/jitsi" component={JitsiShowcaseScreen} />
         <Route exact path="/home">
           <Redirect to="/templates" />
         </Route>
