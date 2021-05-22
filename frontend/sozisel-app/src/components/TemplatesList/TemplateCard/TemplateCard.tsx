@@ -43,7 +43,7 @@ export default function TemplateCard({
       pathname: "/templates/create",
       state: { id: template.id },
     });
-  }
+  };
 
   return (
     <Card
