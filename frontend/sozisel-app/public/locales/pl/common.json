@@ -110,6 +110,9 @@
       "shareSession": "Udostępnij sesje",
       "shareSessionInfo": "Każdy z tym linkiem będzie mógł dołączyć do sesji.",
       "shareLabel": "Share link"
+    },
+    "LiveSession": {
+      "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
     }
   },
   "inputErrors": {
