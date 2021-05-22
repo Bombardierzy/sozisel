@@ -1,6 +1,6 @@
 import "./TemplateCard.scss";
 
-import { BaseSyntheticEvent, ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
 
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
