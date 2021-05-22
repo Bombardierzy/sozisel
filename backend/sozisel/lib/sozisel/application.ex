@@ -16,6 +16,8 @@ defmodule Sozisel.Application do
       SoziselWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Sozisel.PubSub},
+      # Start Presence
+      SoziselWeb.Presence,
       # Start the Endpoint (http/https)
       SoziselWeb.Endpoint,
       # Start absinthe subscriptions handler

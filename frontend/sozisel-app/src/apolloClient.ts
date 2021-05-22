@@ -22,16 +22,16 @@ function createApolloHttpLink(): ApolloLink {
   return createHttpLink({ uri: `http://${HOST}:4000/api` });
 }
 
-function createApolloSocketLink(): ApolloLink {
-  const socket = createAbsintheSocket(
-    new PhoenixSocket(`ws://${HOST}:4000/socket`)
-  );
+function createApolloSocketLink(phoenixSocket: PhoenixSocket): ApolloLink {
+  const socket = createAbsintheSocket(phoenixSocket);
 
   type MockType = AbsintheSocketLink & ApolloLink;
   return createAbsintheSocketLink(socket) as MockType;
 }
 
-export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
+export function createApolloClient(
+  socket: PhoenixSocket
+): ApolloClient<NormalizedCacheObject> {
   const splitLink = split(
     ({ query }) => {
       const definition = getMainDefinition(query);
@@ -40,7 +40,7 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
         definition.operation === "subscription"
       );
     },
-    createApolloSocketLink(),
+    createApolloSocketLink(socket),
     createApolloHttpLink()
   );
 

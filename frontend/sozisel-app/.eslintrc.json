@@ -17,6 +17,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "react/prop-types": [2, { "ignore": ["children"] }],
     "sort-imports": [
       "error",
       {

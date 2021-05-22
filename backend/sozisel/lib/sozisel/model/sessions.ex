@@ -321,6 +321,10 @@ defmodule Sozisel.Model.Sessions do
     Repo.get!(Session, id)
   end
 
+  def get_session(id) do
+    Repo.get(Session, id)
+  end
+
   @doc """
   Creates a session.
   """

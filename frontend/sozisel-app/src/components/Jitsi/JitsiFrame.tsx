@@ -72,7 +72,7 @@ export default function JitsiFrame({
     if (api) {
       console.log("GOT API");
 
-      (api as any).addEventListener("readyToClose", () => {
+      (api as EventTarget).addEventListener("readyToClose", () => {
         window.location.href = "/";
       });
     }
