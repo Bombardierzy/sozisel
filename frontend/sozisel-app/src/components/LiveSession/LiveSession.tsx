@@ -11,13 +11,13 @@ interface LiveSessionParams {
 
 export function LiveSession(): ReactElement {
   const { sessionId } = useParams<LiveSessionParams>();
-  const {t} = useTranslation("common");
+  const { t } = useTranslation("common");
 
   const { participants, error, loading } = useLiveSessionParticipation({
     displayName: "User",
     sessionId,
   });
-  
+
   return (
     <div className="LiveSession">
       <h2>{t("components.LiveSession.placeholder")}</h2>
