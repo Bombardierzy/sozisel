@@ -1,4 +1,4 @@
-import "./SessionCustomization.scss";
+import "./SessionDetails.scss";
 
 import * as yup from "yup";
 
@@ -25,34 +25,34 @@ const sessionDetailsSchema = yup.object().shape({
     .required("inputErrors.fieldRequired"),
 });
 
-interface SessionCustomizationDetails {
+interface SessionDetailsFormSchema {
   sessionName: string;
   entryPassword?: string;
   scheduledDateTime: Date;
 }
 
-export interface onSubmitProps {
+export interface OnSessionSubmitProps {
   sessionName: string;
   entryPassword?: string;
   scheduledDateTime: Date;
   useJitsi: boolean;
 }
 
-export interface SessionCustomizationProps {
-  onValidSubmit: (props: onSubmitProps) => void;
+export interface SessionDetailsProps {
+  onValidSubmit: (props: OnSessionSubmitProps) => void;
   currentName?: string;
   currentPassword?: string;
   currentScheduledDateTime?: Date;
   currentUseJitsi?: boolean;
 }
 
-export default function SessionCustomization({
+export default function SessionDetails({
   onValidSubmit,
   currentName,
   currentPassword,
   currentScheduledDateTime,
   currentUseJitsi,
-}: SessionCustomizationProps): ReactElement {
+}: SessionDetailsProps): ReactElement {
   const [useJitsi, setUseJitsi] = useState<boolean>(
     currentUseJitsi === undefined ? true : currentUseJitsi
   );
@@ -64,7 +64,7 @@ export default function SessionCustomization({
     resolver: yupResolver(sessionDetailsSchema),
   });
 
-  const onSubmit = (sessionDetails: SessionCustomizationDetails) => {
+  const onSubmit = (sessionDetails: SessionDetailsFormSchema) => {
     onValidSubmit({
       sessionName: sessionDetails.sessionName,
       scheduledDateTime: sessionDetails.scheduledDateTime,
@@ -75,8 +75,8 @@ export default function SessionCustomization({
 
   return (
     <>
-      <Paper className="SessionDetailsContainer" elevation={2}>
-        <form className="sessionDetails" onSubmit={handleSubmit(onSubmit)}>
+      <Paper className="SessionDetails" elevation={2}>
+        <form className="sessionDetailsForm" onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="sessionName"
             control={control}

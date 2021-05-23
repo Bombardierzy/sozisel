@@ -46,7 +46,7 @@ export default function SessionCard({
 
   const onCardClick = () => {
     history.push({
-      pathname: `/sessions/${session.id}`,
+      pathname: `/sessions/${session.id}/edit`,
     });
   };
 

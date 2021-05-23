@@ -1,68 +1,66 @@
-import "./SessionEditing.scss";
+import "./CreateSession.scss";
 
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import { ReactElement, useState } from "react";
-import SessionCustomization, {
-  onSubmitProps,
-} from "../SessionCustomization/SessionCustomization";
+import React, { ReactElement, useState } from "react";
+import SessionDetails, {
+  OnSessionSubmitProps,
+} from "./SessionDetails/SessionDetails";
 import {
-  useSessionDetailsQuery,
-  useUpdateSessionMutation,
-} from "../../../graphql";
+  useCreateSessionMutation,
+  useSessionTemplateQuery,
+} from "../../graphql";
 
-import { AUTO_HIDE_DURATION } from "../../../common/consts";
+import { AUTO_HIDE_DURATION } from "../../common/consts";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import MainNavbar from "../../MainNavbar/MainNavbar";
+import MainNavbar from "../MainNavbar/MainNavbar";
 import Snackbar from "@material-ui/core/Snackbar";
-import TemplateOverview from "../TemplateOverview/TemplateOverview";
-import { useParams } from "react-router-dom";
+import TemplateOverview from "./TemplateOverview/TemplateOverview";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export interface SessionEditingProps {
-  sessionId: string;
+export interface CreateSessionProps {
+  templateId: string;
 }
 
-export default function SessionEditing(): ReactElement {
+export default function CreateSession(): ReactElement {
   const { t } = useTranslation("common");
-  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const [successMessage, setSuccessMessage] = useState<string>("");
-  const { data, loading } = useSessionDetailsQuery({
+  const { data, loading } = useSessionTemplateQuery({
     fetchPolicy: "network-only",
     variables: {
-      id: id,
+      id: (location.state as CreateSessionProps).templateId,
     },
   });
-
   const [
-    updateMutation,
-    { error: updateError, loading: updateLoading },
-  ] = useUpdateSessionMutation();
+    createMutation,
+    { error: createError, loading: createLoading },
+  ] = useCreateSessionMutation();
 
   const onSubmit = async ({
     sessionName,
     entryPassword,
     scheduledDateTime,
     useJitsi,
-  }: onSubmitProps) => {
+  }: OnSessionSubmitProps) => {
     try {
-      await updateMutation({
+      await createMutation({
         variables: {
           input: {
-            id: id,
             entryPassword: entryPassword,
             name: sessionName,
             scheduledStartTime: scheduledDateTime,
+            sessionTemplateId: (location.state as CreateSessionProps)
+              .templateId,
             useJitsi: useJitsi,
           },
         },
       });
-      setSuccessMessage(
-        `${t("components.SessionDetails.updateSuccessMessage")}`
-      );
+      setSuccessMessage(`${t("components.SessionDetails.successMessage")}`);
     } catch (error) {
       console.error(error);
     }
@@ -72,26 +70,20 @@ export default function SessionEditing(): ReactElement {
     return (
       <>
         <MainNavbar />
-        <div className="SessionEditing">
+        <div className="CreateSession">
           <CircularProgress />
         </div>
       </>
     );
   }
 
-  if (data?.session) {
+  if (data?.sessionTemplate) {
     return (
       <>
         <MainNavbar />
-        <div className="SessionEditing">
-          <SessionCustomization
-            onValidSubmit={onSubmit}
-            currentName={data.session.name}
-            currentPassword={data.session.entryPassword ?? undefined}
-            currentUseJitsi={data.session.useJitsi}
-            currentScheduledDateTime={data.session.scheduledStartTime}
-          />
-          <TemplateOverview template={data.session.sessionTemplate} />
+        <div className="CreateSession">
+          <SessionDetails onValidSubmit={onSubmit} />
+          <TemplateOverview template={data.sessionTemplate} />
           <Snackbar
             open={successMessage !== ""}
             autoHideDuration={AUTO_HIDE_DURATION}
@@ -101,12 +93,12 @@ export default function SessionEditing(): ReactElement {
               {successMessage}
             </Alert>
           </Snackbar>
-          <Snackbar open={updateLoading} autoHideDuration={AUTO_HIDE_DURATION}>
+          <Snackbar open={createLoading} autoHideDuration={AUTO_HIDE_DURATION}>
             <CircularProgress />
           </Snackbar>
-          <Snackbar open={!!updateError} autoHideDuration={AUTO_HIDE_DURATION}>
+          <Snackbar open={!!createError} autoHideDuration={AUTO_HIDE_DURATION}>
             <Alert severity="error">
-              {t("components.SessionDetails.updateErrorMessage")}
+              {t("components.SessionDetails.errorMessage")}
             </Alert>
           </Snackbar>
         </div>
@@ -117,7 +109,7 @@ export default function SessionEditing(): ReactElement {
   return (
     <>
       <MainNavbar />
-      <div className="SessionEditing">
+      <div className="CreateSession">
         <Alert className="errorAlert" variant="outlined" severity="error">
           {t("components.SessionDetails.fetchingErrorMessage")}
         </Alert>
