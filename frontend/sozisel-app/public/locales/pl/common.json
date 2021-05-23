@@ -92,6 +92,23 @@
         }
       }
     },
+    "SessionDetails": {
+      "defaultSessionName": "Nazwa sesji",
+      "useJitsiLabel": "Wideokonferencja",
+      "authorization": "Autoryzacja",
+      "datetime": "Data i godzina",
+      "submitSession": "Zatwierdź",
+      "sessionPasswordPlaceholder": "Hasło",
+      "fetchingErrorMessage": "Błąd łądowania danych. Spróbuj ponownie później",
+      "durationTime": "Czas trwania",
+      "minutes": "minut",
+      "agenda": "Agenda",
+      "events": "Wydarzenia",
+      "errorMessage": "Nie udało się stworzyć sesji",
+      "successMessage": "Stworzono sesje",
+      "updateSuccessMessage": "Zaktualizowano sesje",
+      "updateErrorMessage": "Nie udało się zaaktualizować sesji"
+    },
     "SessionsList": {
       "filters": "Filtry",
       "status": "Status",

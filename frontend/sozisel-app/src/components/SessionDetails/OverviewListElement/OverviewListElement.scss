@@ -1,0 +1,13 @@
+@import "../../../styles/styles";
+
+
+.OverviewListElement {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    .elementText {
+        font-weight: 700;
+    }
+}

@@ -1,5 +1,21 @@
+mutation CreateSession($input: CreateSessionInput!) {
+  createSession(input: $input) {
+    id
+  }
+}
+
+mutation UpdateSession($input: UpdateSessionInput!){
+  updateSession(input: $input){
+    id
+    useJitsi
+    entryPassword
+    name
+    scheduledStartTime
+  }
+}
+  
 mutation DeleteSession($id: ID!){
-    deleteSession(id: $id){
-        id
-    }
+  deleteSession(id: $id){
+      id
+  }
 }

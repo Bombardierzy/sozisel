@@ -1,0 +1,16 @@
+@import "../../styles/styles";
+
+.CreateSession {
+    height: calc(100% - #{$navbar-height});
+    background-color: $bg-01;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    padding: $spacing-06 $spacing-09;
+    .errorAlert{
+        padding: $spacing-05;
+        margin: $spacing-09;
+        width: 100%;
+        height: fit-content;
+    }
+}

@@ -29,13 +29,20 @@ export default function TemplateCard({
   onDelete,
 }: TemplateCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const currentUserId = useMyId();
   const history = useHistory();
+  const currentUserId = useMyId();
   const avatar = useAvatarById(template.id);
   const [raised, setRaised] = useState<boolean>(false);
 
   const onMouseOverChange = () => {
     setRaised(!raised);
+  };
+
+  const onPlanSession = () => {
+    history.push({
+      pathname: "/sessions/create",
+      state: { templateId: template.id },
+    });
   };
 
   const onClick = () => {
@@ -87,6 +94,7 @@ export default function TemplateCard({
             fullWidth
             className="actionButton"
             disabled={currentUserId != template.owner.id}
+            onClick={onPlanSession}
           >
             {t("components.TemplatesList.planSessionText")}
           </Button>
