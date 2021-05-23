@@ -91,6 +91,7 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
             onClick={(e) => {
               e.stopPropagation();
               deleteQuizMutation({ variables: { id: event.id } });
+              dispatch({ type: "RESET" });
             }}
           >
             <DeleteIcon />
