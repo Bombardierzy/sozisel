@@ -1,6 +1,8 @@
 defmodule SoziselWeb.UserSocket do
   use Phoenix.Socket
 
+  channel "session:participation:*", SoziselWeb.Channels.SessionParticipantsPresence
+
   use Absinthe.Phoenix.Socket,
     schema: SoziselWeb.Schema
 
