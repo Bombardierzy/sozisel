@@ -37,7 +37,6 @@ query SessionDetails($id: ID!){
                 startMinute
                 eventData {
                     ... quizFields
-                    }
                 }
             }
         }
