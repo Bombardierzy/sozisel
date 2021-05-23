@@ -1,6 +1,6 @@
 @import "../../styles/styles";
 
-.Container {
+.Login {
   height: 70%;
   display: flex;
   align-items: center;
@@ -17,6 +17,7 @@
     @include resize($extra-large, 800px, 600px);
     @include resize($large, 0, 0);
   }
+
   form {
     margin-top: $spacing-08;
     text-align: center;

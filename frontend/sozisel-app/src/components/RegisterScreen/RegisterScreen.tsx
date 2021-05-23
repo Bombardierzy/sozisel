@@ -1,3 +1,5 @@
+import "./RegisterScreen.scss";
+
 import * as yup from "yup";
 
 import Button from "../utils/Button/Button";
@@ -54,7 +56,7 @@ export default function Register(): ReactElement {
           variables: {
             input: {
               email: registerFormData?.email,
-              firstName: registerFormData?.lastName,
+              firstName: registerFormData?.firstName,
               lastName: registerFormData?.lastName,
               password: registerFormData?.password,
             },
@@ -71,7 +73,7 @@ export default function Register(): ReactElement {
   return (
     <>
       <Navbar />
-      <div className="Container">
+      <div className="Register">
         <img src={conference_img} />
         <Card>
           <form onSubmit={handleSubmit(onSubmit)}>

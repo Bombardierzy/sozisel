@@ -6,6 +6,7 @@ import {
   Button,
   FormControlLabel,
   Paper,
+  Snackbar,
   Switch,
   TextField,
   Typography,
@@ -17,9 +18,11 @@ import {
   useUpdateSessionTemplateInputMutation,
 } from "../../graphql";
 
+import { AUTO_HIDE_DURATION } from "../../common/consts";
 import Agenda from "./Agenda/Agenda";
 import AgendaEntryCreation from "./AgendaEntryCreation/AgendaEntryCreation";
 import { AgendaPoint } from "../../model/Agenda";
+import { Alert } from "@material-ui/lab";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { EventContextProvider } from "../../contexts/Event/EventContext";
 import EventCreation from "./EventCreation/EventCreation";
@@ -53,8 +56,11 @@ export default function TemplateCreation(): ReactElement {
   });
   const template = data?.sessionTemplate;
   const [agenda, setAgenda] = useState<AgendaPoint[]>([]);
+  const [message, setMessage] = useState<string>("");
   const [durationTime, setDurationTime] = useState<number>(90);
   const [isPublic, setIsPublic] = useState<boolean>(false);
+  const { t } = useTranslation("common");
+
   const [
     updateSessionTemplateInputMutation,
     { loading: updateLoading, error },
@@ -79,18 +85,22 @@ export default function TemplateCreation(): ReactElement {
         variables: {
           input: {
             id: location.state.id,
-            isPublic: template?.isPublic,
-            estimatedTime: template?.estimatedTime,
+            isPublic: isPublic,
+            estimatedTime: durationTime,
             agendaEntries,
             name: template?.name,
           },
         },
       });
+      !error &&
+        setMessage(t("components.TemplateCreation.updateTemplateMessage"));
     },
     [
+      durationTime,
+      error,
+      isPublic,
       location.state.id,
-      template?.estimatedTime,
-      template?.isPublic,
+      t,
       template?.name,
       updateSessionTemplateInputMutation,
     ]
@@ -109,11 +119,19 @@ export default function TemplateCreation(): ReactElement {
           },
         },
       });
+      !error &&
+        setMessage(t("components.TemplateCreation.updateTemplateMessage"));
     },
-    [updateSessionTemplateInputMutation, location.state.id, isPublic, agenda]
+    [
+      updateSessionTemplateInputMutation,
+      location.state.id,
+      isPublic,
+      agenda,
+      error,
+      t,
+    ]
   );
 
-  const { t } = useTranslation("common");
   const { handleSubmit, errors, control, setValue } = useForm({
     resolver: yupResolver(templateDetailsSchema),
   });
@@ -226,6 +244,15 @@ export default function TemplateCreation(): ReactElement {
                 <EventList events={template?.events} />
                 <EventCreation />
               </EventContextProvider>
+              <Snackbar
+                open={message !== ""}
+                autoHideDuration={AUTO_HIDE_DURATION}
+                onClose={() => setMessage("")}
+              >
+                <Alert severity="success" onClose={() => setMessage("")}>
+                  {message}
+                </Alert>
+              </Snackbar>
             </div>
           </>
         </TemplateContextProvider>

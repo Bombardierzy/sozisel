@@ -4,7 +4,9 @@
     display: flex;
     align-items: flex-start;
     .pointTitle {
-        width: 2 * $spacing-09; // 120px
+        width: 2 * $spacing-09; // 100px
+        min-width: 2 * $spacing-09; // 100px
+        margin-left: $spacing-03;
         overflow-wrap: break-word;
     }
     .pointTime {

@@ -1,6 +1,6 @@
 import "./TemplateCard.scss";
 
-import { BaseSyntheticEvent, ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
 
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { SessionTemplate } from "../../../model/Template";
 import Typography from "@material-ui/core/Typography";
 import useAvatarById from "../../../hooks/useAvatarById";
+import { useHistory } from "react-router";
 import useMyId from "../../../hooks/useMyId";
 import { useTranslation } from "react-i18next";
 
@@ -29,11 +30,19 @@ export default function TemplateCard({
 }: TemplateCardProps): ReactElement {
   const { t } = useTranslation("common");
   const currentUserId = useMyId();
+  const history = useHistory();
   const avatar = useAvatarById(template.id);
   const [raised, setRaised] = useState<boolean>(false);
 
-  const onMouseOverChange = (_: BaseSyntheticEvent) => {
+  const onMouseOverChange = () => {
     setRaised(!raised);
+  };
+
+  const onClick = () => {
+    history.push({
+      pathname: "/templates/create",
+      state: { id: template.id },
+    });
   };
 
   return (
@@ -42,6 +51,7 @@ export default function TemplateCard({
       className="materialCard"
       onMouseOver={onMouseOverChange}
       onMouseOut={onMouseOverChange}
+      onClick={onClick}
     >
       <div className="templateCard">
         <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />

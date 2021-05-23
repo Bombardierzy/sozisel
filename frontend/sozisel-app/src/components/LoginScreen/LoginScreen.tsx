@@ -2,7 +2,7 @@ import "./LoginScreen.scss";
 
 import * as yup from "yup";
 
-import { ReactElement, useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 
 import Button from "../utils/Button/Button";
 import Card from "../utils/Card/Card";
@@ -52,7 +52,6 @@ export default function LoginScreen(): ReactElement {
       });
 
       localStorage.setItem("token", body.data?.login?.token ?? "");
-      // fucking magic
       window.location.href = "/home";
     } catch (error) {
       console.error(error);
@@ -62,7 +61,7 @@ export default function LoginScreen(): ReactElement {
   return (
     <>
       <Navbar />
-      <div className="Container">
+      <div className="Login">
         <img src={conferenceImg} />
         <Card>
           <form onSubmit={handleSubmit(onSubmit)}>

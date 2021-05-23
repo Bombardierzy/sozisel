@@ -94,7 +94,7 @@ export default function SessionFilters({
   if (loading) {
     return (
       <>
-        <Paper className="container" elevation={2}>
+        <Paper className="SessionFilters" elevation={2}>
           <div className="headerWithIcon">
             <TuneIcon color="primary" />
             <Typography variant="h3" className="header">
@@ -110,7 +110,7 @@ export default function SessionFilters({
   if (data?.searchSessionTemplates) {
     return (
       <>
-        <Paper className="container" elevation={2}>
+        <Paper className="SessionFilters" elevation={2}>
           <div className="headerWithIcon">
             <TuneIcon color="primary" />
             <Typography variant="h3" className="header">
@@ -266,7 +266,7 @@ export default function SessionFilters({
 
   return (
     <>
-      <Paper className="container" elevation={2}>
+      <Paper className="SessionFilters" elevation={2}>
         <div className="headerWithIcon">
           <TuneIcon color="primary" />
           <Typography variant="h3" className="header">

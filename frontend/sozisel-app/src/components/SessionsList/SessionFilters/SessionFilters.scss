@@ -1,6 +1,6 @@
 @import "../../../styles/styles";
 
-.container {
+.SessionFilters {
     margin: $spacing-06;
     width: 20%;
     height: 85%;
@@ -21,7 +21,7 @@
             padding: 0 $spacing-02;
         }
     }
-    
+
     .filter{
         display: flex;
         flex-direction: column;
@@ -43,7 +43,7 @@
             border-radius: $spacing-03;
         }
     }
-    
+
     .applyButton{
         margin: $spacing-02 0;
     }
