@@ -2,14 +2,17 @@ import "./SessionCreation.scss";
 
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import React, { ReactElement, useState } from "react";
+import SessionCustomization, {
+  onSubmitProps,
+} from "./SessionCustomization/SessionCustomization";
 import {
   useCreateSessionMutation,
   useSessionTemplateQuery,
 } from "../../graphql";
 
+import { AUTO_HIDE_DURATION } from "../../common/consts";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MainNavbar from "../MainNavbar/MainNavbar";
-import SessionCustomization from "./SessionCustomization/SessionCustomization";
 import Snackbar from "@material-ui/core/Snackbar";
 import TemplateOverview from "./TemplateOverview/TemplateOverview";
 import { useLocation } from "react-router-dom";
@@ -43,12 +46,7 @@ export default function SessionCreation(): ReactElement {
     entryPassword,
     scheduledDateTime,
     useJitsi,
-  }: {
-    sessionName: string;
-    entryPassword?: string;
-    scheduledDateTime: Date;
-    useJitsi: boolean;
-  }) => {
+  }: onSubmitProps) => {
     try {
       await createMutation({
         variables: {
@@ -71,7 +69,7 @@ export default function SessionCreation(): ReactElement {
   if (loading) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="SessionCreation">
           <CircularProgress />
         </div>
@@ -84,21 +82,21 @@ export default function SessionCreation(): ReactElement {
       <>
         <MainNavbar />
         <div className="SessionCreation">
-          <SessionCustomization onValidSubmit={onSubmit}></SessionCustomization>
-          <TemplateOverview template={data.sessionTemplate}></TemplateOverview>
+          <SessionCustomization onValidSubmit={onSubmit} />
+          <TemplateOverview template={data.sessionTemplate} />
           <Snackbar
             open={successMessage !== ""}
-            autoHideDuration={6000}
+            autoHideDuration={AUTO_HIDE_DURATION}
             onClose={() => setSuccessMessage("")}
           >
             <Alert onClose={() => setSuccessMessage("")} severity="success">
               {successMessage}
             </Alert>
           </Snackbar>
-          <Snackbar open={createLoading} autoHideDuration={3000}>
+          <Snackbar open={createLoading} autoHideDuration={AUTO_HIDE_DURATION}>
             <CircularProgress />
           </Snackbar>
-          <Snackbar open={!!createError} autoHideDuration={6000}>
+          <Snackbar open={!!createError} autoHideDuration={AUTO_HIDE_DURATION}>
             <Alert severity="error">
               {t("components.SessionDetails.errorMessage")}
             </Alert>
@@ -112,10 +110,10 @@ export default function SessionCreation(): ReactElement {
 
   return (
     <>
-      <MainNavbar></MainNavbar>
+      <MainNavbar />
       <div className="SessionCreation">
         <Alert className="errorAlert" variant="outlined" severity="error">
-          {t("components.SessionDetails.fetchingErrorMsg")}
+          {t("components.SessionDetails.fetchingErrorMessage")}
         </Alert>
       </div>
     </>

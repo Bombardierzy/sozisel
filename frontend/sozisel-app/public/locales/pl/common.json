@@ -98,15 +98,15 @@
       "datetime": "Data i godzina",
       "submitSession": "Zatwierdź",
       "sessionPasswordPlaceholder": "Hasło",
-      "fetchingErrorMsg": "Błąd łądowania danych. Spróbuj ponownie później.",
+      "fetchingErrorMessage": "Błąd łądowania danych. Spróbuj ponownie później",
       "durationTime": "Czas trwania",
       "minutes": "minut",
       "agenda": "Agenda",
       "events": "Wydarzenia",
-      "errorMessage": "Nie udało się stworzyć sesji.",
+      "errorMessage": "Nie udało się stworzyć sesji",
       "successMessage": "Stworzono sesje",
       "updateSuccessMessage": "Zaktualizowano sesje",
-      "updateErrorMessage": "Nie udało się zaaktualizować sesji."
+      "updateErrorMessage": "Nie udało się zaaktualizować sesji"
     },
     "SessionsList": {
       "filters": "Filtry",

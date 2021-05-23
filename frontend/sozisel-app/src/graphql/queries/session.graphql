@@ -36,26 +36,29 @@ query SessionDetails($id: ID!){
                 name
                 startMinute
                 eventData {
-                    ... on Quiz {
-                        __typename
-                        durationTimeSec
-                        trackingMode
-                        targetPercentageOfParticipants
-                        quizQuestions {
-                            id
-                            question
-                            answers {
-                                text
-                                id
-                            }
-                            correctAnswers {
-                                text
-                                id
-                            }
-                        }
+                    ... quizFields
                     }
                 }
             }
+        }
+    }
+}
+
+fragment quizFields on Quiz {
+    __typename
+    durationTimeSec
+    trackingMode
+    targetPercentageOfParticipants
+    quizQuestions {
+        id
+        question
+        answers {
+            text
+            id
+        }
+        correctAnswers {
+            text
+            id
         }
     }
 }

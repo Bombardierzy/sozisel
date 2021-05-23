@@ -27,17 +27,19 @@ const sessionDetailsSchema = yup.object().shape({
 
 interface SessionCustomizationDetails {
   sessionName: string;
-  entryPassword: string | undefined;
+  entryPassword?: string;
   scheduledDateTime: Date;
 }
 
+export interface onSubmitProps {
+  sessionName: string;
+  entryPassword?: string;
+  scheduledDateTime: Date;
+  useJitsi: boolean;
+}
+
 export interface SessionCustomizationProps {
-  onValidSubmit: (options: {
-    sessionName: string;
-    entryPassword?: string;
-    scheduledDateTime: Date;
-    useJitsi: boolean;
-  }) => void;
+  onValidSubmit: (props: onSubmitProps) => void;
   currentName?: string;
   currentPassword?: string;
   currentScheduledDateTime?: Date;
@@ -73,7 +75,7 @@ export default function SessionCustomization({
 
   return (
     <>
-      <Paper className="sessionDetailsContainer" elevation={2}>
+      <Paper className="SessionDetailsContainer" elevation={2}>
         <form className="sessionDetails" onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="sessionName"
