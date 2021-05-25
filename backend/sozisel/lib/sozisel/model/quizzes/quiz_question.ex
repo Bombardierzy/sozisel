@@ -26,7 +26,8 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
     |> cast_embed(:answers)
     |> cast_embed(:correct_answers)
     |> validate_required([:question, :answers, :correct_answers])
-    |> validate_answers_and_correct_answers_length()
+    |> validate_answers_length()
+    |> validate_correct_answers_length()
     |> validate_answer_inclusion()
   end
 
@@ -43,7 +44,7 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
     end
   end
 
-  def validate_answers_and_correct_answers_length(changeset) do
+  def validate_answers_length(changeset) do
     answers = get_change(changeset, :answers) || get_field(changeset, :answers)
 
     if length(answers) >= 2 do
@@ -51,7 +52,9 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
     else
       add_error(changeset, :answers, "Answers must contain at least 2 elements")
     end
+  end
 
+  def validate_correct_answers_length(changeset) do
     correct_answers =
       get_change(changeset, :correct_answers) || get_field(changeset, :correct_answers)
 

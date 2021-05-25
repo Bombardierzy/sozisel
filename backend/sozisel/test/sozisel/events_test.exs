@@ -92,6 +92,16 @@ defmodule Sozisel.EventsTest do
         ]
       }
     }
+    @invalid_attrs_with_no_quiz_questions %{
+      name: "some updated name",
+      start_minute: 43,
+      event_data: %{
+        duration_time_sec: 13,
+        tracking_mode: false,
+        target_percentage_of_participants: 4,
+        quiz_questions: []
+      }
+    }
 
     def event_fixture(attrs \\ %{}) do
       {:ok, event} =
@@ -211,6 +221,9 @@ defmodule Sozisel.EventsTest do
 
       assert {:error, %Ecto.Changeset{}} =
                Events.update_event(event, @invalid_attrs_with_no_correct_answers)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Events.update_event(event, @invalid_attrs_with_no_quiz_questions)
 
       assert event == Events.get_event!(event.id)
     end
