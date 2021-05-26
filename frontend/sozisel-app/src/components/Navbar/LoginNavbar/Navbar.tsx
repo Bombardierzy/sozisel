@@ -2,7 +2,7 @@ import "./Navbar.scss";
 
 import { NavLink } from "react-router-dom";
 import { ReactElement } from "react";
-import logo from "../../assets/images/logo.png";
+import logo from "../../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 
 export default function Navbar(): ReactElement {

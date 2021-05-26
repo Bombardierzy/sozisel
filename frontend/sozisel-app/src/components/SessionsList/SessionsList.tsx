@@ -19,7 +19,7 @@ import {
 
 import { AUTO_HIDE_DURATION } from "../../common/consts";
 import ClearIcon from "@material-ui/icons/Clear";
-import MainNavbar from "../MainNavbar/MainNavbar";
+import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import SearchIcon from "@material-ui/icons/Search";
 import SessionCard from "./SessionCard/SessionCard";
 import Snackbar from "@material-ui/core/Snackbar";

@@ -38,13 +38,6 @@ export default function TemplateCard({
     setRaised(!raised);
   };
 
-  const onPlanSession = () => {
-    history.push({
-      pathname: "/sessions/create",
-      state: { templateId: template.id },
-    });
-  };
-
   const onClick = () => {
     history.push({
       pathname: "/templates/create",
@@ -94,7 +87,13 @@ export default function TemplateCard({
             fullWidth
             className="actionButton"
             disabled={currentUserId != template.owner.id}
-            onClick={onPlanSession}
+            onClick={(e) => {
+              e.stopPropagation();
+              history.push({
+                pathname: "/sessions/create",
+                state: { templateId: template.id },
+              });
+            }}
           >
             {t("components.TemplatesList.planSessionText")}
           </Button>
