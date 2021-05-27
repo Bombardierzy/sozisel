@@ -12,7 +12,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
           participant_id: Ecto.UUID.t(),
           participant: Participant.t() | Ecto.Association.NotLoaded.t(),
           launched_event_id: Ecto.UUID.t(),
-          launched_event: Event.t() | Ecto.Association.NotLoaded.t(),
+          launched_event: LaunchedEvent.t() | Ecto.Association.NotLoaded.t(),
           result_data: PolymorphicEmbed.t(),
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
