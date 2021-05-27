@@ -25,4 +25,11 @@
     .header {
         font-weight: 900;
     }
+
+    .errorAlert{
+        padding: $spacing-05;
+        margin: $spacing-09;
+        width: 100%;
+        height: fit-content;
+    }
 }

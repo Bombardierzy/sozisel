@@ -131,6 +131,12 @@
     },
     "LiveSession": {
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
+    },
+    "JoinSession": {
+      "name": "Imię i nazwisko",
+      "password": "Hasło",
+      "join": "Dołącz",
+      "errorMessage": "Nie udało się załadować danych. Sprawdź czy podana sesja istnieje."
     }
   },
   "inputErrors": {

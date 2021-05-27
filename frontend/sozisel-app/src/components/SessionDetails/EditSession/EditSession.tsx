@@ -29,7 +29,7 @@ export default function EditSession(): ReactElement {
   const { data, loading } = useSessionDetailsQuery({
     fetchPolicy: "network-only",
     variables: {
-      id: id,
+      id,
     },
   });
 
