@@ -26,5 +26,7 @@ defmodule Sozisel.Model.LaunchedEvents.LaunchedEvent do
     launched_event
     |> cast(attrs, [:session_id, :event_id])
     |> validate_required([:session_id, :event_id])
+    |> foreign_key_constraint(:session_id)
+    |> foreign_key_constraint(:event_id)
   end
 end
