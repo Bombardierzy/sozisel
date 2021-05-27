@@ -108,32 +108,52 @@ defmodule Sozisel.EventResultsTest do
       event_result
     end
 
-    test "list_event_results/0 returns all event_results" do
+    def prepare_fixtures() do
       template = insert(:template)
       event = event_fixture(%{session_template_id: template.id})
+
+      session = insert(:session, session_template_id: template.id)
+      launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
       participant = insert(:participant)
-      event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
+
+      event_result =
+        event_result_fixture(%{
+          launched_event_id: launched_event.id,
+          participant_id: participant.id
+        })
+
+      %{
+        event_result: event_result,
+        template: template,
+        event: event,
+        session: session,
+        launched_event: launched_event,
+        participant: participant
+      }
+    end
+
+    test "list_event_results/0 returns all event_results" do
+      %{event_result: event_result} = prepare_fixtures()
 
       assert EventResults.list_event_results() == [event_result]
     end
 
     test "get_event_result!/1 returns the event_result with given id" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      participant = insert(:participant)
-      event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
+      %{event_result: event_result} = prepare_fixtures()
 
       assert EventResults.get_event_result!(event_result.id) == event_result
     end
 
     test "create_event_result/1 with valid data creates a event_result" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      participant = insert(:participant)
+      %{event_result: event_result, launched_event: launched_event, participant: participant} =
+        prepare_fixtures()
+
+      # just delete it as it is created in fixtures
+      Repo.delete(event_result)
 
       valid_attrs =
         @valid_attrs
-        |> Map.put(:event_id, event.id)
+        |> Map.put(:launched_event_id, launched_event.id)
         |> Map.put(:participant_id, participant.id)
 
       assert {:ok, %EventResult{} = event_result} = EventResults.create_event_result(valid_attrs)
@@ -165,7 +185,7 @@ defmodule Sozisel.EventResultsTest do
                ]
              }
 
-      assert event_result.event_id == event.id
+      assert event_result.launched_event_id == launched_event.id
       assert event_result.participant_id == participant.id
     end
 
@@ -174,10 +194,8 @@ defmodule Sozisel.EventResultsTest do
     end
 
     test "update_event_result/2 with valid data updates the event_result" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      participant = insert(:participant)
-      event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
+      %{event_result: event_result, launched_event: launched_event, participant: participant} =
+        prepare_fixtures()
 
       assert {:ok, %EventResult{} = event_result} =
                EventResults.update_event_result(event_result, @update_attrs)
@@ -236,15 +254,12 @@ defmodule Sozisel.EventResultsTest do
                ]
              }
 
-      assert event_result.event_id == event.id
+      assert event_result.launched_event_id == launched_event.id
       assert event_result.participant_id == participant.id
     end
 
     test "update_event_result/2 with invalid data returns error changeset" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      participant = insert(:participant)
-      event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
+      %{event_result: event_result} = prepare_fixtures()
 
       assert {:error, %Ecto.Changeset{}} =
                EventResults.update_event_result(event_result, @invalid_attrs)
@@ -253,20 +268,14 @@ defmodule Sozisel.EventResultsTest do
     end
 
     test "delete_event_result/1 deletes the event_result" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      participant = insert(:participant)
-      event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
+      %{event_result: event_result} = prepare_fixtures()
 
       assert {:ok, %EventResult{}} = EventResults.delete_event_result(event_result)
       assert_raise Ecto.NoResultsError, fn -> EventResults.get_event_result!(event_result.id) end
     end
 
     test "change_event_result/1 returns a event_result changeset" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      participant = insert(:participant)
-      event_result = event_result_fixture(%{event_id: event.id, participant_id: participant.id})
+      %{event_result: event_result} = prepare_fixtures()
 
       assert %Ecto.Changeset{} = EventResults.change_event_result(event_result)
     end

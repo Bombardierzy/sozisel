@@ -5,14 +5,14 @@ defmodule Sozisel.Model.EventResults.EventResult do
 
   alias Sozisel.Model.Quizzes.QuizResult
   alias Sozisel.Model.Participants.Participant
-  alias Sozisel.Model.Events.Event
+  alias Sozisel.Model.LaunchedEvents.LaunchedEvent
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
           participant_id: Ecto.UUID.t(),
           participant: Participant.t() | Ecto.Association.NotLoaded.t(),
-          event_id: Ecto.UUID.t(),
-          event: Event.t() | Ecto.Association.NotLoaded.t(),
+          launched_event_id: Ecto.UUID.t(),
+          launched_event: Event.t() | Ecto.Association.NotLoaded.t(),
           result_data: PolymorphicEmbed.t(),
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
@@ -27,18 +27,18 @@ defmodule Sozisel.Model.EventResults.EventResult do
       on_replace: :update
 
     belongs_to :participant, Participant
-    belongs_to :event, Event
+    belongs_to :launched_event, LaunchedEvent
 
     timestamps()
   end
 
   def create_changeset(event_result, attrs) do
     event_result
-    |> cast(attrs, [:participant_id, :event_id])
+    |> cast(attrs, [:participant_id, :launched_event_id])
     |> cast_polymorphic_embed(:result_data, required: true)
-    |> validate_required([:participant_id, :event_id, :result_data])
+    |> validate_required([:participant_id, :launched_event_id, :result_data])
     |> foreign_key_constraint(:participant_id)
-    |> foreign_key_constraint(:event_id)
+    |> foreign_key_constraint(:launched_event_id)
   end
 
   def update_changeset(event_result, attrs) do
