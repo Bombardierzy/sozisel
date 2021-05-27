@@ -4,6 +4,7 @@ defmodule Sozisel.Model.Sessions.Session do
 
   alias Sozisel.Model.Sessions.Template
   alias Sozisel.Model.Users.User
+  alias Sozisel.Model.LaunchedEvents.LaunchedEvent
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -30,6 +31,8 @@ defmodule Sozisel.Model.Sessions.Session do
     field :use_jitsi, :boolean, default: false
     belongs_to :session_template, Template
     belongs_to :user, User
+
+    has_many :launched_events, LaunchedEvent
 
     timestamps()
   end

@@ -27,7 +27,11 @@ defmodule Sozisel.ParticipantsTest do
     end
 
     test "create_participant/1 with valid data creates a participant" do
-      assert {:ok, %Participant{} = participant} = Participants.create_participant(@valid_attrs)
+      session = insert(:session)
+
+      assert {:ok, %Participant{} = participant} =
+               Participants.create_participant(@valid_attrs |> Map.put(:session_id, session.id))
+
       assert participant.email == "some@email.com"
       assert participant.full_name == "some full_name"
     end
