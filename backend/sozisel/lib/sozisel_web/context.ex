@@ -10,14 +10,31 @@ defmodule SoziselWeb.Context do
 
   require Logger
 
+  @impl true
   def init(opts), do: opts
 
+  @impl true
   def call(conn, _) do
     context = build_context(conn)
 
     Absinthe.Plug.put_options(conn,
       context: context |> Map.put(:loader, SoziselWeb.Dataloader.new())
     )
+  end
+
+  def create_socket_context(%Phoenix.Socket{} = socket, params) do
+    context = build_context(params)
+
+    # WARNING: If anything related to dataloader breaks it is due to creating a single dataloader instance for a socket,
+    # it caches the results therefore it may return invalid data. If anything like this happens then go and change
+    # dataloader creation per every mutation/query/subscription call instead of keeping it always inside context.
+    # We are using it just for subscriptions so there should not be any problems though (I hope so).
+    socket =
+      Absinthe.Phoenix.Socket.put_options(socket,
+        context: context |> Map.put(:loader, SoziselWeb.Dataloader.new())
+      )
+
+    {:ok, socket}
   end
 
   @doc """
@@ -51,6 +68,10 @@ defmodule SoziselWeb.Context do
       end
 
     %{current_user: user}
+  end
+
+  def build_context(_args) do
+    %{}
   end
 
   def current_user!(%{context: %{current_user: user}}) when not is_nil(user) do

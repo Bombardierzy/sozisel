@@ -1,7 +1,7 @@
 defmodule Sozisel.Model.LaunchedEvents.LaunchedEvent do
   use Sozisel.Model.Schema
 
-  alias Sozisel.Model.{Events.Event, Sessions.Session}
+  alias Sozisel.Model.{Events.Event, EventResults.EventResult, Sessions.Session}
   import Ecto.Changeset
 
   @type t :: %__MODULE__{
@@ -17,6 +17,8 @@ defmodule Sozisel.Model.LaunchedEvents.LaunchedEvent do
   schema "launched_events" do
     belongs_to :session, Session
     belongs_to :event, Event
+
+    has_many :event_results, EventResult
 
     timestamps()
   end
