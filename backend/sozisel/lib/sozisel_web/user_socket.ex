@@ -7,8 +7,8 @@ defmodule SoziselWeb.UserSocket do
     schema: SoziselWeb.Schema
 
   @impl true
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(params, socket, _connect_info) do
+    SoziselWeb.Context.create_socket_context(socket, params)
   end
 
   @impl true

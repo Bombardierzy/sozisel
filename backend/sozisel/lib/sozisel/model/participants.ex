@@ -14,6 +14,8 @@ defmodule Sozisel.Model.Participants do
 
   def get_participant!(id), do: Repo.get!(Participant, id)
 
+  def find_by_token(token), do: Repo.get_by(Participant, token: token)
+
   def create_participant(attrs \\ %{}) do
     %Participant{}
     |> Participant.create_changeset(attrs)

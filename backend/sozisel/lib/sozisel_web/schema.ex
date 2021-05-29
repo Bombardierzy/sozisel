@@ -8,6 +8,8 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Types.EventTypes)
   import_types(SoziselWeb.Schema.Types.QuizTypes)
   import_types(SoziselWeb.Schema.Types.SessionTypes)
+  import_types(SoziselWeb.Schema.Types.ParticipantTypes)
+  import_types(SoziselWeb.Schema.Types.EventResultTypes)
 
   # Queries
   import_types(SoziselWeb.Schema.Queries.UserQueries)
@@ -20,6 +22,9 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Mutations.SessionTemplateMutations)
   import_types(SoziselWeb.Schema.Mutations.QuizMutations)
   import_types(SoziselWeb.Schema.Mutations.SessionMutations)
+
+  # Subscriptions
+  import_types(SoziselWeb.Schema.Subscriptions.EventSubscriptions)
 
   query do
     import_fields(:user_queries)
@@ -35,8 +40,12 @@ defmodule SoziselWeb.Schema do
     import_fields(:session_mutations)
   end
 
+  subscription do
+    import_fields(:participant_event_subscriptions)
+    import_fields(:presenter_event_subscriptions)
+  end
+
   def middleware(middleware, _field, _config) do
-    # middleware ++ [Crudry.Middlewares.TranslateErrors]
     middleware ++ [SoziselWeb.Schema.Middleware.ChangesetErrorTranslator]
   end
 

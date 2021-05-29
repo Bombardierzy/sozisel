@@ -18,6 +18,10 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
       resolve(dataloader(:db))
     end
 
+    field :launched_events, strong_list_of(:launched_event) do
+      resolve(dataloader(:db))
+    end
+
     timestamps()
   end
 
