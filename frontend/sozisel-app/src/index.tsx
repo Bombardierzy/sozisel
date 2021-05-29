@@ -1,7 +1,8 @@
 import "./index.scss";
 
+import { I18nextProvider, initReactI18next } from "react-i18next";
+
 import App from "./App";
-import { I18nextProvider } from "react-i18next";
 import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "@material-ui/core";
@@ -9,7 +10,7 @@ import common from "../public/locales/pl/common.json";
 import { createMuiTheme } from "@material-ui/core/styles";
 import i18next from "i18next";
 
-i18next.init({
+i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
   lng: "pl",
   resources: {

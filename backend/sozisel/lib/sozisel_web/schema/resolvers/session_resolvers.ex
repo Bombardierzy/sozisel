@@ -59,7 +59,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
 
   def upload_recording(
         _parent,
-        %{id: session_id, recording: %Plug.Upload{} = recording} = arguments,
+        %{id: session_id, recording: %Plug.Upload{} = recording},
         _ctx
       ) do
     upload_path =

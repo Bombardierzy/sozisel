@@ -131,6 +131,13 @@
     },
     "LiveSession": {
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
+    },
+    "SessionRecordingUpload": {
+      "submitButtonText": "Prześlij nagranie",
+      "dropzoneText": "Wybierz lub upuść plik z nagraniem sesji",
+      "addedFile": "Wybrano plik!",
+      "removedFile": "Zrezygnowano z pliku!"
+
     }
   },
   "inputErrors": {
