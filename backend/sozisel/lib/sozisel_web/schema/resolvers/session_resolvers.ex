@@ -1,9 +1,11 @@
 defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
   alias SoziselWeb.Context
   alias Sozisel.Repo
-  alias Sozisel.Model.{Sessions, Sessions.Session}
+  alias Sozisel.Model.{Sessions, Sessions.Session, SessionRecordings.SessionRecording}
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
+
+  require Logger
 
   def get_session(_parent, %{id: session_id}, ctx) do
     user_id = Context.current_user!(ctx).id
@@ -53,5 +55,45 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
       |> Sessions.list_sessions()
 
     {:ok, sessions}
+  end
+
+  def upload_recording(
+        _parent,
+        %{id: session_id, recording: %Plug.Upload{} = recording} = arguments,
+        _ctx
+      ) do
+    upload_path =
+      Path.join([
+        Application.fetch_env!(:sozisel, SoziselWeb.Recordings) |> Keyword.fetch!(:upload_path),
+        "#{session_id}_#{recording.filename}"
+      ])
+
+    Ecto.Multi.new()
+    # TODO: add metadata upload from file to a json map to keep it in postgres
+    |> Ecto.Multi.insert(
+      :recording,
+      SessionRecording.changeset(%SessionRecording{}, %{
+        path: upload_path,
+        session_id: session_id,
+        metadata: %{}
+      })
+    )
+    |> Ecto.Multi.run(:file_rename, fn _repo, %{recording: session_recording} ->
+      with :ok <- File.touch(session_recording.path),
+           :ok <- File.rename(recording.path, session_recording.path) do
+        {:ok, %{}}
+      else
+        error -> error
+      end
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{recording: _}} ->
+        {:ok, "recording has been uploaded"}
+
+      {:error, operation, value, _others} ->
+        Logger.error("Failed to upload recording: #{inspect(operation)}, #{inspect(value)}")
+        {:error, "failed to upload recording"}
+    end
   end
 end

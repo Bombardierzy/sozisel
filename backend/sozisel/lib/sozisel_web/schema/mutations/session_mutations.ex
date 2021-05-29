@@ -39,5 +39,14 @@ defmodule SoziselWeb.Schema.Mutations.SessionMutations do
       middleware Middleware.ResourceAuthorization, {:end_session, Session}
       resolve &SessionResolvers.end_session/3
     end
+
+    field :upload_session_recording, :string do
+      arg :id, non_null(:id)
+      arg :recording, non_null(:upload)
+      arg :metadata, :upload
+
+      middleware Middleware.ResourceAuthorization, {:upload_session_recording, Session}
+      resolve &SessionResolvers.upload_recording/3
+    end
   end
 end

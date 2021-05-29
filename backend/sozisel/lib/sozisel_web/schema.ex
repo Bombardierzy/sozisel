@@ -2,6 +2,9 @@ defmodule SoziselWeb.Schema do
   use Absinthe.Schema
 
   # Types
+
+  import_types Absinthe.Plug.Types
+
   import_types Absinthe.Type.Custom
   import_types(SoziselWeb.Schema.Types.UserTypes)
   import_types(SoziselWeb.Schema.Types.SessionTemplateTypes)

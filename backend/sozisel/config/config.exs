@@ -29,6 +29,8 @@ config :sozisel, Sozisel.JitsiTokenGenerator,
   issuer: "sozisel_app",
   secret_key: "9mrcPkvUfoqzuHrfQfP/ExOynZgpL7w"
 
+config :sozisel, SoziselWeb.Recordings, upload_path: "/tmp/"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
