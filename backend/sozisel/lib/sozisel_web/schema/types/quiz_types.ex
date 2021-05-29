@@ -20,14 +20,33 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
     field :id, non_null(:string)
   end
 
+  object :quiz_result do
+    field :participant_answers, strong_list_of(:participant_quiz_answer)
+  end
+
+  object :participant_quiz_answer do
+    field :question_id, non_null(:string)
+    field :final_answer_ids, strong_list_of(:string)
+    field :is_correct, non_null(:boolean)
+    field :track_nodes, strong_list_of(:quiz_answer_track_node)
+  end
+
+  object :quiz_answer_track_node do
+    field :reaction_time, non_null(:float)
+    field :answer_id, non_null(:string)
+    field :selected, non_null(:boolean)
+  end
+
   # ==== PARTICIPANT QUIZ ======
 
   object :participant_quiz do
     field :duration_time_sec, non_null(:integer)
     field :tracking_mode, non_null(:boolean)
-    field :quiz_questions, strong_list_of(:quiz_question)
+    field :quiz_questions, strong_list_of(:participant_quiz_question)
   end
 
+  # we create a proxy type for quiz question so the participant won't be able to
+  # look up the answers in network tab in the browser
   object :participant_quiz_question do
     field :id, non_null(:string)
     field :question, non_null(:string)

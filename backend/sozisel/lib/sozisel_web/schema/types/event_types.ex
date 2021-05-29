@@ -16,6 +16,16 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
     timestamps()
   end
 
+  object :launched_event do
+    field :session, non_null(:session) do
+      resolve(dataloader(:db))
+    end
+
+    field :event, non_null(:event) do
+      resolve(dataloader(:db))
+    end
+  end
+
   union :event_data do
     types [:quiz]
 

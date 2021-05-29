@@ -8,6 +8,8 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Types.EventTypes)
   import_types(SoziselWeb.Schema.Types.QuizTypes)
   import_types(SoziselWeb.Schema.Types.SessionTypes)
+  import_types(SoziselWeb.Schema.Types.ParticipantTypes)
+  import_types(SoziselWeb.Schema.Types.EventResultTypes)
 
   # Queries
   import_types(SoziselWeb.Schema.Queries.UserQueries)
@@ -40,6 +42,7 @@ defmodule SoziselWeb.Schema do
 
   subscription do
     import_fields(:participant_event_subscriptions)
+    import_fields(:presenter_event_subscriptions)
   end
 
   def middleware(middleware, _field, _config) do

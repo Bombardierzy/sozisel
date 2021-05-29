@@ -2,7 +2,7 @@ defmodule Sozisel.Model.Quizzes.QuizResult do
   use Sozisel.Model.Schema
   import Ecto.Changeset
 
-  alias Sozisel.Model.Quizzes.{ParticipantAnswer, QuizQuestion}
+  alias Sozisel.Model.Quizzes.ParticipantAnswer
 
   @type t :: %__MODULE__{
           participant_answers: [ParticipantAnswer.t()]

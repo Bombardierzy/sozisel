@@ -35,6 +35,7 @@ defmodule SoziselWeb.AbsintheCase do
 
       alias SoziselWeb.Router.Helpers, as: Routes
       alias Absinthe.Phoenix.SubscriptionTest
+      alias Sozisel.Model.Users.Token
 
       require Phoenix.ChannelTest
       require Phoenix.ConnTest
@@ -146,7 +147,7 @@ defmodule SoziselWeb.AbsintheCase do
         ref: ^ref,
         status: :error
       } ->
-        raise "received an error when running subscription: #{inspect(payload)}"
+        payload
     after
       500 ->
         raise "failed to run subscription, timeout reached"
