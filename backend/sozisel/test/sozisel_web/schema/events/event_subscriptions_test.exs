@@ -180,7 +180,8 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
         sessionId: ctx.session.id
       }
 
-      assert %{errors: [%{message: "unauthorized"}]} = run_subscription(socket, @presenter_event_result_submitted, variables)
+      assert %{errors: [%{message: "unauthorized"}]} =
+               run_subscription(socket, @presenter_event_result_submitted, variables)
     end
   end
 end

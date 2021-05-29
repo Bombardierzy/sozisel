@@ -17,6 +17,8 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   end
 
   object :launched_event do
+    field :id, non_null(:id)
+
     field :session, non_null(:session) do
       resolve(dataloader(:db))
     end
@@ -24,6 +26,12 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
     field :event, non_null(:event) do
       resolve(dataloader(:db))
     end
+
+    field :event_results, strong_list_of(:event_result) do
+      resolve(dataloader(:db))
+    end
+
+    timestamps()
   end
 
   union :event_data do
