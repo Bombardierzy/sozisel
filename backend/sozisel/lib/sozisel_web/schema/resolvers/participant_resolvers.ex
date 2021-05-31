@@ -20,7 +20,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
              email: email,
              full_name: full_name
            }) do
-      {:ok, %{token: participant.token, id: participant.id}}
+      {:ok, %{token: participant.token}}
     else
       {:error, reason} ->
         Logger.error("Failed to create a participant with reason: #{inspect(reason)}")
