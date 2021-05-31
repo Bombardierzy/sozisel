@@ -25,6 +25,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
           session_id: session.id,
           email: "some@email.com",
           full_name: "Some name",
+          entry_password: session.entry_password
         }
       }
 
@@ -36,6 +37,6 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                  }
                }
              } = run_query(ctx.conn, @create_participant, variables)
-      end
+    end
   end
 end

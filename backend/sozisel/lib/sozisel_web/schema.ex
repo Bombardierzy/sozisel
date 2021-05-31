@@ -17,6 +17,7 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Queries.SessionTemplateQueries)
   import_types(SoziselWeb.Schema.Queries.EventQueries)
   import_types(SoziselWeb.Schema.Queries.SessionQueries)
+  import_types(SoziselWeb.Schema.Queries.ParticipantQueries)
 
   # Mutations
   import_types(SoziselWeb.Schema.Mutations.UserMutations)
@@ -33,6 +34,7 @@ defmodule SoziselWeb.Schema do
     import_fields(:session_template_queries)
     import_fields(:event_queries)
     import_fields(:session_queries)
+    import_fields(:participant_queries)
   end
 
   mutation do
