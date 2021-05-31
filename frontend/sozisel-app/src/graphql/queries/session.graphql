@@ -43,6 +43,20 @@ query SessionDetails($id: ID!){
     }
 }
 
+query SessionThumbnail($id: ID!){
+    sessionThumbnail(id: $id){
+        id
+        name
+        scheduledStartTime
+        passwordRequired
+        owner {
+            firstName
+            lastName
+            email
+        }
+    }
+}
+
 fragment quizFields on Quiz {
     __typename
     durationTimeSec

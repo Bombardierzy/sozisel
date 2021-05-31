@@ -1,6 +1,8 @@
 import "./AboutScreen.scss";
+
 import React, { ReactElement } from "react";
-import Navbar from "../Navbar/Navbar";
+
+import Navbar from "../Navbar/LoginNavbar/Navbar";
 import conference_img from "../../assets/images/conference_img.png";
 import { useTranslation } from "react-i18next";
 

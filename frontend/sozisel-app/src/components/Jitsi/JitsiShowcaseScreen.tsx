@@ -1,7 +1,7 @@
 import "./JitsiShowcaseScreen.scss";
 
 import JitsiFrame from "./JitsiFrame";
-import MainNavbar from "../MainNavbar/MainNavbar";
+import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import { ReactElement } from "react";
 import { useGenerateJitsiTokenQuery } from "../../graphql/index";
 

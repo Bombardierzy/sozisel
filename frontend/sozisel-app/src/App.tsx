@@ -6,6 +6,7 @@ import AuthRoute from "./components/AuthRoute/AuthRoute";
 import CreateSession from "./components/SessionDetails/CreateSession";
 import EditSession from "./components/SessionDetails/EditSession/EditSession";
 import JitsiShowcaseScreen from "./components/Jitsi/JitsiShowcaseScreen";
+import JoinSession from "./components/JoinSession/JoinSession";
 import { LiveSession } from "./components/LiveSession/LiveSession";
 import Login from "./components/LoginScreen/LoginScreen";
 import { PhoenixSocketProvider } from "./contexts/PhoenixSocketContext";
@@ -36,6 +37,7 @@ export default function App(): ReactElement {
           <Route path="/register" component={Register} />
           <Route path="/about" component={AboutScreen} />
           <Route path="/session/live/:session_id" component={LiveSession} />
+          <Route path="/sessions/:id/join" component={JoinSession} />
         </Router>
       </ApolloProviderWrapper>
     </PhoenixSocketProvider>

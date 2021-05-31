@@ -55,12 +55,12 @@ export default function SessionCard({
     <>
       <Card
         raised={raised}
-        className="materialCard"
+        className="SessionCard"
         onMouseOver={onMouseOverChange}
         onMouseOut={onMouseOverChange}
         onClick={onCardClick}
       >
-        <div className="sessionCard">
+        <div className="sessionCardContent">
           <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
           <CardContent className="cardContent">
             <Typography component="h5" variant="h5">
@@ -116,7 +116,7 @@ export default function SessionCard({
         maxWidth="sm"
         fullWidth
       >
-        <div className="shareDialog">
+        <div className="ShareSessionDialog">
           <div className="dialogTitle">
             <Typography className="dialogTitleText">
               {t("components.SessionsList.shareSession")}

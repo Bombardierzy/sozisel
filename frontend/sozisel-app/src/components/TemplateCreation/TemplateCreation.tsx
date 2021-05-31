@@ -28,7 +28,7 @@ import { EventContextProvider } from "../../contexts/Event/EventContext";
 import EventCreation from "./EventCreation/EventCreation";
 import EventList from "./EventsList/EventList";
 import { Grid } from "@material-ui/core";
-import MainNavbar from "../MainNavbar/MainNavbar";
+import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import TemplateContextProvider from "../../contexts/Template/TemplateContext";
 import { useEffect } from "react";
 import { useLocation } from "react-router";
