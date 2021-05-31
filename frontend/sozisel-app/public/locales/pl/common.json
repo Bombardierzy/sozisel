@@ -132,6 +132,16 @@
     "LiveSession": {
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
     },
+    "SessionRecordingUpload": {
+      "dialogTitle": "Prześlij nagranie sesji",
+      "submitText": "Zacznij przesyłanie",
+      "cancelText": "Anuluj",
+      "dropzoneText": "Wybierz lub upuść plik z nagraniem",
+      "addedFile": "Wybrano plik!",
+      "removedFile": "Zrezygnowano z pliku!",
+      "uploadSuccessful": "Nagranie zostało przesłane!",
+      "uploadFailed": "Wystąpił błąd podczas przesyłania, spróbuj ponownie później!"
+    },
     "JoinSession": {
       "name": "Imię i nazwisko",
       "email": "Email",

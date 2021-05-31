@@ -40,7 +40,7 @@ export default function TemplateCard({
 
   const onClick = () => {
     history.push({
-      pathname: "/templates/create",
+      pathname: `/templates/${template.id}/edit`,
       state: { id: template.id },
     });
   };
@@ -71,11 +71,19 @@ export default function TemplateCard({
         </CardContent>
         <CardActions className="cardActions">
           <div className="iconButtons">
-            <IconButton onClick={() => onCopy(template)}>
+            <IconButton
+              onClick={(event) => {
+                event.stopPropagation();
+                onCopy(template);
+              }}
+            >
               <FileCopyIcon />
             </IconButton>
             <IconButton
-              onClick={() => onDelete(template)}
+              onClick={(event) => {
+                event.stopPropagation();
+                onDelete(template);
+              }}
               disabled={currentUserId != template.owner.id}
             >
               <DeleteIcon />
@@ -87,8 +95,8 @@ export default function TemplateCard({
             fullWidth
             className="actionButton"
             disabled={currentUserId != template.owner.id}
-            onClick={(e) => {
-              e.stopPropagation();
+            onClick={(event) => {
+              event.stopPropagation();
               history.push({
                 pathname: "/sessions/create",
                 state: { templateId: template.id },
