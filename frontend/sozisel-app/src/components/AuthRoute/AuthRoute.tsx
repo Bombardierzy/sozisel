@@ -6,11 +6,13 @@ import { useMeQuery } from "../../graphql";
 interface AuthRouteProps {
   component?: React.ComponentType;
   path: string;
+  exact?: boolean;
 }
 
 export default function AuthRoute({
   component,
   path,
+  exact = true,
 }: AuthRouteProps): ReactElement {
   const { error, loading } = useMeQuery();
   const history = useHistory();
@@ -26,5 +28,5 @@ export default function AuthRoute({
   if (loading || error) {
     return <></>;
   }
-  return <Route exact path={path} component={component} />;
+  return <Route exact={exact} path={path} component={component} />;
 }

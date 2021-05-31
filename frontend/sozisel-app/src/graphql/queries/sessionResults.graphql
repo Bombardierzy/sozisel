@@ -1,0 +1,10 @@
+
+# TODO: this should be a separate query on backend, mock it up for now
+query SessionResultSummary($id: ID!) {
+    session(id: $id) {
+        id
+        name
+        startTime
+        endTime
+    }
+}

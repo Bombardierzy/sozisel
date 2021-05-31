@@ -11,6 +11,7 @@ import Login from "./components/LoginScreen/LoginScreen";
 import { PhoenixSocketProvider } from "./contexts/PhoenixSocketContext";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
+import { SessionResultScreen } from "./components/SessionResultScreen/SessionResultScreen";
 import SessionsList from "./components/SessionsList/SessionsList";
 import TemplateCreation from "./components/TemplateCreation/TemplateCreation";
 import TemplateList from "./components/TemplatesList/TemplateList";
@@ -32,6 +33,11 @@ export default function App(): ReactElement {
           <AuthRoute path="/sessions" component={SessionsList} />
           <AuthRoute path="/sessions/create" component={CreateSession} />
           <AuthRoute path="/sessions/:id/edit" component={EditSession} />
+          <AuthRoute
+            exact={false}
+            path="/session-result/:id"
+            component={SessionResultScreen}
+          />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/about" component={AboutScreen} />

@@ -131,6 +131,11 @@
     },
     "LiveSession": {
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
+    },
+    "SessionResultHeader": {
+      "summary": "Podsumowanie",
+      "events": "Wydarzenia",
+      "recording": "Nagranie"
     }
   },
   "inputErrors": {
