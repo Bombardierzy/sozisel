@@ -15,6 +15,7 @@ import { ReactElement, useState } from "react";
 
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
 import InfoIcon from "@material-ui/icons/Info";
+import { LOCAL_DATE_FORMAT } from "../../common/consts";
 import { useParams } from "react-router-dom";
 import { useSessionThumbnailQuery } from "../../graphql";
 import { useTranslation } from "react-i18next";
@@ -47,6 +48,7 @@ export default function JoinSession(): ReactElement {
   });
 
   const onSubmit = (schema: JoinSessionFormSchema) => {
+    //TODO add join session mutation
     console.log(schema);
     setDialogOpen(true);
   };
@@ -82,9 +84,10 @@ export default function JoinSession(): ReactElement {
             {data.sessionThumbnail.owner.lastName}
           </Typography>
           <Typography variant="subtitle1">
-            {new Date(
-              data.sessionThumbnail.scheduledStartTime
-            ).toLocaleString()}
+            {new Date(data.sessionThumbnail.scheduledStartTime).toLocaleString(
+              [],
+              LOCAL_DATE_FORMAT
+            )}
           </Typography>
           <form className="joinSessionForm" onSubmit={handleSubmit(onSubmit)}>
             <Typography className="label">
