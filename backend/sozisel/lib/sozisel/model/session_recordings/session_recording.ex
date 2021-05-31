@@ -14,6 +14,7 @@ defmodule Sozisel.Model.SessionRecordings.SessionRecording do
         }
 
   schema "session_recordings" do
+    # TODO: leave it for now, may be useful
     field :metadata, :map
     field :path, :string
 

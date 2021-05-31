@@ -133,11 +133,14 @@
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
     },
     "SessionRecordingUpload": {
-      "submitButtonText": "Prześlij nagranie",
-      "dropzoneText": "Wybierz lub upuść plik z nagraniem sesji",
+      "dialogTitle": "Prześlij nagranie sesji",
+      "submitText": "Zacznij przesyłanie",
+      "cancelText": "Anuluj",
+      "dropzoneText": "Wybierz lub upuść plik z nagraniem",
       "addedFile": "Wybrano plik!",
-      "removedFile": "Zrezygnowano z pliku!"
-
+      "removedFile": "Zrezygnowano z pliku!",
+      "uploadSuccessful": "Nagranie zostało przesłane!",
+      "uploadFailed": "Wystąpił błąd podczas przesyłania, spróbuj ponownie później!"
     }
   },
   "inputErrors": {

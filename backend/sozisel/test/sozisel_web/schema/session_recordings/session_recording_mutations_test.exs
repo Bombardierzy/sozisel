@@ -4,8 +4,8 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
   import Sozisel.Factory
 
   @upload_recording_mutation """
-  mutation UploadRecording($id: ID!, $recording: Upload!, $metadata: Upload) {
-    uploadMessage: uploadSessionRecording(id: $id, recording: $recording, metadata: $metadata)
+  mutation UploadRecording($id: ID!, $recording: Upload!) {
+    uploadMessage: uploadSessionRecording(id: $id, recording: $recording)
   }
   """
 
