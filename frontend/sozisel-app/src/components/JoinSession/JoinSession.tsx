@@ -5,14 +5,16 @@ import * as yup from "yup";
 import {
   Button,
   CircularProgress,
+  Dialog,
   TextField,
   Typography,
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { ReactElement, useState } from "react";
 
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
-import { ReactElement } from "react";
+import InfoIcon from "@material-ui/icons/Info";
 import { useParams } from "react-router-dom";
 import { useSessionThumbnailQuery } from "../../graphql";
 import { useTranslation } from "react-i18next";
@@ -24,22 +26,29 @@ function Alert(props: AlertProps) {
 
 const joinSessionSchema = yup.object().shape({
   userName: yup.string().required("inputErrors.fieldRequired"),
+  email: yup
+    .string()
+    .required("inputErrors.fieldRequired")
+    .email("inputErrors.invalidEmailFormat"),
 });
 
 export interface JoinSessionFormSchema {
   userName: string;
+  email: string;
   password: string;
 }
 
 export default function JoinSession(): ReactElement {
   const { t } = useTranslation("common");
   const { id } = useParams<{ id: string }>();
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { handleSubmit, errors, control } = useForm({
     resolver: yupResolver(joinSessionSchema),
   });
 
   const onSubmit = (schema: JoinSessionFormSchema) => {
     console.log(schema);
+    setDialogOpen(true);
   };
 
   const { data, loading } = useSessionThumbnailQuery({
@@ -90,9 +99,25 @@ export default function JoinSession(): ReactElement {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  className="userName"
                   error={!!errors.userName}
                   helperText={errors.userName && t(errors.userName.message)}
+                />
+              }
+            />
+            <Typography className="label">
+              {t("components.JoinSession.email")}
+            </Typography>
+            <Controller
+              name="email"
+              control={control}
+              defaultValue={""}
+              as={
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.email}
+                  helperText={errors.email && t(errors.email.message)}
                 />
               }
             />
@@ -112,7 +137,6 @@ export default function JoinSession(): ReactElement {
                       fullWidth
                       size="small"
                       type="password"
-                      className="password"
                     />
                   }
                 />
@@ -129,6 +153,41 @@ export default function JoinSession(): ReactElement {
             </Button>
           </form>
         </div>
+        <Dialog
+          onClose={() => setDialogOpen(false)}
+          open={dialogOpen}
+          maxWidth="sm"
+          fullWidth
+        >
+          <div className="InactiveSessionDialog">
+            <div className="dialogElement">
+              <InfoIcon className="dialogIcon" fontSize="large" />
+            </div>
+            <div className="dialogElement">
+              <Typography className="dialogTitleText">
+                {t("components.JoinSession.dialogTitle")}
+              </Typography>
+            </div>
+            <div className="dialogElement">
+              <Typography className="dialogSubtitle">
+                {t("components.JoinSession.dialogSubtitle")}
+              </Typography>
+            </div>
+            <div className="dialogElement">
+              <Typography className="dialogSubSubtitle">
+                {t("components.JoinSession.dialogSubSubtitle")}
+              </Typography>
+            </div>
+            <Button
+              color="primary"
+              variant="contained"
+              fullWidth
+              onClick={() => setDialogOpen(false)}
+            >
+              {t("components.JoinSession.dialogButtonText")}
+            </Button>
+          </div>
+        </Dialog>
       </>
     );
   }
