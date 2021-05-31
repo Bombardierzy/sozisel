@@ -136,6 +136,12 @@
       "summary": "Podsumowanie",
       "events": "Wydarzenia",
       "recording": "Nagranie"
+    },
+    "SummaryDetails": {
+      "date": "Data",
+      "durationTime": "Czas trwania",
+      "numberOfParticipants": "Liczba uczestników",
+      "numberOfInteractions": "Liczba interakcji z wydarzeniami"
     }
   },
   "inputErrors": {

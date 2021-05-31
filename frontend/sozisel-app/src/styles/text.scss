@@ -1,29 +1,35 @@
 @import "./color";
 
 @mixin text-01 {
-    font-size: 12px;
-    font-weight: 500;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 @mixin text-02 {
-    font-size: 14px;
-    font-weight: 500;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 @mixin error {
-    font-size: 12px;
-    color: red;
-    font-weight: 500;
+  font-size: 12px;
+  color: red;
+  font-weight: 500;
 }
 
 @mixin header-01 {
-    font-size: 14px;
-    font-weight: 600;
-    color: $main-color;
+  font-size: 14px;
+  font-weight: 600;
+  color: $main-color;
 }
 
 @mixin header-02 {
-    font-size: 20px;
-    font-weight: 600;
-    color: $main-color;
+  font-size: 20px;
+  font-weight: 600;
+  color: $main-color;
+}
+
+@mixin poppins-text {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: bold;
 }

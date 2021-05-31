@@ -1,0 +1,47 @@
+@import "../../../styles/styles";
+
+.SessionResultSummary {
+    .MuiPaper-rounded {
+        border-radius: $spacing-04;
+    }
+    
+    border-top: $spacing-10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    
+    .paper {
+        margin-top: $navbar-height;
+        min-width: 10 * $spacing-10;
+    }
+    
+    .SummaryDetails {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        
+        .item {
+            @include poppins-text;
+            display: flex;
+            font-size: 27px;
+            padding-left: $spacing-05;
+            margin-top: $spacing-08;
+
+            .title {
+                color: $gray-2; 
+                margin-right: $spacing-08;
+            }
+            .value {
+                color: $gray-3;
+            }
+        }
+        
+        :last-child {
+            margin-bottom: $spacing-08;
+        }
+    }
+}

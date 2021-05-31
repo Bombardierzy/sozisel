@@ -9,9 +9,7 @@
     justify-content: center;
     background-color: $primary-accent;
     
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: bold;
+    @include poppins-text;
     
     .title {
         color: $bg-01; 

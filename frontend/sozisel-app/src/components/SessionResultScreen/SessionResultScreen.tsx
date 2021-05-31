@@ -1,3 +1,5 @@
+import "./SessionResultScreen.scss";
+
 import { Route, Switch, useParams, useRouteMatch } from "react-router-dom";
 
 import MainNavbar from "../MainNavbar/MainNavbar";
@@ -5,7 +7,7 @@ import { ReactElement } from "react";
 import SessionResultEvents from "./SessionResultEvents";
 import SessionResultHeader from "./SessionResultHeader";
 import SessionResultRecording from "./SessionResultRecording";
-import SessionResultSummary from "./SessionResultSummary";
+import SessionResultSummary from "./SessionResultSummary/SessionResultSummary";
 
 export function SessionResultScreen(): ReactElement {
   const { id: sessionId } = useParams<{ id: string }>();
@@ -13,7 +15,7 @@ export function SessionResultScreen(): ReactElement {
   const { url } = useRouteMatch();
 
   return (
-    <div>
+    <div className="SessionResultScreen">
       <MainNavbar />
       <SessionResultHeader sessionId={sessionId} />
       <Switch>
