@@ -11,7 +11,7 @@ import {
 import { AUTO_HIDE_DURATION } from "../../common/consts";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
-import MainNavbar from "../MainNavbar/MainNavbar";
+import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import SearchBar from "./SearchBar/SearchBar";
 import { SessionTemplate } from "../../model/Template";
 import Snackbar from "@material-ui/core/Snackbar";

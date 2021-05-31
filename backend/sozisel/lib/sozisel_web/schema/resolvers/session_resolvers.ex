@@ -18,6 +18,18 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     end
   end
 
+  def get_session_thumbnail(_parent, %{id: session_id}, ctx) do
+    with %Session{} = session <- Repo.get(Session, session_id) do
+      thumbnail =
+        session
+        |> Map.put(:password_required, session.entry_password != nil)
+
+      {:ok, thumbnail}
+    else
+      nil -> {:ok, nil}
+    end
+  end
+
   def create(_parent, %{input: input}, ctx) do
     user = Context.current_user!(ctx)
 

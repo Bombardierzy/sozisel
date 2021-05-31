@@ -141,6 +141,17 @@
       "removedFile": "Zrezygnowano z pliku!",
       "uploadSuccessful": "Nagranie zostało przesłane!",
       "uploadFailed": "Wystąpił błąd podczas przesyłania, spróbuj ponownie później!"
+    },
+    "JoinSession": {
+      "name": "Imię i nazwisko",
+      "email": "Email",
+      "password": "Hasło",
+      "join": "Dołącz",
+      "errorMessage": "Nie udało się załadować danych. Sprawdź czy podana sesja istnieje.",
+      "dialogTitle": "Sesja nie aktywna",
+      "dialogSubtitle": "Sesja do której chcesz dołączyć jest nie aktywna.",
+      "dialogSubSubtitle": "Skontaktuj się z prowadzącym by go o tym poinformować.",
+      "dialogButtonText": "OK"
     }
   },
   "inputErrors": {
