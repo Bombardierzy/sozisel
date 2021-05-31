@@ -15,6 +15,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
+import { LOCAL_DATE_FORMAT } from "../../../common/consts";
 import { Session } from "../../../model/Session";
 import ShareIcon from "@material-ui/icons/Share";
 import useAvatarById from "../../../hooks/useAvatarById";
@@ -67,7 +68,10 @@ export default function SessionCard({
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
               {t("components.SessionsList.scheduledDate")}:{" "}
-              {new Date(session.scheduledStartTime).toLocaleString()}
+              {new Date(session.scheduledStartTime).toLocaleString(
+                [],
+                LOCAL_DATE_FORMAT
+              )}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
               {t("components.SessionsList.status")}: {status}

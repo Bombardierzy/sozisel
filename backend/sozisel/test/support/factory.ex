@@ -1,12 +1,13 @@
 defmodule Sozisel.Factory do
   use Sozisel.ExMachina.PolymorphicEcto, repo: Sozisel.Repo
 
-  alias Sozisel.Model.{Users, Sessions, Events, Quizzes, Participants}
+  alias Sozisel.Model.{Users, Sessions, Events, Quizzes, Participants, LaunchedEvents}
   alias Users.User
   alias Sessions.{Template, AgendaEntry, Session}
-  alias Events.Event
-  alias Quizzes.{Quiz, QuizQuestion}
+  alias LaunchedEvents.LaunchedEvent
   alias Participants.Participant
+  alias Events.Event
+  alias Quizzes.{Answer, Quiz, QuizQuestion}
 
   def user_factory(attrs) do
     %User{
@@ -48,11 +49,52 @@ defmodule Sozisel.Factory do
     }
   end
 
+  def event_factory(attrs) do
+    %Event{
+      name: attrs[:event_name] || sequence(:event_name, &"some-event-#{&1}"),
+      session_template_id: attrs[:session_template_id],
+      start_minute: attrs[:start_minute] || 2137,
+      event_data: build(:event_data, type: attrs[:type] || :quiz)
+    }
+  end
+
+  def event_data_factory(attrs) do
+    case attrs[:type] do
+      :quiz ->
+        %Quiz{
+          duration_time_sec: 120,
+          target_percentage_of_participants: 100,
+          tracking_mode: false,
+          quiz_questions: [
+            %QuizQuestion{
+              question: "A czy papież lubi gumę turbo?",
+              answers: [
+                %Answer{text: "tak", id: "1"},
+                %Answer{text: "jeszcze jak", id: "2"},
+                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+              ],
+              correct_answers: [
+                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+              ]
+            }
+          ]
+        }
+    end
+  end
+
+  def launched_event_factory(attrs) do
+    %LaunchedEvent{
+      session_id: attrs[:session_id],
+      event_id: attrs[:event_id]
+    }
+  end
+
   def participant_factory(attrs) do
     %Participant{
       email: attrs[:email] || sequence(:email, &"email-#{&1}@example.com"),
       full_name: attrs[:full_name] || sequence(:full_name, &"Michael Smith no. #{&1}"),
-      token: attrs[:token] || :crypto.hash(:md5, "token") |> Base.encode16()
+      token: attrs[:token] || :crypto.hash(:md5, "token") |> Base.encode16(),
+      session_id: attrs[:session_id] || insert(:session).id
     }
   end
 end

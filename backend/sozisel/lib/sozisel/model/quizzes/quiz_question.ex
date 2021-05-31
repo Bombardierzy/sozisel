@@ -7,8 +7,8 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
   @type t :: %__MODULE__{
           question: String.t(),
           id: String.t(),
-          answers: [String.t()],
-          correct_answers: [String.t()]
+          answers: [Answer.t()],
+          correct_answers: [Answer.t()]
         }
 
   @primary_key false
