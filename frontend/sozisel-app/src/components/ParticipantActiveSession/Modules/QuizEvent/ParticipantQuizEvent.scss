@@ -1,0 +1,30 @@
+@import "../../../../styles/styles";
+
+.ParticipantQuizEvent {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 2*#{$spacing-04});
+    height: calc(100% - 2*#{$spacing-04});
+    padding: $spacing-04;
+    .header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .headerText {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+    }
+
+    .eventIcon{
+        background-color: $main-color;
+        border-radius: $spacing-05;
+        padding: $spacing-03;
+        margin-right: $spacing-04;
+    }
+   
+}
