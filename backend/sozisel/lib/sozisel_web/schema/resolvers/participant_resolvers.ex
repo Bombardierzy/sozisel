@@ -9,7 +9,8 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     LaunchedEvents,
     Participants,
     Quizzes,
-    EventResults.EventResult
+    EventResults,
+    Utils
   }
 
   alias Events.Event
@@ -47,7 +48,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     end
   end
 
-  def finish_quiz(
+  def submit_quiz_results(
         _parent,
         %{
           input: %{
@@ -70,17 +71,11 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
           answer_on_question =
             Enum.find(participant_answers, fn map -> map.question_id == event_question.id end)
 
-          correct_answers_ids =
-            Enum.map(event_question.correct_answers, fn event_question -> event_question.id end)
+          correct_answers_ids = event_question.correct_answers |> Enum.map(& &1.id)
 
           track_nodes =
-            Enum.map(answer_on_question.track_nodes, fn track_node ->
-              %TrackNode{
-                answer_id: track_node.answer_id,
-                reaction_time: track_node.reaction_time,
-                selected: track_node.selected
-              }
-            end)
+            answer_on_question.track_nodes
+            |> Enum.map(&struct(TrackNode, &1))
 
           %ParticipantAnswer{
             question_id: event_question.id,
@@ -92,14 +87,12 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
         end)
 
       {:ok, event_result} =
-        %EventResult{
-          participant_id: participant.id,
-          launched_event_id: launched_event.id,
-          result_data: %QuizResult{
-            participant_answers: participant_answers
-          }
-        }
-        |> Repo.insert()
+        %{}
+        |> Map.put(:participant_id, participant.id)
+        |> Map.put(:launched_event_id, launched_event.id)
+        |> Map.put(:result_data, %QuizResult{participant_answers: participant_answers})
+        |> Utils.from_deep_struct()
+        |> EventResults.create_event_result()
 
       Helpers.subscription_publish(
         :event_result_submitted,

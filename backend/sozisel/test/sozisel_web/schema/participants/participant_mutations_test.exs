@@ -14,8 +14,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
   """
 
   @finish_quiz """
-  mutation FinishQuiz($input: QuizResultInput!, $token: String!) {
-    finishQuiz(input: $input, token: $token) {
+  mutation SubmitQuizResults($input: QuizResultInput!, $token: String!) {
+    submitQuizResults(input: $input, token: $token) {
       id
       participant {
         id
@@ -170,7 +170,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
       assert %{
                data: %{
-                 "finishQuiz" => %{
+                 "submitQuizResults" => %{
                    "id" => _,
                    "participant" => %{
                      "id" => ^participant_id
@@ -248,7 +248,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
       assert %{
                data: %{
-                 "finishQuiz" => %{
+                 "submitQuizResults" => %{
                    "id" => _,
                    "participant" => %{
                      "id" => ^participant_id
@@ -317,7 +317,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
       assert %{
                data: %{
-                 "finishQuiz" => nil
+                 "submitQuizResults" => nil
                },
                errors: [%{"message" => "unauthorized"}]
              } = run_query(ctx.conn, @finish_quiz, variables)

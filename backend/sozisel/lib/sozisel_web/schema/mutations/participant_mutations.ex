@@ -11,13 +11,13 @@ defmodule SoziselWeb.Schema.Mutations.ParticipantMutations do
       resolve &ParticipantResolvers.join_session/3
     end
 
-    field :finish_quiz, :event_result do
+    field :submit_quiz_results, :event_result do
       arg :input, non_null(:quiz_result_input)
       arg :token, non_null(:string)
 
       middleware Middleware.Participant
 
-      resolve &ParticipantResolvers.finish_quiz/3
+      resolve &ParticipantResolvers.submit_quiz_results/3
     end
   end
 end
