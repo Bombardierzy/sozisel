@@ -7,7 +7,6 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import ClearIcon from "@material-ui/icons/Clear";
 import { QuizQuestion } from "../../../../../model/Template";
 import { useQuizContext } from "../../../../../contexts/Quiz/QuizContext";
-import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -17,7 +16,6 @@ interface NewQuestionProp {
 }
 
 export default function Question({ question }: NewQuestionProp): ReactElement {
-  const { t } = useTranslation("common");
   const [, dispatch] = useQuizContext();
   return (
     <div className="Question">
@@ -33,8 +31,7 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
         variant="outlined"
         className="question"
         value={question.question}
-        error={question.question === ""}
-        helperText={question.question === "" && t("inputErrors.fieldRequired")}
+        placeholder={"Treść pytania..."}
         onChange={(e) =>
           dispatch({
             type: "UPDATE_QUESTION",
@@ -47,6 +44,7 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
         <TextField
           key={idx}
           size="small"
+          placeholder="Odpowiedź..."
           value={answer.text}
           onChange={(e) =>
             dispatch({
@@ -68,8 +66,6 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
               (correctAnswer) => correctAnswer.id === answer.id
             ).length > 0 && "correctAnswer"
           }`}
-          error={answer.text === ""}
-          helperText={answer.text === "" && t("inputErrors.fieldRequired")}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">{alphabet[idx]}</InputAdornment>
@@ -100,9 +96,7 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
               question,
               answer: {
                 id: uuidv4(),
-                text: t(
-                  "components.TemplateCreation.Quiz.Question.defaultAnswer"
-                ),
+                text: "",
               },
             });
           }}

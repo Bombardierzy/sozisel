@@ -1,0 +1,34 @@
+@import "../../../styles/styles.scss";
+
+.Agenda {
+    padding: $spacing-05;
+   .header {
+        @include header-02;
+        color: $text-03;
+        align-items: center;
+        display: flex;
+        margin-bottom: $spacing-03;
+        .icon {
+            background-color: $main-color;
+            border-radius: $spacing-05;
+            padding: $spacing-02 + $spacing-01;
+            margin-right: $spacing-03;
+        }
+   }
+   .agendaEntry {
+        display: flex;
+        justify-content: space-between;
+        @include header-01;
+        color: $text-03;
+        margin: $spacing-03 $spacing-02;
+        .agendaHeader {
+            font-weight: bold;
+        }
+        .finished {
+            color: $text-01;
+        }
+        .during {
+            color: $main-color;
+        }
+   }
+}

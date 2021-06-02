@@ -1,0 +1,22 @@
+@import "../../styles/styles.scss";
+
+.PresenterSession {
+    height: 100%;
+    .containerGrid {
+        height: 100%;
+        padding: $spacing-06;
+        .firstRowItem {
+            height: 50%;
+            div {
+                min-height: 100%;
+            }
+        }
+        .secondRowItem {
+            height: 40%;
+            div {
+                padding: $spacing-04;
+                height: 80%;
+            }
+        }
+    }
+}

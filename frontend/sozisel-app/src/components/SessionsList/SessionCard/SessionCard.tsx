@@ -99,6 +99,10 @@ export default function SessionCard({
               </IconButton>
             </div>
             <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                history.push(`/sessions/${session.id}`);
+              }}
               variant="contained"
               color="primary"
               fullWidth
