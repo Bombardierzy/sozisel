@@ -9,5 +9,11 @@ defmodule SoziselWeb.Schema.Mutations.ParticipantMutations do
 
       resolve &ParticipantResolvers.create/3
     end
+
+    field :finish_quiz, :event_result do
+      arg :input, non_null(:quiz_result_input)
+
+      resolve &ParticipantResolvers.check_quiz/3
+    end
   end
 end

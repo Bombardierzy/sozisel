@@ -67,6 +67,19 @@ defmodule Sozisel.Factory do
           tracking_mode: false,
           quiz_questions: [
             %QuizQuestion{
+              id: "1",
+              question: "A czy papież lubi gumę turbo?",
+              answers: [
+                %Answer{text: "tak", id: "1"},
+                %Answer{text: "jeszcze jak", id: "2"},
+                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+              ],
+              correct_answers: [
+                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+              ]
+            },
+            %QuizQuestion{
+              id: "2",
               question: "A czy papież lubi gumę turbo?",
               answers: [
                 %Answer{text: "tak", id: "1"},

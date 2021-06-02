@@ -82,7 +82,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   end
 
   input_object :update_quiz_input do
-    field :id, non_null(:id)
+    field :id, non_null(:string)
     field :name, :string
     field :start_minute, :integer
     field :event_data, non_null(:quiz_input)
@@ -94,13 +94,13 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
     field :participant_answers, strong_list_of(:participant_quiz_answer_input)
   end
 
-  object :participant_quiz_answer_input do
+  input_object :participant_quiz_answer_input do
     field :question_id, non_null(:string)
     field :final_answer_ids, strong_list_of(:string)
     field :track_nodes, list_of(:quiz_answer_track_node_input)
   end
 
-  object :quiz_answer_track_node do
+  input_object :quiz_answer_track_node_input do
     field :reaction_time, non_null(:float)
     field :answer_id, non_null(:string)
     field :selected, non_null(:boolean)
