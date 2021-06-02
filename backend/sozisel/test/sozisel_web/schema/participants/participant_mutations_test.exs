@@ -157,7 +157,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             },
             %{
               question_id: "2",
-              final_answer_ids: ["3"],
+              final_answer_ids: ["2"],
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "1", selected: true},
                 %{reaction_time: 2.01, answer_id: "1", selected: false},
@@ -194,7 +194,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                          ]
                        },
                        %{
-                         "finalAnswerIds" => ["3"],
+                         "finalAnswerIds" => ["2"],
                          "questionId" => "2",
                          "is_correct" => true,
                          "track_nodes" => [
@@ -235,7 +235,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             },
             %{
               question_id: "2",
-              final_answer_ids: ["3"],
+              final_answer_ids: ["2"],
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "1", selected: true},
                 %{reaction_time: 2.01, answer_id: "1", selected: false},
@@ -270,7 +270,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                          ]
                        },
                        %{
-                         "finalAnswerIds" => ["3"],
+                         "finalAnswerIds" => ["2"],
                          "questionId" => "2",
                          "is_correct" => true,
                          "track_nodes" => [

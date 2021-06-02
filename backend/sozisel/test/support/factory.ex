@@ -68,26 +68,31 @@ defmodule Sozisel.Factory do
           quiz_questions: [
             %QuizQuestion{
               id: "1",
-              question: "A czy papież lubi gumę turbo?",
+              question: "Kto jest twórcą Sozisela?",
               answers: [
-                %Answer{text: "tak", id: "1"},
-                %Answer{text: "jeszcze jak", id: "2"},
-                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+                %Answer{text: "Jakub Perżyło", id: "1"},
+                %Answer{text: "Przemysław Wątroba", id: "2"},
+                %Answer{text: "Jakub Myśliwiec", id: "3"},
+                %Answer{text: "Sebastian Kuśnierz", id: "4"},
+                %Answer{text: "Flaneczki Team", id: "5"}
               ],
               correct_answers: [
-                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+                %Answer{text: "Jakub Perżyło", id: "1"},
+                %Answer{text: "Przemysław Wątroba", id: "2"},
+                %Answer{text: "Jakub Myśliwiec", id: "3"},
+                %Answer{text: "Sebastian Kuśnierz", id: "4"}
               ]
             },
             %QuizQuestion{
               id: "2",
-              question: "A czy papież lubi gumę turbo?",
+              question: "Całka z x^2?",
               answers: [
-                %Answer{text: "tak", id: "1"},
-                %Answer{text: "jeszcze jak", id: "2"},
-                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+                %Answer{text: "1/3 * x^3", id: "1"},
+                %Answer{text: "1/3 * x^3 + C", id: "2"},
+                %Answer{text: "2x", id: "3"}
               ],
               correct_answers: [
-                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+                %Answer{text: "1/3 * x^3 + C", id: "2"}
               ]
             }
           ]
