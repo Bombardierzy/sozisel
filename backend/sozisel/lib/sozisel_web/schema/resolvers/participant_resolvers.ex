@@ -69,7 +69,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
       participant_answers =
         Enum.map(event_questions, fn event_question ->
           answer_on_question =
-            Enum.find(participant_answers, fn map -> map.question_id == event_question.id end)
+            participant_answers |> Enum.find(&(&1.question_id == event_question.id))
 
           correct_answers_ids = event_question.correct_answers |> Enum.map(& &1.id)
 
@@ -87,10 +87,11 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
         end)
 
       {:ok, event_result} =
-        %{}
-        |> Map.put(:participant_id, participant.id)
-        |> Map.put(:launched_event_id, launched_event.id)
-        |> Map.put(:result_data, %QuizResult{participant_answers: participant_answers})
+        %{
+          participant_id: participant.id,
+          launched_event_id: launched_event.id,
+          result_data: %QuizResult{participant_answers: participant_answers}
+        }
         |> Utils.from_deep_struct()
         |> EventResults.create_event_result()
 
