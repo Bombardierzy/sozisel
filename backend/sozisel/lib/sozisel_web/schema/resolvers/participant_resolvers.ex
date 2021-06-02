@@ -54,17 +54,17 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
           input: %{
             launched_event_id: launched_event_id,
             participant_answers: participant_answers
-          },
-          token: participant_token
+          }
         },
-        _ctx
+        ctx
       ) do
     with %LaunchedEvent{} = launched_event <-
            LaunchedEvents.get_launched_event(launched_event_id),
-         %Event{} = event <- Repo.preload(launched_event, :event).event,
-         %Session{} = session <- Repo.preload(launched_event, :session).session,
-         %Participant{} = participant <- Participants.find_by_token(participant_token) do
-      event_questions = Map.get(event.event_data, :quiz_questions)
+         %LaunchedEvent{session: %Session{}, event: %Event{}} = launched_event <-
+           Repo.preload(launched_event, [:session, :event]),
+         %{context: %{session: session_ctx, participant: participant}} <- ctx,
+         true <- launched_event.session.id == session_ctx.id do
+      event_questions = Map.get(launched_event.event.event_data, :quiz_questions)
 
       participant_answers =
         Enum.map(event_questions, fn event_question ->
@@ -97,7 +97,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
 
       Helpers.subscription_publish(
         :event_result_submitted,
-        Topics.session_presenter(session.id, session.user_id),
+        Topics.session_presenter(launched_event.session.id, launched_event.session.user_id),
         event_result
       )
 

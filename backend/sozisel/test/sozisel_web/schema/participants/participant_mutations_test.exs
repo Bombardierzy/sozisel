@@ -135,7 +135,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
       event = insert(:event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id)
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
-      participant = insert(:participant)
+      participant = insert(:participant, session_id: session.id)
 
       participant_id = participant.id
       event_id = event.id
@@ -215,7 +215,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
       event = insert(:event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id)
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
-      participant = insert(:participant)
+      participant = insert(:participant, session_id: session.id)
 
       participant_id = participant.id
       event_id = event.id
