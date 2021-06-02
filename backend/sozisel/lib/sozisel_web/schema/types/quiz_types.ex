@@ -87,4 +87,22 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
     field :start_minute, :integer
     field :event_data, non_null(:quiz_input)
   end
+
+  input_object :quiz_result_input do
+    field :participant_token, non_null(:string)
+    field :launched_event_id, non_null(:string)
+    field :participant_answers, strong_list_of(:participant_quiz_answer_input)
+  end
+
+  object :participant_quiz_answer_input do
+    field :question_id, non_null(:string)
+    field :final_answer_ids, strong_list_of(:string)
+    field :track_nodes, list_of(:quiz_answer_track_node_input)
+  end
+
+  object :quiz_answer_track_node do
+    field :reaction_time, non_null(:float)
+    field :answer_id, non_null(:string)
+    field :selected, non_null(:boolean)
+  end
 end
