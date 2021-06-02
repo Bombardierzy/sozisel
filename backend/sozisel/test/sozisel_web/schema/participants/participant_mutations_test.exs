@@ -14,8 +14,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
   """
 
   @finish_quiz """
-  mutation FinishQuiz($input: QuizResultInput!) {
-    finishQuiz(input: $input) {
+  mutation FinishQuiz($input: QuizResultInput!, $token: String!) {
+    finishQuiz(input: $input, token: $token) {
       id
       participant {
         id
@@ -142,7 +142,6 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
       variables = %{
         input: %{
-          participant_token: participant.token,
           launched_event_id: launched_event.id,
           participant_answers: [
             %{
@@ -165,7 +164,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
               ]
             }
           ]
-        }
+        },
+        token: participant.token
       }
 
       assert %{
@@ -222,7 +222,6 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
       variables = %{
         input: %{
-          participant_token: participant.token,
           launched_event_id: launched_event.id,
           participant_answers: [
             %{
@@ -243,7 +242,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
               ]
             }
           ]
-        }
+        },
+        token: participant.token
       }
 
       assert %{
@@ -291,7 +291,6 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
       variables = %{
         input: %{
-          participant_token: participant.token,
           launched_event_id: Ecto.UUID.generate(),
           participant_answers: [
             %{
@@ -312,7 +311,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
               ]
             }
           ]
-        }
+        },
+        token: participant.token
       }
 
       assert %{

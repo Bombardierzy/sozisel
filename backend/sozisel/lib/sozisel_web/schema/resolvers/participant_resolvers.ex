@@ -21,7 +21,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
   require Logger
 
   # password is optional so we can't always pattern match on all arguments
-  def create(
+  def join_session(
         _parent,
         %{input: %{email: email, full_name: full_name, session_id: session_id} = input},
         _ctx
@@ -47,26 +47,26 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     end
   end
 
-  def check_quiz(
+  def finish_quiz(
         _parent,
         %{
           input: %{
-            participant_token: participant_token,
             launched_event_id: launched_event_id,
             participant_answers: participant_answers
-          }
+          },
+          token: participant_token
         },
         _ctx
       ) do
     with %LaunchedEvent{} = launched_event <-
            LaunchedEvents.get_launched_event(launched_event_id),
-         %Event{} = event <- Events.get_event(launched_event.event_id),
-         %Session{} = session <- Sessions.get_session(launched_event.session_id),
+         %Event{} = event <- Repo.preload(launched_event, :event).event,
+         %Session{} = session <- Repo.preload(launched_event, :session).session,
          %Participant{} = participant <- Participants.find_by_token(participant_token) do
       event_questions = Map.get(event.event_data, :quiz_questions)
 
       participant_answers =
-        for event_question <- event_questions do
+        Enum.map(event_questions, fn event_question ->
           answer_on_question =
             Enum.find(participant_answers, fn map -> map.question_id == event_question.id end)
 
@@ -74,13 +74,13 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
             Enum.map(event_question.correct_answers, fn event_question -> event_question.id end)
 
           track_nodes =
-            for track_node <- answer_on_question.track_nodes do
+            Enum.map(answer_on_question.track_nodes, fn track_node ->
               %TrackNode{
                 answer_id: track_node.answer_id,
                 reaction_time: track_node.reaction_time,
                 selected: track_node.selected
               }
-            end
+            end)
 
           %ParticipantAnswer{
             question_id: event_question.id,
@@ -89,9 +89,9 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
               Enum.sort(answer_on_question.final_answer_ids) == Enum.sort(correct_answers_ids),
             track_nodes: track_nodes
           }
-        end
+        end)
 
-      event_result =
+      {:ok, event_result} =
         %EventResult{
           participant_id: participant.id,
           launched_event_id: launched_event.id,
@@ -100,7 +100,6 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
           }
         }
         |> Repo.insert()
-        |> elem(1)
 
       Helpers.subscription_publish(
         :event_result_submitted,
