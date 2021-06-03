@@ -71,11 +71,19 @@ export default function TemplateCard({
         </CardContent>
         <CardActions className="cardActions">
           <div className="iconButtons">
-            <IconButton onClick={() => onCopy(template)}>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                onCopy(template);
+              }}
+            >
               <FileCopyIcon />
             </IconButton>
             <IconButton
-              onClick={() => onDelete(template)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(template);
+              }}
               disabled={currentUserId != template.owner.id}
             >
               <DeleteIcon />

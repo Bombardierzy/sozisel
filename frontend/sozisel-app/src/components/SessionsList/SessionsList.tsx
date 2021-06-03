@@ -40,6 +40,7 @@ export default function SessionsList(): ReactElement {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const { data, loading, refetch } = useSearchSessionsQuery({
     variables: { input: { status: SessionStatus.Any } },
+    fetchPolicy: "network-only",
   });
   const [
     deleteMutation,

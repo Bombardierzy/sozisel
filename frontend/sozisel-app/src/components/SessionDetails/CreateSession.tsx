@@ -9,13 +9,13 @@ import {
   useCreateSessionMutation,
   useSessionTemplateQuery,
 } from "../../graphql";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { AUTO_HIDE_DURATION } from "../../common/consts";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import TemplateOverview from "./TemplateOverview/TemplateOverview";
-import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 function Alert(props: AlertProps) {
@@ -28,6 +28,7 @@ export interface CreateSessionProps {
 
 export default function CreateSession(): ReactElement {
   const { t } = useTranslation("common");
+  const history = useHistory();
   const location = useLocation();
   const [successMessage, setSuccessMessage] = useState<string>("");
   const { data, loading } = useSessionTemplateQuery({
@@ -61,6 +62,7 @@ export default function CreateSession(): ReactElement {
         },
       });
       setSuccessMessage(`${t("components.SessionDetails.successMessage")}`);
+      setTimeout(() => history.push("/sessions"), 1000);
     } catch (error) {
       console.error(error);
     }

@@ -26,5 +26,31 @@
         padding: $spacing-03;
         margin-right: $spacing-04;
     }
+
+    .quizQuestion{
+        padding: $spacing-03 0;
+        align-items: center;
+        display: flex;
+        font-weight: 400;
+    }
+
+    .answerList{
+        height: 100%;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        padding: $spacing-03 0;
+    }
+
+    .quizAnswer{
+        padding: $spacing-03 0;
+    }
    
+    .submitRow{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-03 0;
+    }
 }
