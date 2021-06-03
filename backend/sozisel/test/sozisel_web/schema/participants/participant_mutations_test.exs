@@ -162,7 +162,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
       Sessions.update_session(session, %{
         start_time: DateTime.utc_now(),
-        end_time: DateTime.utc_now()
+        end_time: DateTime.add(DateTime.utc_now(), 3600, :second)
       })
 
       variables = %{
