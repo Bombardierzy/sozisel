@@ -19,3 +19,7 @@ mutation DeleteSession($id: ID!){
       id
   }
 }
+
+mutation UploadSessionRecording($sessionId: ID!, $recording: Upload!) {
+  uploadRecordingMessage: uploadSessionRecording(id: $sessionId, recording: $recording)
+}

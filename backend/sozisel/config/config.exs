@@ -10,7 +10,9 @@ use Mix.Config
 config :sozisel,
   ecto_repos: [Sozisel.Repo]
 
-config :sozisel, Sozisel.Repo, migration_primary_key: [name: :id, type: :binary_id]
+config :sozisel, Sozisel.Repo,
+  migration_primary_key: [name: :id, type: :binary_id],
+  migration_timestamps: [type: :utc_datetime_usec]
 
 # Configures the endpoint
 config :sozisel, SoziselWeb.Endpoint,
@@ -28,6 +30,8 @@ config :sozisel, Sozisel.Model.Users.Token,
 config :sozisel, Sozisel.JitsiTokenGenerator,
   issuer: "sozisel_app",
   secret_key: "9mrcPkvUfoqzuHrfQfP/ExOynZgpL7w"
+
+config :sozisel, SoziselWeb.Recordings, upload_path: "/tmp/"
 
 # Configures Elixir's Logger
 config :logger, :console,

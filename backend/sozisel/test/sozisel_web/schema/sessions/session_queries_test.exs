@@ -11,6 +11,14 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
   }
   """
 
+  @get_session_thumbnail """
+  query GetSessionThumbnail($id: ID!) {
+    sessionThumbnail(id: $id) {
+      id
+    }
+  }
+  """
+
   @search_sessions """
   query SearchSessions($status: SessionStatus!, $dateFrom: DateTime, $dateTo: DateTime, $name: String, $templateId: ID) {
     searchSessions(input: {status: $status, dateFrom: $dateFrom, dateTo: $dateTo, name: $name, templateId: $templateId}) {
@@ -61,6 +69,22 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
       assert %{
                errors: [%{"message" => "unauthorized"}]
              } = run_query(other_conn, @get_session, %{id: session_id})
+    end
+
+    test "get session thumbnail by id", ctx do
+      session_id = insert(:session).id
+
+      assert %{
+               data: %{
+                 "sessionThumbnail" => %{"id" => ^session_id}
+               }
+             } = run_query(ctx.conn, @get_session_thumbnail, %{id: session_id})
+
+      assert %{
+               data: %{
+                 "sessionThumbnail" => nil
+               }
+             } = run_query(ctx.conn, @get_session_thumbnail, %{id: Ecto.UUID.generate()})
     end
 
     test "search by name", ctx do

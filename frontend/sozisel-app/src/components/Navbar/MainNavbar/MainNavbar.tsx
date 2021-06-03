@@ -4,7 +4,7 @@ import ComputerIcon from "@material-ui/icons/Computer";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import { NavLink } from "react-router-dom";
 import { ReactElement } from "react";
-import logo from "../../assets/images/logo.png";
+import logo from "../../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 
 export default function MainNavbar(): ReactElement {
