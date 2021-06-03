@@ -152,6 +152,12 @@
       "dialogSubtitle": "Sesja do której chcesz dołączyć jest nie aktywna.",
       "dialogSubSubtitle": "Skontaktuj się z prowadzącym by go o tym poinformować.",
       "dialogButtonText": "OK"
+    },
+    "PresenterSession": {
+      "fetchingError": "Błąd ładowania danych. Spróbuj ponownie później.",
+      "Agenda": {
+        "header": "Agenda"
+      }
     }
   },
   "inputErrors": {

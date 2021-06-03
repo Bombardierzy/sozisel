@@ -7,6 +7,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import ClearIcon from "@material-ui/icons/Clear";
 import { QuizQuestion } from "../../../../../model/Template";
 import { useQuizContext } from "../../../../../contexts/Quiz/QuizContext";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -17,6 +18,8 @@ interface NewQuestionProp {
 
 export default function Question({ question }: NewQuestionProp): ReactElement {
   const [, dispatch] = useQuizContext();
+  const { t } = useTranslation("common");
+
   return (
     <div className="Question">
       <div className="buttonRight">
@@ -31,7 +34,9 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
         variant="outlined"
         className="question"
         value={question.question}
-        placeholder={"Treść pytania..."}
+        placeholder={t(
+          "components.TemplateCreation.Quiz.Question.defaultQuestion"
+        )}
         onChange={(e) =>
           dispatch({
             type: "UPDATE_QUESTION",

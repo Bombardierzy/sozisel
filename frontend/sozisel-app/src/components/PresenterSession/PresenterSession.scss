@@ -2,6 +2,13 @@
 
 .PresenterSession {
     height: 100%;
+    .progressIndicator {
+        width: 2*$spacing-10 !important;
+        height: 2*$spacing-10 !important;
+        position: absolute;
+        top: calc(50% - #{$spacing-10});
+        left: calc(50% - #{$spacing-10});
+    }
     .containerGrid {
         height: 100%;
         padding: $spacing-06;
