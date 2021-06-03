@@ -49,7 +49,9 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
         <TextField
           key={idx}
           size="small"
-          placeholder="Odpowiedź..."
+          placeholder={t(
+            "components.TemplateCreation.Quiz.Question.defaultAnswer"
+          )}
           value={answer.text}
           onChange={(e) =>
             dispatch({
