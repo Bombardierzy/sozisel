@@ -69,11 +69,11 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
       participant_answers =
         Enum.map(event_questions, fn event_question ->
           answer_on_question =
-            participant_answers 
+            participant_answers
             |> Enum.find(&(&1.question_id == event_question.id))
 
-          correct_answers_ids = 
-            event_question.correct_answers 
+          correct_answers_ids =
+            event_question.correct_answers
             |> Enum.map(& &1.id)
 
           track_nodes =
