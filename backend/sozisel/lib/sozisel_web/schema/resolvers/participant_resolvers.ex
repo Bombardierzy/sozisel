@@ -29,7 +29,9 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
       ) do
     entry_password = Map.get(input, :entry_password)
 
-    with %Session{entry_password: ^entry_password} <- Repo.get_by(Session, id: session_id),
+    with %Session{entry_password: ^entry_password} = session <-
+           Repo.get_by(Session, id: session_id),
+         {:ok} <- Sessions.participant_can_join_session(session),
          {:ok, %Participant{} = participant} <-
            Participants.create_participant(%{
              session_id: session_id,
@@ -39,9 +41,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
       {:ok, %{token: participant.token}}
     else
       {:error, reason} ->
-        Logger.error("Failed to create a participant with reason: #{inspect(reason)}")
-
-        {:error, "failed to create a participant"}
+        {:error, "failed to create a participant because #{reason}"}
 
       _ ->
         {:error, "unauthorized"}
