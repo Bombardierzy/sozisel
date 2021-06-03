@@ -24,6 +24,7 @@
     "react-jitsi": "^1.0.4",
     "react-router-dom": "^5.2.0",
     "react-spinners": "^0.10.6",
+    "recharts": "^2.0.9",
     "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },

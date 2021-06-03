@@ -5,7 +5,7 @@ interface SessionResultEventsProps {
 }
 
 export default function SessionResultEvents(
-  props: SessionResultEventsProps
+  _props: SessionResultEventsProps
 ): ReactElement {
   return <>events</>;
 }

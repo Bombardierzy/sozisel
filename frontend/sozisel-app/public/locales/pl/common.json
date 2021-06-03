@@ -142,6 +142,13 @@
       "durationTime": "Czas trwania",
       "numberOfParticipants": "Liczba uczestników",
       "numberOfInteractions": "Liczba interakcji z wydarzeniami"
+    },
+    "SessionResultSummary": {
+      "participantsChart": {
+        "title": "Liczba uczestników",
+        "subtitle": "Dla kolejnych wydarzeń",
+        "valueLabel": "Uczestnicy"
+      }
     }
   },
   "inputErrors": {

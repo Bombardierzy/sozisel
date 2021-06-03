@@ -4,7 +4,7 @@ interface SessionResultRecordingProps {
   sessionId: string;
 }
 export default function SessionResultRecording(
-  props: SessionResultRecordingProps
+  _: SessionResultRecordingProps
 ): ReactElement {
   return <>recording</>;
 }
