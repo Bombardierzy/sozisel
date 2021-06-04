@@ -10,14 +10,14 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   object :quiz_question do
     field :question, non_null(:string)
-    field :id, non_null(:string)
+    field :id, non_null(:id)
     field :answers, strong_list_of(:answer)
     field :correct_answers, strong_list_of(:answer)
   end
 
   object :answer do
     field :text, non_null(:string)
-    field :id, non_null(:string)
+    field :id, non_null(:id)
   end
 
   object :quiz_result do
@@ -48,7 +48,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   # we create a proxy type for quiz question so the participant won't be able to
   # look up the answers in network tab in the browser
   object :participant_quiz_question do
-    field :id, non_null(:string)
+    field :id, non_null(:id)
     field :question, non_null(:string)
     field :answers, strong_list_of(:answer)
   end
@@ -63,7 +63,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   end
 
   input_object :quiz_question_input do
-    field :id, non_null(:string)
+    field :id, non_null(:id)
     field :question, non_null(:string)
     field :answers, strong_list_of(:answer_input)
     field :correct_answers, strong_list_of(:answer_input)
@@ -71,7 +71,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   input_object :answer_input do
     field :text, non_null(:string)
-    field :id, non_null(:string)
+    field :id, non_null(:id)
   end
 
   input_object :create_quiz_input do
@@ -86,5 +86,22 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
     field :name, :string
     field :start_minute, :integer
     field :event_data, non_null(:quiz_input)
+  end
+
+  input_object :quiz_result_input do
+    field :launched_event_id, non_null(:string)
+    field :participant_answers, strong_list_of(:participant_quiz_answer_input)
+  end
+
+  input_object :participant_quiz_answer_input do
+    field :question_id, non_null(:string)
+    field :final_answer_ids, strong_list_of(:string)
+    field :track_nodes, list_of(:quiz_answer_track_node_input)
+  end
+
+  input_object :quiz_answer_track_node_input do
+    field :reaction_time, non_null(:float)
+    field :answer_id, non_null(:string)
+    field :selected, non_null(:boolean)
   end
 end
