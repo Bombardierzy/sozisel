@@ -31,6 +31,7 @@ defmodule SoziselWeb.Schema do
 
   # Subscriptions
   import_types(SoziselWeb.Schema.Subscriptions.EventSubscriptions)
+  import_types(SoziselWeb.Schema.Subscriptions.SessionSubscriptions)
 
   query do
     import_fields(:user_queries)
@@ -51,6 +52,7 @@ defmodule SoziselWeb.Schema do
   subscription do
     import_fields(:participant_event_subscriptions)
     import_fields(:presenter_event_subscriptions)
+    import_fields(:session_subscriptions)
   end
 
   def middleware(middleware, _field, _config) do
