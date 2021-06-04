@@ -63,7 +63,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     Helpers.subscription_publish(
       :session_notifications,
       Topics.session_events(session.id),
-      %{info: "SESSION_END"}
+      %{info: :session_end}
     )
 
     {:ok, session}

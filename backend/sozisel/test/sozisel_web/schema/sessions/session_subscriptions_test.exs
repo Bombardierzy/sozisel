@@ -9,9 +9,7 @@ defmodule SoziselWeb.Schema.Events.SessionSubscriptionsTest do
   @session_notification """
   subscription SessionNotifications($participantToken: String!) {
     sessionNotifications(participantToken: $participantToken) {
-      sessionNotificationInfo {
-        info
-      }
+      info
     }
   }
   """
@@ -25,7 +23,7 @@ defmodule SoziselWeb.Schema.Events.SessionSubscriptionsTest do
       [session: session, participant: participant, user: user]
     end
 
-    test "broadcast info to all participants in session", ctx do
+    test "broadcast info to all participants in session when session has been ended", ctx do
       socket = test_socket()
 
       variables = %{
@@ -38,12 +36,14 @@ defmodule SoziselWeb.Schema.Events.SessionSubscriptionsTest do
       Helpers.subscription_publish(
         :session_notifications,
         Topics.session_events(ctx.session.id),
-        %{info: "SESSION_END"}
+        %{info: :session_end}
       )
 
       assert %{
                data: %{
-                 "sessionNotifications" => _
+                 "sessionNotifications" => %{
+                   "info" => "SESSION_END"
+                 }
                }
              } = receive_subscription(sub)
     end
