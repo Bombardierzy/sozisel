@@ -1,6 +1,8 @@
 defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
   alias SoziselWeb.Context
   alias Sozisel.Repo
+  alias SoziselWeb.Schema.Helpers
+  alias SoziselWeb.Schema.Subscriptions.Topics
   alias Sozisel.Model.{Sessions, Sessions.Session, SessionRecordings.SessionRecording}
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
@@ -54,8 +56,17 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
   end
 
   def end_session(_parent, _args, ctx) do
+  {:ok, session} =
     fetch_resource!(ctx, Session)
     |> Sessions.end_session()
+
+    Helpers.subscription_publish(
+        :session_notifications,
+        Topics.session_events(session.id),
+        %{info: "SESSION_END"}
+      )
+
+{:ok, session}
   end
 
   def search(_parent, %{input: filters}, ctx) do
