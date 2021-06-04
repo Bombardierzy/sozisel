@@ -29,7 +29,7 @@ defmodule SoziselWeb.Schema.Events.SessionSubscriptionsTest do
       socket = test_socket()
 
       variables = %{
-        sessionId: ctx.session.id
+        participantToken: ctx.participant.token
       }
 
       sub = run_subscription(socket, @session_notification, variables)

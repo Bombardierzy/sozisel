@@ -2,16 +2,15 @@ defmodule SoziselWeb.Schema.Subscriptions.SessionSubscriptions do
   use SoziselWeb.Schema.Notation
 
   alias SoziselWeb.Schema.Middleware.Subscriptions.Participant
-  alias SoziselWeb.Schema.Middleware.Subscriptions.Presenter
   alias SoziselWeb.Schema.Subscriptions.Topics
 
   import SoziselWeb.Schema.Middleware.Subscription
 
   object :session_subscriptions do
     field :session_notifications, :session_notification_info do
-      arg :session_id, non_null(:id)
+      arg :participant_token, non_null(:string)
 
-      config subscription_middleware(Presenter, [], &handle_session_topics/2)
+      config subscription_middleware(Participant, [], &handle_session_topics/2)
     end
   end
 
