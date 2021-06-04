@@ -49,4 +49,21 @@ defmodule Sozisel.Model.Events do
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.create_changeset(event, attrs)
   end
+
+  def prepare_quiz_data_for_participants(attrs) do
+    quiz_questions_data =
+      Enum.map(attrs.quiz_questions, fn quiz_question ->
+        %{
+          id: quiz_question.id,
+          question: quiz_question.question,
+          answers: quiz_question.answers
+        }
+      end)
+
+    %{
+      duration_time_sec: attrs.duration_time_sec,
+      tracking_mode: attrs.tracking_mode,
+      quiz_questions: quiz_questions_data
+    }
+  end
 end
