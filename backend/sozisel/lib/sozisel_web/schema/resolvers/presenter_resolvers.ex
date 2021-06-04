@@ -61,7 +61,8 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
         %{event_id: event_id, session_id: session_id, participant_ids: participant_ids},
         _ctx
       ) do
-      IO.inspect(session_id)
+    IO.inspect(session_id)
+
     with %Event{} = event <- Events.get_event(event_id),
          %Session{} = session <- Sessions.get_session(session_id) do
       {:ok, launched_event} =
