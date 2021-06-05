@@ -9,7 +9,8 @@ import { useTranslation } from "react-i18next";
 
 interface AgendaProps {
   agendaEntries: AgendaPoint[];
-  estimatedTime: number;
+  estimatedTimeInSeconds: number;
+  sessionStartDate: Date;
 }
 
 interface AgendaEntryProps {
@@ -22,13 +23,20 @@ interface AgendaEntryProps {
 const ON_GOING: string = "onGoing";
 const ENDED: string = "ended";
 
+const getSessionCurrentMinute = (sessionStartDate: Date) => {
+  const localTime: Date = new Date();
+  // convert from milliseconds to minutes
+  return (localTime.getTime() - sessionStartDate.getTime()) / (1000 * 60);
+}
+
 export default function Agenda({
   agendaEntries,
-  estimatedTime,
+  estimatedTimeInSeconds,
+  sessionStartDate,
 }: AgendaProps): ReactElement {
-  const [counter, setCounter] = useState<number>(0);
-  const { t } = useTranslation("common");
 
+  const [counter, setCounter] = useState<number>(getSessionCurrentMinute(sessionStartDate));
+  const { t } = useTranslation("common");
   const agendaStatus = (startMinute: number, endMinute: number) => {
     if (counter < startMinute) return "";
     if (counter >= startMinute && counter < endMinute) {
@@ -38,13 +46,13 @@ export default function Agenda({
   };
 
   useEffect(() => {
-    console.log(counter);
-    if (estimatedTime && counter < estimatedTime) {
+    if (estimatedTimeInSeconds && counter < estimatedTimeInSeconds) {
       setTimeout(() => {
-        setCounter(counter + 1);
-      }, 60000);
+        // update counter time (nowTime - sessionStartTime)
+        setCounter(getSessionCurrentMinute(sessionStartDate));
+      }, 10000);
     }
-  }, [counter, estimatedTime]);
+  }, [counter, estimatedTimeInSeconds, sessionStartDate]);
 
   const AgendaEntry = ({
     startMinute,
@@ -72,12 +80,12 @@ export default function Agenda({
     idx: number,
     agendaEntry: AgendaPoint
   ): ReactElement => {
-    //if it is last agenda entry endMinute of agenda entry is the endMinute of whole session
+    // if it is last agenda entry endMinute of agenda entry is the endMinute of whole session
     if (idx === agendaEntries.length - 1) {
       return (
         <AgendaEntry
           startMinute={agendaEntry.startMinute}
-          endMinute={estimatedTime}
+          endMinute={estimatedTimeInSeconds}
           name={agendaEntry.name}
           idx={idx}
         />

@@ -1,6 +1,6 @@
 import "./SessionCard.scss";
 
-import { BaseSyntheticEvent, ReactElement, useState } from "react";
+import { AUTO_HIDE_DURATION, LOCAL_DATE_FORMAT } from "../../../common/consts";
 import {
   Button,
   Card,
@@ -9,18 +9,26 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  Snackbar,
   Typography,
 } from "@material-ui/core";
+import React, {
+  BaseSyntheticEvent,
+  MouseEvent,
+  ReactElement,
+  useState,
+} from "react";
 
+import { Alert } from "@material-ui/lab";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-import { LOCAL_DATE_FORMAT } from "../../../common/consts";
 import { Session } from "../../../model/Session";
 import ShareIcon from "@material-ui/icons/Share";
 import useAvatarById from "../../../hooks/useAvatarById";
 import { useHistory } from "react-router-dom";
 import useSessionStatus from "../../../hooks/useSessionStatus";
+import { useStartSessionMutation } from "../../../graphql";
 import { useTranslation } from "react-i18next";
 
 export interface SessionCardProps {
@@ -41,8 +49,22 @@ export default function SessionCard({
   const [raised, setRaised] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
+  const [startSessionMutation, { error, loading }] = useStartSessionMutation({
+    variables: {
+      id: session.id,
+    },
+  });
+
   const onMouseOverChange = (_: BaseSyntheticEvent) => {
     setRaised(!raised);
+  };
+
+  const onStartSession = async (e: MouseEvent) => {
+    e.stopPropagation();
+    await startSessionMutation();
+    if (!error || !loading) {
+      history.push(`/sessions/${session.id}`);
+    }
   };
 
   const onCardClick = () => {
@@ -99,10 +121,7 @@ export default function SessionCard({
               </IconButton>
             </div>
             <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                history.push(`/sessions/${session.id}`);
-              }}
+              onClick={onStartSession}
               variant="contained"
               color="primary"
               fullWidth
@@ -151,6 +170,11 @@ export default function SessionCard({
           </DialogContent>
         </div>
       </Dialog>
+      <Snackbar open={!!error} autoHideDuration={AUTO_HIDE_DURATION}>
+        <Alert severity="error">
+          {t("components.SessionsList.startSessionErrorMessage")}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
