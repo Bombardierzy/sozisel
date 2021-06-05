@@ -65,7 +65,6 @@ export default function JoinSession(): ReactElement {
         },
       }).then(
         (value) => {
-          console.log(value.data?.joinSession?.token);
           localStorage.setItem(
             "participantToken",
             value.data?.joinSession?.token ?? ""
@@ -73,6 +72,7 @@ export default function JoinSession(): ReactElement {
           history.push(`/sessions/${id}/live`);
         },
         () => {
+          //TODO handle case when password is incorrect
           setDialogOpen(true);
         }
       );

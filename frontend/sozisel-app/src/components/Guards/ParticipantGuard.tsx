@@ -6,7 +6,6 @@ import { useMyParticipationQuery } from "../../graphql";
 
 export default function ParticipantGuard(): ReactElement {
   const token = localStorage.getItem("participantToken");
-  console.log(token);
   const { data, error } = useMyParticipationQuery({
     variables: { token: token ?? "" },
   });
@@ -26,7 +25,6 @@ export default function ParticipantGuard(): ReactElement {
         token={token ?? ""}
         email={data.myParticipation.email}
         fullName={data.myParticipation.fullName}
-        id={data.myParticipation.id}
       />
     );
   }

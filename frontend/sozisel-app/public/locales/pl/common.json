@@ -152,6 +152,10 @@
       "dialogSubtitle": "Sesja do której chcesz dołączyć jest nie aktywna.",
       "dialogSubSubtitle": "Skontaktuj się z prowadzącym by go o tym poinformować.",
       "dialogButtonText": "OK"
+    },
+    "ParticipantActiveSession": {
+      "exitSession": "Wyjdź", 
+      "next": "Dalej"
     }
   },
   "inputErrors": {
