@@ -9,7 +9,7 @@ defmodule SoziselWeb.Schema.Mutations.PresenterMutations do
       arg :event_id, non_null(:id)
       arg :session_id, non_null(:id)
       arg :broadcast, non_null(:boolean)
-      arg :target_participants, strong_list_of(:id)
+      arg :target_participants, list_of(:id)
 
       middleware Middleware.Authorization
       resolve &PresenterResolvers.send_launched_event/3

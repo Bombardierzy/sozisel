@@ -35,8 +35,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
       variables = %{
         eventId: event.id,
         sessionId: session.id,
-        broadcast: true,
-        targetParticipants: []
+        broadcast: true
       }
 
       session_id = session.id
