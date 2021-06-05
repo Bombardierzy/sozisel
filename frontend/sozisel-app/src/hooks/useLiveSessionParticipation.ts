@@ -4,14 +4,18 @@ import {
 } from "../contexts/PhoenixSocketContext";
 import { useEffect, useState } from "react";
 
+type ParticipantType = "participant" | "presenter";
+
 interface Config {
   sessionId: string;
-  displayName: string;
+  token: string;
+  type: ParticipantType;
 }
 
 interface Participant {
-  key: string;
+  id: string;
   displayName: string;
+  type: ParticipantType;
 }
 
 interface Participation {
@@ -21,12 +25,13 @@ interface Participation {
 }
 
 interface PresenceEntry {
-  metas: { display_name: string; phx_ref: string }[];
+  metas: { id: string; display_name: string; type: string; phx_ref: string }[];
 }
 
 export function useLiveSessionParticipation({
-  displayName,
   sessionId,
+  token,
+  type,
 }: Config): Participation {
   const socket = usePhoenixSocket();
 
@@ -39,8 +44,12 @@ export function useLiveSessionParticipation({
   useEffect(() => {
     ensureConnected(socket);
 
+    const tokenType =
+      type === "participant" ? "participantToken" : "presenterToken";
+
     const channel = socket.channel(`session:participation:${sessionId}`, {
-      displayName,
+      [tokenType]: token,
+      type,
     });
 
     channel
@@ -58,21 +67,21 @@ export function useLiveSessionParticipation({
 
     channel.on("presence_diff", ({ joins, leaves }) => {
       const joiningParticipants = Object.entries(joins).map(parsePresenceEntry);
-      const leavingParticipantKeys = Object.entries(leaves)
+      const leavingParticipantIds = Object.entries(leaves)
         .map(parsePresenceEntry)
-        .map(({ key }) => key);
+        .map(({ id }) => id);
 
       setParticipation((p) => {
-        const currentParticipantKeys = p.participants.map(({ key }) => key);
+        const currentParticipantKeys = p.participants.map(({ id }) => id);
         const newParticipants = joiningParticipants.filter(
-          ({ key }) => !currentParticipantKeys.includes(key)
+          ({ id }) => !currentParticipantKeys.includes(id)
         );
 
         return {
           ...p,
           participants: [
             ...p.participants.filter(
-              ({ key }) => !leavingParticipantKeys.includes(key)
+              ({ id }) => !leavingParticipantIds.includes(id)
             ),
             ...newParticipants,
           ],
@@ -83,14 +92,18 @@ export function useLiveSessionParticipation({
     return () => {
       channel.leave();
     };
-  }, [socket, setParticipation, displayName, sessionId]);
+  }, [socket, setParticipation, token, type, sessionId]);
 
   return participation;
 }
 
-function parsePresenceEntry([key, entry]: [string, unknown]): Participant {
+function parsePresenceEntry([_key, entry]: [string, unknown]): Participant {
   const {
     metas: [meta],
   } = entry as PresenceEntry;
-  return { displayName: meta.display_name, key };
+  return {
+    displayName: meta.display_name,
+    type: meta.type as ParticipantType,
+    id: meta.id,
+  };
 }

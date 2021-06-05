@@ -1,36 +1,55 @@
 defmodule SoziselWeb.Channels.SessionParticipantsPresence do
   use SoziselWeb, :channel
   alias SoziselWeb.Presence
-  alias Sozisel.Model.{Sessions, Sessions.Session}
+  alias Sozisel.Model.{Participants, Sessions, Users}
+  alias Participants.Participant
+  alias Sessions.Session
+  alias Users.{Token, User}
 
-  # def join("session:participation:" <> session_id, %{"displayName" => display_name}, socket) do
-  #   with %Session{start_time: start_time, end_time: nil} when not is_nil(start_time) <- Sessions.get_session(session_id) do
-  #     send(self(), :after_join)
-  #     {:ok, assign(socket, :display_name, display_name)}
-  #   else
-  #     %Session{start_time: nil} ->
-  #       {:error, "Session has not started yet"}
+  def join(
+        "session:participation:" <> session_id,
+        %{"participantToken" => participant_token},
+        socket
+      ) do
+    with %Participant{id: id, full_name: full_name, session_id: ^session_id} <-
+           Participants.find_by_token(participant_token) do
+      send(self(), :after_join)
 
-  #     %Session{} ->
-  #       {:error, "Session has already ended"}
+      info = %{
+        id: id,
+        display_name: full_name,
+        type: :participant
+      }
 
-  #     nil ->
-  #       {:error, "Session not found"}
-  #   end
-  # end
+      {:ok, assign(socket, :info, info)}
+    else
+      _ ->
+        {:error, "unauthorized"}
+    end
+  end
 
-  def join("session:participation:" <> session_id, %{"displayName" => display_name}, socket) do
-    send(self(), :after_join)
-    {:ok, assign(socket, :display_name, display_name)}
+  def join("session:participation:" <> session_id, %{"presenterToken" => presenter_token}, socket) do
+    with {:ok, %User{id: user_id} = user} <- Token.retrieve_user(presenter_token),
+         %Session{user_id: ^user_id} <- Sessions.get_session(session_id) do
+      send(self(), :after_join)
+
+      info = %{
+        id: user_id,
+        display_name: user.first_name <> " " <> user.last_name,
+        type: :presenter
+      }
+
+      {:ok, assign(socket, :info, info)}
+    else
+      _ ->
+        {:error, "unauthorized"}
+    end
   end
 
   def handle_info(:after_join, socket) do
     id = Ecto.UUID.generate()
 
-    {:ok, _} =
-      Presence.track(socket, id, %{
-        display_name: socket.assigns.display_name
-      })
+    {:ok, _} = Presence.track(socket, id, socket.assigns.info)
 
     push(socket, "presence_state", Presence.list(socket))
     {:noreply, assign(socket, :participant_id, id)}
