@@ -17,8 +17,9 @@ interface NewQuestionProp {
 }
 
 export default function Question({ question }: NewQuestionProp): ReactElement {
-  const { t } = useTranslation("common");
   const [, dispatch] = useQuizContext();
+  const { t } = useTranslation("common");
+
   return (
     <div className="Question">
       <div className="buttonRight">
@@ -33,8 +34,9 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
         variant="outlined"
         className="question"
         value={question.question}
-        error={question.question === ""}
-        helperText={question.question === "" && t("inputErrors.fieldRequired")}
+        placeholder={t(
+          "components.TemplateCreation.Quiz.Question.defaultQuestion"
+        )}
         onChange={(e) =>
           dispatch({
             type: "UPDATE_QUESTION",
@@ -47,6 +49,9 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
         <TextField
           key={idx}
           size="small"
+          placeholder={t(
+            "components.TemplateCreation.Quiz.Question.defaultAnswer"
+          )}
           value={answer.text}
           onChange={(e) =>
             dispatch({
@@ -68,8 +73,6 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
               (correctAnswer) => correctAnswer.id === answer.id
             ).length > 0 && "correctAnswer"
           }`}
-          error={answer.text === ""}
-          helperText={answer.text === "" && t("inputErrors.fieldRequired")}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">{alphabet[idx]}</InputAdornment>
@@ -100,9 +103,7 @@ export default function Question({ question }: NewQuestionProp): ReactElement {
               question,
               answer: {
                 id: uuidv4(),
-                text: t(
-                  "components.TemplateCreation.Quiz.Question.defaultAnswer"
-                ),
+                text: "",
               },
             });
           }}

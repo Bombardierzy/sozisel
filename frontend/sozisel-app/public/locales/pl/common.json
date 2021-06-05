@@ -123,6 +123,7 @@
       "fetchingErrorMessage": "Błąd ładowania danych. Spróbuj ponownie później.",
       "scheduledDate": "Planowana data",
       "startSession": "Rozpocznij",
+      "startSessionErrorMessage": "Błąd podczas startowania sesji. Spróbuj ponownie później.",
       "sessionDeleted": "Usunięto sesje.",
       "errorMessage": "Błąd podczas wykonywania operacji.",
       "shareSession": "Udostępnij sesje",
@@ -152,6 +153,12 @@
       "dialogSubtitle": "Sesja do której chcesz dołączyć jest nie aktywna.",
       "dialogSubSubtitle": "Skontaktuj się z prowadzącym by go o tym poinformować.",
       "dialogButtonText": "OK"
+    },
+    "PresenterSession": {
+      "fetchingError": "Błąd ładowania danych. Spróbuj ponownie później.",
+      "Agenda": {
+        "header": "Agenda"
+      }
     }
   },
   "inputErrors": {
