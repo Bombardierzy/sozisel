@@ -5,7 +5,7 @@ defmodule SoziselWeb.Schema.Mutations.PresenterMutations do
   alias SoziselWeb.Schema.{Middleware}
 
   object :presenter_mutations do
-    field :send_event_to_participants, :launched_event do
+    field :send_launched_event_to_participants, :launched_event do
       arg :event_id, non_null(:id)
       arg :session_id, non_null(:id)
       arg :broadcast, non_null(:boolean)
