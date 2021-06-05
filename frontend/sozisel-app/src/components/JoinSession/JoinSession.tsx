@@ -10,14 +10,17 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
+import { LOCAL_DATE_FORMAT, PARTICIPANT_TOKEN } from "../../common/consts";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { ReactElement, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import {
+  useJoinSessionMutation,
+  useSessionThumbnailQuery,
+} from "../../graphql";
 
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
 import InfoIcon from "@material-ui/icons/Info";
-import { LOCAL_DATE_FORMAT } from "../../common/consts";
-import { useParams } from "react-router-dom";
-import { useSessionThumbnailQuery } from "../../graphql";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -26,7 +29,7 @@ function Alert(props: AlertProps) {
 }
 
 const joinSessionSchema = yup.object().shape({
-  userName: yup.string().required("inputErrors.fieldRequired"),
+  fullName: yup.string().required("inputErrors.fieldRequired"),
   email: yup
     .string()
     .required("inputErrors.fieldRequired")
@@ -34,7 +37,7 @@ const joinSessionSchema = yup.object().shape({
 });
 
 export interface JoinSessionFormSchema {
-  userName: string;
+  fullName: string;
   email: string;
   password: string;
 }
@@ -42,15 +45,43 @@ export interface JoinSessionFormSchema {
 export default function JoinSession(): ReactElement {
   const { t } = useTranslation("common");
   const { id } = useParams<{ id: string }>();
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const history = useHistory();
+  const [joinSession, { loading: joinLoading }] = useJoinSessionMutation();
+
   const { handleSubmit, errors, control } = useForm({
     resolver: yupResolver(joinSessionSchema),
   });
 
-  const onSubmit = (schema: JoinSessionFormSchema) => {
-    //TODO add join session mutation
-    console.log(schema);
-    setDialogOpen(true);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const onSubmit = async ({
+    fullName,
+    email,
+    password,
+  }: JoinSessionFormSchema) => {
+    try {
+      const { data } = await joinSession({
+        variables: {
+          input: {
+            sessionId: id,
+            fullName,
+            email,
+            entryPassword: password,
+          },
+        },
+      });
+
+      if (data?.joinSession?.token) {
+        localStorage.setItem(PARTICIPANT_TOKEN, data.joinSession.token);
+
+        history.push(`/session/live/${id}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    setDialogOpen(false);
   };
 
   const { data, loading } = useSessionThumbnailQuery({
@@ -94,7 +125,7 @@ export default function JoinSession(): ReactElement {
               {t("components.JoinSession.name")}
             </Typography>
             <Controller
-              name="userName"
+              name="fullName"
               control={control}
               defaultValue={""}
               as={
@@ -102,8 +133,8 @@ export default function JoinSession(): ReactElement {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  error={!!errors.userName}
-                  helperText={errors.userName && t(errors.userName.message)}
+                  error={!!errors.fullName}
+                  helperText={errors.fullName && t(errors.fullName.message)}
                 />
               }
             />
