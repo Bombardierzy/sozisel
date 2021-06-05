@@ -48,7 +48,9 @@ export default function PresenterSession(): ReactElement {
           {data && data.session && (
             <Agenda
               agendaEntries={data.session.sessionTemplate.agendaEntries}
-              estimatedTimeInSeconds={data.session.sessionTemplate.estimatedTime}
+              estimatedTimeInSeconds={
+                data.session.sessionTemplate.estimatedTime
+              }
               sessionStartDate={new Date(data.session.startTime)}
             />
           )}

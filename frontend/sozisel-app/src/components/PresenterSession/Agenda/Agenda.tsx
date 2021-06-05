@@ -27,15 +27,16 @@ const getSessionCurrentMinute = (sessionStartDate: Date) => {
   const localTime: Date = new Date();
   // convert from milliseconds to minutes
   return (localTime.getTime() - sessionStartDate.getTime()) / (1000 * 60);
-}
+};
 
 export default function Agenda({
   agendaEntries,
   estimatedTimeInSeconds,
   sessionStartDate,
 }: AgendaProps): ReactElement {
-
-  const [counter, setCounter] = useState<number>(getSessionCurrentMinute(sessionStartDate));
+  const [counter, setCounter] = useState<number>(
+    getSessionCurrentMinute(sessionStartDate)
+  );
   const { t } = useTranslation("common");
   const agendaStatus = (startMinute: number, endMinute: number) => {
     if (counter < startMinute) return "";
