@@ -15,6 +15,6 @@ defmodule SoziselWeb.Schema.Subscriptions.SessionSubscriptions do
   end
 
   def handle_session_topics(_args, %{context: %{session_id: sid}}) do
-    {:ok, topic: [Topics.session_events(sid)]}
+    {:ok, topic: [Topics.session_all_participants(sid)]}
   end
 end

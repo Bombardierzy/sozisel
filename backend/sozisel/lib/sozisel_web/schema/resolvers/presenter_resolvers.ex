@@ -5,14 +5,12 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
   alias Sozisel.Model.{
     Sessions,
     Events,
-    LaunchedEvents,
-    Quizzes
+    LaunchedEvents
   }
 
   alias Events.Event
   alias LaunchedEvents.LaunchedEvent
   alias Sessions.Session
-  alias Quizzes.Quiz
 
   def prepare_data_for_participants(
         %Event{} = event,
@@ -20,11 +18,7 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
       ) do
     event_data = event.event_data
 
-    participant_event_data =
-      case event_data.__struct__ do
-        Quiz -> Events.prepare_quiz_data_for_participants(event_data)
-        _ -> {:error, "Wrong data"}
-      end
+    participant_event_data = Events.marshal_participant_event_data(event_data)
 
     %{
       id: launched_event.id,
@@ -33,7 +27,11 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
     }
   end
 
-  def send_event_to_all(_parent, %{event_id: event_id, session_id: session_id}, _ctx) do
+  def send_event_to_participants(
+        _parent,
+        %{event_id: event_id, session_id: session_id, broadcast: true},
+        _ctx
+      ) do
     with %Event{} = event <- Events.get_event(event_id),
          %Session{} = session <- Sessions.get_session(session_id) do
       {:ok, launched_event} =
@@ -46,7 +44,7 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
 
       Helpers.subscription_publish(
         :event_launched,
-        Topics.session_events(session.id),
+        Topics.session_all_participants(session.id),
         participant_event
       )
 
@@ -56,13 +54,16 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
     end
   end
 
-  def send_event_to_listed_participants(
+  def send_event_to_participants(
         _parent,
-        %{event_id: event_id, session_id: session_id, participant_ids: participant_ids},
+        %{
+          event_id: event_id,
+          session_id: session_id,
+          broadcast: false,
+          target_participants: target_participants
+        },
         _ctx
       ) do
-    IO.inspect(session_id)
-
     with %Event{} = event <- Events.get_event(event_id),
          %Session{} = session <- Sessions.get_session(session_id) do
       {:ok, launched_event} =
@@ -73,10 +74,11 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
 
       participant_event = prepare_data_for_participants(event, launched_event)
 
-      Enum.map(participant_ids, fn participant_id ->
+      target_participants
+      |> Enum.map(fn participant_id ->
         Helpers.subscription_publish(
           :event_launched,
-          Topics.session_participant_events(session.id, participant_id),
+          Topics.session_participant(session.id, participant_id),
           participant_event
         )
       end)

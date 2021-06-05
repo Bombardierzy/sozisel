@@ -3,26 +3,9 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
   import Sozisel.Factory
 
-  @send_event_to_all """
-  mutation SendEventToAll($eventId: ID!, $sessionId: ID!) {
-    sendEventToAll(eventId: $eventId, sessionId: $sessionId) {
-      id
-      session {
-          id
-      }
-      event {
-          id
-          name
-      }
-      event_results {
-          id
-      }
-    }
-  }
-  """
-  @send_event_to_listed_participants """
-  mutation SendEventToListedParticipants($eventId: ID!, $sessionId: [ID!], $participantIds: [ID!]) {
-    sendEventToListedParticipants(eventId: $eventId, sessionId: $sessionId, participantIds: $participantIds) {
+  @send_event_to_participants """
+  mutation SendEventToParticipants($eventId: ID!, $sessionId: [ID!], $broadcast: Boolean!, $targetParticipants: [ID!]) {
+    sendEventToParticipants(eventId: $eventId, sessionId: $sessionId, broadcast: $broadcast, targetParticipants: $targetParticipants) {
       id
       session {
           id
@@ -51,7 +34,8 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
       variables = %{
         eventId: event.id,
-        sessionId: session.id
+        sessionId: session.id,
+        broadcast: true
       }
 
       session_id = session.id
@@ -60,7 +44,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
       assert %{
                data: %{
-                 "sendEventToAll" => %{
+                 "sendEventToParticipants" => %{
                    "id" => _,
                    "session" => %{
                      "id" => ^session_id
@@ -72,7 +56,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
                    "event_results" => []
                  }
                }
-             } = run_query(ctx.conn, @send_event_to_all, variables)
+             } = run_query(ctx.conn, @send_event_to_participants, variables)
     end
 
     test "send an event to listed participants when presenter start event", ctx do
@@ -85,7 +69,8 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
       variables = %{
         eventId: event.id,
         sessionId: session.id,
-        participantIds: [
+        broadcast: false,
+        targetParticipants: [
           participant_1.id,
           participant_2.id
         ]
@@ -97,7 +82,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
       assert %{
                data: %{
-                 "sendEventToListedParticipants" => %{
+                 "sendEventToParticipants" => %{
                    "id" => _,
                    "session" => %{
                      "id" => ^session_id
@@ -109,7 +94,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
                    "event_results" => []
                  }
                }
-             } = run_query(ctx.conn, @send_event_to_listed_participants, variables)
+             } = run_query(ctx.conn, @send_event_to_participants, variables)
     end
   end
 end

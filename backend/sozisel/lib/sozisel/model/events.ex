@@ -6,7 +6,7 @@ defmodule Sozisel.Model.Events do
   import Ecto.Query, warn: false
   alias Sozisel.Repo
 
-  alias Sozisel.Model.{Events.Event, Utils}
+  alias Sozisel.Model.{Events.Event, Utils, Quizzes.Quiz}
 
   def list_events do
     Repo.all(Event)
@@ -50,20 +50,15 @@ defmodule Sozisel.Model.Events do
     Event.create_changeset(event, attrs)
   end
 
-  def prepare_quiz_data_for_participants(attrs) do
+  def marshal_participant_event_data(%{__struct__: Quiz} = event_data) do
     quiz_questions_data =
-      Enum.map(attrs.quiz_questions, fn quiz_question ->
-        %{
-          id: quiz_question.id,
-          question: quiz_question.question,
-          answers: quiz_question.answers
-        }
-      end)
+      event_data.quiz_questions
+      |> Enum.map(&Map.take(&1, [:question_id, :question, :answer]))
 
-    %{
-      duration_time_sec: attrs.duration_time_sec,
-      tracking_mode: attrs.tracking_mode,
-      quiz_questions: quiz_questions_data
-    }
+    event_data
+    |> Map.take([:duration_time_sec, :tracking_mode])
+    |> Map.put(:quiz_questions, quiz_questions_data)
   end
+
+  def marshal_participant_event_data(other), do: other
 end

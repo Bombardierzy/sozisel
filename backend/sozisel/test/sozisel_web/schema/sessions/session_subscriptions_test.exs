@@ -32,10 +32,10 @@ defmodule SoziselWeb.Schema.Events.SessionSubscriptionsTest do
 
       sub = run_subscription(socket, @session_notification, variables)
 
-      # broadcast to a whole session
+      # broadcast to a single participant
       Helpers.subscription_publish(
         :session_notifications,
-        Topics.session_events(ctx.session.id),
+        Topics.session_all_participants(ctx.session.id),
         %{info: :session_end}
       )
 
