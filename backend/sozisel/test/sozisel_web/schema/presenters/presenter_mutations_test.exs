@@ -4,8 +4,8 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
   import Sozisel.Factory
 
   @send_event_to_participants """
-  mutation SendEventToParticipants($eventId: ID!, $sessionId: [ID!], $broadcast: Boolean!, $targetParticipants: [ID!]) {
-    sendEventToParticipants(eventId: $eventId, sessionId: $sessionId, broadcast: $broadcast, targetParticipants: $targetParticipants) {
+  mutation SendLaunchedEventToParticipants($eventId: ID!, $sessionId: [ID!], $broadcast: Boolean!, $targetParticipants: [ID!]) {
+    sendLaunchedEventToParticipants(eventId: $eventId, sessionId: $sessionId, broadcast: $broadcast, targetParticipants: $targetParticipants) {
       id
       session {
           id
@@ -35,7 +35,8 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
       variables = %{
         eventId: event.id,
         sessionId: session.id,
-        broadcast: true
+        broadcast: true,
+        targetParticipants: []
       }
 
       session_id = session.id
@@ -44,7 +45,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
       assert %{
                data: %{
-                 "sendEventToParticipants" => %{
+                 "sendLaunchedEventToParticipants" => %{
                    "id" => _,
                    "session" => %{
                      "id" => ^session_id
@@ -82,7 +83,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
       assert %{
                data: %{
-                 "sendEventToParticipants" => %{
+                 "sendLaunchedEventToParticipants" => %{
                    "id" => _,
                    "session" => %{
                      "id" => ^session_id

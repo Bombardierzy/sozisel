@@ -27,39 +27,12 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
     }
   end
 
-  def send_event_to_participants(
-        _parent,
-        %{event_id: event_id, session_id: session_id, broadcast: true},
-        _ctx
-      ) do
-    with %Event{} = event <- Events.get_event(event_id),
-         %Session{} = session <- Sessions.get_session(session_id) do
-      {:ok, launched_event} =
-        LaunchedEvents.create_launched_event(%{
-          event_id: event_id,
-          session_id: session_id
-        })
-
-      participant_event = prepare_data_for_participants(event, launched_event)
-
-      Helpers.subscription_publish(
-        :event_launched,
-        Topics.session_all_participants(session.id),
-        participant_event
-      )
-
-      {:ok, launched_event}
-    else
-      _ -> {:error, "unauthorized"}
-    end
-  end
-
-  def send_event_to_participants(
+  def send_launched_event_to_participants(
         _parent,
         %{
           event_id: event_id,
           session_id: session_id,
-          broadcast: false,
+          broadcast: broadcast,
           target_participants: target_participants
         },
         _ctx
@@ -74,6 +47,12 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
 
       participant_event = prepare_data_for_participants(event, launched_event)
 
+      publish_event(
+        %{broadcast: broadcast, target_participants: target_participants},
+        participant_event,
+        session.id
+      )
+
       target_participants
       |> Enum.map(fn participant_id ->
         Helpers.subscription_publish(
@@ -87,5 +66,28 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
     else
       _ -> {:error, "unauthorized"}
     end
+  end
+
+  def publish_event(%{broadcast: true}, participant_event, session_id) do
+    Helpers.subscription_publish(
+      :event_launched,
+      Topics.session_all_participants(session_id),
+      participant_event
+    )
+  end
+
+  def publish_event(
+        %{broadcast: false, target_participants: target_participants},
+        participant_event,
+        session_id
+      ) do
+    target_participants
+    |> Enum.map(fn participant_id ->
+      Helpers.subscription_publish(
+        :event_launched,
+        Topics.session_participant(session_id, participant_id),
+        participant_event
+      )
+    end)
   end
 end

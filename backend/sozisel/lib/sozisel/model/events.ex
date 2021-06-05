@@ -59,6 +59,4 @@ defmodule Sozisel.Model.Events do
     |> Map.take([:duration_time_sec, :tracking_mode])
     |> Map.put(:quiz_questions, quiz_questions_data)
   end
-
-  def marshal_participant_event_data(other), do: other
 end
