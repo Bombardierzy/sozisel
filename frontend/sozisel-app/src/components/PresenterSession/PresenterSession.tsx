@@ -23,7 +23,7 @@ export default function PresenterSession(): ReactElement {
   if (loading) {
     return (
       <div className="PresenterSession">
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <CircularProgress className="progressIndicator" />
       </div>
     );
@@ -32,7 +32,7 @@ export default function PresenterSession(): ReactElement {
   if (error) {
     return (
       <div className="PresenterSession">
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <Alert className="errorAlert" variant="outlined" severity="error">
           {t("components.PresenterSession.fetchingError")}
         </Alert>
@@ -42,7 +42,7 @@ export default function PresenterSession(): ReactElement {
 
   return (
     <div className="PresenterSession">
-      <MainNavbar></MainNavbar>
+      <MainNavbar />
       <Grid container spacing={1} className="containerGrid">
         <Grid item xs={3} className="firstRowItem">
           {data && data.session && (

@@ -19,6 +19,9 @@ interface AgendaEntryProps {
   idx: number;
 }
 
+const ON_GOING: string = "onGoing";
+const ENDED: string = "ended";
+
 export default function Agenda({
   agendaEntries,
   estimatedTime,
@@ -28,16 +31,14 @@ export default function Agenda({
 
   const agendaStatus = (startMinute: number, endMinute: number) => {
     if (counter < startMinute) return "";
-    if (
-      (counter >= startMinute && counter < endMinute) ||
-      startMinute === endMinute
-    ) {
-      return "during";
+    if (counter >= startMinute && counter < endMinute) {
+      return ON_GOING;
     }
-    return "finished";
+    return ENDED;
   };
 
   useEffect(() => {
+    console.log(counter);
     if (estimatedTime && counter < estimatedTime) {
       setTimeout(() => {
         setCounter(counter + 1);
@@ -61,7 +62,7 @@ export default function Agenda({
         <Typography
           className={`agendaHeader ${agendaStatus(startMinute, endMinute)}`}
         >
-          {endMinute} min
+          {startMinute} min
         </Typography>
       </>
     );
@@ -71,24 +72,12 @@ export default function Agenda({
     idx: number,
     agendaEntry: AgendaPoint
   ): ReactElement => {
-    if (idx === 0) {
-      return (
-        <AgendaEntry
-          startMinute={0}
-          endMinute={agendaEntry.startMinute}
-          name={agendaEntry.name}
-          idx={idx}
-        />
-      );
-    }
-    if (
-      idx === agendaEntries.length - 1 &&
-      counter >= agendaEntry.startMinute
-    ) {
+    //if it is last agenda entry endMinute of agenda entry is the endMinute of whole session
+    if (idx === agendaEntries.length - 1) {
       return (
         <AgendaEntry
           startMinute={agendaEntry.startMinute}
-          endMinute={agendaEntry.startMinute}
+          endMinute={estimatedTime}
           name={agendaEntry.name}
           idx={idx}
         />
@@ -96,8 +85,8 @@ export default function Agenda({
     }
     return (
       <AgendaEntry
-        startMinute={agendaEntries[idx - 1].startMinute}
-        endMinute={agendaEntry.startMinute}
+        startMinute={agendaEntry.startMinute}
+        endMinute={agendaEntries[idx + 1].startMinute}
         name={agendaEntry.name}
         idx={idx}
       />
