@@ -32,7 +32,8 @@ defmodule SoziselWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [
       :urlencoded,
-      :multipart,
+      # Allow up to 300MB
+      {:multipart, length: 300_000_000},
       :json,
       Absinthe.Plug.Parser
     ],

@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import React, { ReactElement, useCallback } from "react";
+import { useLocation, useParams } from "react-router";
 import {
   useSessionTemplateQuery,
   useUpdateSessionTemplateInputMutation,
@@ -31,7 +32,6 @@ import { Grid } from "@material-ui/core";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import TemplateContextProvider from "../../contexts/Template/TemplateContext";
 import { useEffect } from "react";
-import { useLocation } from "react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -50,9 +50,13 @@ const templateDetailsSchema = yup.object().shape({
 });
 
 export default function TemplateCreation(): ReactElement {
+  const { id: templateId } = useParams<{ id: string }>();
   const location = useLocation<{ id: string }>();
+
+  const sessionTemplateId = templateId || location.state.id;
+
   const { data, loading } = useSessionTemplateQuery({
-    variables: { id: location.state.id },
+    variables: { id: sessionTemplateId },
   });
   const template = data?.sessionTemplate;
   const [agenda, setAgenda] = useState<AgendaPoint[]>([]);
@@ -84,7 +88,7 @@ export default function TemplateCreation(): ReactElement {
       updateSessionTemplateInputMutation({
         variables: {
           input: {
-            id: location.state.id,
+            id: sessionTemplateId,
             isPublic: isPublic,
             estimatedTime: durationTime,
             agendaEntries,
@@ -99,7 +103,7 @@ export default function TemplateCreation(): ReactElement {
       durationTime,
       error,
       isPublic,
-      location.state.id,
+      sessionTemplateId,
       t,
       template?.name,
       updateSessionTemplateInputMutation,
@@ -111,7 +115,7 @@ export default function TemplateCreation(): ReactElement {
       updateSessionTemplateInputMutation({
         variables: {
           input: {
-            id: location.state.id,
+            id: sessionTemplateId,
             isPublic,
             estimatedTime: sessionDetails.durationTime,
             agendaEntries: agenda,
@@ -124,7 +128,7 @@ export default function TemplateCreation(): ReactElement {
     },
     [
       updateSessionTemplateInputMutation,
-      location.state.id,
+      sessionTemplateId,
       isPublic,
       agenda,
       error,
@@ -148,7 +152,7 @@ export default function TemplateCreation(): ReactElement {
           <CircularProgress size={200} />
         </Grid>
       ) : (
-        <TemplateContextProvider id={location.state.id}>
+        <TemplateContextProvider id={sessionTemplateId}>
           <>
             <MainNavbar />
             <div className="TemplateCreation">
