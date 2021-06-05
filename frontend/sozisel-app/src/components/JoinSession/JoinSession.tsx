@@ -12,12 +12,15 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { ReactElement, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import {
+  useJoinSessionMutation,
+  useSessionThumbnailQuery,
+} from "../../graphql";
 
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
 import InfoIcon from "@material-ui/icons/Info";
 import { LOCAL_DATE_FORMAT } from "../../common/consts";
-import { useParams } from "react-router-dom";
-import { useSessionThumbnailQuery } from "../../graphql";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -41,16 +44,41 @@ export interface JoinSessionFormSchema {
 
 export default function JoinSession(): ReactElement {
   const { t } = useTranslation("common");
+  const history = useHistory();
   const { id } = useParams<{ id: string }>();
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { handleSubmit, errors, control } = useForm({
     resolver: yupResolver(joinSessionSchema),
   });
+  const [joinMutation, { loading: joinLoading }] = useJoinSessionMutation();
 
-  const onSubmit = (schema: JoinSessionFormSchema) => {
-    //TODO add join session mutation
-    console.log(schema);
-    setDialogOpen(true);
+  const onSubmit = async (schema: JoinSessionFormSchema) => {
+    try {
+      await joinMutation({
+        variables: {
+          input: {
+            sessionId: id,
+            fullName: schema.userName,
+            email: schema.email,
+            entryPassword: schema.password,
+          },
+        },
+      }).then(
+        (value) => {
+          console.log(value.data?.joinSession?.token);
+          localStorage.setItem(
+            "participantToken",
+            value.data?.joinSession?.token ?? ""
+          );
+          history.push(`/sessions/${id}/live`);
+        },
+        () => {
+          setDialogOpen(true);
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const { data, loading } = useSessionThumbnailQuery({
@@ -60,7 +88,7 @@ export default function JoinSession(): ReactElement {
     },
   });
 
-  if (loading) {
+  if (loading || joinLoading) {
     return (
       <>
         <BasicNavbar />

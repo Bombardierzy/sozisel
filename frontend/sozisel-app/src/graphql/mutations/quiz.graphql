@@ -16,3 +16,8 @@ mutation DeleteQuiz($id: ID!) {
   }
 }
 
+mutation SubmitQuizResults($token: String!, $input: QuizResultInput!){
+  submitQuizResults(token: $token, input: $input){
+    id
+  }
+}
