@@ -47,7 +47,7 @@ export default function JoinSession(): ReactElement {
   const { id } = useParams<{ id: string }>();
 
   const history = useHistory();
-  const [joinSession, { loading: joinLoading }] = useJoinSessionMutation();
+  const [joinSession] = useJoinSessionMutation();
 
   const { handleSubmit, errors, control } = useForm({
     resolver: yupResolver(joinSessionSchema),

@@ -97,7 +97,7 @@ export function useLiveSessionParticipation({
   return participation;
 }
 
-function parsePresenceEntry([key, entry]: [string, unknown]): Participant {
+function parsePresenceEntry([_key, entry]: [string, unknown]): Participant {
   const {
     metas: [meta],
   } = entry as PresenceEntry;
