@@ -3,9 +3,9 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
   import Sozisel.Factory
 
-  @send_event_to_participants """
-  mutation SendLaunchedEventToParticipants($eventId: ID!, $sessionId: [ID!], $broadcast: Boolean!, $targetParticipants: [ID!]) {
-    sendLaunchedEventToParticipants(eventId: $eventId, sessionId: $sessionId, broadcast: $broadcast, targetParticipants: $targetParticipants) {
+  @launch_event """
+  mutation LaunchEvent($eventId: ID!, $sessionId: [ID!], $broadcast: Boolean!, $targetParticipants: [ID!]) {
+    launchEvent(eventId: $eventId, sessionId: $sessionId, broadcast: $broadcast, targetParticipants: $targetParticipants) {
       id
       session {
           id
@@ -45,7 +45,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
       assert %{
                data: %{
-                 "sendLaunchedEventToParticipants" => %{
+                 "launchEvent" => %{
                    "id" => _,
                    "session" => %{
                      "id" => ^session_id
@@ -57,7 +57,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
                    "event_results" => []
                  }
                }
-             } = run_query(ctx.conn, @send_event_to_participants, variables)
+             } = run_query(ctx.conn, @launch_event, variables)
     end
 
     test "send an event to listed participants when presenter start event", ctx do
@@ -83,7 +83,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
       assert %{
                data: %{
-                 "sendLaunchedEventToParticipants" => %{
+                 "launchEvent" => %{
                    "id" => _,
                    "session" => %{
                      "id" => ^session_id
@@ -95,7 +95,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
                    "event_results" => []
                  }
                }
-             } = run_query(ctx.conn, @send_event_to_participants, variables)
+             } = run_query(ctx.conn, @launch_event, variables)
     end
   end
 end
