@@ -173,6 +173,19 @@ defmodule Sozisel.Model.Sessions do
     end
   end
 
+  def participant_can_join_session(%Session{} = session) do
+    case session.start_time do
+      nil ->
+        {:error, "session has not been started"}
+
+      _ ->
+        case session.end_time do
+          nil -> {:ok}
+          _ -> {:error, "session has been ended"}
+        end
+    end
+  end
+
   defp add_template_agenda_entries(multi, nil) do
     multi
   end
