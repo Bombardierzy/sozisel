@@ -44,15 +44,13 @@ export default function ParticipantsList({
         </>
       )}
       {participants.length > 0 &&
-        participants.map((participant) => (
-          <div key={participant.id} className="participant">
-            {participant.type == "presenter" ? (
-              <Typography className="presenter">
-                {participant.displayName}
-              </Typography>
+        participants.map(({ id, displayName, type }) => (
+          <div key={id} className="participant">
+            {type == "presenter" ? (
+              <Typography className="presenter">{displayName}</Typography>
             ) : (
               <>
-                <Typography>{participant.displayName}</Typography>
+                <Typography>{displayName}</Typography>
                 <MoreVertIcon className="moreIcon" />
               </>
             )}
