@@ -1,8 +1,13 @@
 import "./SessionResultSummary.scss";
 
+import { CircularProgress, Paper } from "@material-ui/core";
 import { ReactElement, useMemo } from "react";
+import {
+  useSessionBasicInfoQuery,
+  useSessionSummaryQuery,
+} from "../../../graphql";
 
-import { Paper } from "@material-ui/core";
+import { SHORT_LOCAL_DATE_FORMAT } from "../../../common/consts";
 import SummaryDetails from "./SummaryDetails";
 import TotalAreaChart from "./TotalAreaChart";
 import { useTranslation } from "react-i18next";
@@ -11,55 +16,66 @@ interface SessionResultSummaryProps {
   sessionId: string;
 }
 
-export default function SessionResultSummary(
-  _: SessionResultSummaryProps
-): ReactElement {
+export default function SessionResultSummary({
+  sessionId,
+}: SessionResultSummaryProps): ReactElement {
   const { t } = useTranslation("common");
 
+  const { data: sessionData } = useSessionBasicInfoQuery({
+    variables: { id: sessionId },
+  });
+  const { data } = useSessionSummaryQuery({ variables: { id: sessionId } });
+
   const chartData = useMemo(() => {
-    const events = [];
-
-    const eventsCount = Math.floor(Math.random() * 15) + 1;
-
-    for (let i = 0; i < eventsCount; i++) {
-      const participants = Math.floor(Math.random() * 100) + 1;
-
-      events.push({ xLabel: `Event ${i + 1}`, value: participants });
+    if (data?.sessionSummary?.eventParticipations) {
+      return data.sessionSummary.eventParticipations.map(
+        ({ eventName, submissions }) => ({
+          xLabel: eventName,
+          value: submissions,
+        })
+      );
     }
+    return [];
+  }, [data?.sessionSummary?.eventParticipations]);
 
-    return events;
-  }, []);
+  if (data?.sessionSummary) {
+    return (
+      <div className="SessionResultSummary">
+        <Paper className="paper" elevation={3}>
+          <SummaryDetails
+            date={new Date(
+              sessionData?.session?.startTime || ""
+            ).toLocaleString([], SHORT_LOCAL_DATE_FORMAT)}
+            durationTime={data.sessionSummary.durationTime}
+            participants={data.sessionSummary.totalParticipants}
+            interactions={data.sessionSummary.totalSubmissions}
+          />
 
-  return (
-    <div className="SessionResultSummary">
-      <Paper className="paper" elevation={3}>
-        {/* TODO: change me to some valid data when query is ready*/}
-        <SummaryDetails
-          date={"20.06.2021"}
-          durationTime={120}
-          participants={15}
-          interactions={200}
-        />
-
-        <div className="totalParticipants">
-          <div className="totalParticipantsHeader">
-            <h2>
-              {t("components.SessionResultSummary.participantsChart.title")}
-            </h2>
-            <h3>
-              {t("components.SessionResultSummary.participantsChart.subtitle")}
-            </h3>
+          <div className="totalParticipants">
+            <div className="totalParticipantsHeader">
+              <h2>
+                {t("components.SessionResultSummary.participantsChart.title")}
+              </h2>
+              <h3>
+                {t(
+                  "components.SessionResultSummary.participantsChart.subtitle"
+                )}
+              </h3>
+            </div>
+            <div className="chart">
+              {/* TODO add some placeholder if there were no activated events*/}
+              <TotalAreaChart
+                data={chartData}
+                valueLabel={t(
+                  "components.SessionResultSummary.participantsChart.valueLabel"
+                )}
+              />
+            </div>
           </div>
-          <div className="chart">
-            <TotalAreaChart
-              data={chartData}
-              valueLabel={t(
-                "components.SessionResultSummary.participantsChart.valueLabel"
-              )}
-            />
-          </div>
-        </div>
-      </Paper>
-    </div>
-  );
+        </Paper>
+      </div>
+    );
+  }
+
+  return <CircularProgress />;
 }

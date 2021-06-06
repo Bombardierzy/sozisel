@@ -18,6 +18,7 @@ defmodule Sozisel.Model.Bodyguard do
   def authorize(:delete_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
   def authorize(:start_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
   def authorize(:end_session, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
+  def authorize(:query_session_summary, %User{id: user_id}, %Session{user_id: user_id}), do: :ok
 
   def authorize(:upload_session_recording, %User{id: user_id}, %Session{user_id: user_id}),
     do: :ok

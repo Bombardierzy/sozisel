@@ -71,7 +71,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :duration_time, non_null(:integer)
 
     @desc "Total number of submitted event results"
-    field :total_event_results, non_null(:integer)
+    field :total_submissions, non_null(:integer)
 
     @desc "List representing all events participations statistics (number of participants that has submitted a result)"
     field :event_participations, strong_list_of(:event_participation)

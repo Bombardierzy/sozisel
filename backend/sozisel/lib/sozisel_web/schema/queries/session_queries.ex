@@ -19,7 +19,7 @@ defmodule SoziselWeb.Schema.Queries.SessionQueries do
       resolve &SessionResolvers.search/3
     end
 
-    field :session_summary, :session do
+    field :session_summary, :session_summary do
       arg :id, non_null(:id)
 
       middleware Middleware.ResourceAuthorization, {:query_session_summary, Session}

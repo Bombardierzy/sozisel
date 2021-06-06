@@ -8,5 +8,11 @@ export const LOCAL_DATE_FORMAT: Intl.DateTimeFormatOptions = {
   minute: "2-digit",
 };
 
+export const SHORT_LOCAL_DATE_FORMAT: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+};
+
 export const USER_TOKEN = "USER_TOKEN";
 export const PARTICIPANT_TOKEN = "PARTICIPANT_TOKEN";
