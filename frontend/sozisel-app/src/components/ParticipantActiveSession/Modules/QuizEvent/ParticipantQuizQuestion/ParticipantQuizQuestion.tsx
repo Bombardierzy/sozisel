@@ -2,7 +2,7 @@ import "./ParticipantQuizQuestion.scss";
 import { Answer, ParticipantQuizQuestion } from "../../../../../graphql";
 import { Button, List, Typography } from "@material-ui/core";
 
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useParticipantQuizContext } from "../../../../../contexts/ParticipantQuiz/ParticipantQuizContext";
 
 export default function ParticipantQuizQuestion(): ReactElement {
@@ -10,6 +10,24 @@ export default function ParticipantQuizQuestion(): ReactElement {
     { currentQuestion, currentAnswer },
     dispatch,
   ] = useParticipantQuizContext();
+  const [timer, setTimer] = useState<number>(0.0);
+
+  useEffect(() => {
+    setTimer(0.0);
+  }, [currentQuestion]);
+
+  useEffect(() => {
+    let mounted = true;
+    setTimeout(() => {
+      if (mounted) {
+        setTimer(timer + 0.1);
+      }
+    }, 100);
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [timer]);
+
   const quizAnswer = (answer: Answer) => {
     const isSelected = currentAnswer.finalAnswerIds.includes(answer.id);
     return (
@@ -21,7 +39,7 @@ export default function ParticipantQuizQuestion(): ReactElement {
             dispatch({
               type: isSelected ? "UNSELECT_ANSWER" : "SELECT_ANSWER",
               answerId: answer.id,
-              reactionTime: 2,
+              reactionTime: timer,
             })
           }
         >

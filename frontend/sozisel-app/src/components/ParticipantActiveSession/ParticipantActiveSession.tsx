@@ -1,12 +1,16 @@
 import "./ParticipantActiveSession.scss";
 
+import {
+  ParticipantEvent,
+  useGenerateJitsiTokenQuery,
+} from "../../graphql/index";
+import { ReactElement, useState } from "react";
+
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
 import Fab from "@material-ui/core/Fab";
 import JitsiFrame from "../Jitsi/JitsiFrame";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
-import { ReactElement } from "react";
-import { useGenerateJitsiTokenQuery } from "../../graphql/index";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -20,13 +24,60 @@ export default function ParticipantActiveSession({
   fullName,
   email,
 }: ParticipantActiveSessionProps): ReactElement {
-  const { sessionId } = useParams<{ sessionId: string }>();
+  const { id } = useParams<{ id: string }>();
   const { t } = useTranslation("common");
+  // TODO change mock data, after adding subscription for events
+  const [activeEvent, setActiveEvent] = useState<ParticipantEvent | null>({
+    name: "Quiz na rozgrzewkę",
+    id: "id",
+    eventData: {
+      durationTimeSec: 100,
+      trackingMode: true,
+      quizQuestions: [
+        {
+          id: "q1",
+          question: "Kto był królem Polski",
+          answers: [
+            {
+              id: "a11",
+              text: "Mieszko 1",
+            },
+            {
+              id: "a12",
+              text: "Andrzej Duda",
+            },
+            {
+              id: "a13",
+              text: "Zbigniew Stonoga",
+            },
+          ],
+        },
+        {
+          id: "q2",
+          question: "Kto był prezydentem Polski",
+          answers: [
+            {
+              id: "a21",
+              text: "Lech Wałęsa",
+            },
+            {
+              id: "a22",
+              text: "Andrzej Duda",
+            },
+            {
+              id: "a23",
+              text: "Zbigniew Stonoga",
+            },
+          ],
+        },
+      ],
+    },
+  });
   const { data, loading } = useGenerateJitsiTokenQuery({
     variables: {
       displayName: fullName,
       email: email,
-      roomId: sessionId,
+      roomId: id,
     },
   });
 
@@ -37,65 +88,22 @@ export default function ParticipantActiveSession({
         <div className="jitsi">
           {!loading && data?.generateJitsiToken.token && (
             <JitsiFrame
-              roomId="room"
+              roomId={id}
               token={data.generateJitsiToken.token}
               displayName={data.generateJitsiToken.displayName}
             />
           )}
         </div>
         <div className="moduleComponent">
-          {/* TODO change mock data, after adding subscription for events */}
-          <ParticipantQuizContextProvider>
-            <ParticipantQuizEvent
-              token={token}
-              event={{
-                name: "Quiz na rozgrzewkę",
-                id: "id",
-                eventData: {
-                  durationTimeSec: 100,
-                  trackingMode: true,
-                  quizQuestions: [
-                    {
-                      id: "q1",
-                      question: "Kto był królem Polski",
-                      answers: [
-                        {
-                          id: "a11",
-                          text: "Mieszko 1",
-                        },
-                        {
-                          id: "a12",
-                          text: "Andrzej Duda",
-                        },
-                        {
-                          id: "a13",
-                          text: "Zbigniew Stonoga",
-                        },
-                      ],
-                    },
-                    {
-                      id: "q2",
-                      question: "Kto był prezydentem Polski",
-                      answers: [
-                        {
-                          id: "a21",
-                          text: "Lech Wałęsa",
-                        },
-                        {
-                          id: "a22",
-                          text: "Andrzej Duda",
-                        },
-                        {
-                          id: "a23",
-                          text: "Zbigniew Stonoga",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              }}
-            />
-          </ParticipantQuizContextProvider>
+          {activeEvent && (
+            <ParticipantQuizContextProvider>
+              <ParticipantQuizEvent
+                onQuizFinished={() => setActiveEvent(null)}
+                token={token}
+                event={activeEvent}
+              />
+            </ParticipantQuizContextProvider>
+          )}
         </div>
       </div>
       <Fab
@@ -104,7 +112,7 @@ export default function ParticipantActiveSession({
         color="primary"
         style={{ position: "fixed" }}
       >
-        {t("components.JoinSession.email") ?? ""}
+        {t("components.ParticipantActiveSession.exitSession") ?? ""}
       </Fab>
     </>
   );

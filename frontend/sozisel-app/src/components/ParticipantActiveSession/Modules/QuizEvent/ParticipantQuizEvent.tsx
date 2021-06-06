@@ -1,33 +1,64 @@
 import "./ParticipantQuizEvent.scss";
 
 import { Button, Paper, Typography } from "@material-ui/core";
-import { ParticipantEvent, ParticipantQuiz } from "../../../../graphql";
+import {
+  ParticipantEvent,
+  ParticipantQuiz,
+  useSubmitQuizResultsMutation,
+} from "../../../../graphql";
 import { ReactElement, useEffect, useState } from "react";
 
 import EventOutlinedIcon from "@material-ui/icons/EventOutlined";
 import ParticipantQuizQuestion from "./ParticipantQuizQuestion/ParticipantQuizQuestion";
+import useCountdownTimer from "../../../../hooks/useCountdownTimer";
 import { useParticipantQuizContext } from "../../../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import { useTranslation } from "react-i18next";
 
 export interface ParticipantQuizEventProps {
   token: string;
   event: ParticipantEvent;
+  onQuizFinished: () => void;
 }
 
 export default function ParticipantQuizEvent({
   token,
   event,
+  onQuizFinished,
 }: ParticipantQuizEventProps): ReactElement {
   const quiz = event.eventData as ParticipantQuiz;
   const { t } = useTranslation("common");
   const [questionNumber, setQuestionNumber] = useState<number>(0);
   const [{ answers, currentAnswer }, dispatch] = useParticipantQuizContext();
+  const [submitMutation] = useSubmitQuizResultsMutation();
+
+  const submit = () => {
+    const finalAnswers = [...answers, currentAnswer];
+    if (!quiz.trackingMode) {
+      finalAnswers.forEach((element) => (element.trackNodes = null));
+    }
+    console.log(finalAnswers);
+    // right now quiz is mocked so submitMutation will return error
+    // situation'll change when event subscription will be added
+    submitMutation({
+      variables: {
+        token: token,
+        input: {
+          launchedEventId: event.id,
+          participantAnswers: finalAnswers,
+        },
+      },
+    });
+    onQuizFinished();
+  };
+
+  const countdownTimer = useCountdownTimer({
+    startValue: quiz.durationTimeSec,
+    onFinishCallback: submit,
+  });
 
   const onNext = () => {
     if (questionNumber + 1 === quiz.quizQuestions.length) {
-      const finalAnswers = [...answers, currentAnswer];
-      console.log(finalAnswers);
-      //TODO add submit quiz result mutation
+      submit();
     } else {
       dispatch({
         type: "NEXT_QUESTION",
@@ -54,7 +85,7 @@ export default function ParticipantQuizEvent({
       </div>
       <ParticipantQuizQuestion />
       <div className="submitRow">
-        <Typography variant="h5">00:30</Typography>
+        <Typography variant="h5">{countdownTimer}</Typography>
         <Button variant="contained" color="primary" onClick={onNext}>
           {t("components.ParticipantActiveSession.next")}
         </Button>

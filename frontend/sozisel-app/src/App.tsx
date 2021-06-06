@@ -58,7 +58,7 @@ export default function App(): ReactElement {
           {/* TODO remove LiveSession component */}
           <Route path="/session/live/:session_id" component={LiveSession} />
           <Route path="/sessions/:id/join" component={JoinSession} />
-          <Route exact path="/sessions/:session_id/live">
+          <Route exact path="/sessions/:id/live">
             <ParticipantGuard />
           </Route>
         </Router>
