@@ -13,7 +13,7 @@ mutation UpdateSession($input: UpdateSessionInput!){
     scheduledStartTime
   }
 }
-  
+
 mutation DeleteSession($id: ID!){
   deleteSession(id: $id){
       id
@@ -22,4 +22,16 @@ mutation DeleteSession($id: ID!){
 
 mutation UploadSessionRecording($sessionId: ID!, $recording: Upload!) {
   uploadRecordingMessage: uploadSessionRecording(id: $sessionId, recording: $recording)
+}
+
+mutation StartSession($id: ID!) {
+  startSession(id: $id) {
+    id
+  }
+}
+
+mutation JoinSession($input: JoinSessionInput!) {
+  joinSession(input: $input) {
+    token
+  }
 }

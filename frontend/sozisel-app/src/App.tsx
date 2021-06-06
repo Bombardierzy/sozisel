@@ -10,6 +10,7 @@ import JoinSession from "./components/JoinSession/JoinSession";
 import { LiveSession } from "./components/LiveSession/LiveSession";
 import Login from "./components/LoginScreen/LoginScreen";
 import { PhoenixSocketProvider } from "./contexts/PhoenixSocketContext";
+import PresenterSession from "./components/PresenterSession/PresenterSession";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
 import SessionRecordingUpload from "./components/SessionRecordingUpload/SesisonRecordingUpload";
@@ -35,6 +36,7 @@ export default function App(): ReactElement {
           <AuthRoute path="/sessions" component={SessionsList} />
           <AuthRoute path="/sessions/create" component={CreateSession} />
           <AuthRoute path="/sessions/:id/edit" component={EditSession} />
+          <AuthRoute path="/sessions/:id" component={PresenterSession} />
           <AuthRoute
             path="/sessions/:id/recording/upload"
             component={SessionRecordingUpload}
