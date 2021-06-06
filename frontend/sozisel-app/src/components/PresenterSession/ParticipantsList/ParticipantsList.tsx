@@ -6,6 +6,7 @@ import React, { ReactElement } from "react";
 
 import GroupIcon from "@material-ui/icons/Group";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import PersonIcon from "@material-ui/icons/Person";
 import { useLiveSessionParticipation } from "../../../hooks/useLiveSessionParticipation";
 import useSessionParticipantType from "../../../hooks/useSessionParticipantType";
 import { useTranslation } from "react-i18next";
@@ -47,7 +48,10 @@ export default function ParticipantsList({
         participants.map(({ id, displayName, type }) => (
           <div key={id} className="participant">
             {type == "presenter" ? (
-              <Typography className="presenter">{displayName}</Typography>
+              <>
+                <Typography className="presenter">{displayName}</Typography>
+                <PersonIcon className="presenter"/>
+              </>
             ) : (
               <>
                 <Typography>{displayName}</Typography>
