@@ -1,13 +1,14 @@
 defmodule Sozisel.Factory do
   use Sozisel.ExMachina.PolymorphicEcto, repo: Sozisel.Repo
 
-  alias Sozisel.Model.{Users, Sessions, Events, Quizzes, Participants, LaunchedEvents}
+  alias Sozisel.Model.{Users, Sessions, Events, EventResults, Quizzes, Participants, LaunchedEvents}
   alias Users.User
+  alias EventResults.EventResult
   alias Sessions.{Template, AgendaEntry, Session}
   alias LaunchedEvents.LaunchedEvent
   alias Participants.Participant
   alias Events.Event
-  alias Quizzes.{Answer, Quiz, QuizQuestion}
+  alias Quizzes.{Answer, Quiz, QuizQuestion, QuizResult, ParticipantAnswer}
 
   def user_factory(attrs) do
     %User{
@@ -58,6 +59,14 @@ defmodule Sozisel.Factory do
     }
   end
 
+  def event_result_factory(%{participant: participant, launched_event: launched_event, result_data: result_data})  do
+    %EventResult{
+      participant_id: participant.id,
+      launched_event_id: launched_event.id,
+      result_data: result_data
+    }
+  end
+
   def event_data_factory(attrs) do
     case attrs[:type] do
       :quiz ->
@@ -82,6 +91,21 @@ defmodule Sozisel.Factory do
     end
   end
 
+  def random_event_result(%Quiz{} = quiz) do
+    answers =
+      quiz.quiz_questions
+      |> Enum.map(fn %QuizQuestion{id: id, answers: answers} ->
+        %ParticipantAnswer{
+          question_id: id,
+          final_answer_ids: answers |> Enum.take_random(:rand.uniform(length(answers))) |> Enum.map(& &1.id),
+          is_correct: false,
+          track_nodes: []
+        }
+      end)
+
+    %QuizResult{participant_answers: answers}
+  end
+
   def launched_event_factory(attrs) do
     %LaunchedEvent{
       session_id: attrs[:session_id],
@@ -93,7 +117,7 @@ defmodule Sozisel.Factory do
     %Participant{
       email: attrs[:email] || sequence(:email, &"email-#{&1}@example.com"),
       full_name: attrs[:full_name] || sequence(:full_name, &"Michael Smith no. #{&1}"),
-      token: attrs[:token] || :crypto.hash(:md5, "token") |> Base.encode16(),
+      token: attrs[:token] || :crypto.hash(:md5, sequence(:token, &"token #{&1}")) |> Base.encode16(),
       session_id: attrs[:session_id] || insert(:session).id
     }
   end

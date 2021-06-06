@@ -271,6 +271,45 @@ defmodule Sozisel.Model.Sessions do
   def get_agenda_entry!(id), do: Repo.get!(AgendaEntry, id)
 
   @doc """
+  Returns a sessions summary. Please go see `:session_summary` graphql type for more details.
+  """
+  def session_summary(%Session{id: session_id, start_time: start_time, end_time: end_time}) do
+    alias  Sozisel.Model.{EventResults.EventResult, Participants.Participant, LaunchedEvents.LaunchedEvent, Sessions.Session}
+
+    participations =
+      """
+      select le.event_id, e.name, count(er.id) from sessions s
+      join launched_events le on le.session_id = s.id
+      join events e on e.id = le.event_id
+      left join event_results er on er.launched_event_id = le.id
+      where s.id = '#{session_id}'
+      group by le.event_id, e.name, le.inserted_at
+      order by le.inserted_at;
+      """
+    |> Repo.query()
+    |> case do
+      {:ok, %Postgrex.Result{rows: rows}} ->
+        rows
+        |> Enum.map(fn [event_id, name, count] ->
+          {:ok, event_id} = Ecto.UUID.load(event_id)
+
+          %{event_id: event_id, event_name: name, submissions: count}
+        end)
+
+      error ->
+        error
+    end
+
+    %{
+      # get minutes instead of seconds
+      duration_time: DateTime.diff(end_time, start_time) |> div(60),
+      event_participations: participations,
+      total_participants: Repo.aggregate(from(p in Participant, where: p.session_id == ^session_id), :count),
+      total_submissions: Repo.aggregate(from(er in EventResult, join: le in LaunchedEvent, on: le.id == er.launched_event_id, join: e in Event, on: e.id == le.event_id), :count)
+    }
+  end
+
+  @doc """
   Creates a agenda_entry.
   """
   def create_agenda_entry(attrs \\ %{}) do
