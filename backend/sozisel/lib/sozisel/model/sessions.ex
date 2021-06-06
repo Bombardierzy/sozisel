@@ -173,6 +173,19 @@ defmodule Sozisel.Model.Sessions do
     end
   end
 
+  def participant_can_join_session(%Session{} = session) do
+    case session.start_time do
+      nil ->
+        {:error, "session has not been started"}
+
+      _ ->
+        case session.end_time do
+          nil -> {:ok}
+          _ -> {:error, "session has been ended"}
+        end
+    end
+  end
+
   defp add_template_agenda_entries(multi, nil) do
     multi
   end
@@ -274,7 +287,12 @@ defmodule Sozisel.Model.Sessions do
   Returns a sessions summary. Please go see `:session_summary` graphql type for more details.
   """
   def session_summary(%Session{id: session_id, start_time: start_time, end_time: end_time}) do
-    alias  Sozisel.Model.{EventResults.EventResult, Participants.Participant, LaunchedEvents.LaunchedEvent, Sessions.Session}
+    alias Sozisel.Model.{
+      EventResults.EventResult,
+      Participants.Participant,
+      LaunchedEvents.LaunchedEvent,
+      Sessions.Session
+    }
 
     participations =
       """
@@ -286,26 +304,36 @@ defmodule Sozisel.Model.Sessions do
       group by le.event_id, e.name, le.inserted_at
       order by le.inserted_at;
       """
-    |> Repo.query()
-    |> case do
-      {:ok, %Postgrex.Result{rows: rows}} ->
-        rows
-        |> Enum.map(fn [event_id, name, count] ->
-          {:ok, event_id} = Ecto.UUID.load(event_id)
+      |> Repo.query()
+      |> case do
+        {:ok, %Postgrex.Result{rows: rows}} ->
+          rows
+          |> Enum.map(fn [event_id, name, count] ->
+            {:ok, event_id} = Ecto.UUID.load(event_id)
 
-          %{event_id: event_id, event_name: name, submissions: count}
-        end)
+            %{event_id: event_id, event_name: name, submissions: count}
+          end)
 
-      error ->
-        error
-    end
+        error ->
+          error
+      end
 
     %{
       # get minutes instead of seconds
       duration_time: DateTime.diff(end_time, start_time) |> div(60),
       event_participations: participations,
-      total_participants: Repo.aggregate(from(p in Participant, where: p.session_id == ^session_id), :count),
-      total_submissions: Repo.aggregate(from(er in EventResult, join: le in LaunchedEvent, on: le.id == er.launched_event_id, join: e in Event, on: e.id == le.event_id), :count)
+      total_participants:
+        Repo.aggregate(from(p in Participant, where: p.session_id == ^session_id), :count),
+      total_submissions:
+        Repo.aggregate(
+          from(er in EventResult,
+            join: le in LaunchedEvent,
+            on: le.id == er.launched_event_id,
+            join: e in Event,
+            on: e.id == le.event_id
+          ),
+          :count
+        )
     }
   end
 

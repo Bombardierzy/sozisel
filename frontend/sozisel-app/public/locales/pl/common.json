@@ -123,6 +123,7 @@
       "fetchingErrorMessage": "Błąd ładowania danych. Spróbuj ponownie później.",
       "scheduledDate": "Planowana data",
       "startSession": "Rozpocznij",
+      "startSessionErrorMessage": "Błąd podczas startowania sesji. Spróbuj ponownie później.",
       "sessionDeleted": "Usunięto sesje.",
       "errorMessage": "Błąd podczas wykonywania operacji.",
       "shareSession": "Udostępnij sesje",
@@ -148,6 +149,33 @@
         "title": "Liczba uczestników",
         "subtitle": "Dla kolejnych wydarzeń",
         "valueLabel": "Uczestnicy"
+      }
+    },
+    "SessionRecordingUpload": {
+      "dialogTitle": "Prześlij nagranie sesji",
+      "submitText": "Zacznij przesyłanie",
+      "cancelText": "Anuluj",
+      "dropzoneText": "Wybierz lub upuść plik z nagraniem",
+      "addedFile": "Wybrano plik!",
+      "removedFile": "Zrezygnowano z pliku!",
+      "uploadSuccessful": "Nagranie zostało przesłane!",
+      "uploadFailed": "Wystąpił błąd podczas przesyłania, spróbuj ponownie później!"
+    },
+    "JoinSession": {
+      "name": "Imię i nazwisko",
+      "email": "Email",
+      "password": "Hasło",
+      "join": "Dołącz",
+      "errorMessage": "Nie udało się załadować danych. Sprawdź czy podana sesja istnieje.",
+      "dialogTitle": "Sesja nie aktywna",
+      "dialogSubtitle": "Sesja do której chcesz dołączyć jest nie aktywna.",
+      "dialogSubSubtitle": "Skontaktuj się z prowadzącym by go o tym poinformować.",
+      "dialogButtonText": "OK"
+    },
+    "PresenterSession": {
+      "fetchingError": "Błąd ładowania danych. Spróbuj ponownie później.",
+      "Agenda": {
+        "header": "Agenda"
       }
     }
   },

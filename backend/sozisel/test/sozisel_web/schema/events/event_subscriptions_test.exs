@@ -97,10 +97,10 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
       sub = run_subscription(socket, @participant_event_launched, variables)
 
-      # broadcast to a whole session
+      # broadcast to all participants in session
       Helpers.subscription_publish(
         :event_launched,
-        Topics.session_events(ctx.session.id),
+        Topics.session_all_participants(ctx.session.id),
         mock_participant_event()
       )
 
@@ -117,7 +117,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       # broadcast to a single participant
       Helpers.subscription_publish(
         :event_launched,
-        Topics.session_participant_events(ctx.session.id, ctx.participant.id),
+        Topics.session_participant(ctx.session.id, ctx.participant.id),
         mock_participant_event()
       )
 

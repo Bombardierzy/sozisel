@@ -1,33 +1,33 @@
 @import "../../../styles/styles";
 
-.materialCard{
+.SessionCard{
     margin-bottom: $spacing-04;
     cursor: pointer;
-}
 
-.sessionCard{
-    display: flex;
-    flex-direction: row;
-    padding: $spacing-05;
-    background-color: $bg-02;
-
-    .cardContent{
-        flex: 1 0 auto;
-    }
-
-    .cardActions{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .iconButtons{
+    .sessionCardContent{
         display: flex;
         flex-direction: row;
+        padding: $spacing-05;
+        background-color: $bg-02;
+    
+        .cardContent{
+            flex: 1 0 auto;
+        }
+    
+        .cardActions{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    
+        .iconButtons{
+            display: flex;
+            flex-direction: row;
+        }
     }
 }
 
-.shareDialog{
+.ShareSessionDialog{
     padding: $spacing-04;
     .dialogTitle{
         display: flex;

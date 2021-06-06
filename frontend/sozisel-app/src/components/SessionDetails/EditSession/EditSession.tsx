@@ -12,7 +12,7 @@ import {
 
 import { AUTO_HIDE_DURATION } from "../../../common/consts";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import MainNavbar from "../../MainNavbar/MainNavbar";
+import MainNavbar from "../../Navbar/MainNavbar/MainNavbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import TemplateOverview from "../TemplateOverview/TemplateOverview";
 import { useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ export default function EditSession(): ReactElement {
   const { data, loading } = useSessionDetailsQuery({
     fetchPolicy: "network-only",
     variables: {
-      id: id,
+      id,
     },
   });
 

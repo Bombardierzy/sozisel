@@ -25,5 +25,11 @@ defmodule SoziselWeb.Schema.Queries.SessionQueries do
       middleware Middleware.ResourceAuthorization, {:query_session_summary, Session}
       resolve &SessionResolvers.session_summary/3
     end
+
+    field :session_thumbnail, :session_thumbnail do
+      arg :id, non_null(:id)
+
+      resolve &SessionResolvers.get_session_thumbnail/3
+    end
   end
 end

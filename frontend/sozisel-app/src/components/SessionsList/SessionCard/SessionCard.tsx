@@ -1,6 +1,6 @@
 import "./SessionCard.scss";
 
-import { BaseSyntheticEvent, ReactElement, useState } from "react";
+import { AUTO_HIDE_DURATION, LOCAL_DATE_FORMAT } from "../../../common/consts";
 import {
   Button,
   Card,
@@ -9,9 +9,17 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  Snackbar,
   Typography,
 } from "@material-ui/core";
+import React, {
+  BaseSyntheticEvent,
+  MouseEvent,
+  ReactElement,
+  useState,
+} from "react";
 
+import { Alert } from "@material-ui/lab";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
@@ -20,6 +28,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import useAvatarById from "../../../hooks/useAvatarById";
 import { useHistory } from "react-router-dom";
 import useSessionStatus from "../../../hooks/useSessionStatus";
+import { useStartSessionMutation } from "../../../graphql";
 import { useTranslation } from "react-i18next";
 
 export interface SessionCardProps {
@@ -40,8 +49,22 @@ export default function SessionCard({
   const [raised, setRaised] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
+  const [startSessionMutation, { error, loading }] = useStartSessionMutation({
+    variables: {
+      id: session.id,
+    },
+  });
+
   const onMouseOverChange = (_: BaseSyntheticEvent) => {
     setRaised(!raised);
+  };
+
+  const onStartSession = async (e: MouseEvent) => {
+    e.stopPropagation();
+    await startSessionMutation();
+    if (!error || !loading) {
+      history.push(`/sessions/${session.id}`);
+    }
   };
 
   const onCardClick = () => {
@@ -54,12 +77,12 @@ export default function SessionCard({
     <>
       <Card
         raised={raised}
-        className="materialCard"
+        className="SessionCard"
         onMouseOver={onMouseOverChange}
         onMouseOut={onMouseOverChange}
         onClick={onCardClick}
       >
-        <div className="sessionCard">
+        <div className="sessionCardContent">
           <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
           <CardContent className="cardContent">
             <Typography component="h5" variant="h5">
@@ -67,7 +90,10 @@ export default function SessionCard({
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
               {t("components.SessionsList.scheduledDate")}:{" "}
-              {new Date(session.scheduledStartTime).toLocaleString()}
+              {new Date(session.scheduledStartTime).toLocaleString(
+                [],
+                LOCAL_DATE_FORMAT
+              )}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
               {t("components.SessionsList.status")}: {status}
@@ -95,6 +121,7 @@ export default function SessionCard({
               </IconButton>
             </div>
             <Button
+              onClick={onStartSession}
               variant="contained"
               color="primary"
               fullWidth
@@ -112,7 +139,7 @@ export default function SessionCard({
         maxWidth="sm"
         fullWidth
       >
-        <div className="shareDialog">
+        <div className="ShareSessionDialog">
           <div className="dialogTitle">
             <Typography className="dialogTitleText">
               {t("components.SessionsList.shareSession")}
@@ -143,6 +170,11 @@ export default function SessionCard({
           </DialogContent>
         </div>
       </Dialog>
+      <Snackbar open={!!error} autoHideDuration={AUTO_HIDE_DURATION}>
+        <Alert severity="error">
+          {t("components.SessionsList.startSessionErrorMessage")}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

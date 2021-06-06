@@ -24,7 +24,7 @@ defmodule SoziselWeb.Schema.Subscriptions.EventSubscriptions do
   end
 
   def handle_participant_topics(_args, %{context: %{session_id: sid, participant_id: pid}}) do
-    {:ok, topic: [Topics.session_events(sid), Topics.session_participant_events(sid, pid)]}
+    {:ok, topic: [Topics.session_all_participants(sid), Topics.session_participant(sid, pid)]}
   end
 
   def handle_presenter_topics(%{session_id: session_id}, %{

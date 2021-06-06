@@ -6,7 +6,7 @@ import Button from "../utils/Button/Button";
 import Card from "../utils/Card/Card";
 import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../Navbar/LoginNavbar/Navbar";
 import { ReactElement } from "react";
 import Spinner from "../utils/Spinner/Spinner";
 import conference_img from "../../assets/images/conference_img.png";

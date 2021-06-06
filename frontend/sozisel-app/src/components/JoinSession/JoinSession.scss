@@ -1,0 +1,65 @@
+@import "../../styles/styles";
+
+.JoinSession{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    padding: $spacing-08;
+
+    .label{
+        padding-top: $spacing-04;
+        color: $main-color;
+    }
+
+    .joinSessionForm{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .submitButton{
+        margin-top: $spacing-04;
+    }
+
+    .header {
+        font-weight: 900;
+    }
+
+    .errorAlert{
+        padding: $spacing-05;
+        margin: $spacing-09;
+        width: 100%;
+        height: fit-content;
+    }
+}
+
+.InactiveSessionDialog{
+    padding: $spacing-04;
+
+    .dialogIcon {
+        color: $main-color;
+    }
+    .dialogElement{
+        width: 100%;
+        padding-bottom: $spacing-04;
+        align-items: center;
+    }
+
+    .dialogTitleText{
+        font-size: large;
+        font-weight: 600;
+    }
+
+    .dialogSubtitle {
+        font-size: medium;
+        font-weight: 500;
+        color: $text-02;
+    }
+
+    .dialogSubSubtitle {
+        font-size: small;
+        font-weight: 400;
+        color: $text-01;
+    }
+}

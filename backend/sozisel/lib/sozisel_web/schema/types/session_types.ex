@@ -25,6 +25,17 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     timestamps()
   end
 
+  object :session_thumbnail do
+    field :id, non_null(:id)
+    field :name, non_null(:string)
+    field :scheduled_start_time, non_null(:datetime)
+    field :password_required, non_null(:boolean)
+
+    field :owner, non_null(:user) do
+      resolve(dataloader(:db, :user))
+    end
+  end
+
   @desc "Current session status"
   enum :session_status do
     @desc "Any status."
@@ -64,6 +75,14 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
 
     @desc "List representing all events participations statistics (number of participants that has submitted a result)"
     field :event_participations, strong_list_of(:event_participation)
+  end
+
+  enum :session_info do
+    value :session_end, description: "Session has been ended"
+  end
+
+  object :session_notification_info do
+    field :info, non_null(:session_info)
   end
 
   input_object :search_sessions_input do

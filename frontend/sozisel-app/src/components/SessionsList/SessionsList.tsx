@@ -19,7 +19,7 @@ import {
 
 import { AUTO_HIDE_DURATION } from "../../common/consts";
 import ClearIcon from "@material-ui/icons/Clear";
-import MainNavbar from "../MainNavbar/MainNavbar";
+import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import SearchIcon from "@material-ui/icons/Search";
 import SessionCard from "./SessionCard/SessionCard";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -94,7 +94,7 @@ export default function SessionsList(): ReactElement {
   if (loading) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="SessionsListContainer">
           <SessionFilters onSubmitCallback={onApplyFilters} />
           <CircularProgress></CircularProgress>
@@ -106,7 +106,7 @@ export default function SessionsList(): ReactElement {
   if (data?.searchSessions) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="SessionsListContainer">
           <SessionFilters onSubmitCallback={onApplyFilters} />
           <div className="listWithSearchBar">
@@ -172,7 +172,7 @@ export default function SessionsList(): ReactElement {
 
   return (
     <>
-      <MainNavbar></MainNavbar>
+      <MainNavbar />
       <div className="SessionsListContainer">
         <Alert className="errorAlert" variant="outlined" severity="error">
           {t("components.SessionsList.fetchingErrorMessage")}

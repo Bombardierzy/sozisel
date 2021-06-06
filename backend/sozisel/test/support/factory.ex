@@ -1,7 +1,16 @@
 defmodule Sozisel.Factory do
   use Sozisel.ExMachina.PolymorphicEcto, repo: Sozisel.Repo
 
-  alias Sozisel.Model.{Users, Sessions, Events, EventResults, Quizzes, Participants, LaunchedEvents}
+  alias Sozisel.Model.{
+    Users,
+    Sessions,
+    Events,
+    EventResults,
+    Quizzes,
+    Participants,
+    LaunchedEvents
+  }
+
   alias Users.User
   alias EventResults.EventResult
   alias Sessions.{Template, AgendaEntry, Session}
@@ -59,7 +68,11 @@ defmodule Sozisel.Factory do
     }
   end
 
-  def event_result_factory(%{participant: participant, launched_event: launched_event, result_data: result_data})  do
+  def event_result_factory(%{
+        participant: participant,
+        launched_event: launched_event,
+        result_data: result_data
+      }) do
     %EventResult{
       participant_id: participant.id,
       launched_event_id: launched_event.id,
@@ -76,14 +89,32 @@ defmodule Sozisel.Factory do
           tracking_mode: false,
           quiz_questions: [
             %QuizQuestion{
-              question: "A czy papież lubi gumę turbo?",
+              id: "1",
+              question: "Kto jest twórcą Sozisela?",
               answers: [
-                %Answer{text: "tak", id: "1"},
-                %Answer{text: "jeszcze jak", id: "2"},
-                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+                %Answer{text: "Jakub Perżyło", id: "1"},
+                %Answer{text: "Przemysław Wątroba", id: "2"},
+                %Answer{text: "Jakub Myśliwiec", id: "3"},
+                %Answer{text: "Sebastian Kuśnierz", id: "4"},
+                %Answer{text: "Flaneczki Team", id: "5"}
               ],
               correct_answers: [
-                %Answer{text: "dziewczynki w warkoczykach", id: "3"}
+                %Answer{text: "Jakub Perżyło", id: "1"},
+                %Answer{text: "Przemysław Wątroba", id: "2"},
+                %Answer{text: "Jakub Myśliwiec", id: "3"},
+                %Answer{text: "Sebastian Kuśnierz", id: "4"}
+              ]
+            },
+            %QuizQuestion{
+              id: "2",
+              question: "Całka z x^2?",
+              answers: [
+                %Answer{text: "1/3 * x^3", id: "1"},
+                %Answer{text: "1/3 * x^3 + C", id: "2"},
+                %Answer{text: "2x", id: "3"}
+              ],
+              correct_answers: [
+                %Answer{text: "1/3 * x^3 + C", id: "2"}
               ]
             }
           ]
@@ -97,7 +128,8 @@ defmodule Sozisel.Factory do
       |> Enum.map(fn %QuizQuestion{id: id, answers: answers} ->
         %ParticipantAnswer{
           question_id: id,
-          final_answer_ids: answers |> Enum.take_random(:rand.uniform(length(answers))) |> Enum.map(& &1.id),
+          final_answer_ids:
+            answers |> Enum.take_random(:rand.uniform(length(answers))) |> Enum.map(& &1.id),
           is_correct: false,
           track_nodes: []
         }
@@ -117,7 +149,8 @@ defmodule Sozisel.Factory do
     %Participant{
       email: attrs[:email] || sequence(:email, &"email-#{&1}@example.com"),
       full_name: attrs[:full_name] || sequence(:full_name, &"Michael Smith no. #{&1}"),
-      token: attrs[:token] || :crypto.hash(:md5, sequence(:token, &"token #{&1}")) |> Base.encode16(),
+      token:
+        attrs[:token] || :crypto.hash(:md5, sequence(:token, &"token #{&1}")) |> Base.encode16(),
       session_id: attrs[:session_id] || insert(:session).id
     }
   end

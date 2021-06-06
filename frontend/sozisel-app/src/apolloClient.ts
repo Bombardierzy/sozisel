@@ -5,21 +5,26 @@ import {
 import {
   ApolloClient,
   ApolloLink,
+  HttpOptions,
   InMemoryCache,
   NormalizedCacheObject,
-  createHttpLink,
   split,
 } from "@apollo/client";
 
 import { Socket as PhoenixSocket } from "phoenix";
+import { USER_TOKEN } from "./common/consts";
 import { create as createAbsintheSocket } from "@absinthe/socket";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const createAbsintheUploadLink = require("apollo-absinthe-upload-link")
+  .createLink as (linkOptions: HttpOptions) => ApolloLink;
+
 const HOST = window.location.hostname;
 
 function createApolloHttpLink(): ApolloLink {
-  return createHttpLink({ uri: `http://${HOST}:4000/api` });
+  return createAbsintheUploadLink({ uri: `http://${HOST}:4000/api` });
 }
 
 function createApolloSocketLink(phoenixSocket: PhoenixSocket): ApolloLink {
@@ -45,7 +50,7 @@ export function createApolloClient(
   );
 
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem(USER_TOKEN);
     if (token) {
       return {
         headers: {

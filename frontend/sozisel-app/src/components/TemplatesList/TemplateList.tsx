@@ -11,7 +11,7 @@ import {
 import { AUTO_HIDE_DURATION } from "../../common/consts";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
-import MainNavbar from "../MainNavbar/MainNavbar";
+import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import SearchBar from "./SearchBar/SearchBar";
 import { SessionTemplate } from "../../model/Template";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -93,7 +93,7 @@ export default function TemplateList(): ReactElement {
   if (loading) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="TemplateListContainer">
           <SearchBar onSearch={onSearch}></SearchBar>
           <div className="ContentContainer">
@@ -107,7 +107,7 @@ export default function TemplateList(): ReactElement {
   if (data?.searchSessionTemplates) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="TemplateListContainer">
           <SearchBar onSearch={onSearch}></SearchBar>
           <div className="TemplatesList">
@@ -152,7 +152,7 @@ export default function TemplateList(): ReactElement {
 
   return (
     <>
-      <MainNavbar></MainNavbar>
+      <MainNavbar />
       <div className="TemplateListContainer">
         <SearchBar onSearch={onSearch}></SearchBar>
         <Alert className="ErrorAlert" variant="outlined" severity="error">

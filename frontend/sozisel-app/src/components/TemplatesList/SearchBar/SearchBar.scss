@@ -4,12 +4,16 @@
     padding: $spacing-04 $spacing-09;
 
     .gridItem{
+        div {
+            width: 100%;
+        }
         display: flex;
         align-items: center;
 
         .searchNameContainer{
             background-color: $bg-02;
             border-radius: $spacing-03;
+            width: 100%;
         }
     }
 }
