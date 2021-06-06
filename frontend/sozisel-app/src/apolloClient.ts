@@ -12,6 +12,7 @@ import {
 } from "@apollo/client";
 
 import { Socket as PhoenixSocket } from "phoenix";
+import { USER_TOKEN } from "./common/consts";
 import { create as createAbsintheSocket } from "@absinthe/socket";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
@@ -49,7 +50,7 @@ export function createApolloClient(
   );
 
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem(USER_TOKEN);
     if (token) {
       return {
         headers: {

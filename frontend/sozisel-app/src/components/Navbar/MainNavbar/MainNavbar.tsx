@@ -4,6 +4,7 @@ import ComputerIcon from "@material-ui/icons/Computer";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import { NavLink } from "react-router-dom";
 import { ReactElement } from "react";
+import { USER_TOKEN } from "../../../common/consts";
 import logo from "../../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 
@@ -42,7 +43,7 @@ export default function MainNavbar(): ReactElement {
             to="/login"
             activeClassName="activeLink"
             className="link"
-            onClick={() => localStorage.removeItem("token")}
+            onClick={() => localStorage.removeItem(USER_TOKEN)}
           >
             <p>{t("components.MainNavbar.logoutText")}</p>
           </NavLink>
