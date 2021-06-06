@@ -93,7 +93,7 @@ export default function TemplateList(): ReactElement {
   if (loading) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="TemplateListContainer">
           <SearchBar onSearch={onSearch}></SearchBar>
           <div className="ContentContainer">
@@ -107,7 +107,7 @@ export default function TemplateList(): ReactElement {
   if (data?.searchSessionTemplates) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="TemplateListContainer">
           <SearchBar onSearch={onSearch}></SearchBar>
           <div className="TemplatesList">
@@ -152,7 +152,7 @@ export default function TemplateList(): ReactElement {
 
   return (
     <>
-      <MainNavbar></MainNavbar>
+      <MainNavbar />
       <div className="TemplateListContainer">
         <SearchBar onSearch={onSearch}></SearchBar>
         <Alert className="ErrorAlert" variant="outlined" severity="error">

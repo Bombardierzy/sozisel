@@ -95,7 +95,7 @@ export default function SessionsList(): ReactElement {
   if (loading) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="SessionsListContainer">
           <SessionFilters onSubmitCallback={onApplyFilters} />
           <CircularProgress></CircularProgress>
@@ -107,7 +107,7 @@ export default function SessionsList(): ReactElement {
   if (data?.searchSessions) {
     return (
       <>
-        <MainNavbar></MainNavbar>
+        <MainNavbar />
         <div className="SessionsListContainer">
           <SessionFilters onSubmitCallback={onApplyFilters} />
           <div className="listWithSearchBar">
@@ -173,7 +173,7 @@ export default function SessionsList(): ReactElement {
 
   return (
     <>
-      <MainNavbar></MainNavbar>
+      <MainNavbar />
       <div className="SessionsListContainer">
         <Alert className="errorAlert" variant="outlined" severity="error">
           {t("components.SessionsList.fetchingErrorMessage")}

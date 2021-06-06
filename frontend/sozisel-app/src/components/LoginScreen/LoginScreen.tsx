@@ -10,6 +10,7 @@ import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/LoginNavbar/Navbar";
 import Spinner from "../utils/Spinner/Spinner";
+import { USER_TOKEN } from "../../common/consts";
 import conferenceImg from "../../assets/images/conference_img.png";
 import { useApolloClient } from "@apollo/client";
 import { useForm } from "react-hook-form";
@@ -51,7 +52,7 @@ export default function LoginScreen(): ReactElement {
         },
       });
 
-      localStorage.setItem("token", body.data?.login?.token ?? "");
+      localStorage.setItem(USER_TOKEN, body.data?.login?.token ?? "");
 
       // You may ask yourself, why don't you just use react-router, it should work, right?
       // Well, the answer is quite surprising, it does not work as we intend it to work.

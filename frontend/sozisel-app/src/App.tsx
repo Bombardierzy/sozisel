@@ -11,6 +11,7 @@ import { LiveSession } from "./components/LiveSession/LiveSession";
 import Login from "./components/LoginScreen/LoginScreen";
 import ParticipantGuard from "./components/Guards/ParticipantGuard";
 import { PhoenixSocketProvider } from "./contexts/PhoenixSocketContext";
+import PresenterSession from "./components/PresenterSession/PresenterSession";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
 import SessionRecordingUpload from "./components/SessionRecordingUpload/SesisonRecordingUpload";

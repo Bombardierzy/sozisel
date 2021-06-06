@@ -1,5 +1,6 @@
 import React, { ReactElement, useEffect } from "react";
 
+import { PARTICIPANT_TOKEN } from "../../common/consts";
 import ParticipantActiveSession from "../ParticipantActiveSession/ParticipantActiveSession";
 import { useHistory } from "react-router";
 import { useMyParticipationQuery } from "../../graphql";
@@ -15,7 +16,7 @@ export default function ParticipantGuard(): ReactElement {
     if (error) {
       console.error(error);
       history.push("/");
-      localStorage.removeItem("participantToken");
+      localStorage.removeItem(PARTICIPANT_TOKEN);
     }
   }, [error, history]);
 

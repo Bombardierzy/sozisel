@@ -32,11 +32,10 @@ export interface QuizStoreInterface {
   trackingMode: boolean;
 }
 
-// FIXME: get rid of hard coded translation
 export const initialQuestion = (): QuizQuestion => ({
   id: uuidv4(),
-  question: "Treść pytania...",
-  answers: [{ id: uuidv4(), text: "Odpowiedź..." }],
+  question: "",
+  answers: [{ id: uuidv4(), text: "" }],
   correctAnswers: [],
 });
 
