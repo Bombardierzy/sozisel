@@ -57,6 +57,14 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     value(:ended)
   end
 
+  enum :session_info do
+    value :session_end, description: "Session has been ended"
+  end
+
+  object :session_notification_info do
+    field :info, non_null(:session_info)
+  end
+
   input_object :search_sessions_input do
     field :status, non_null(:session_status)
     field :date_from, :datetime
