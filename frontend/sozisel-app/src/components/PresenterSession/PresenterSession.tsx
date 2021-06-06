@@ -61,7 +61,7 @@ export default function PresenterSession(): ReactElement {
         </Grid>
         <Grid item xs={3} className="firstRowItem">
           {data && data.session && (
-            <ParticipantsList sessionId={data?.session?.id} />
+            <ParticipantsList sessionId={data.session.id} />
           )}
         </Grid>
         <Grid item xs={12} className="secondRowItem">

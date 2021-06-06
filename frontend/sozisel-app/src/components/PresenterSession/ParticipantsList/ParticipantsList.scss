@@ -2,8 +2,7 @@
 
 
 .ParticipantsList {
-  padding: $spacing-05;
-  padding-top: $spacing-03;
+  padding: $spacing-03 $spacing-05 $spacing-05 $spacing-05;
   .header {
     @include header-02;
     color: $text-03;
