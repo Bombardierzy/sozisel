@@ -158,6 +158,10 @@
       "fetchingError": "Błąd ładowania danych. Spróbuj ponownie później.",
       "Agenda": {
         "header": "Agenda"
+      },
+      "ParticipantsList": {
+        "fetchingError": "Błąd ładowania uczestników. Spróbuj ponownie później.",
+        "header": "Uczestnicy"
       }
     }
   },

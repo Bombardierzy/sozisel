@@ -6,6 +6,7 @@ import React, { ReactElement } from "react";
 import Agenda from "./Agenda/Agenda";
 import { Alert } from "@material-ui/lab";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
+import ParticipantsList from "./ParticipantsList/ParticipantsList";
 import { useParams } from "react-router";
 import { useSessionDetailsQuery } from "../../graphql";
 import { useTranslation } from "react-i18next";
@@ -59,7 +60,9 @@ export default function PresenterSession(): ReactElement {
           <Paper elevation={2}></Paper>
         </Grid>
         <Grid item xs={3} className="firstRowItem">
-          <Paper elevation={2}></Paper>
+          {data && data.session && (
+            <ParticipantsList sessionId={data?.session?.id} />
+          )}
         </Grid>
         <Grid item xs={12} className="secondRowItem">
           <Paper elevation={2}></Paper>
