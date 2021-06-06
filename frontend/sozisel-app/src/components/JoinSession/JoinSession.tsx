@@ -46,7 +46,7 @@ export default function JoinSession(): ReactElement {
   const { t } = useTranslation("common");
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  const [ dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { handleSubmit, errors, control } = useForm({
     resolver: yupResolver(joinSessionSchema),
   });
