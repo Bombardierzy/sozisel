@@ -7,73 +7,57 @@ import React, { ReactElement } from "react";
 import GroupIcon from "@material-ui/icons/Group";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useLiveSessionParticipation } from "../../../hooks/useLiveSessionParticipation";
-import { useMeQuery } from "../../../graphql";
+import useSessionParticipantType from "../../../hooks/useSessionParticipantType";
 import { useTranslation } from "react-i18next";
 
 interface ParticipantsListProps {
   sessionId: string;
 }
 
-const Participants = [
-  { key: "essa", displayName: "Sebastian Kuśnierz" },
-  { key: "essa1", displayName: "Władek Bombowiec" },
-  { key: "essa2", displayName: "Marcin Essasito" },
-];
-
 export default function ParticipantsList({
   sessionId,
 }: ParticipantsListProps): ReactElement {
-  const { data } = useMeQuery();
+  const { token, type } = useSessionParticipantType();
   const { t } = useTranslation("common");
   const { participants, error, loading } = useLiveSessionParticipation({
-    displayName: `${data?.me.firstName} ${data?.me.lastName}`,
     sessionId,
+    type,
+    token,
   });
 
-  console.log(participants)
-
-  if (error) {
-    return (
-      <Paper elevation={2} className="ParticipantsList">
+  return (
+    <Paper elevation={2} className="ParticipantsList">
+      <Typography className="header">
+        <GroupIcon className="icon" />
+        {t("components.PresenterSession.ParticipantsList.header")}
+      </Typography>
+      {error && (
         <Alert className="errorAlert" variant="outlined" severity="error">
           {t("components.PresenterSession.ParticipantsList.fetchingError")}
         </Alert>
-      </Paper>
-    );
-  }
-
-  if (loading) {
-  return (
-    <Paper elevation={2} className="ParticipantsList">
-      <Typography className="header">
-        <GroupIcon className="icon" />
-        {t("components.PresenterSession.ParticipantsList.header")}
-      </Typography>
-      <Skeleton height={30} />
-      <Skeleton height={30} />
-      <Skeleton height={30} />
-    </Paper>
-  );
-  }
-
-  return (
-    <Paper elevation={2} className="ParticipantsList">
-      <Typography className="header">
-        <GroupIcon className="icon" />
-        {t("components.PresenterSession.ParticipantsList.header")}
-      </Typography>
-      {Participants.map((participant, idx) => (
-        <div key={participant.key} className="participant">
-          {idx == 0 ? (
-            <Typography className="me">{participant.displayName}</Typography>
-          ) : (
-            <>
-              <Typography>{participant.displayName}</Typography>
-              <MoreVertIcon className="moreIcon"/>
-            </>
-          )}
-        </div>
-      ))}
+      )}
+      {loading && (
+        <>
+          <Skeleton height={30} />
+          <Skeleton height={30} />
+          <Skeleton height={30} />
+        </>
+      )}
+      {participants.length > 0 &&
+        participants.map((participant) => (
+          <div key={participant.id} className="participant">
+            {participant.type == "presenter" ? (
+              <Typography className="presenter">
+                {participant.displayName}
+              </Typography>
+            ) : (
+              <>
+                <Typography>{participant.displayName}</Typography>
+                <MoreVertIcon className="moreIcon" />
+              </>
+            )}
+          </div>
+        ))}
     </Paper>
   );
 }
