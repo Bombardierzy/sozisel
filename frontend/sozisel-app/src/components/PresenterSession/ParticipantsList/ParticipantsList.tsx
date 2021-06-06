@@ -50,7 +50,7 @@ export default function ParticipantsList({
             {type == "presenter" ? (
               <>
                 <Typography className="presenter">{displayName}</Typography>
-                <PersonIcon className="presenter"/>
+                <PersonIcon className="presenter" />
               </>
             ) : (
               <>
