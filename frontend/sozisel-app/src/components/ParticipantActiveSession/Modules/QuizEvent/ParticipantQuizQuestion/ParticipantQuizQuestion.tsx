@@ -23,7 +23,7 @@ export default function ParticipantQuizQuestion(): ReactElement {
         setTimer(timer + 0.1);
       }
     }, 100);
-    return function cleanup() {
+    return () => {
       mounted = false;
     };
   }, [timer]);

@@ -1,24 +1,38 @@
 import React, { ReactElement, useEffect } from "react";
 
+import AuthGuard from "./AuthGuard";
 import { PARTICIPANT_TOKEN } from "../../common/consts";
 import ParticipantActiveSession from "../ParticipantActiveSession/ParticipantActiveSession";
+import PresenterSession from "../PresenterSession/PresenterSession";
 import { useHistory } from "react-router";
 import { useMyParticipationQuery } from "../../graphql";
+import { useParams } from "react-router-dom";
+import useSessionParticipantType from "../../hooks/useSessionParticipantType";
 
 export default function ParticipantGuard(): ReactElement {
-  const token = localStorage.getItem("participantToken");
+  const { id } = useParams<{ id: string }>();
+  const { token, type } = useSessionParticipantType();
+  const history = useHistory();
   const { data, error } = useMyParticipationQuery({
     variables: { token: token ?? "" },
   });
-  const history = useHistory();
 
   useEffect(() => {
-    if (error) {
-      console.error(error);
-      history.push("/");
-      localStorage.removeItem(PARTICIPANT_TOKEN);
+    if (type === "participant") {
+      if (
+        error ||
+        (data?.myParticipation && data.myParticipation.sessionId !== id)
+      ) {
+        console.error(error);
+        history.push("/");
+        localStorage.removeItem(PARTICIPANT_TOKEN);
+      }
     }
-  }, [error, history]);
+  }, [error, history, data, id, type]);
+
+  if (type == "presenter") {
+    return <AuthGuard component={PresenterSession} />;
+  }
 
   if (data?.myParticipation) {
     return (
