@@ -1,0 +1,36 @@
+@import "../../../styles/styles.scss";
+
+
+.ParticipantsList {
+  padding: $spacing-03 $spacing-05 $spacing-05 $spacing-05;
+  .header {
+    @include header-02;
+    color: $text-03;
+    align-items: center;
+    display: flex;
+    margin-bottom: $spacing-03;
+    .icon {
+      background-color: $main-color;
+      border-radius: $spacing-05;
+      padding: $spacing-02 + $spacing-01;
+      margin-right: $spacing-03;
+    }
+  }
+  .participant {
+    display: flex;
+    justify-content: space-between;
+    margin: $spacing-02 $spacing-03;
+    p {
+      @include text-03;
+    }
+    .presenter {
+      color: $main-color;
+    }
+    .moreIcon {
+      cursor: pointer;
+    }
+  }
+  .participant:hover {
+    color: $main-color;
+  }
+}
