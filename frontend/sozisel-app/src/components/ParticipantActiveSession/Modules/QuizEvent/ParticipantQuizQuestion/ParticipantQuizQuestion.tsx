@@ -10,23 +10,11 @@ export default function ParticipantQuizQuestion(): ReactElement {
     { currentQuestion, currentAnswer },
     dispatch,
   ] = useParticipantQuizContext();
-  const [timer, setTimer] = useState<number>(0.0);
+  const [mountedTime, setMountedTime] = useState<number>(Date.now());
 
   useEffect(() => {
-    setTimer(0.0);
+    setMountedTime(Date.now());
   }, [currentQuestion]);
-
-  useEffect(() => {
-    let mounted = true;
-    setTimeout(() => {
-      if (mounted) {
-        setTimer(timer + 0.1);
-      }
-    }, 100);
-    return () => {
-      mounted = false;
-    };
-  }, [timer]);
 
   const quizAnswer = (answer: Answer) => {
     const isSelected = currentAnswer.finalAnswerIds.includes(answer.id);
@@ -39,7 +27,7 @@ export default function ParticipantQuizQuestion(): ReactElement {
             dispatch({
               type: isSelected ? "UNSELECT_ANSWER" : "SELECT_ANSWER",
               answerId: answer.id,
-              reactionTime: timer,
+              reactionTime: (Date.now() - mountedTime) / 1000,
             })
           }
         >
@@ -56,7 +44,7 @@ export default function ParticipantQuizQuestion(): ReactElement {
         </Typography>
         <div className="answerList">
           <List>
-            {currentQuestion.answers.map((value, _) => quizAnswer(value))}
+            {currentQuestion.answers.map((value) => quizAnswer(value))}
           </List>
         </div>
       </div>
