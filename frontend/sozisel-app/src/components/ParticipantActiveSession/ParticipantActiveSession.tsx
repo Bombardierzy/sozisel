@@ -1,16 +1,20 @@
 import "./ParticipantActiveSession.scss";
 
+import { CircularProgress, Fab } from "@material-ui/core";
 import {
   ParticipantEvent,
+  useActiveSessionThumbnailQuery,
   useGenerateJitsiTokenQuery,
 } from "../../graphql/index";
 import { ReactElement, useState } from "react";
 
+import ActiveSessionAgenda from "../PresenterSession/ActiveSessionAgenda/ActiveSessionAgenda";
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
-import Fab from "@material-ui/core/Fab";
+import ErrorAlert from "../utils/Alerts/ErrorAlert";
 import JitsiFrame from "../Jitsi/JitsiFrame";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
+import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -25,6 +29,10 @@ export default function ParticipantActiveSession({
   email,
 }: ParticipantActiveSessionProps): ReactElement {
   const { id } = useParams<{ id: string }>();
+  const {
+    data: session,
+    loading: sessionLoading,
+  } = useActiveSessionThumbnailQuery({ variables: { id } });
   const { t } = useTranslation("common");
   // TODO change mock data, after adding subscription for events
   const [activeEvent, setActiveEvent] = useState<ParticipantEvent | null>({
@@ -81,39 +89,77 @@ export default function ParticipantActiveSession({
     },
   });
 
+  if (sessionLoading) {
+    return (
+      <>
+        <BasicNavbar />
+        <div className="ParticipantActiveSession">
+          <CircularProgress />
+        </div>
+      </>
+    );
+  }
+
+  if (session?.sessionThumbnail) {
+    return (
+      <>
+        <BasicNavbar />
+        <div className="ParticipantActiveSession">
+          {!activeEvent && (
+            <div className="agendaComponent">
+              <ActiveSessionAgenda
+                agendaEntries={session.sessionThumbnail.agendaEntries}
+                estimatedTimeInSeconds={session.sessionThumbnail.estimatedTime}
+                sessionStartDate={new Date(session.sessionThumbnail.startTime)}
+              />
+            </div>
+          )}
+          {session.sessionThumbnail.useJitsi && (
+            <div className="jitsi">
+              {!loading && data?.generateJitsiToken.token && (
+                <JitsiFrame
+                  roomId={id}
+                  token={data.generateJitsiToken.token}
+                  displayName={data.generateJitsiToken.displayName}
+                />
+              )}
+            </div>
+          )}
+          {!activeEvent && (
+            <div className="moduleComponent">
+              <ParticipantsList sessionId={id} />
+            </div>
+          )}
+          {activeEvent && (
+            <div className="moduleComponent">
+              <ParticipantQuizContextProvider>
+                <ParticipantQuizEvent
+                  onQuizFinished={() => setActiveEvent(null)}
+                  token={token}
+                  event={activeEvent}
+                />
+              </ParticipantQuizContextProvider>
+            </div>
+          )}
+        </div>
+        <Fab
+          variant="extended"
+          className="ParticipantSessionFab"
+          color="primary"
+          style={{ position: "fixed" }}
+        >
+          {t("components.ParticipantActiveSession.exitSession") ?? ""}
+        </Fab>
+      </>
+    );
+  }
+
   return (
     <>
       <BasicNavbar />
-      <div className="ParticipantActiveSession">
-        <div className="jitsi">
-          {!loading && data?.generateJitsiToken.token && (
-            <JitsiFrame
-              roomId={id}
-              token={data.generateJitsiToken.token}
-              displayName={data.generateJitsiToken.displayName}
-            />
-          )}
-        </div>
-        <div className="moduleComponent">
-          {activeEvent && (
-            <ParticipantQuizContextProvider>
-              <ParticipantQuizEvent
-                onQuizFinished={() => setActiveEvent(null)}
-                token={token}
-                event={activeEvent}
-              />
-            </ParticipantQuizContextProvider>
-          )}
-        </div>
+      <div className="CreateSession">
+        <ErrorAlert />
       </div>
-      <Fab
-        variant="extended"
-        className="ParticipantSessionFab"
-        color="primary"
-        style={{ position: "fixed" }}
-      >
-        {t("components.ParticipantActiveSession.exitSession") ?? ""}
-      </Fab>
     </>
   );
 }

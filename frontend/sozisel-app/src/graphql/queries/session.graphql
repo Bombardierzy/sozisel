@@ -58,6 +58,20 @@ query SessionThumbnail($id: ID!){
     }
 }
 
+query ActiveSessionThumbnail($id: ID!){
+    sessionThumbnail(id: $id){
+        id
+        startTime
+        useJitsi
+        estimatedTime
+        agendaEntries {
+            id
+            name
+            startMinute
+        }
+    }
+}
+
 fragment quizFields on Quiz {
     __typename
     durationTimeSec

@@ -3,7 +3,7 @@ import "./PresenterSession.scss";
 import { CircularProgress, Grid, Paper } from "@material-ui/core";
 import React, { ReactElement } from "react";
 
-import Agenda from "./Agenda/Agenda";
+import ActiveSessionAgenda from "./ActiveSessionAgenda/ActiveSessionAgenda";
 import { Alert } from "@material-ui/lab";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import ParticipantsList from "./ParticipantsList/ParticipantsList";
@@ -47,7 +47,7 @@ export default function PresenterSession(): ReactElement {
       <Grid container spacing={1} className="containerGrid">
         <Grid item xs={3} className="firstRowItem">
           {data && data.session && (
-            <Agenda
+            <ActiveSessionAgenda
               agendaEntries={data.session.sessionTemplate.agendaEntries}
               estimatedTimeInSeconds={
                 data.session.sessionTemplate.estimatedTime

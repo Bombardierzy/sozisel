@@ -63,7 +63,7 @@ export default function SessionCard({
     e.stopPropagation();
     await startSessionMutation();
     if (!error || !loading) {
-      history.push(`/sessions/${session.id}`);
+      history.push(`/sessions/${session.id}/live`);
     }
   };
 
