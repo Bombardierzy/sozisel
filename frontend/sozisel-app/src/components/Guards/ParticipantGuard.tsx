@@ -30,7 +30,7 @@ export default function ParticipantGuard(): ReactElement {
     }
   }, [error, history, data, id, type]);
 
-  if (type == "presenter") {
+  if (type === "presenter") {
     return <AuthGuard component={PresenterSession} />;
   }
 
