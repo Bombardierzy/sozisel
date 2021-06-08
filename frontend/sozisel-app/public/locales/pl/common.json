@@ -154,6 +154,10 @@
       "dialogSubSubtitle": "Skontaktuj się z prowadzącym by go o tym poinformować.",
       "dialogButtonText": "OK"
     },
+    "ParticipantActiveSession": {
+      "exitSession": "Wyjdź", 
+      "next": "Dalej"
+    },
     "PresenterSession": {
       "fetchingError": "Błąd ładowania danych. Spróbuj ponownie później.",
       "Agenda": {

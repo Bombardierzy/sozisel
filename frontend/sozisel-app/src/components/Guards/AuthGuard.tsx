@@ -1,17 +1,15 @@
 import React, { ReactElement, useEffect } from "react";
-import { Route, useHistory } from "react-router";
 
+import { Route } from "react-router-dom";
+import { USER_TOKEN } from "../../common/consts";
+import { useHistory } from "react-router";
 import { useMeQuery } from "../../graphql";
 
-interface AuthRouteProps {
+interface AuthGuardProps {
   component?: React.ComponentType;
-  path: string;
 }
 
-export default function AuthRoute({
-  component,
-  path,
-}: AuthRouteProps): ReactElement {
+export default function AuthGuard({ component }: AuthGuardProps): ReactElement {
   const { error, loading } = useMeQuery();
   const history = useHistory();
 
@@ -19,12 +17,12 @@ export default function AuthRoute({
     if (error && error.message === "unauthorized") {
       console.error(error);
       history.push("/login");
-      localStorage.removeItem("token");
+      localStorage.removeItem(USER_TOKEN);
     }
   }, [error, history]);
 
   if (loading || error) {
     return <></>;
   }
-  return <Route exact path={path} component={component} />;
+  return <Route component={component} />;
 }
