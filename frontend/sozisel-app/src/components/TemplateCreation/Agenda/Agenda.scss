@@ -13,6 +13,9 @@
         li {
             display: flex;
             align-items: flex-start;
+            p:first-child {
+                width: $spacing-06;
+            }
         }
     }
 }

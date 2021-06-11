@@ -51,7 +51,7 @@ export default function SessionFilters({
   const [isTemplateFilterActive, setIsTemplateFilterActive] = useState<boolean>(
     false
   );
-  const [templateId, setTemplateId] = useState<string>("");
+  const [templateId, setTemplateId] = useState<string | undefined>(undefined);
   const [isDateFromFilterActive, setIsDateFromFilterActive] = useState<boolean>(
     false
   );
@@ -68,7 +68,7 @@ export default function SessionFilters({
   };
 
   const onTemplateFilterCleared = () => {
-    setTemplateId("");
+    setTemplateId(undefined);
     setIsTemplateFilterActive(false);
   };
 
@@ -183,7 +183,7 @@ export default function SessionFilters({
                   options={data.searchSessionTemplates}
                   getOptionLabel={(option) => option.name}
                   onChange={(event, value) =>
-                    setTemplateId(value != null ? value.id : "")
+                    setTemplateId(value != null ? value.id : undefined)
                   }
                   renderInput={(params) => (
                     <TextField {...params} variant="outlined" size="small" />

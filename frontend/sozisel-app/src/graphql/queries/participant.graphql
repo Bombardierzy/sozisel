@@ -1,0 +1,8 @@
+query MyParticipation($token: String!){
+    myParticipation(token: $token){
+        email,
+        fullName,
+        id,
+        sessionId
+    }
+}

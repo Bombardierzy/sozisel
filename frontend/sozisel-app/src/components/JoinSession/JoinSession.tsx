@@ -44,44 +44,41 @@ export interface JoinSessionFormSchema {
 
 export default function JoinSession(): ReactElement {
   const { t } = useTranslation("common");
-  const { id } = useParams<{ id: string }>();
-
   const history = useHistory();
-  const [joinSession] = useJoinSessionMutation();
-
+  const { id } = useParams<{ id: string }>();
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const { handleSubmit, errors, control } = useForm({
     resolver: yupResolver(joinSessionSchema),
   });
+  const [joinMutation, { loading: joinLoading }] = useJoinSessionMutation();
 
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-
-  const onSubmit = async ({
-    fullName,
-    email,
-    password,
-  }: JoinSessionFormSchema) => {
+  const onSubmit = async (schema: JoinSessionFormSchema) => {
     try {
-      const { data } = await joinSession({
+      await joinMutation({
         variables: {
           input: {
             sessionId: id,
-            fullName,
-            email,
-            entryPassword: password,
+            fullName: schema.fullName,
+            email: schema.email,
+            entryPassword: schema.password,
           },
         },
-      });
-
-      if (data?.joinSession?.token) {
-        localStorage.setItem(PARTICIPANT_TOKEN, data.joinSession.token);
-
-        history.push(`/session/live/${id}`);
-      }
+      }).then(
+        (value) => {
+          localStorage.setItem(
+            PARTICIPANT_TOKEN,
+            value.data?.joinSession?.token ?? ""
+          );
+          history.push(`/sessions/${id}/live`);
+        },
+        () => {
+          //TODO handle case when password is incorrect
+          setDialogOpen(true);
+        }
+      );
     } catch (error) {
       console.error(error);
     }
-
-    setDialogOpen(false);
   };
 
   const { data, loading } = useSessionThumbnailQuery({
@@ -91,7 +88,7 @@ export default function JoinSession(): ReactElement {
     },
   });
 
-  if (loading) {
+  if (loading || joinLoading) {
     return (
       <>
         <BasicNavbar />

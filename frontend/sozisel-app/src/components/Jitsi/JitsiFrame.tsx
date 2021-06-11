@@ -82,6 +82,7 @@ export default function JitsiFrame({
     <>
       <Jitsi
         domain="localhost:8443"
+        containerStyle={{ width: "100%", height: "100%" }}
         loadingComponent={Loader}
         onAPILoad={(api) => setApi(api)}
         roomName={roomId}
