@@ -2,7 +2,8 @@
 
 
 .ParticipantsList {
-  padding: $spacing-03 $spacing-05 $spacing-05 $spacing-05;
+  padding: $spacing-05;
+  height: calc(100% - 2*#{$spacing-05});
   .header {
     @include header-02;
     color: $text-03;

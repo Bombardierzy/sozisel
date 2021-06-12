@@ -133,6 +133,24 @@
     "LiveSession": {
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
     },
+    "SessionResultHeader": {
+      "summary": "Podsumowanie",
+      "events": "Wydarzenia",
+      "recording": "Nagranie"
+    },
+    "SummaryDetails": {
+      "date": "Data",
+      "durationTime": "Czas trwania",
+      "numberOfParticipants": "Liczba uczestników",
+      "numberOfInteractions": "Liczba interakcji z wydarzeniami"
+    },
+    "SessionResultSummary": {
+      "participantsChart": {
+        "title": "Liczba uczestników",
+        "subtitle": "Dla kolejnych wydarzeń",
+        "valueLabel": "Uczestnicy"
+      }
+    },
     "SessionRecordingUpload": {
       "dialogTitle": "Prześlij nagranie sesji",
       "submitText": "Zacznij przesyłanie",
@@ -195,5 +213,9 @@
     "incorrectDurationTime": "Podana wartości musi być większa od 0",
     "percentageOfParticipants": "Podana wartości musi być większa od 0",
     "incorrectQuizQuestion": "Quiz powinien zawierać przynajmniej jedno pytanie oraz każde pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną !"
+  },
+  "errors": {
+    "request": "Wystąpił bład podczas przetwarzania zapytania",
+    "fetchingErrorMessage": "Błąd ładowania danych. Spróbuj ponownie później."
   }
 }

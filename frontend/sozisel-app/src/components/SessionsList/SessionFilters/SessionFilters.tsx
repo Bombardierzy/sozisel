@@ -10,7 +10,6 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import {
   SessionStatus,
   useSearchSessionTemplatesQuery,
@@ -18,15 +17,12 @@ import {
 
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import ErrorAlert from "../../utils/Alerts/ErrorAlert";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import IconButton from "@material-ui/core/IconButton";
 import TuneIcon from "@material-ui/icons/Tune";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 export interface SessionFiltersSchema {
   status: SessionStatus;
@@ -44,21 +40,17 @@ export default function SessionFilters({
   onSubmitCallback,
 }: SessionFiltersProps): ReactElement {
   const { t } = useTranslation("common");
-  const [isStatusFilterActive, setIsStatusFilterActive] = useState<boolean>(
-    false
-  );
+  const [isStatusFilterActive, setIsStatusFilterActive] =
+    useState<boolean>(false);
   const [status, setStatus] = useState<SessionStatus>(SessionStatus.Any);
-  const [isTemplateFilterActive, setIsTemplateFilterActive] = useState<boolean>(
-    false
-  );
+  const [isTemplateFilterActive, setIsTemplateFilterActive] =
+    useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string | undefined>(undefined);
-  const [isDateFromFilterActive, setIsDateFromFilterActive] = useState<boolean>(
-    false
-  );
+  const [isDateFromFilterActive, setIsDateFromFilterActive] =
+    useState<boolean>(false);
   const [dateFrom, setDateFrom] = useState<Date>(new Date());
-  const [isDateToFilterActive, setIsDateToFilterActive] = useState<boolean>(
-    false
-  );
+  const [isDateToFilterActive, setIsDateToFilterActive] =
+    useState<boolean>(false);
   const [dateTo, setDateTo] = useState<Date>(new Date());
   const { data, loading } = useSearchSessionTemplatesQuery();
 
@@ -273,9 +265,7 @@ export default function SessionFilters({
             {t("components.SessionsList.filters")}
           </Typography>
         </div>
-        <Alert className="errorAlert" variant="outlined" severity="error">
-          {t("components.SessionsList.fetchingErrorMessage")}
-        </Alert>
+        <ErrorAlert />
       </Paper>
     </>
   );

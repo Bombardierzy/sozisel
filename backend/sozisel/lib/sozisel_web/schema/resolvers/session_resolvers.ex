@@ -20,11 +20,20 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     end
   end
 
-  def get_session_thumbnail(_parent, %{id: session_id}, ctx) do
+  def get_session_thumbnail(_parent, %{id: session_id}, _ctx) do
     with %Session{} = session <- Repo.get(Session, session_id) do
+      session =
+        session
+        |> Repo.preload(session_template: [:agenda_entries])
+
       thumbnail =
         session
         |> Map.put(:password_required, session.entry_password != nil)
+        |> Map.put(:agenda_entries, session.session_template.agenda_entries)
+        |> Map.put(
+          :estimated_time,
+          session.session_template.estimated_time
+        )
 
       {:ok, thumbnail}
     else
@@ -78,6 +87,12 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
       |> Sessions.list_sessions()
 
     {:ok, sessions}
+  end
+
+  def session_summary(_parent, _args, ctx) do
+    session = fetch_resource!(ctx, Session)
+
+    {:ok, session |> Sessions.session_summary()}
   end
 
   def upload_recording(

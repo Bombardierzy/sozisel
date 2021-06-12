@@ -11,7 +11,6 @@ import {
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import { LOCAL_DATE_FORMAT, PARTICIPANT_TOKEN } from "../../common/consts";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { ReactElement, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
@@ -20,13 +19,10 @@ import {
 } from "../../graphql";
 
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
+import ErrorAlert from "../utils/Alerts/ErrorAlert";
 import InfoIcon from "@material-ui/icons/Info";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const joinSessionSchema = yup.object().shape({
   fullName: yup.string().required("inputErrors.fieldRequired"),
@@ -227,9 +223,7 @@ export default function JoinSession(): ReactElement {
     <>
       <BasicNavbar />
       <div className="EditSession">
-        <Alert className="errorAlert" variant="outlined" severity="error">
-          {t("components.JoinSession.errorMessage")}
-        </Alert>
+        <ErrorAlert />
       </div>
     </>
   );

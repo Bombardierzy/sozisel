@@ -26,7 +26,7 @@ defmodule Sozisel.JitsiTokenGenerator do
             }
           }
         end,
-        validate: fn val, _claims, _context -> true end
+        validate: fn _val, _claims, _context -> true end
       },
       "room" => %Joken.Claim{
         generate: fn -> room_id end,
@@ -42,7 +42,7 @@ defmodule Sozisel.JitsiTokenGenerator do
       },
       "exp" => %Joken.Claim{
         generate: fn -> Joken.CurrentTime.OS.current_time() + 10 * 60 * 60 end,
-        validate: fn val, _claims, _context -> true end
+        validate: fn _val, _claims, _context -> true end
       }
     }
 

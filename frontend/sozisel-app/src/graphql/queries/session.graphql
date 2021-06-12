@@ -62,6 +62,42 @@ query SessionThumbnail($id: ID!){
     }
 }
 
+query ActiveSessionThumbnail($id: ID!){
+    sessionThumbnail(id: $id){
+        id
+        startTime
+        useJitsi
+        estimatedTime
+        agendaEntries {
+            id
+            name
+            startMinute
+        }
+    }
+}
+
+query SessionSummary($id: ID!) {
+    sessionSummary(id: $id) {
+        totalParticipants
+        totalSubmissions
+        durationTime
+        eventParticipations {
+            eventId
+            eventName
+            submissions
+        }
+    }
+}
+
+query SessionBasicInfo($id: ID!) {
+    session(id: $id) {
+        id
+        name
+        startTime
+        endTime
+    }
+}
+
 fragment quizFields on Quiz {
     __typename
     durationTimeSec

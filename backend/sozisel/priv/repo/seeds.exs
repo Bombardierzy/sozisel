@@ -13,7 +13,7 @@
 
 alias Sozisel.Repo
 
-alias Sozisel.Model.{Events, Sessions, Users}
+alias Sozisel.Model.{Events, Sessions, Users, Participants, EventResults, LaunchedEvents}
 
 Repo.transaction(fn ->
   {:ok, user} =
@@ -42,7 +42,7 @@ Repo.transaction(fn ->
     |> Enum.map(&Sessions.create_template(&1))
     |> Enum.map(&elem(&1, 1))
 
-  agenda1 =
+  _agenda1 =
     [
       %{
         name: "Bestia z wadowic",
@@ -61,7 +61,7 @@ Repo.transaction(fn ->
     |> Enum.map(&Sessions.create_agenda_entry(&1))
     |> Enum.map(&elem(&1, 1))
 
-  agenda2 =
+  _agenda2 =
     [
       %{
         name: "E = mc^2",
@@ -80,7 +80,7 @@ Repo.transaction(fn ->
     |> Enum.map(&Sessions.create_agenda_entry(&1))
     |> Enum.map(&elem(&1, 1))
 
-  {:ok, event1} =
+  {:ok, _event1} =
     %{
       session_template_id: template1.id,
       name: "Znani przestępcy",
@@ -101,7 +101,28 @@ Repo.transaction(fn ->
     }
     |> Events.create_event()
 
-  {:ok, session1} =
+  {:ok, event2} =
+    %{
+      session_template_id: template1.id,
+      name: "Ludzie",
+      start_minute: 20,
+      event_data: %{
+        duration_time_sec: 300,
+        target_percentage_of_participants: 100,
+        tracking_mode: false,
+        quiz_questions: [
+          %{
+            id: "1",
+            question: "Czy jesteś człowiekiem?",
+            answers: [%{id: "1", text: "tak"}, %{id: "2", text: "nie"}],
+            correct_answers: [%{id: "1", text: "tak"}]
+          }
+        ]
+      }
+    }
+    |> Events.create_event()
+
+  {:ok, _session1} =
     %{
       name: "Kryminialistyka - 2021",
       scheduled_start_time: DateTime.utc_now() |> DateTime.add(30 * 24 * 3600),
@@ -111,4 +132,85 @@ Repo.transaction(fn ->
       entry_password: "password"
     }
     |> Sessions.create_session()
+
+  {:ok, session2} =
+    %{
+      name: "Nauka o kryminalistach - 2021",
+      scheduled_start_time: DateTime.utc_now() |> DateTime.add(15 * 24 * 3600),
+      session_template_id: template1.id,
+      user_id: user.id,
+      use_jitsi: true,
+      entry_password: "password",
+      start_time: DateTime.utc_now() |> DateTime.add(16 * 24 * 3600),
+      end_time: DateTime.utc_now() |> DateTime.add(16 * 24 * 3600 + 3600)
+    }
+    |> Sessions.create_session()
+
+  {:ok, participant1} =
+    Participants.create_participant(%{
+      email: "student@gmail.com",
+      full_name: "Pan Student Romek",
+      session_id: session2.id
+    })
+
+  {:ok, participant2} =
+    Participants.create_participant(%{
+      email: "visitor@gmail.com",
+      full_name: "Paweł Odwiedzacz",
+      session_id: session2.id
+    })
+
+  {:ok, launched_event1} =
+    LaunchedEvents.create_launched_event(%{session_id: session2.id, event_id: event1.id})
+
+  {:ok, launched_event2} =
+    LaunchedEvents.create_launched_event(%{session_id: session2.id, event_id: event2.id})
+
+  {:ok, _result1} =
+    EventResults.create_event_result(%{
+      participant_id: participant1.id,
+      launched_event_id: launched_event1.id,
+      result_data: %{
+        participant_answers: [
+          %{
+            question_id: "fD875",
+            final_answer_ids: ["gasdh=="],
+            is_correct: false,
+            track_nodes: []
+          }
+        ]
+      }
+    })
+
+  {:ok, _result2} =
+    EventResults.create_event_result(%{
+      participant_id: participant2.id,
+      launched_event_id: launched_event1.id,
+      result_data: %{
+        participant_answers: [
+          %{
+            question_id: "fD875",
+            final_answer_ids: ["gasdh=="],
+            is_correct: false,
+            track_nodes: []
+          }
+        ]
+      }
+    })
+
+  {:ok, _result3} =
+    EventResults.create_event_result(%{
+      participant_id: participant2.id,
+      launched_event_id: launched_event2.id,
+      result_data: %{
+        participant_answers: [
+          %{
+            question_id: "1",
+            final_answer_ids: ["1"],
+            is_correct: true,
+            track_nodes: []
+          }
+        ]
+      }
+    })
 end)

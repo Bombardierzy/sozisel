@@ -2,7 +2,7 @@ defmodule Sozisel.Model.LaunchedEvents do
   import Ecto.Query, warn: false
   alias Sozisel.Repo
 
-  alias Sozisel.Model.LaunchedEvents.LaunchedEvent
+  alias Sozisel.Model.{Sessions.Session, Events.Event, LaunchedEvents.LaunchedEvent}
 
   def get_launched_event!(id), do: Repo.get!(LaunchedEvent, id)
 
@@ -11,6 +11,12 @@ defmodule Sozisel.Model.LaunchedEvents do
   def create_launched_event(attrs \\ %{}) do
     %LaunchedEvent{}
     |> LaunchedEvent.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_launched_event(%Session{} = session, %Event{} = event) do
+    %LaunchedEvent{}
+    |> LaunchedEvent.changeset(%{session_id: session.id, event_id: event.id})
     |> Repo.insert()
   end
 

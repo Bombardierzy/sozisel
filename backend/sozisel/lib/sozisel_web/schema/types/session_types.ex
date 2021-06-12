@@ -29,7 +29,11 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :id, non_null(:id)
     field :name, non_null(:string)
     field :scheduled_start_time, non_null(:datetime)
+    field :start_time, :datetime
+    field :estimated_time, non_null(:integer)
     field :password_required, non_null(:boolean)
+    field :use_jitsi, non_null(:boolean)
+    field :agenda_entries, strong_list_of(:agenda_entry)
 
     field :owner, non_null(:user) do
       resolve(dataloader(:db, :user))
@@ -55,6 +59,26 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     Session has ended.
     """
     value(:ended)
+  end
+
+  object :event_participation do
+    field :event_id, non_null(:id)
+    field :event_name, non_null(:string)
+    field :submissions, non_null(:integer)
+  end
+
+  object :session_summary do
+    @desc "Total number of participants that has attended the session"
+    field :total_participants, non_null(:integer)
+
+    @desc "Session duration time in minutes"
+    field :duration_time, non_null(:integer)
+
+    @desc "Total number of submitted event results"
+    field :total_submissions, non_null(:integer)
+
+    @desc "List representing all events participations statistics (number of participants that has submitted a result)"
+    field :event_participations, strong_list_of(:event_participation)
   end
 
   enum :session_info do

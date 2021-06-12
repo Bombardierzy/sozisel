@@ -30,10 +30,8 @@ export default function SessionRecordingUpload(): ReactElement {
     { message: string; severity: "error" | "success" } | undefined
   >();
 
-  const [
-    uploadSessionRecording,
-    { loading, data, error },
-  ] = useUploadSessionRecordingMutation();
+  const [uploadSessionRecording, { loading, data, error }] =
+    useUploadSessionRecordingMutation();
 
   const onFilesChange = (files: File[]) => {
     if (files.length > 0) {
