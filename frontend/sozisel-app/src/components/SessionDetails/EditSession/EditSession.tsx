@@ -33,10 +33,8 @@ export default function EditSession(): ReactElement {
     },
   });
 
-  const [
-    updateMutation,
-    { error: updateError, loading: updateLoading },
-  ] = useUpdateSessionMutation();
+  const [updateMutation, { error: updateError, loading: updateLoading }] =
+    useUpdateSessionMutation();
 
   const onSubmit = async ({
     sessionName,

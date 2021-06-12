@@ -80,6 +80,12 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     {:ok, sessions}
   end
 
+  def session_summary(_parent, _args, ctx) do
+    session = fetch_resource!(ctx, Session)
+
+    {:ok, session |> Sessions.session_summary()}
+  end
+
   def upload_recording(
         _parent,
         %{id: session_id, recording: %Plug.Upload{} = recording},

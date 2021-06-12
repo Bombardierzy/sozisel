@@ -6,10 +6,8 @@ import { ReactElement, useEffect, useState } from "react";
 import { useParticipantQuizContext } from "../../../../../contexts/ParticipantQuiz/ParticipantQuizContext";
 
 export default function ParticipantQuizQuestion(): ReactElement {
-  const [
-    { currentQuestion, currentAnswer },
-    dispatch,
-  ] = useParticipantQuizContext();
+  const [{ currentQuestion, currentAnswer }, dispatch] =
+    useParticipantQuizContext();
   const [mountedTime, setMountedTime] = useState<number>(Date.now());
 
   useEffect(() => {
