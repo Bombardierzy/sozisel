@@ -19,8 +19,8 @@ export const Context = React.createContext<ParticipantQuizContextType>([
   () => null,
 ]);
 
-export let dispatchToParticipantQuiz: React.Dispatch<ParticipantQuizActions> = () =>
-  null;
+export let dispatchToParticipantQuiz: React.Dispatch<ParticipantQuizActions> =
+  () => null;
 
 export function ParticipantQuizContextProvider({
   children,

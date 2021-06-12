@@ -61,6 +61,26 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     value(:ended)
   end
 
+  object :event_participation do
+    field :event_id, non_null(:id)
+    field :event_name, non_null(:string)
+    field :submissions, non_null(:integer)
+  end
+
+  object :session_summary do
+    @desc "Total number of participants that has attended the session"
+    field :total_participants, non_null(:integer)
+
+    @desc "Session duration time in minutes"
+    field :duration_time, non_null(:integer)
+
+    @desc "Total number of submitted event results"
+    field :total_submissions, non_null(:integer)
+
+    @desc "List representing all events participations statistics (number of participants that has submitted a result)"
+    field :event_participations, strong_list_of(:event_participation)
+  end
+
   enum :session_info do
     value :session_end, description: "Session has been ended"
   end

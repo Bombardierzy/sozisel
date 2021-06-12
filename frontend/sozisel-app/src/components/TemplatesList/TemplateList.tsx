@@ -32,14 +32,10 @@ export default function TemplateList(): ReactElement {
     fetchPolicy: "network-only",
   });
 
-  const [
-    cloneMutation,
-    { error: cloneError, loading: cloneLoading },
-  ] = useCloneSessionTemplateMutation();
-  const [
-    deleteMutation,
-    { error: deleteError, loading: deleteLoading },
-  ] = useDeleteSessionTemplateMutation();
+  const [cloneMutation, { error: cloneError, loading: cloneLoading }] =
+    useCloneSessionTemplateMutation();
+  const [deleteMutation, { error: deleteError, loading: deleteLoading }] =
+    useDeleteSessionTemplateMutation();
 
   const onSearch = useCallback(
     ({

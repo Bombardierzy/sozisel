@@ -1,0 +1,78 @@
+@import "../../../styles/styles";
+
+.SessionResultSummary {
+    box-sizing: border-box;
+    padding: $spacing-04;
+
+    .MuiPaper-rounded {
+        border-radius: 0 0 $spacing-04 $spacing-04;
+    }
+    border-top: $spacing-10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    
+    .paper {
+        margin-top: $navbar-height;
+        min-width: 10 * $spacing-10;
+        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: $spacing-10;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .totalParticipants {
+        display: grid;
+        grid-template-rows: 1fr 3fr;
+        padding: $spacing-05;
+        
+        h2 {
+            color: $gray-2; 
+            @include poppins-text;
+        }
+
+        h3 {
+            color: $gray-3;
+            @include poppins-text;
+        }
+    }
+    
+    .chart {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        border-radius: $spacing-05;
+        overflow: hidden;
+    }
+    
+    .SummaryDetails {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        
+        .item {
+            @include poppins-text;
+            display: flex;
+            font-size: 27px;
+            padding-left: $spacing-05;
+
+            .title {
+                color: $gray-2; 
+                margin-right: $spacing-08;
+            }
+            .value {
+                color: $gray-3;
+            }
+        }
+        
+        :last-child {
+            margin-bottom: $spacing-08;
+        }
+    }
+}

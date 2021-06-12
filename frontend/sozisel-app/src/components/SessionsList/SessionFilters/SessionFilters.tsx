@@ -40,21 +40,17 @@ export default function SessionFilters({
   onSubmitCallback,
 }: SessionFiltersProps): ReactElement {
   const { t } = useTranslation("common");
-  const [isStatusFilterActive, setIsStatusFilterActive] = useState<boolean>(
-    false
-  );
+  const [isStatusFilterActive, setIsStatusFilterActive] =
+    useState<boolean>(false);
   const [status, setStatus] = useState<SessionStatus>(SessionStatus.Any);
-  const [isTemplateFilterActive, setIsTemplateFilterActive] = useState<boolean>(
-    false
-  );
+  const [isTemplateFilterActive, setIsTemplateFilterActive] =
+    useState<boolean>(false);
   const [templateId, setTemplateId] = useState<string | undefined>(undefined);
-  const [isDateFromFilterActive, setIsDateFromFilterActive] = useState<boolean>(
-    false
-  );
+  const [isDateFromFilterActive, setIsDateFromFilterActive] =
+    useState<boolean>(false);
   const [dateFrom, setDateFrom] = useState<Date>(new Date());
-  const [isDateToFilterActive, setIsDateToFilterActive] = useState<boolean>(
-    false
-  );
+  const [isDateToFilterActive, setIsDateToFilterActive] =
+    useState<boolean>(false);
   const [dateTo, setDateTo] = useState<Date>(new Date());
   const { data, loading } = useSearchSessionTemplatesQuery();
 

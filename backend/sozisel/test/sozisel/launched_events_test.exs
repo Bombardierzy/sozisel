@@ -23,7 +23,15 @@ defmodule Sozisel.LaunchedEventsTest do
       event = insert(:event, session_template_id: template.id)
 
       session = insert(:session, session_template_id: template.id)
-      [event: event, session: session, event_id: event.id, session_id: session.id]
+      secondary_session = insert(:session, session_template_id: template.id)
+
+      [
+        event: event,
+        session: session,
+        secondary_session: secondary_session,
+        event_id: event.id,
+        session_id: session.id
+      ]
     end
 
     test "get_launched_event!/1 returns the launched_event with given id", ctx do
@@ -43,6 +51,22 @@ defmodule Sozisel.LaunchedEventsTest do
     test "change_launched_event/1 returns a launched_event changeset", ctx do
       launched_event = launched_event_fixture(ctx)
       assert %Ecto.Changeset{} = LaunchedEvents.change_launched_event(launched_event)
+    end
+
+    test "create_launched_event/1 returns an error on retrying to insert again", ctx do
+      assert {:ok, %LaunchedEvent{}} =
+               LaunchedEvents.create_launched_event(@valid_attrs |> Map.merge(ctx))
+
+      # allow to launch event with another session
+      assert {:ok, %LaunchedEvent{}} =
+               LaunchedEvents.create_launched_event(
+                 @valid_attrs
+                 |> Map.merge(ctx)
+                 |> Map.put(:session_id, ctx.secondary_session.id)
+               )
+
+      assert {:error, %Ecto.Changeset{}} =
+               LaunchedEvents.create_launched_event(@valid_attrs |> Map.merge(ctx))
     end
   end
 end
