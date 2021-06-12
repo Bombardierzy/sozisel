@@ -24,23 +24,24 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
   describe "Presenter mutations should" do
     setup do
       user = insert(:user)
-      [conn: test_conn(user), user: user]
+      template = insert(:template, user_id: user.id)
+      session = insert(:session, session_template_id: template.id, user_id: user.id)
+
+      event = insert(:event, session_template_id: template.id)
+
+      [conn: test_conn(user), user: user, template: template, event: event, session: session]
     end
 
     test "send an event to all participants when presenter start event", ctx do
-      template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
-      session = insert(:session, session_template_id: template.id)
-
       variables = %{
-        eventId: event.id,
-        sessionId: session.id,
+        eventId: ctx.event.id,
+        sessionId: ctx.session.id,
         broadcast: true
       }
 
-      session_id = session.id
-      event_id = event.id
-      event_name = event.name
+      session_id = ctx.session.id
+      event_id = ctx.event.id
+      event_name = ctx.event.name
 
       assert %{
                data: %{
@@ -60,9 +61,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
     end
 
     test "send an event to listed participants when presenter start event", ctx do
-      template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
-      session = insert(:session, session_template_id: template.id)
+      %{session: session, event: event} = ctx
       participant_1 = insert(:participant, session_id: session.id, token: "First")
       participant_2 = insert(:participant, session_id: session.id, token: "Second")
 
@@ -94,6 +93,21 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
                    "event_results" => []
                  }
                }
+             } = run_query(ctx.conn, @launch_event, variables)
+    end
+
+    test "return an error when somebody tries to launch event twice", ctx do
+      variables = %{
+        eventId: ctx.event.id,
+        sessionId: ctx.session.id,
+        broadcast: true
+      }
+
+      assert %{data: %{"launchEvent" => %{}}} = run_query(ctx.conn, @launch_event, variables)
+
+      assert %{
+               data: %{"launchEvent" => nil},
+               errors: [%{"message" => "Event is already launched"}]
              } = run_query(ctx.conn, @launch_event, variables)
     end
   end

@@ -28,6 +28,10 @@ defmodule Sozisel.Model.LaunchedEvents.LaunchedEvent do
     launched_event
     |> cast(attrs, [:session_id, :event_id])
     |> validate_required([:session_id, :event_id])
+    |> unique_constraint([:session_id, :event_id],
+      name: :unique_launched_event,
+      message: "Event is already launched"
+    )
     |> foreign_key_constraint(:session_id)
     |> foreign_key_constraint(:event_id)
   end
