@@ -198,5 +198,8 @@
     "incorrectDurationTime": "Podana wartości musi być większa od 0",
     "percentageOfParticipants": "Podana wartości musi być większa od 0",
     "incorrectQuizQuestion": "Quiz powinien zawierać przynajmniej jedno pytanie oraz każde pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną !"
+  },
+  "errors": {
+    "request": "Wystąpił bład podczas przetwarzania zapytania"
   }
 }

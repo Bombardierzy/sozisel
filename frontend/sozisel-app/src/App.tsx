@@ -7,7 +7,6 @@ import CreateSession from "./components/SessionDetails/CreateSession";
 import EditSession from "./components/SessionDetails/EditSession/EditSession";
 import JitsiShowcaseScreen from "./components/Jitsi/JitsiShowcaseScreen";
 import JoinSession from "./components/JoinSession/JoinSession";
-import { LiveSession } from "./components/LiveSession/LiveSession";
 import Login from "./components/LoginScreen/LoginScreen";
 import ParticipantGuard from "./components/Guards/ParticipantGuard";
 import { PhoenixSocketProvider } from "./contexts/PhoenixSocketContext";
@@ -35,7 +34,7 @@ export default function App(): ReactElement {
           <Route exact path="/home">
             <Redirect to="/templates" />
           </Route>
-          <Route exact path ="/session/:id/result">
+          <Route exact path="/session/:id/result">
             <AuthGuard component={SessionResultScreen} />
           </Route>
           <Route exact path="/templates">

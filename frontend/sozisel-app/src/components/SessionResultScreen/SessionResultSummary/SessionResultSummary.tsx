@@ -1,13 +1,17 @@
 import "./SessionResultSummary.scss";
 
-import { CircularProgress, Paper } from "@material-ui/core";
+import {
+  AUTO_HIDE_DURATION,
+  SHORT_LOCAL_DATE_FORMAT,
+} from "../../../common/consts";
+import { CircularProgress, Paper, Snackbar } from "@material-ui/core";
 import { ReactElement, useMemo } from "react";
 import {
   useSessionBasicInfoQuery,
   useSessionSummaryQuery,
 } from "../../../graphql";
 
-import { SHORT_LOCAL_DATE_FORMAT } from "../../../common/consts";
+import { Alert } from "@material-ui/lab";
 import SummaryDetails from "./SummaryDetails";
 import TotalAreaChart from "./TotalAreaChart";
 import { useTranslation } from "react-i18next";
@@ -77,5 +81,12 @@ export default function SessionResultSummary({
     );
   }
 
-  return <CircularProgress />;
+  return (
+    <>
+      <CircularProgress />;
+      <Snackbar open autoHideDuration={AUTO_HIDE_DURATION}>
+        <Alert severity="error">{t("errors.request")}</Alert>
+      </Snackbar>
+    </>
+  );
 }

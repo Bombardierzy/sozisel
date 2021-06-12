@@ -42,10 +42,8 @@ export default function SessionsList(): ReactElement {
     variables: { input: { status: SessionStatus.Any } },
     fetchPolicy: "network-only",
   });
-  const [
-    deleteMutation,
-    { error: deleteError, loading: deleteLoading },
-  ] = useDeleteSessionMutation();
+  const [deleteMutation, { error: deleteError, loading: deleteLoading }] =
+    useDeleteSessionMutation();
 
   const debounceFetch = useMemo(
     () =>
