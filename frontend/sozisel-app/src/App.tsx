@@ -34,7 +34,7 @@ export default function App(): ReactElement {
           <Route exact path="/home">
             <Redirect to="/templates" />
           </Route>
-          <Route exact path ="/sessions/:id/result">
+          <Route exact path="/sessions/:id/result">
             <AuthGuard component={SessionResultScreen} />
           </Route>
           <Route exact path="/templates">
