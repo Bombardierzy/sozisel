@@ -22,13 +22,17 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
 
   def get_session_thumbnail(_parent, %{id: session_id}, _ctx) do
     with %Session{} = session <- Repo.get(Session, session_id) do
+      session =
+        session
+        |> Repo.preload(session_template: [:agenda_entries])
+
       thumbnail =
         session
         |> Map.put(:password_required, session.entry_password != nil)
-        |> Map.put(:agenda_entries, Sessions.list_agenda_entries(session.session_template_id))
+        |> Map.put(:agenda_entries, session.session_template.agenda_entries)
         |> Map.put(
           :estimated_time,
-          Sessions.get_template(session.session_template_id).estimated_time
+          session.session_template.estimated_time
         )
 
       {:ok, thumbnail}

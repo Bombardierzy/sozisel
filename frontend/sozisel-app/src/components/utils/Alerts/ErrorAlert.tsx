@@ -14,7 +14,7 @@ export default function ErrorAlert(): ReactElement {
 
   return (
     <Alert className="ErrorAlert" variant="outlined" severity="error">
-      {t("components.SessionDetails.fetchingErrorMessage")}
+      {t("errors.fetchingErrorMessage")}
     </Alert>
   );
 }

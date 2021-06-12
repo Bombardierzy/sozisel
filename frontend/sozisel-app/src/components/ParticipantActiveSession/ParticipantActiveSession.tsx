@@ -33,10 +33,8 @@ export default function ParticipantActiveSession({
 }: ParticipantActiveSessionProps): ReactElement {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
-  const {
-    data: session,
-    loading: sessionLoading,
-  } = useActiveSessionThumbnailQuery({ variables: { id } });
+  const { data: session, loading: sessionLoading } =
+    useActiveSessionThumbnailQuery({ variables: { id } });
   const { data: eventData } = useEventLaunchedSubscription({
     variables: { token },
   });
