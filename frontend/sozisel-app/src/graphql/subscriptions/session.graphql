@@ -1,0 +1,29 @@
+subscription SessionNotifications($token: String!){
+    sessionNotifications(participantToken: $token){
+        info
+    }
+}
+
+subscription EventLaunched($token: String!){
+    eventLaunched(participantToken: $token){
+        id
+        name
+        eventData {
+            ... participantQuizFields
+        }
+    }
+}
+
+fragment participantQuizFields on ParticipantQuiz {
+    __typename
+    durationTimeSec
+    trackingMode
+    quizQuestions {
+        id
+        question
+        answers {
+            text
+            id
+        }
+    }
+}

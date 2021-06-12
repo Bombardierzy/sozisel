@@ -29,7 +29,11 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :id, non_null(:id)
     field :name, non_null(:string)
     field :scheduled_start_time, non_null(:datetime)
+    field :start_time, :datetime
+    field :estimated_time, non_null(:integer)
     field :password_required, non_null(:boolean)
+    field :use_jitsi, non_null(:boolean)
+    field :agenda_entries, strong_list_of(:agenda_entry)
 
     field :owner, non_null(:user) do
       resolve(dataloader(:db, :user))

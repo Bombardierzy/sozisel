@@ -1,4 +1,4 @@
-import "./Agenda.scss";
+import "./ActiveSessionAgenda.scss";
 
 import { Paper, Typography } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
@@ -7,13 +7,13 @@ import { AgendaPoint } from "../../../model/Agenda";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import { useTranslation } from "react-i18next";
 
-interface AgendaProps {
+interface ActiveSessionAgendaProps {
   agendaEntries: AgendaPoint[];
   estimatedTimeInSeconds: number;
   sessionStartDate: Date;
 }
 
-interface AgendaEntryProps {
+interface ActiveSessionAgendaEntryProps {
   startMinute: number;
   endMinute: number;
   name: string;
@@ -29,11 +29,11 @@ const getSessionCurrentMinute = (sessionStartDate: Date) => {
   return (localTime.getTime() - sessionStartDate.getTime()) / (1000 * 60);
 };
 
-export default function Agenda({
+export default function ActiveSessionAgenda({
   agendaEntries,
   estimatedTimeInSeconds,
   sessionStartDate,
-}: AgendaProps): ReactElement {
+}: ActiveSessionAgendaProps): ReactElement {
   const [counter, setCounter] = useState<number>(
     getSessionCurrentMinute(sessionStartDate)
   );
@@ -60,7 +60,7 @@ export default function Agenda({
     endMinute,
     name,
     idx,
-  }: AgendaEntryProps): ReactElement => {
+  }: ActiveSessionAgendaEntryProps): ReactElement => {
     return (
       <>
         <Typography
@@ -103,7 +103,7 @@ export default function Agenda({
   };
 
   return (
-    <Paper elevation={2} className="Agenda">
+    <Paper elevation={2} className="ActiveSessionAgenda">
       <Typography className="header">
         <TurnedInNotIcon className="icon" />
         {t("components.PresenterSession.Agenda.header")}

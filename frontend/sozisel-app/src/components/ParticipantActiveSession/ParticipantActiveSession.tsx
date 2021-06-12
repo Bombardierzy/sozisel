@@ -1,17 +1,24 @@
 import "./ParticipantActiveSession.scss";
 
+import { CircularProgress, Fab } from "@material-ui/core";
 import {
   ParticipantEvent,
+  SessionInfo,
+  useActiveSessionThumbnailQuery,
+  useEventLaunchedSubscription,
   useGenerateJitsiTokenQuery,
+  useSessionNotificationsSubscription,
 } from "../../graphql/index";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
+import ActiveSessionAgenda from "../PresenterSession/ActiveSessionAgenda/ActiveSessionAgenda";
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
-import Fab from "@material-ui/core/Fab";
+import ErrorAlert from "../utils/Alerts/ErrorAlert";
 import JitsiFrame from "../Jitsi/JitsiFrame";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
-import { useParams } from "react-router-dom";
+import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
 import { useTranslation } from "react-i18next";
 
 export interface ParticipantActiveSessionProps {
@@ -25,54 +32,17 @@ export default function ParticipantActiveSession({
   email,
 }: ParticipantActiveSessionProps): ReactElement {
   const { id } = useParams<{ id: string }>();
-  const { t } = useTranslation("common");
-  // TODO change mock data, after adding subscription for events
-  const [activeEvent, setActiveEvent] = useState<ParticipantEvent | null>({
-    name: "Quiz na rozgrzewkę",
-    id: "id",
-    eventData: {
-      durationTimeSec: 100,
-      trackingMode: true,
-      quizQuestions: [
-        {
-          id: "q1",
-          question: "Kto był królem Polski",
-          answers: [
-            {
-              id: "a11",
-              text: "Mieszko 1",
-            },
-            {
-              id: "a12",
-              text: "Andrzej Duda",
-            },
-            {
-              id: "a13",
-              text: "Zbigniew Stonoga",
-            },
-          ],
-        },
-        {
-          id: "q2",
-          question: "Kto był prezydentem Polski",
-          answers: [
-            {
-              id: "a21",
-              text: "Lech Wałęsa",
-            },
-            {
-              id: "a22",
-              text: "Andrzej Duda",
-            },
-            {
-              id: "a23",
-              text: "Zbigniew Stonoga",
-            },
-          ],
-        },
-      ],
-    },
+  const history = useHistory();
+  const { data: session, loading: sessionLoading } =
+    useActiveSessionThumbnailQuery({ variables: { id } });
+  const { data: eventData } = useEventLaunchedSubscription({
+    variables: { token },
   });
+  const { data: sessionNotifications } = useSessionNotificationsSubscription({
+    variables: { token },
+  });
+  const { t } = useTranslation("common");
+  const [activeEvent, setActiveEvent] = useState<ParticipantEvent | null>(null);
   const { data, loading } = useGenerateJitsiTokenQuery({
     variables: {
       displayName: fullName,
@@ -81,39 +51,99 @@ export default function ParticipantActiveSession({
     },
   });
 
+  useEffect(() => {
+    if (eventData?.eventLaunched) {
+      setActiveEvent(eventData.eventLaunched);
+    }
+  }, [eventData]);
+
+  useEffect(() => {
+    if (sessionNotifications?.sessionNotifications) {
+      switch (sessionNotifications.sessionNotifications.info) {
+        case SessionInfo.SessionEnd:
+          history.push(`/`);
+          break;
+        default:
+          break;
+      }
+    }
+  }, [sessionNotifications, history]);
+
+  if (sessionLoading) {
+    return (
+      <>
+        <BasicNavbar />
+        <div className="ParticipantActiveSession">
+          <CircularProgress />
+        </div>
+      </>
+    );
+  }
+
+  if (session?.sessionThumbnail) {
+    return (
+      <>
+        <BasicNavbar />
+        <div className="ParticipantActiveSession">
+          {!activeEvent && (
+            <div className="agendaComponent">
+              <ActiveSessionAgenda
+                agendaEntries={session.sessionThumbnail.agendaEntries}
+                estimatedTimeInSeconds={session.sessionThumbnail.estimatedTime}
+                sessionStartDate={new Date(session.sessionThumbnail.startTime)}
+              />
+            </div>
+          )}
+          {session.sessionThumbnail.useJitsi && (
+            <div className="jitsi">
+              {!loading && data?.generateJitsiToken.token && (
+                <JitsiFrame
+                  roomId={id}
+                  token={data.generateJitsiToken.token}
+                  displayName={data.generateJitsiToken.displayName}
+                />
+              )}
+            </div>
+          )}
+          {!activeEvent && (
+            <div className="moduleComponent">
+              <ParticipantsList sessionId={id} />
+            </div>
+          )}
+          {activeEvent &&
+            activeEvent.eventData.__typename === "ParticipantQuiz" && (
+              <div className="moduleComponent">
+                <ParticipantQuizContextProvider>
+                  <ParticipantQuizEvent
+                    onQuizFinished={() => setActiveEvent(null)}
+                    token={token}
+                    event={activeEvent}
+                  />
+                </ParticipantQuizContextProvider>
+              </div>
+            )}
+        </div>
+        <Fab
+          variant="extended"
+          className="ParticipantSessionFab"
+          color="primary"
+          style={{ position: "fixed" }}
+          onClick={() => {
+            history.push(`/`);
+          }}
+        >
+          {t("components.ParticipantActiveSession.exitSession") ?? ""}
+        </Fab>
+      </>
+    );
+  }
+
   return (
     <>
       <BasicNavbar />
-      <div className="ParticipantActiveSession">
-        <div className="jitsi">
-          {!loading && data?.generateJitsiToken.token && (
-            <JitsiFrame
-              roomId={id}
-              token={data.generateJitsiToken.token}
-              displayName={data.generateJitsiToken.displayName}
-            />
-          )}
-        </div>
-        <div className="moduleComponent">
-          {activeEvent && (
-            <ParticipantQuizContextProvider>
-              <ParticipantQuizEvent
-                onQuizFinished={() => setActiveEvent(null)}
-                token={token}
-                event={activeEvent}
-              />
-            </ParticipantQuizContextProvider>
-          )}
-        </div>
+      <div className="CreateSession">
+        <ErrorAlert />
       </div>
-      <Fab
-        variant="extended"
-        className="ParticipantSessionFab"
-        color="primary"
-        style={{ position: "fixed" }}
-      >
-        {t("components.ParticipantActiveSession.exitSession") ?? ""}
-      </Fab>
     </>
   );
 }

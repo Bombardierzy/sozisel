@@ -51,12 +51,6 @@ defmodule Sozisel.Model.Events do
   end
 
   def marshal_participant_event_data(%{__struct__: Quiz} = event_data) do
-    quiz_questions_data =
-      event_data.quiz_questions
-      |> Enum.map(&Map.take(&1, [:question_id, :question, :answer]))
-
     event_data
-    |> Map.take([:duration_time_sec, :tracking_mode])
-    |> Map.put(:quiz_questions, quiz_questions_data)
   end
 end

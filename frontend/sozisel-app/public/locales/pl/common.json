@@ -200,6 +200,7 @@
     "incorrectQuizQuestion": "Quiz powinien zawierać przynajmniej jedno pytanie oraz każde pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną !"
   },
   "errors": {
-    "request": "Wystąpił bład podczas przetwarzania zapytania"
+    "request": "Wystąpił bład podczas przetwarzania zapytania",
+    "fetchingErrorMessage": "Błąd ładowania danych. Spróbuj ponownie później."
   }
 }

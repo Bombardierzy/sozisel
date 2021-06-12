@@ -36,8 +36,6 @@ export default function ParticipantQuizEvent({
     if (!quiz.trackingMode) {
       finalAnswers.forEach((element) => (element.trackNodes = null));
     }
-    // right now quiz is mocked so submitMutation will return error
-    // situation'll change when event subscription will be added
     submitMutation({
       variables: {
         token: token,
