@@ -7,13 +7,13 @@ import CreateSession from "./components/SessionDetails/CreateSession";
 import EditSession from "./components/SessionDetails/EditSession/EditSession";
 import JitsiShowcaseScreen from "./components/Jitsi/JitsiShowcaseScreen";
 import JoinSession from "./components/JoinSession/JoinSession";
-import { LiveSession } from "./components/LiveSession/LiveSession";
 import Login from "./components/LoginScreen/LoginScreen";
 import ParticipantGuard from "./components/Guards/ParticipantGuard";
 import { PhoenixSocketProvider } from "./contexts/PhoenixSocketContext";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
 import SessionRecordingUpload from "./components/SessionRecordingUpload/SesisonRecordingUpload";
+import { SessionResultScreen } from "./components/SessionResultScreen/SessionResultScreen";
 import SessionsList from "./components/SessionsList/SessionsList";
 import TemplateCreation from "./components/TemplateCreation/TemplateCreation";
 import TemplateList from "./components/TemplatesList/TemplateList";
@@ -33,6 +33,9 @@ export default function App(): ReactElement {
           <Route exact path="/jitsi" component={JitsiShowcaseScreen} />
           <Route exact path="/home">
             <Redirect to="/templates" />
+          </Route>
+          <Route exact path="/sessions/:id/result">
+            <AuthGuard component={SessionResultScreen} />
           </Route>
           <Route exact path="/templates">
             <AuthGuard component={TemplateList} />
@@ -55,8 +58,6 @@ export default function App(): ReactElement {
           <Route exact path="/sessions/:id/recording/upload">
             <AuthGuard component={SessionRecordingUpload} />
           </Route>
-          {/* TODO remove LiveSession component */}
-          <Route path="/session/live/:session_id" component={LiveSession} />
           <Route path="/sessions/:id/join" component={JoinSession} />
           <Route exact path="/sessions/:id/live">
             <ParticipantGuard />

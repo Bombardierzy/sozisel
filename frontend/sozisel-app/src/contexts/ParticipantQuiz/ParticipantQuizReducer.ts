@@ -15,11 +15,12 @@ export interface ParticipantQuizStoreInterface {
   answers: ParticipantQuizAnswerInput[];
 }
 
-export const participantQuizInitialState = (): ParticipantQuizStoreInterface => ({
-  currentQuestion: { question: "", answers: [], id: "" },
-  currentAnswer: { finalAnswerIds: [], questionId: "", trackNodes: [] },
-  answers: [],
-});
+export const participantQuizInitialState =
+  (): ParticipantQuizStoreInterface => ({
+    currentQuestion: { question: "", answers: [], id: "" },
+    currentAnswer: { finalAnswerIds: [], questionId: "", trackNodes: [] },
+    answers: [],
+  });
 
 export default function participantQuizReducer(
   state: ParticipantQuizStoreInterface,

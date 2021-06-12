@@ -37,10 +37,8 @@ export default function CreateSession(): ReactElement {
       id: (location.state as CreateSessionProps).templateId,
     },
   });
-  const [
-    createMutation,
-    { error: createError, loading: createLoading },
-  ] = useCreateSessionMutation();
+  const [createMutation, { error: createError, loading: createLoading }] =
+    useCreateSessionMutation();
 
   const onSubmit = async ({
     sessionName,

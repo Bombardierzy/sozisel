@@ -334,5 +334,64 @@ defmodule Sozisel.SessionsTest do
                  end_time: DateTime.utc_now()
                })
     end
+
+    test "session summary returns a proper structure" do
+      template = insert(:template)
+      event1 = insert(:event, session_template_id: template.id)
+      event2 = insert(:event, session_template_id: template.id)
+
+      session = insert(:session, session_template_id: template.id)
+
+      {:ok, session} =
+        Sessions.update_session(session, %{
+          start_time: DateTime.utc_now(),
+          end_time: DateTime.utc_now() |> DateTime.add(3600)
+        })
+
+      launched_event1 = insert(:launched_event, session_id: session.id, event_id: event1.id)
+      launched_event2 = insert(:launched_event, session_id: session.id, event_id: event2.id)
+
+      participant1 = insert(:participant, session_id: session.id)
+      participant2 = insert(:participant, session_id: session.id)
+
+      _event_result1 =
+        insert(:event_result,
+          launched_event: launched_event1,
+          participant: participant1,
+          result_data: random_event_result(event1.event_data)
+        )
+
+      _event_result2 =
+        insert(:event_result,
+          launched_event: launched_event1,
+          participant: participant2,
+          result_data: random_event_result(event1.event_data)
+        )
+
+      _event_result3 =
+        insert(:event_result,
+          launched_event: launched_event2,
+          participant: participant2,
+          result_data: random_event_result(event2.event_data)
+        )
+
+      assert %{
+               duration_time: 60,
+               total_participants: 2,
+               total_submissions: 3,
+               event_participations: [
+                 %{
+                   event_id: event1.id,
+                   event_name: event1.name,
+                   submissions: 2
+                 },
+                 %{
+                   event_id: event2.id,
+                   event_name: event2.name,
+                   submissions: 1
+                 }
+               ]
+             } == session |> Sessions.session_summary()
+    end
   end
 end

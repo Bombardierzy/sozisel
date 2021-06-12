@@ -37,10 +37,8 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
     name: t("components.TemplateCreation.defaultTemplateName"),
   };
 
-  const [
-    createSessionTemplateMutation,
-    { error },
-  ] = useCreateSessionTemplateMutation();
+  const [createSessionTemplateMutation, { error }] =
+    useCreateSessionTemplateMutation();
 
   const onAdd = async () => {
     const { data } = await createSessionTemplateMutation({
