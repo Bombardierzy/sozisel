@@ -2,7 +2,7 @@ import "./ParticipantsList.scss";
 
 import { Alert, Skeleton } from "@material-ui/lab";
 import { Paper, Typography } from "@material-ui/core";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useMemo } from "react";
 
 import GroupIcon from "@material-ui/icons/Group";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -23,6 +23,14 @@ export default function ParticipantsList({
 }: ParticipantsListProps): ReactElement {
   const { t } = useTranslation("common");
 
+  const sortedParticipants = useMemo(() => {
+    return participants.sort((a, b) => {
+      if (a.type == b.type) return 0;
+      if (a.type === "presenter") return -1;
+      return 1;
+    });
+  }, [participants]);
+
   return (
     <Paper elevation={2} className="ParticipantsList">
       <Typography className="header">
@@ -41,8 +49,8 @@ export default function ParticipantsList({
           <Skeleton height={30} />
         </>
       )}
-      {participants.length > 0 &&
-        participants.map(({ id, displayName, type }) => (
+      {sortedParticipants.length > 0 &&
+        sortedParticipants.map(({ id, displayName, type }) => (
           <div key={id} className="participant">
             {type == "presenter" ? (
               <>

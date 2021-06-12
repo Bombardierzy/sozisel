@@ -12,6 +12,11 @@
     .containerGrid {
         height: 100%;
         padding: $spacing-06;
+        .jitsiFrame {
+            div {
+                height: 100%;
+            }
+        }
         .firstRowItem {
             height: 50%;
         }

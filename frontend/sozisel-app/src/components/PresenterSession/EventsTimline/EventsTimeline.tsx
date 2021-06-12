@@ -81,10 +81,8 @@ export default function EventsTimeline({
   const [activeEventCurrentSec, setActiveEventCurrentSec] = useState<number>(0);
   const history = useHistory();
 
-  const [
-    endSessionMutation,
-    { error: endSessionError },
-  ] = useEndSessionMutation();
+  const [endSessionMutation, { error: endSessionError }] =
+    useEndSessionMutation();
 
   const onEndSession = async () => {
     await endSessionMutation({ variables: { id: sessionId } });
@@ -94,7 +92,6 @@ export default function EventsTimeline({
   };
 
   useEffect(() => {
-    console.log(launchedEvents);
     const lastEventIdx = launchedEvents.length - 1;
     if (lastEventIdx >= 0) {
       const lastEvent = launchedEvents[launchedEvents.length - 1];
@@ -119,10 +116,8 @@ export default function EventsTimeline({
     }
   }, [activeEventIdx, events, launchedEvents]);
 
-  const [
-    launchEventMutation,
-    { error: launchEventError },
-  ] = useLaunchEventMutation();
+  const [launchEventMutation, { error: launchEventError }] =
+    useLaunchEventMutation();
 
   const onNextEvent = async () => {
     const {

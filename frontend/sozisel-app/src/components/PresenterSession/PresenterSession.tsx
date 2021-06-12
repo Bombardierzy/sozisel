@@ -2,16 +2,21 @@ import "./PresenterSession.scss";
 
 import { CircularProgress, Grid, Paper } from "@material-ui/core";
 import React, { ReactElement } from "react";
+import {
+  useGenerateJitsiTokenQuery,
+  useMeQuery,
+  useSessionDetailsQuery,
+} from "../../graphql";
 
 import ActiveSessionAgenda from "./ActiveSessionAgenda/ActiveSessionAgenda";
 import { Alert } from "@material-ui/lab";
 import EventsTimeline from "./EventsTimline/EventsTimeline";
+import JitsiFrame from "../Jitsi/JitsiFrame";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import ParticipantsList from "./ParticipantsList/ParticipantsList";
 import moment from "moment-timezone";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useParams } from "react-router";
-import { useSessionDetailsQuery } from "../../graphql";
 import useSessionParticipantType from "../../hooks/useSessionParticipantType";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +24,7 @@ export default function PresenterSession(): ReactElement {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation("common");
   const { token, type } = useSessionParticipantType();
+  const { data: meData } = useMeQuery();
   const {
     participants,
     error: getParticipantsError,
@@ -29,11 +35,23 @@ export default function PresenterSession(): ReactElement {
     token,
   });
 
+  const { data: jitsiData, loading: jitsiLoading } = useGenerateJitsiTokenQuery(
+    {
+      variables: {
+        displayName: `${meData?.me.firstName} ${meData?.me.lastName}`,
+        email: meData?.me.email || "",
+        roomId: id,
+      },
+    }
+  );
+
   const { data, loading, error } = useSessionDetailsQuery({
     variables: {
       id,
     },
   });
+
+  const useJitsi = data && data.session && data.session.useJitsi;
 
   if (loading) {
     return (
@@ -59,7 +77,7 @@ export default function PresenterSession(): ReactElement {
     <div className="PresenterSession">
       <MainNavbar />
       <Grid container spacing={1} className="containerGrid">
-        <Grid item xs={3} className="firstRowItem">
+        <Grid item xs={useJitsi ? 3 : 6} className="firstRowItem">
           {data && data.session && (
             <ActiveSessionAgenda
               agendaEntries={data.session.sessionTemplate.agendaEntries}
@@ -70,10 +88,21 @@ export default function PresenterSession(): ReactElement {
             />
           )}
         </Grid>
-        <Grid item xs={6} className="firstRowItem">
-          <Paper elevation={2}></Paper>
-        </Grid>
-        <Grid item xs={3} className="firstRowItem">
+        {useJitsi && (
+          <Grid item xs={6} className="firstRowItem jitsiFrame">
+            <Paper elevation={2}>
+              {!jitsiLoading && jitsiData?.generateJitsiToken && (
+                <JitsiFrame
+                  roomId={id}
+                  token={jitsiData.generateJitsiToken.token}
+                  displayName={jitsiData.generateJitsiToken.displayName}
+                />
+              )}
+            </Paper>
+          </Grid>
+        )}
+
+        <Grid item xs={useJitsi ? 3 : 6} className="firstRowItem">
           {data && data.session && (
             <ParticipantsList
               error={getParticipantsError}
