@@ -1,0 +1,10 @@
+mutation LaunchEvent(
+    $broadcast: Boolean!,
+    $eventId: ID!,
+    $sessionId: ID!,
+    $targetParticipants: [ID]
+) {
+    launchEvent(broadcast: $broadcast, eventId: $eventId, sessionId: $sessionId, targetParticipants: $targetParticipants) {
+        id
+    }
+}

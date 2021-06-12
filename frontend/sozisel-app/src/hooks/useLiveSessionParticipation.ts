@@ -12,7 +12,7 @@ interface Config {
   type: ParticipantType;
 }
 
-interface Participant {
+export interface Participant {
   id: string;
   displayName: string;
   type: ParticipantType;

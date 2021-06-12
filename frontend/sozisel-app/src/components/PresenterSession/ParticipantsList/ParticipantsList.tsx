@@ -6,25 +6,22 @@ import React, { ReactElement } from "react";
 
 import GroupIcon from "@material-ui/icons/Group";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Participant } from "../../../hooks/useLiveSessionParticipation";
 import PersonIcon from "@material-ui/icons/Person";
-import { useLiveSessionParticipation } from "../../../hooks/useLiveSessionParticipation";
-import useSessionParticipantType from "../../../hooks/useSessionParticipantType";
 import { useTranslation } from "react-i18next";
 
 interface ParticipantsListProps {
-  sessionId: string;
+  error: string | undefined;
+  loading: boolean;
+  participants: Participant[];
 }
 
 export default function ParticipantsList({
-  sessionId,
+  error,
+  loading,
+  participants,
 }: ParticipantsListProps): ReactElement {
-  const { token, type } = useSessionParticipantType();
   const { t } = useTranslation("common");
-  const { participants, error, loading } = useLiveSessionParticipation({
-    sessionId,
-    type,
-    token,
-  });
 
   return (
     <Paper elevation={2} className="ParticipantsList">
