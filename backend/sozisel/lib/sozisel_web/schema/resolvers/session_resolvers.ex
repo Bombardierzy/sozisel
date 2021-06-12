@@ -20,7 +20,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     end
   end
 
-  def get_session_thumbnail(_parent, %{id: session_id}, ctx) do
+  def get_session_thumbnail(_parent, %{id: session_id}, _ctx) do
     with %Session{} = session <- Repo.get(Session, session_id) do
       thumbnail =
         session

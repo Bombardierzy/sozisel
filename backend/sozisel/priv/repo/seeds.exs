@@ -42,7 +42,7 @@ Repo.transaction(fn ->
     |> Enum.map(&Sessions.create_template(&1))
     |> Enum.map(&elem(&1, 1))
 
-  agenda1 =
+  _agenda1 =
     [
       %{
         name: "Bestia z wadowic",
@@ -61,7 +61,7 @@ Repo.transaction(fn ->
     |> Enum.map(&Sessions.create_agenda_entry(&1))
     |> Enum.map(&elem(&1, 1))
 
-  agenda2 =
+  _agenda2 =
     [
       %{
         name: "E = mc^2",
@@ -80,7 +80,7 @@ Repo.transaction(fn ->
     |> Enum.map(&Sessions.create_agenda_entry(&1))
     |> Enum.map(&elem(&1, 1))
 
-  {:ok, event1} =
+  {:ok, _event1} =
     %{
       session_template_id: template1.id,
       name: "Znani przestępcy",
@@ -101,7 +101,7 @@ Repo.transaction(fn ->
     }
     |> Events.create_event()
 
-  {:ok, session1} =
+  {:ok, _session1} =
     %{
       name: "Kryminialistyka - 2021",
       scheduled_start_time: DateTime.utc_now() |> DateTime.add(30 * 24 * 3600),

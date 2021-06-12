@@ -1,6 +1,9 @@
 defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
   alias SoziselWeb.Schema.Helpers
   alias SoziselWeb.Schema.Subscriptions.Topics
+  alias SoziselWeb.Context
+  alias Sozisel.Model.{Sessions, Users.User}
+  alias Sessions.Session
 
   alias Sozisel.Model.{
     Events,
@@ -31,22 +34,29 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
           event_id: event_id,
           session_id: session_id
         } = attrs,
-        _ctx
+        ctx
       ) do
-    with %Event{} = event <- Events.get_event(event_id) do
-      {:ok, launched_event} =
-        LaunchedEvents.create_launched_event(%{
-          event_id: event_id,
-          session_id: session_id
-        })
+    %User{id: presenter_id} = Context.current_user!(ctx)
 
+    with %Session{user_id: ^presenter_id} = session <- Sessions.get_session(session_id),
+         %Event{} = event <- Events.get_event(event_id),
+         {:ok, launched_event} <- LaunchedEvents.create_launched_event(session, event) do
       participant_event = prepare_data_for_participants(event, launched_event)
 
       publish_event(attrs, participant_event)
 
       {:ok, launched_event}
     else
-      _ -> {:error, "unauthorized"}
+      {:error, %Ecto.Changeset{} = changeset} ->
+        changeset
+        |> Ecto.Changeset.traverse_errors(&elem(&1, 0))
+        |> Map.values()
+        |> List.flatten()
+        |> Enum.join(",")
+        |> then(&{:error, &1})
+
+      _ ->
+        {:error, "unauthorized"}
     end
   end
 
