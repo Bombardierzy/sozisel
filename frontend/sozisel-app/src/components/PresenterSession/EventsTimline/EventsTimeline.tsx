@@ -87,7 +87,7 @@ export default function EventsTimeline({
   const onEndSession = async () => {
     await endSessionMutation({ variables: { id: sessionId } });
     if (!endSessionError) {
-      history.push(`sessions/${sessionId}/result/recording`);
+      history.push(`result/summary`);
     }
   };
 
