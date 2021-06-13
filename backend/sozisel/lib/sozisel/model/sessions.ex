@@ -330,7 +330,8 @@ defmodule Sozisel.Model.Sessions do
             join: le in LaunchedEvent,
             on: le.id == er.launched_event_id,
             join: e in Event,
-            on: e.id == le.event_id
+            on: e.id == le.event_id,
+            where: le.session_id == ^session_id
           ),
           :count
         )
