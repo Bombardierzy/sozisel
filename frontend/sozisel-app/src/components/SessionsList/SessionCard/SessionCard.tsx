@@ -68,7 +68,7 @@ export default function SessionCard({
   };
 
   const onCardClick = () => {
-    if(isEnded) {
+    if (isEnded) {
       history.push({
         pathname: `/sessions/${session.id}/result`,
       });
