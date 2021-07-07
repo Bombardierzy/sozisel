@@ -199,7 +199,7 @@ export default function EventsTimeline({
           startValue={activeEventCurrentSec}
           onFinishCallback={() => {
             setActiveEventId("");
-            if (activeEventIdx < events.length - 1) {
+            if (activeEventIdx < events.length) {
               setActiveEventIdx(activeEventIdx + 1);
             }
           }}
