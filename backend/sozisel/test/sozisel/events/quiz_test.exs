@@ -1,4 +1,4 @@
-defmodule Sozisel.EventsTest do
+defmodule Sozisel.Events.QuizTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.Events
@@ -6,7 +6,7 @@ defmodule Sozisel.EventsTest do
 
   import Sozisel.Factory
 
-  describe "events" do
+  describe "quiz events" do
     @valid_attrs %{
       name: "some name",
       start_minute: 42,

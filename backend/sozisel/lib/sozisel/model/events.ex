@@ -4,9 +4,10 @@ defmodule Sozisel.Model.Events do
   """
 
   import Ecto.Query, warn: false
+
   alias Sozisel.Repo
 
-  alias Sozisel.Model.{Events.Event, Utils, Quizzes.Quiz}
+  alias Sozisel.Model.{Events.Event, Utils, Quizzes.Quiz, Polls.Poll}
 
   def list_events do
     Repo.all(Event)
@@ -29,7 +30,7 @@ defmodule Sozisel.Model.Events do
     |> Repo.insert()
   end
 
-  def update_event(%Event{} = event, attrs) do
+  def update_event(%Event{} = event, %{} = attrs) do
     event
     |> Event.update_changeset(attrs)
     |> Repo.update()

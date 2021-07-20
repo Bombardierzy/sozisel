@@ -4,6 +4,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
   import PolymorphicEmbed, only: [cast_polymorphic_embed: 3]
 
   alias Sozisel.Model.Quizzes.QuizResult
+  alias Sozisel.Model.Polls.PollResult
   alias Sozisel.Model.Participants.Participant
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
 
@@ -21,7 +22,8 @@ defmodule Sozisel.Model.EventResults.EventResult do
   schema "event_results" do
     field :result_data, PolymorphicEmbed,
       types: [
-        quiz_result: [module: QuizResult, identify_by_fields: [:participant_answers]]
+        quiz_result: [module: QuizResult, identify_by_fields: [:participant_answers]],
+        poll_result: [module: PollResult, identify_by_fields: [:option_id]]
       ],
       on_type_not_found: :raise,
       on_replace: :update

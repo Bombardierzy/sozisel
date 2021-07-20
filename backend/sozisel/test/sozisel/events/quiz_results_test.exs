@@ -1,4 +1,4 @@
-defmodule Sozisel.EventResultsTest do
+defmodule Sozisel.Events.QuizResultsTest do
   use Sozisel.DataCase
 
   import Sozisel.Factory
@@ -189,8 +189,16 @@ defmodule Sozisel.EventResultsTest do
       assert event_result.participant_id == participant.id
     end
 
-    test "create_event_result/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = EventResults.create_event_result(@invalid_attrs)
+    test "create_event_result/1 with invalid data returns error changeset or unmatched event result error" do
+      %{launched_event: launched_event} = prepare_fixtures()
+      participant = insert(:participant)
+
+      assert {:error, :unmatched_event_result} =
+               EventResults.create_event_result(%{
+                 launched_event_id: launched_event.id,
+                 participant_id: participant.id,
+                 event_data: %{}
+               })
     end
 
     test "update_event_result/2 with valid data updates the event_result" do

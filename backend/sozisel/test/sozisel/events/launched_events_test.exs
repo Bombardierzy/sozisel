@@ -1,4 +1,4 @@
-defmodule Sozisel.LaunchedEventsTest do
+defmodule Sozisel.Events.LaunchedEventsTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.{LaunchedEvents, LaunchedEvents.LaunchedEvent}
