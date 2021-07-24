@@ -190,8 +190,6 @@
         "QuizDetails": {
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
-          "enableTrackingMode": "Śledzenie odpowiedzi: włączone",
-          "disableTrackingMode": "Śledzenie odpowiedzi: wyłączone",
           "questionsNumber": "Ilość pytań: "
         }
       }
