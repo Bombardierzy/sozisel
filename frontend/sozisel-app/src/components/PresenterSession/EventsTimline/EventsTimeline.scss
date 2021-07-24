@@ -1,0 +1,41 @@
+@import "../../../styles/styles.scss";
+
+.Timer {
+  text-align: center;
+}
+
+.EventsTimeline {
+  height: 90%;
+  .header {
+    display: flex;
+    align-items: center;
+    padding: $spacing-03 $spacing-05;
+    p {
+      display: inline;
+      @include header-02;
+      color: $text-03;
+    }
+    .icon {
+      background-color: $main-color;
+      border-radius: $spacing-05;
+      padding: $spacing-03 + $spacing-01;
+      margin-right: $spacing-03;
+    }
+    .startEventButton {
+      display: block;
+    }
+  }
+  .stepper {
+    padding: $spacing-02;
+  }
+  .label {
+    span {
+      @include text-02;
+    }
+  }
+  .endSessionContainer {
+    position: fixed;
+    bottom: 50px;
+    right: 40px;
+  }
+}

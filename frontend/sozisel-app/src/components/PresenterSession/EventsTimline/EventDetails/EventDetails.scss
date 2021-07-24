@@ -1,0 +1,9 @@
+@import "../../../../styles/styles.scss";
+
+.eventDetails {
+  .eventDetailsHeader {
+    padding: 0 $spacing-05;
+    @include header-01;
+    color: $text-03;
+  }
+}

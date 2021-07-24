@@ -68,9 +68,19 @@ export default function SessionCard({
   };
 
   const onCardClick = () => {
-    history.push({
-      pathname: `/sessions/${session.id}/edit`,
-    });
+    if (isEnded) {
+      history.push({
+        pathname: `/sessions/${session.id}/result`,
+      });
+    } else if (!isScheduled) {
+      history.push({
+        pathname: `/sessions/${session.id}/live`,
+      });
+    } else {
+      history.push({
+        pathname: `/sessions/${session.id}/edit`,
+      });
+    }
   };
 
   return (
