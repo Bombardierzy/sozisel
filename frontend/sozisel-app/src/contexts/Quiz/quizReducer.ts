@@ -6,7 +6,6 @@ export type QuizActions =
   | { type: "ADD_ANSWER"; answer: Answer; question: QuizQuestion }
   | { type: "SET_DURATION_TIME"; durationTime: number }
   | { type: "SET_PERCENTAGE_OF_PARTICIPANTS"; percentageOfParticipants: number }
-  | { type: "SET_TRACKING_MODE"; trackingMode: boolean }
   | { type: "SET_QUESTIONS"; questions: QuizQuestion[] }
   | { type: "RESET" }
   | { type: "DELETE_ANSWER"; answer: Answer; question: QuizQuestion }
@@ -29,7 +28,6 @@ export interface QuizStoreInterface {
   questions: QuizQuestion[];
   durationTime: number;
   percentageOfParticipants: number;
-  trackingMode: boolean;
 }
 
 export const initialQuestion = (): QuizQuestion => ({
@@ -42,7 +40,6 @@ export const initialQuestion = (): QuizQuestion => ({
 export const quizInitialState = (): QuizStoreInterface => ({
   questions: [initialQuestion()],
   durationTime: 0,
-  trackingMode: false,
   percentageOfParticipants: 0,
 });
 
@@ -65,11 +62,6 @@ export default function quizReducer(
       return {
         ...state,
         percentageOfParticipants: action.percentageOfParticipants,
-      };
-    case "SET_TRACKING_MODE":
-      return {
-        ...state,
-        trackingMode: action.trackingMode,
       };
     case "SET_QUESTIONS":
       return {

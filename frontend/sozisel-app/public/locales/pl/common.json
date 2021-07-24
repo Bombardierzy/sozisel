@@ -76,20 +76,15 @@
           "defaultQuestion": "Treść pytania..."
         },
         "durationTime": "Czas trwania (w sekundach)",
-        "percentageOfParticipants": "Procent uczestników",
-        "trackingMode": "Śledzenie odpowiedzi"
+        "percentageOfParticipants": "Procent uczestników"
       },
       "EventList": {
         "Quiz": {
           "startMinute": "Czas rozpoczęcia: {{value}} minuta",
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
-          "trackingMode": "Śledzenie odpowiedzi: {{value}}",
           "onDeleteEventMessage": "Usunięto wydarzenie!",
-          "addNewQuestion": "Dodaj kolejne pytanie",
-          "enableTrackingMode": "włączone",
-          "disableTrackingMode": "wyłączone"
-        }
+          "addNewQuestion": "Dodaj kolejne pytanie"        }
       }
     },
     "SessionDetails": {

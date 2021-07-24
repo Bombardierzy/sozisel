@@ -4,7 +4,6 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   object :quiz do
     field :duration_time_sec, non_null(:integer)
     field :target_percentage_of_participants, non_null(:integer)
-    field :tracking_mode, non_null(:boolean)
     field :quiz_questions, strong_list_of(:quiz_question)
   end
 
@@ -41,7 +40,6 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   object :participant_quiz do
     field :duration_time_sec, non_null(:integer)
-    field :tracking_mode, non_null(:boolean)
     field :quiz_questions, strong_list_of(:participant_quiz_question)
   end
 
@@ -58,7 +56,6 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   input_object :quiz_input do
     field :duration_time_sec, non_null(:integer)
     field :target_percentage_of_participants, non_null(:integer)
-    field :tracking_mode, non_null(:boolean)
     field :quiz_questions, strong_list_of(:quiz_question_input)
   end
 

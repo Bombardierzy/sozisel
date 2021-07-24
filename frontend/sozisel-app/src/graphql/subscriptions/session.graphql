@@ -17,7 +17,6 @@ subscription EventLaunched($token: String!){
 fragment participantQuizFields on ParticipantQuiz {
     __typename
     durationTimeSec
-    trackingMode
     quizQuestions {
         id
         question

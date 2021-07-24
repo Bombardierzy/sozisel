@@ -88,7 +88,6 @@ Repo.transaction(fn ->
       event_data: %{
         duration_time_sec: 300,
         target_percentage_of_participants: 100,
-        tracking_mode: false,
         quiz_questions: [
           %{
             id: "fD875==",
@@ -109,7 +108,6 @@ Repo.transaction(fn ->
       event_data: %{
         duration_time_sec: 300,
         target_percentage_of_participants: 100,
-        tracking_mode: false,
         quiz_questions: [
           %{
             id: "1",
