@@ -16,6 +16,10 @@ query SessionDetails($id: ID!){
         entryPassword
         useJitsi
         startTime
+        launchedEvents {
+            id
+            insertedAt
+        }
         sessionTemplate {
             id
             estimatedTime

@@ -173,7 +173,7 @@
       "dialogButtonText": "OK"
     },
     "ParticipantActiveSession": {
-      "exitSession": "Wyjdź", 
+      "exitSession": "Wyjdź",
       "next": "Dalej"
     },
     "PresenterSession": {
@@ -184,6 +184,21 @@
       "ParticipantsList": {
         "fetchingError": "Błąd ładowania uczestników. Spróbuj ponownie później.",
         "header": "Uczestnicy"
+      },
+      "EventsTimeline": {
+        "header": "Wydarzenia",
+        "eventDetailsHeader": "Szczegóły wydarzenia :",
+        "startMinute": "{{value}} minuta",
+        "endSessionButton": "Zakończ sesję",
+        "launchEventError": "Błąd podczas uruchomienia wydarzenia. Proszę spróbuj pożniej.",
+        "endSessionError": "Błąd podczas zamykannia sesji. Proszę spróbuj pożniej.",
+        "QuizDetails": {
+          "durationTime": "Czas trwania: {{value}} sekund",
+          "percentageOfParticipants": "Uczestnicy: {{value}}%",
+          "enableTrackingMode": "Śledzenie odpowiedzi: włączone",
+          "disableTrackingMode": "Śledzenie odpowiedzi: wyłączone",
+          "questionsNumber": "Ilość pytań: "
+        }
       }
     }
   },

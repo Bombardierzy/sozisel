@@ -5,3 +5,7 @@ export interface Session {
   scheduledStartTime: Date;
   startTime?: Date;
 }
+
+export interface LaunchedEvent {
+  id: string;
+}

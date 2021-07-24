@@ -80,7 +80,7 @@ Repo.transaction(fn ->
     |> Enum.map(&Sessions.create_agenda_entry(&1))
     |> Enum.map(&elem(&1, 1))
 
-  {:ok, _event1} =
+  {:ok, event1} =
     %{
       session_template_id: template1.id,
       name: "Znani przestępcy",
