@@ -71,7 +71,6 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
     event_data: %{
       duration_time_sec: 12,
       target_percentage_of_participants: 2,
-      tracking_mode: true,
       quiz_questions: [
         %{
           question: "What is the capital of Poland?",

@@ -15,7 +15,6 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
         ... on Quiz {
           durationTimeSec
           targetPercentageOfParticipants
-          trackingMode
           quizQuestions {
               question
               id
@@ -43,7 +42,6 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
     event_data: %{
       duration_time_sec: 12,
       target_percentage_of_participants: 2,
-      tracking_mode: true,
       quiz_questions: [
         %{
           question: "What is the capital of Poland?",
@@ -89,7 +87,6 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
                    "eventData" => %{
                      "durationTimeSec" => 12,
                      "targetPercentageOfParticipants" => 2,
-                     "trackingMode" => true,
                      "quizQuestions" => [
                        %{
                          "question" => "What is the capital of Poland?",

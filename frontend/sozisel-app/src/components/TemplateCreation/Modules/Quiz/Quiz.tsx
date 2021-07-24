@@ -4,7 +4,6 @@ import {
   Button,
   InputAdornment,
   Snackbar,
-  Switch,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -70,10 +69,8 @@ export default function Quiz({
   });
   const [event, eventDispatch] = useEventContext();
   const { t } = useTranslation("common");
-  const [
-    { questions, percentageOfParticipants, durationTime, trackingMode },
-    quizDispatch,
-  ] = useQuizContext();
+  const [{ questions, percentageOfParticipants, durationTime }, quizDispatch] =
+    useQuizContext();
 
   const onReset = useCallback((): void => {
     setValue(
@@ -94,10 +91,6 @@ export default function Quiz({
         questions: event.eventData.quizQuestions,
       });
       quizDispatch({
-        type: "SET_TRACKING_MODE",
-        trackingMode: event.eventData.trackingMode,
-      });
-      quizDispatch({
         type: "SET_PERCENTAGE_OF_PARTICIPANTS",
         percentageOfParticipants:
           event.eventData.targetPercentageOfParticipants,
@@ -113,7 +106,6 @@ export default function Quiz({
     quizDispatch,
     event.id,
     event.eventData.quizQuestions,
-    event.eventData.trackingMode,
     event.eventData.targetPercentageOfParticipants,
     event.eventData.durationTimeSec,
     onReset,
@@ -133,7 +125,6 @@ export default function Quiz({
             name: data.eventName,
             eventData: {
               durationTimeSec: data.durationTime,
-              trackingMode: trackingMode,
               quizQuestions: questions,
               targetPercentageOfParticipants: data.percentageOfParticipants,
             },
@@ -148,7 +139,7 @@ export default function Quiz({
         );
       onReset();
     },
-    [event.id, onReset, questions, t, trackingMode, updateQuiz, updateQuizError]
+    [event.id, onReset, questions, t, updateQuiz, updateQuizError]
   );
 
   const onSubmit = useCallback(
@@ -159,7 +150,6 @@ export default function Quiz({
             name: data.eventName,
             eventData: {
               durationTimeSec: data.durationTime,
-              trackingMode: trackingMode,
               quizQuestions: questions,
               targetPercentageOfParticipants: data.percentageOfParticipants,
             },
@@ -174,7 +164,7 @@ export default function Quiz({
         );
       onReset();
     },
-    [createQuiz, createQuizError, id, onReset, questions, t, trackingMode]
+    [createQuiz, createQuizError, id, onReset, questions, t]
   );
 
   return (
@@ -223,20 +213,6 @@ export default function Quiz({
             />
           }
         />
-
-        <Typography className="label">
-          {t("components.TemplateCreation.Quiz.trackingMode")}
-          <Switch
-            checked={trackingMode}
-            onChange={(e) =>
-              quizDispatch({
-                type: "SET_TRACKING_MODE",
-                trackingMode: e.target.checked,
-              })
-            }
-            color="primary"
-          />
-        </Typography>
 
         <QuestionsList />
         {(createQuizError || updateQuizError) && (

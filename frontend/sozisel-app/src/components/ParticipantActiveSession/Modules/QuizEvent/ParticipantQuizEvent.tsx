@@ -33,9 +33,6 @@ export default function ParticipantQuizEvent({
 
   const submit = () => {
     const finalAnswers = [...answers, currentAnswer];
-    if (!quiz.trackingMode) {
-      finalAnswers.forEach((element) => (element.trackNodes = null));
-    }
     submitMutation({
       variables: {
         token: token,

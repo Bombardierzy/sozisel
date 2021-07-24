@@ -27,15 +27,6 @@ export default function QuizDetails({ quiz }: QuizDetailsProps): ReactElement {
           )}
         </p>
         <p>
-          {quiz.trackingMode
-            ? t(
-                "components.PresenterSession.EventsTimeline.QuizDetails.enableTrackingMode"
-              )
-            : t(
-                "components.PresenterSession.EventsTimeline.QuizDetails.disableTrackingMode"
-              )}
-        </p>
-        <p>
           {t(
             "components.PresenterSession.EventsTimeline.QuizDetails.questionsNumber"
           )}

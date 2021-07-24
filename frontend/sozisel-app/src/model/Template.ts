@@ -24,7 +24,6 @@ export interface Quiz {
   durationTimeSec: number;
   quizQuestions: QuizQuestion[];
   targetPercentageOfParticipants: number;
-  trackingMode: boolean;
 }
 
 export type QuizQuestion = {

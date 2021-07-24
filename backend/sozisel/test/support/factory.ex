@@ -86,7 +86,6 @@ defmodule Sozisel.Factory do
         %Quiz{
           duration_time_sec: 120,
           target_percentage_of_participants: 100,
-          tracking_mode: false,
           quiz_questions: [
             %QuizQuestion{
               id: "1",

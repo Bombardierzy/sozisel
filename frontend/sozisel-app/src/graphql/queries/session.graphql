@@ -101,7 +101,6 @@ query SessionBasicInfo($id: ID!) {
 fragment quizFields on Quiz {
     __typename
     durationTimeSec
-    trackingMode
     targetPercentageOfParticipants
     quizQuestions {
         id

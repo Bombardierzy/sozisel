@@ -15,7 +15,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
         ... on Quiz {
           durationTimeSec
           targetPercentageOfParticipants
-          trackingMode
           quizQuestions {
             question
             id
@@ -47,7 +46,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
         ... on Quiz {
           durationTimeSec
           targetPercentageOfParticipants
-          trackingMode
           quizQuestions {
             question
             id
@@ -81,7 +79,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
     event_data: %{
       duration_time_sec: 12,
       target_percentage_of_participants: 2,
-      tracking_mode: true,
       quiz_questions: [
         %{
           question: "What is the capital of Poland?",
@@ -124,7 +121,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
           eventData: %{
             durationTimeSec: 25,
             targetPercentageOfParticipants: 90,
-            trackingMode: true,
             quizQuestions: [
               %{
                 question: "First question?",
@@ -153,7 +149,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                    "eventData" => %{
                      "durationTimeSec" => 25,
                      "targetPercentageOfParticipants" => 90,
-                     "trackingMode" => true,
                      "quizQuestions" => [
                        %{
                          "question" => "First question?",
@@ -189,7 +184,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
           eventData: %{
             durationTimeSec: 42,
             targetPercentageOfParticipants: 25,
-            tracking_mode: false,
             quizQuestions: %{
               question: "Updated question?",
               id: "1",
@@ -216,7 +210,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                    "eventData" => %{
                      "durationTimeSec" => 42,
                      "targetPercentageOfParticipants" => 25,
-                     "trackingMode" => false,
                      "quizQuestions" => quiz_questions
                    }
                  }
@@ -256,7 +249,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
           eventData: %{
             durationTimeSec: 25,
             targetPercentageOfParticipants: 90,
-            trackingMode: true,
             quizQuestions: [
               %{
                 question: "First question?",
@@ -298,7 +290,6 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
           eventData: %{
             durationTimeSec: 42,
             targetPercentageOfParticipants: 25,
-            trackingMode: false,
             quizQuestions: %{
               question: "Updated question?",
               id: "1",
