@@ -14,7 +14,6 @@ import EventsTimeline from "./EventsTimline/EventsTimeline";
 import JitsiFrame from "../Jitsi/JitsiFrame";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import ParticipantsList from "./ParticipantsList/ParticipantsList";
-import moment from "moment-timezone";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useParams } from "react-router";
 import useSessionParticipantType from "../../hooks/useSessionParticipantType";
@@ -119,11 +118,7 @@ export default function PresenterSession(): ReactElement {
               )}
               sessionId={data.session.id}
               events={data.session.sessionTemplate.events}
-              launchedEvents={data.session.launchedEvents
-                .slice()
-                .sort((a, b) =>
-                  moment.utc(a.insertedAt).diff(moment.utc(b.insertedAt))
-                )}
+              launchedEvents={data.session.launchedEvents}
             />
           )}
         </Grid>

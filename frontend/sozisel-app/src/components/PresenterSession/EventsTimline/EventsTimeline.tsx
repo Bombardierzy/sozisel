@@ -1,7 +1,4 @@
 import "./EventsTimeline.scss";
-import "moment-timezone";
-
-import * as moment from "moment";
 
 import {
   Button,
@@ -23,9 +20,9 @@ import { AUTO_HIDE_DURATION } from "../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { Event } from "../../../model/Template";
+import EventDetails from "./EventDetails/EventsDetails";
 import { Participant } from "../../../hooks/useLiveSessionParticipation";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-import QuizDetails from "./QuizDetails/QuizDetails";
 import useCountdownTimer from "../../../hooks/useCountdownTimer";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -69,6 +66,12 @@ const getRandomParticipants = (
     .map((participant) => participant.id);
 };
 
+export interface ActiveEvent {
+  id: string;
+  idx: number;
+  currentSec: number;
+}
+
 export default function EventsTimeline({
   events,
   launchedEvents,
@@ -76,13 +79,18 @@ export default function EventsTimeline({
   participants,
 }: EventsTimelineProps): ReactElement {
   const { t } = useTranslation("common");
-  const [activeEventIdx, setActiveEventIdx] = useState<number>(0);
-  const [activeEventId, setActiveEventId] = useState<string>("");
-  const [activeEventCurrentSec, setActiveEventCurrentSec] = useState<number>(0);
+  const [activeEvent, setActiveEvent] = useState<ActiveEvent>({
+    id: "",
+    idx: 0,
+    currentSec: 0,
+  });
   const history = useHistory();
 
   const [endSessionMutation, { error: endSessionError }] =
     useEndSessionMutation();
+
+  const [launchEventMutation, { error: launchEventError }] =
+    useLaunchEventMutation();
 
   const onEndSession = async () => {
     await endSessionMutation({ variables: { id: sessionId } });
@@ -91,39 +99,37 @@ export default function EventsTimeline({
     }
   };
 
+  const onFinishCallback = () => {
+    setActiveEvent({
+      ...activeEvent,
+      id: "",
+      idx:
+        activeEvent.idx < events.length ? activeEvent.idx + 1 : activeEvent.idx,
+    });
+  };
+
   useEffect(() => {
     const lastEventIdx = launchedEvents.length - 1;
     if (lastEventIdx >= 0) {
       const lastEvent = launchedEvents[launchedEvents.length - 1];
-      const lastEventStartTime = moment.tz(
-        lastEvent.insertedAt,
-        "Europe/Warsaw"
-      );
-      const currentTime = Math.floor(
-        moment
-          .duration(moment.tz("Europe/Warsaw").diff(lastEventStartTime))
-          .asSeconds()
-      );
-      if (currentTime < events[lastEventIdx].eventData.durationTimeSec) {
-        setActiveEventIdx(lastEventIdx);
-        setActiveEventId(lastEvent.id);
-        setActiveEventCurrentSec(
-          events[lastEventIdx].eventData.durationTimeSec - currentTime
-        );
-      } else {
-        setActiveEventIdx(lastEventIdx + 1);
-      }
-    }
-  }, [activeEventIdx, events, launchedEvents]);
 
-  const [launchEventMutation, { error: launchEventError }] =
-    useLaunchEventMutation();
+      const lastEventStartTime = new Date(lastEvent.insertedAt).getTime();
+      const currentTime = Math.floor((Date.now() - lastEventStartTime) / 1000);
+
+      setActiveEvent({
+        idx: currentTime < events[lastEventIdx].eventData.durationTimeSec ? lastEventIdx : lastEventIdx + 1,
+        id: lastEvent.id,
+        currentSec:
+          events[lastEventIdx].eventData.durationTimeSec - currentTime,
+      });
+    }
+  }, [events, launchedEvents]);
 
   const onNextEvent = async () => {
     const {
       id,
       eventData: { targetPercentageOfParticipants },
-    } = events[activeEventIdx];
+    } = events[activeEvent.idx];
     await launchEventMutation({
       variables: {
         broadcast: targetPercentageOfParticipants === 100,
@@ -135,11 +141,12 @@ export default function EventsTimeline({
         ),
       },
     });
-    if (!launchEventError && activeEventIdx < events.length) {
-      setActiveEventCurrentSec(
-        events[activeEventIdx].eventData.durationTimeSec
-      );
-      setActiveEventId(events[activeEventIdx].id);
+    if (!launchEventError && activeEvent.idx < events.length) {
+      setActiveEvent({
+        ...activeEvent,
+        currentSec: events[activeEvent.idx].eventData.durationTimeSec,
+        id: events[activeEvent.idx].id,
+      });
     }
   };
 
@@ -151,7 +158,11 @@ export default function EventsTimeline({
           {t("components.PresenterSession.EventsTimeline.header")}
         </Typography>
       </div>
-      <Stepper activeStep={activeEventIdx} alternativeLabel className="stepper">
+      <Stepper
+        activeStep={activeEvent.idx}
+        alternativeLabel
+        className="stepper"
+      >
         {events.map(({ name, id, startMinute }, idx) => (
           <Step key={id}>
             <StepLabel className="label">
@@ -161,7 +172,7 @@ export default function EventsTimeline({
                   value: startMinute,
                 })}
               </b>
-              {idx === activeEventIdx && !activeEventId && (
+              {idx === activeEvent.idx && !activeEvent.id && (
                 <IconButton
                   color="primary"
                   className="startEventButton"
@@ -174,35 +185,21 @@ export default function EventsTimeline({
           </Step>
         ))}
       </Stepper>
-      {activeEventIdx < events.length && (
-        <div className="eventDetails">
-          {!activeEventId &&
-            events[activeEventIdx].eventData.__typename === "Quiz" && (
-              <>
-                <Typography className="eventDetailsHeader">
-                  {t(
-                    "components.PresenterSession.EventsTimeline.eventDetailsHeader"
-                  )}
-                </Typography>
-                <QuizDetails quiz={events[activeEventIdx].eventData} />
-              </>
-            )}
-        </div>
+      {activeEvent.idx < events.length && (
+        <EventDetails
+          activeEvent={events[activeEvent.idx]}
+          activeEventId={activeEvent.id}
+        />
       )}
       <div className="endSessionContainer">
         <Button color="primary" variant="contained" onClick={onEndSession}>
           {t("components.PresenterSession.EventsTimeline.endSessionButton")}
         </Button>
       </div>
-      {activeEventId && (
+      {activeEvent.id && (
         <Timer
-          startValue={activeEventCurrentSec}
-          onFinishCallback={() => {
-            setActiveEventId("");
-            if (activeEventIdx < events.length) {
-              setActiveEventIdx(activeEventIdx + 1);
-            }
-          }}
+          startValue={activeEvent.currentSec}
+          onFinishCallback={onFinishCallback}
         />
       )}
       <Snackbar open={!!launchEventError} autoHideDuration={AUTO_HIDE_DURATION}>

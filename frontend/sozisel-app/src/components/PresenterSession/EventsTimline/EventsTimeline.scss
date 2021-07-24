@@ -33,13 +33,6 @@
       @include text-02;
     }
   }
-  .eventDetails {
-    .eventDetailsHeader {
-      padding: 0 $spacing-05;
-      @include header-01;
-      color: $text-03;
-    }
-  }
   .endSessionContainer {
     position: fixed;
     bottom: 50px;
