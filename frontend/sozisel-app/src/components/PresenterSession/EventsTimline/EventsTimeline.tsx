@@ -93,9 +93,11 @@ export default function EventsTimeline({
     useLaunchEventMutation();
 
   const onEndSession = async () => {
-    await endSessionMutation({ variables: { id: sessionId } });
-    if (!endSessionError) {
+    try {
+      await endSessionMutation({ variables: { id: 'sessionId' } });
       history.push(`result/summary`);
+    } catch (error) {
+      console.error(error);
     }
   };
 
