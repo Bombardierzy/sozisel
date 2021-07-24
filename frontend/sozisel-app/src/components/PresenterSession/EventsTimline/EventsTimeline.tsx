@@ -117,7 +117,10 @@ export default function EventsTimeline({
       const currentTime = Math.floor((Date.now() - lastEventStartTime) / 1000);
 
       setActiveEvent({
-        idx: currentTime < events[lastEventIdx].eventData.durationTimeSec ? lastEventIdx : lastEventIdx + 1,
+        idx:
+          currentTime < events[lastEventIdx].eventData.durationTimeSec
+            ? lastEventIdx
+            : lastEventIdx + 1,
         id: lastEvent.id,
         currentSec:
           events[lastEventIdx].eventData.durationTimeSec - currentTime,
