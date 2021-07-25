@@ -62,6 +62,20 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
   }
   """
 
+  @live_poll_summary """
+  subscription LivePollSummary($participantToken: String!, $launchedEventId: String!) {
+    livePollSummary(participantToken: $participantToken, launchedEventId: $launchedEventId) {
+      id
+      question
+      optionSummaries {
+        id
+        text
+        votes
+      }
+    }
+  }
+  """
+
   def mock_participant_event(session \\ nil, type) do
     if is_nil(session) do
       build(:event, type: type)
@@ -100,12 +114,11 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       participant_id: participant.id,
       launched_event_id: launched_event.id,
       result_data: %PollResult{
-        option_id: "1",
+        option_id: "1"
       }
     }
     |> Repo.insert()
     |> elem(1)
-
   end
 
   describe "Event subscriptions should" do
@@ -226,7 +239,56 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                    "resultData" => %{
                      "__typename" => "PollResult",
                      "optionId" => "1"
-                   },
+                   }
+                 }
+               }
+             } = receive_subscription(sub)
+    end
+
+    test "broadcast poll summary to participants on submit poll mutation", ctx do
+      template = insert(:template)
+      poll = insert(:event, session_template_id: template.id, type: :poll)
+
+      participant = insert(:participant, session_id: ctx.session.id)
+
+      launched_event = insert(:launched_event, session_id: ctx.session.id, event_id: poll.id)
+
+      sub =
+        run_subscription(test_socket(), @live_poll_summary, %{
+          participantToken: participant.token,
+          launchedEventId: launched_event.id
+        })
+
+      submit_poll = """
+      mutation Submit($token: String!, $input: PollResultInput!) {
+        submitPollResult(token: $token, input: $input) {
+          id
+          resultData {
+            ... on PollResult {
+              optionId
+            }
+          }
+
+        }
+      }
+      """
+
+      assert %{data: _result} =
+               run_query(test_conn(), submit_poll, %{
+                 token: participant.token,
+                 input: %{launched_event_id: launched_event.id, poll_option_id: "1"}
+               })
+
+      assert %{
+               data: %{
+                 "livePollSummary" => %{
+                   "id" => _,
+                   "optionSummaries" => [
+                     %{
+                       "id" => "1",
+                       "votes" => 1
+                     }
+                   ]
                  }
                }
              } = receive_subscription(sub)

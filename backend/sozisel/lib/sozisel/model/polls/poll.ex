@@ -61,7 +61,7 @@ defmodule Sozisel.Model.Polls.Poll do
           }
         end)
 
-      %{question: question, option_summaries: summaries}
+      %{id: launched_event_id, question: question, option_summaries: summaries}
     end
   end
 

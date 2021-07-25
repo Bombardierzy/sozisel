@@ -400,7 +400,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
       variables = %{
         input: %{
           launched_event_id: launched_event.id,
-          poll_option_id: "1",
+          poll_option_id: "1"
         },
         token: participant.token
       }
@@ -415,7 +415,6 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                  }
                }
              } = run_query(ctx.conn, @submit_poll_result_mutation, variables)
-
     end
   end
 end

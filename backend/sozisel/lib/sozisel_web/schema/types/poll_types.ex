@@ -23,6 +23,7 @@ defmodule SoziselWeb.Schema.Types.PollTypes do
 
   object :poll_summary do
     field :id, non_null(:id)
+    field :question, non_null(:string)
     field :option_summaries, strong_list_of(:poll_option_summary)
   end
 

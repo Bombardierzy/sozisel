@@ -9,11 +9,13 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     LaunchedEvents,
     Participants,
     Quizzes,
+    Polls,
     EventResults,
     Utils
   }
 
   alias Events.Event
+  alias Polls.Poll
   alias LaunchedEvents.LaunchedEvent
   alias Sessions.Session
   alias Participants.Participant
