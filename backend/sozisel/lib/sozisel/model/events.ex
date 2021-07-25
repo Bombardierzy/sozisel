@@ -7,7 +7,12 @@ defmodule Sozisel.Model.Events do
 
   alias Sozisel.Repo
 
-  alias Sozisel.Model.{Events.Event, Utils, Quizzes.Quiz, Polls.Poll}
+  alias Sozisel.Model.EventResults.EventResult
+  alias Sozisel.Model.Events.Event
+  alias Sozisel.Model.LaunchedEvents.LaunchedEvent
+  alias Sozisel.Model.Polls.Poll
+  alias Sozisel.Model.Utils
+  alias Sozisel.Model.Quizzes.Quiz
 
   def list_events do
     Repo.all(Event)
@@ -31,9 +36,22 @@ defmodule Sozisel.Model.Events do
   end
 
   def update_event(%Event{} = event, %{} = attrs) do
-    event
-    |> Event.update_changeset(attrs)
-    |> Repo.update()
+    total_event_results =
+      from(
+        er in EventResult,
+        join: le in LaunchedEvent,
+        on: er.launched_event_id == le.id,
+        where: le.event_id == ^event.id
+      )
+      |> Repo.aggregate(:count)
+
+    if total_event_results == 0 do
+      event
+      |> Event.update_changeset(attrs)
+      |> Repo.update()
+    else
+      {:error, "can't update event which has already existing event results"}
+    end
   end
 
   def delete_event(%Event{} = event) do
@@ -51,7 +69,12 @@ defmodule Sozisel.Model.Events do
     Event.create_changeset(event, attrs)
   end
 
+  # FIXME: I don't remember why we added that to be honest...
   def marshal_participant_event_data(%{__struct__: Quiz} = event_data) do
+    event_data
+  end
+
+  def marshal_participant_event_data(%{__struct__: Poll} = event_data) do
     event_data
   end
 end

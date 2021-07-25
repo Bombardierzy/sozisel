@@ -4,18 +4,17 @@ defmodule Sozisel.Model.Polls.PollResult do
   import Ecto.Changeset
 
   @type t :: %__MODULE__{
-          poll_option_id: Ecto.UUID.t()
+          option_id: String.t()
         }
 
   @primary_key false
-
-  @primary_key false
   embedded_schema do
-    field :poll_option_id, :id
+    field :option_id, :string
   end
 
+  @spec changeset(t(), map) :: Ecto.Changeset.t()
   def changeset(quiz_result, attrs) do
     quiz_result
-    |> cast(attrs, [:poll_option_id])
+    |> cast(attrs, [:option_id])
   end
 end
