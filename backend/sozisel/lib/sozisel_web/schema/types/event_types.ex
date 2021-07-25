@@ -2,6 +2,7 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   use SoziselWeb.Schema.Notation
 
   alias Sozisel.Model.Quizzes.Quiz
+  alias Sozisel.Model.Polls.Poll
 
   object :event do
     field :id, non_null(:id)
@@ -35,19 +36,21 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   end
 
   union :event_data do
-    types [:quiz]
+    types [:quiz, :poll]
 
     resolve_type fn
       %Quiz{}, _ -> :quiz
+      %Poll{}, _ -> :poll
       _, _ -> nil
     end
   end
 
   union :participant_event_data do
-    types [:participant_quiz]
+    types [:participant_quiz, :poll]
 
     resolve_type fn
       %Quiz{}, _ -> :participant_quiz
+      %Poll{}, _ -> :poll
       _, _ -> nil
     end
   end

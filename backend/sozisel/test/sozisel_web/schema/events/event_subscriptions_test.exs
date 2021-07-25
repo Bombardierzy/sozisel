@@ -4,6 +4,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
   alias SoziselWeb.Schema.Helpers
   alias SoziselWeb.Schema.Subscriptions.Topics
   alias Sozisel.Model.Quizzes.{QuizResult, ParticipantAnswer}
+  alias Sozisel.Model.Polls.PollResult
   alias Sozisel.Model.EventResults.EventResult
 
   import Sozisel.Factory
@@ -12,6 +13,14 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
   subscription EventLaunched($participantToken: String!) {
     eventLaunched(participantToken: $participantToken) {
       eventData {
+        __typename
+        ... on Poll {
+          question
+          options {
+            id
+            text
+          }
+        }
         ... on ParticipantQuiz {
           quizQuestions {
             question
@@ -38,6 +47,10 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
         }
       }
       resultData {
+        __typename
+        ... on PollResult {
+          optionId
+        }
         ... on QuizResult {
           participantAnswers {
             questionId
@@ -49,15 +62,15 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
   }
   """
 
-  def mock_participant_event(session \\ nil) do
+  def mock_participant_event(session \\ nil, type) do
     if is_nil(session) do
-      build(:event)
+      build(:event, type: type)
     else
-      build(:event, session_id: session.id)
+      build(:event, session_id: session.id, type: type)
     end
   end
 
-  def mock_event_result(session, event, participant) do
+  def mock_quiz_event_result(session, event, participant) do
     launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
 
     %EventResult{
@@ -77,6 +90,22 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
     }
     |> Repo.insert()
     |> elem(1)
+  end
+
+  def mock_poll_event_result(session, event, participant) do
+    launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
+
+    %EventResult{
+      id: Ecto.UUID.generate(),
+      participant_id: participant.id,
+      launched_event_id: launched_event.id,
+      result_data: %PollResult{
+        option_id: "1",
+      }
+    }
+    |> Repo.insert()
+    |> elem(1)
+
   end
 
   describe "Event subscriptions should" do
@@ -101,7 +130,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       Helpers.subscription_publish(
         :event_launched,
         Topics.session_all_participants(ctx.session.id),
-        mock_participant_event()
+        mock_participant_event(:quiz)
       )
 
       assert %{
@@ -118,7 +147,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       Helpers.subscription_publish(
         :event_launched,
         Topics.session_participant(ctx.session.id, ctx.participant.id),
-        mock_participant_event()
+        mock_participant_event(:quiz)
       )
 
       assert %{
@@ -132,7 +161,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
              } = receive_subscription(sub)
     end
 
-    test "broadcast event result submitted event back to presenter", ctx do
+    test "broadcast quiz event result submitted event back to presenter", ctx do
       template = insert(:template)
       event = insert(:event, session_template_id: template.id)
 
@@ -147,7 +176,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       Helpers.subscription_publish(
         :event_result_submitted,
         Topics.session_presenter(ctx.session.id, ctx.user.id),
-        mock_event_result(ctx.session, event, ctx.participant)
+        mock_quiz_event_result(ctx.session, event, ctx.participant)
       )
 
       participant_id = ctx.participant.id
@@ -157,6 +186,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                data: %{
                  "eventResultSubmitted" => %{
                    "resultData" => %{
+                     "__typename" => "QuizResult",
                      "participantAnswers" => [_answer]
                    },
                    "participant" => %{
@@ -172,6 +202,36 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
              } = receive_subscription(sub)
     end
 
+    test "broadcast poll event result submitted event back to presenter", ctx do
+      template = insert(:template)
+      event = insert(:event, session_template_id: template.id, type: :poll)
+
+      socket = test_socket(ctx.user)
+
+      variables = %{
+        sessionId: ctx.session.id
+      }
+
+      sub = run_subscription(socket, @presenter_event_result_submitted, variables)
+
+      Helpers.subscription_publish(
+        :event_result_submitted,
+        Topics.session_presenter(ctx.session.id, ctx.user.id),
+        mock_poll_event_result(ctx.session, event, ctx.participant)
+      )
+
+      assert %{
+               data: %{
+                 "eventResultSubmitted" => %{
+                   "resultData" => %{
+                     "__typename" => "PollResult",
+                     "optionId" => "1"
+                   },
+                 }
+               }
+             } = receive_subscription(sub)
+    end
+
     test "return an error when a presenter is not a session owner", ctx do
       random_user = insert(:user)
       socket = test_socket(random_user)
@@ -182,6 +242,61 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
       assert %{errors: [%{message: "unauthorized"}]} =
                run_subscription(socket, @presenter_event_result_submitted, variables)
+    end
+  end
+
+  describe "Launching all events" do
+    setup do
+      user = insert(:user)
+      session = insert(:session, user_id: user.id)
+      participant = insert(:participant, session_id: session.id)
+
+      variables = %{
+        participantToken: participant.token
+      }
+
+      sub = run_subscription(test_socket(), @participant_event_launched, variables)
+
+      [session: session, participant: participant, user: user, subscription: sub]
+    end
+
+    test "quiz", ctx do
+      Helpers.subscription_publish(
+        :event_launched,
+        Topics.session_all_participants(ctx.session.id),
+        mock_participant_event(:quiz)
+      )
+
+      assert %{
+               data: %{
+                 "eventLaunched" => %{
+                   "eventData" => %{
+                     "__typename" => "ParticipantQuiz",
+                     "quizQuestions" => _
+                   }
+                 }
+               }
+             } = receive_subscription(ctx.subscription)
+    end
+
+    test "poll", ctx do
+      Helpers.subscription_publish(
+        :event_launched,
+        Topics.session_all_participants(ctx.session.id),
+        mock_participant_event(:poll)
+      )
+
+      assert %{
+               data: %{
+                 "eventLaunched" => %{
+                   "eventData" => %{
+                     "__typename" => "Poll",
+                     "question" => _,
+                     "options" => _
+                   }
+                 }
+               }
+             } = receive_subscription(ctx.subscription)
     end
   end
 end

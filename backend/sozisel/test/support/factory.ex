@@ -7,6 +7,7 @@ defmodule Sozisel.Factory do
     Events,
     EventResults,
     Quizzes,
+    Polls,
     Participants,
     LaunchedEvents
   }
@@ -16,6 +17,7 @@ defmodule Sozisel.Factory do
   alias Sessions.{Template, AgendaEntry, Session}
   alias LaunchedEvents.LaunchedEvent
   alias Participants.Participant
+  alias Polls.{Poll, PollResult, Poll.PollOption}
   alias Events.Event
   alias Quizzes.{Answer, Quiz, QuizQuestion, QuizResult, ParticipantAnswer}
 
@@ -64,7 +66,7 @@ defmodule Sozisel.Factory do
       name: attrs[:event_name] || sequence(:event_name, &"some-event-#{&1}"),
       session_template_id: attrs[:session_template_id],
       start_minute: attrs[:start_minute] || 2137,
-      event_data: build(:event_data, type: attrs[:type] || :quiz)
+      event_data: attrs[:event_data] || build(:event_data, type: attrs[:type] || :quiz)
     }
   end
 
@@ -82,6 +84,15 @@ defmodule Sozisel.Factory do
 
   def event_data_factory(attrs) do
     case attrs[:type] do
+      :poll ->
+        %Poll{
+          question: "Who do you like?",
+          options: [
+            %PollOption{id: "1", text: "Everyone"},
+            %PollOption{id: "2", text: "No one"}
+          ]
+        }
+
       :quiz ->
         %Quiz{
           duration_time_sec: 120,
@@ -136,6 +147,12 @@ defmodule Sozisel.Factory do
       end)
 
     %QuizResult{participant_answers: answers}
+  end
+
+  def random_event_result(%Poll{options: options}) do
+    option_id = Enum.random(options).id
+
+    %PollResult{option_id: option_id}
   end
 
   def launched_event_factory(attrs) do

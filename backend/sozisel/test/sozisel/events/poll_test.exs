@@ -15,9 +15,9 @@ defmodule Sozise.Events.PollTest do
     event_data: %{
       question: "Do you like being here?",
       options: [
-        %{option_id: "1", text: "yes"},
-        %{option_id: "2", text: "no"},
-        %{option_id: "3", text: "stop asking stupid questions"}
+        %{id: "1", text: "yes"},
+        %{id: "2", text: "no"},
+        %{id: "3", text: "stop asking stupid questions"}
       ]
     }
   }
@@ -28,9 +28,9 @@ defmodule Sozise.Events.PollTest do
     event_data: %{
       question: "Do you like being at all?",
       options: [
-        %{option_id: "1", text: "yes"},
-        %{option_id: "2", text: "no"},
-        %{option_id: "3", text: "Please, more questions like that!"}
+        %{id: "1", text: "yes"},
+        %{id: "2", text: "no"},
+        %{id: "3", text: "Please, more questions like that!"}
       ]
     }
   }
@@ -53,9 +53,9 @@ defmodule Sozise.Events.PollTest do
       assert {:ok, %Event{event_data: %Poll{options: options}}} = Events.create_event(valid_attrs)
 
       assert options == [
-               %PollOption{option_id: "1", text: "yes"},
-               %PollOption{option_id: "2", text: "no"},
-               %PollOption{option_id: "3", text: "stop asking stupid questions"}
+               %PollOption{id: "1", text: "yes"},
+               %PollOption{id: "2", text: "no"},
+               %PollOption{id: "3", text: "stop asking stupid questions"}
              ]
     end
 
@@ -69,9 +69,9 @@ defmodule Sozise.Events.PollTest do
       assert question == "Do you like being at all?"
 
       assert options == [
-               %PollOption{option_id: "1", text: "yes"},
-               %PollOption{option_id: "2", text: "no"},
-               %PollOption{option_id: "3", text: "Please, more questions like that!"}
+               %PollOption{id: "1", text: "yes"},
+               %PollOption{id: "2", text: "no"},
+               %PollOption{id: "3", text: "Please, more questions like that!"}
              ]
     end
 
