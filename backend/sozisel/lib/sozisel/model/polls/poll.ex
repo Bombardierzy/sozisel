@@ -5,7 +5,7 @@ defmodule Sozisel.Model.Polls.Poll do
 
   require Logger
 
-  @validation_prefix "[#{inspect(__MODULE__)}] Validation failed: "
+  @validation_prefix "[#{inspect(__MODULE__)}] Validation failed:"
 
   defmodule PollOption do
     use Sozisel.Model.Schema
@@ -54,6 +54,13 @@ defmodule Sozisel.Model.Polls.Poll do
         result_data: %{option_ids: option_ids}
       }) do
     cond do
+      option_ids == [] ->
+        Logger.error(
+          "#{@validation_prefix} option_ids array cannot be empty"
+        )
+
+        {:error, :unmatched_event_result}
+
       not is_multi_choice and length(option_ids) != 1 ->
         Logger.error(
           "#{@validation_prefix} multi choice is disabled but provided #{length(option_ids)} options"

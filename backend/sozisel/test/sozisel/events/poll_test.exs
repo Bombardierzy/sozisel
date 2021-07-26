@@ -96,7 +96,7 @@ defmodule Sozise.Events.PollTest do
                })
 
       multi_choice_poll = poll_fixture(template)
-      {:ok, event} = Events.update_event(multi_choice_poll, @update_attrs)
+      {:ok, _event} = Events.update_event(multi_choice_poll, @update_attrs)
 
       launched_event =
         insert(:launched_event, event_id: multi_choice_poll.id, session_id: session.id)
@@ -107,6 +107,66 @@ defmodule Sozise.Events.PollTest do
                  participant_id: participant.id,
                  result_data: %{option_ids: ["1", "2"]}
                })
+    end
+
+    test "multi choice poll result verification" do
+      template = insert(:template)
+      session = insert(:session, session_template_id: template.id)
+      participant = insert(:participant, session_id: session.id)
+
+      poll = poll_fixture(template)
+      launched_event = insert(:launched_event, event_id: poll.id, session_id: session.id)
+
+      # multi choice -> false, option_ids > 1
+      assert {:error, :unmatched_event_result} =
+               EventResults.create_event_result(%{
+                 launched_event_id: launched_event.id,
+                 participant_id: participant.id,
+                 result_data: %{option_ids: ["1", "2"]}
+               })
+
+      # multi choice -> false, non existent option
+      assert {:error, :unmatched_event_result} =
+               EventResults.create_event_result(%{
+                 launched_event_id: launched_event.id,
+                 participant_id: participant.id,
+                 result_data: %{option_ids: ["random id"]}
+               })
+
+      Events.update_event(poll, @update_attrs)
+
+      # multi choice -> true, empty option_ids
+      assert {:error, :unmatched_event_result} =
+               EventResults.create_event_result(%{
+                 launched_event_id: launched_event.id,
+                 participant_id: participant.id,
+                 result_data: %{option_ids: []}
+               })
+
+      # multi choice -> true, duplicated options
+      assert {:error, :unmatched_event_result} =
+               EventResults.create_event_result(%{
+                 launched_event_id: launched_event.id,
+                 participant_id: participant.id,
+                 result_data: %{option_ids: ["1", "1"]}
+               })
+
+      # multi choice -> true, unknown options
+      assert {:error, :unmatched_event_result} =
+               EventResults.create_event_result(%{
+                 launched_event_id: launched_event.id,
+                 participant_id: participant.id,
+                 result_data: %{option_ids: ["random option", "another one"]}
+               })
+
+      assert {:ok, %EventResult{result_data: %PollResult{option_ids: option_ids}}} =
+               EventResults.create_event_result(%{
+                 launched_event_id: launched_event.id,
+                 participant_id: participant.id,
+                 result_data: %{option_ids: ["1", "2"]}
+               })
+
+      assert option_ids == option_ids
     end
   end
 end
