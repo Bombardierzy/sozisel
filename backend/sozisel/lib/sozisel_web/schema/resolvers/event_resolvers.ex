@@ -1,8 +1,11 @@
 defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   alias SoziselWeb.Context
-  alias Sozisel.Model.{Events, Sessions}
+  alias Sozisel.Model.{Events, Sessions, LaunchedEvents, EventResults}
   alias Events.Event
-  alias Sessions.Template
+  alias Sessions.{Template, Session}
+  alias LaunchedEvents.LaunchedEvent
+
+  alias Sozisel.Repo
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
@@ -30,5 +33,23 @@ defmodule SoziselWeb.Schema.Resolvers.EventResolvers do
   def delete(_parent, _args, ctx) do
     fetch_resource!(ctx, Event)
     |> Events.delete_event()
+  end
+
+  def event_details(_parent, %{id: launched_event_id}, ctx) do
+    user_id = Context.current_user!(ctx).id
+
+    with %LaunchedEvent{} = launched_event <-
+           LaunchedEvents.get_launched_event(launched_event_id),
+         %LaunchedEvent{session: %Session{user_id: ^user_id}} = launched_event <-
+           Repo.preload(launched_event, [:session]) do
+      results =
+        launched_event
+        |> EventResults.get_all_event_results()
+
+      {:ok, results}
+    else
+      %LaunchedEvent{} -> {:error, :unauthorized}
+      nil -> {:ok, nil}
+    end
   end
 end

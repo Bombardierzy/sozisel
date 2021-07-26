@@ -2,7 +2,8 @@ defmodule Sozisel.Model.EventResults do
   import Ecto.Query, warn: false
   alias Sozisel.Repo
 
-  alias Sozisel.Model.EventResults.EventResult
+  alias Sozisel.Model.{EventResults, LaunchedEvents.LaunchedEvent}
+  alias EventResults.EventResult
 
   def list_event_results do
     Repo.all(EventResult)
@@ -28,5 +29,10 @@ defmodule Sozisel.Model.EventResults do
 
   def change_event_result(%EventResult{} = event_result, attrs \\ %{}) do
     EventResult.create_changeset(event_result, attrs)
+  end
+
+  def get_all_event_results(%LaunchedEvent{id: launched_event_id}) do
+    from(res in EventResult, where: res.launched_event_id == ^launched_event_id)
+    |> Repo.all()
   end
 end
