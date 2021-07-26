@@ -284,6 +284,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                data: %{
                  "livePollSummary" => %{
                    "id" => _,
+                   "totalVoters" => 1,
                    "optionSummaries" => [
                      %{
                        "id" => "1",

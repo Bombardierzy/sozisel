@@ -55,9 +55,7 @@ defmodule Sozisel.Model.Polls.Poll do
       }) do
     cond do
       option_ids == [] ->
-        Logger.error(
-          "#{@validation_prefix} option_ids array cannot be empty"
-        )
+        Logger.error("#{@validation_prefix} option_ids array cannot be empty")
 
         {:error, :unmatched_event_result}
 

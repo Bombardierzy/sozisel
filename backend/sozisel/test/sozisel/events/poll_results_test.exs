@@ -17,7 +17,7 @@ defmodule Sozisel.Events.PollResultsTest do
         start_time: 120,
         event_data: %Poll{
           question: "How are you?",
-          is_multi_choice: false,
+          is_multi_choice: true,
           options: [
             %PollOption{id: "1", text: "good"},
             %PollOption{id: "2", text: "bad"},
@@ -38,19 +38,20 @@ defmodule Sozisel.Events.PollResultsTest do
       p2 = insert(:participant, session_id: ctx.session.id)
       p3 = insert(:participant, session_id: ctx.session.id)
 
-      for {p, option_id} <- [{p1, "1"}, {p2, "1"}, {p3, "2"}] do
+      for {p, options} <- [{p1, "1"}, {p2, ["1", "2"]}, {p3, "2"}] do
         assert {:ok, _result} =
                  EventResults.create_event_result(%{
                    launched_event_id: ctx.launched_event.id,
                    participant_id: p.id,
                    result_data: %{
-                     option_ids: [option_id]
+                     option_ids: List.wrap(options)
                    }
                  })
       end
 
       assert %{
                question: "How are you?",
+               total_voters: 3,
                option_summaries: [
                  %{
                    id: "1",
@@ -60,7 +61,7 @@ defmodule Sozisel.Events.PollResultsTest do
                  %{
                    id: "2",
                    text: "bad",
-                   votes: 1
+                   votes: 2
                  },
                  %{
                    id: "3",
