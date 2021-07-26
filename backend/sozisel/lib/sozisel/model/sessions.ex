@@ -296,7 +296,7 @@ defmodule Sozisel.Model.Sessions do
 
     participations =
       """
-      select le.event_id, e.name, count(er.id) from sessions s
+      select le.event_id, e.name, le.inserted_at, count(er.id) from sessions s
       join launched_events le on le.session_id = s.id
       join events e on e.id = le.event_id
       left join event_results er on er.launched_event_id = le.id
@@ -308,10 +308,15 @@ defmodule Sozisel.Model.Sessions do
       |> case do
         {:ok, %Postgrex.Result{rows: rows}} ->
           rows
-          |> Enum.map(fn [event_id, name, count] ->
+          |> Enum.map(fn [event_id, name, inserted_at, count] ->
             {:ok, event_id} = Ecto.UUID.load(event_id)
 
-            %{event_id: event_id, event_name: name, submissions: count}
+            %{
+              event_id: event_id,
+              event_name: name,
+              start_minute: Date.diff(inserted_at, start_time) |> div(60),
+              submissions: count
+            }
           end)
 
         error ->

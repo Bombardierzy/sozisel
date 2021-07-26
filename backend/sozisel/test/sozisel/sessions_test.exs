@@ -383,11 +383,13 @@ defmodule Sozisel.SessionsTest do
                  %{
                    event_id: event1.id,
                    event_name: event1.name,
+                   start_minute: Date.diff(event1.inserted_at, session.start_time),
                    submissions: 2
                  },
                  %{
                    event_id: event2.id,
                    event_name: event2.name,
+                   start_minute: Date.diff(event2.inserted_at, session.start_time),
                    submissions: 1
                  }
                ]

@@ -65,6 +65,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :event_id, non_null(:id)
     field :event_name, non_null(:string)
     field :submissions, non_null(:integer)
+    field :start_minute, non_null(:integer)
   end
 
   object :session_summary do
