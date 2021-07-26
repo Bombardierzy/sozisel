@@ -215,7 +215,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
              } = receive_subscription(sub)
     end
 
-    test "broadcast poll event result submitted event back to presenter", ctx do
+    test "broadcast poll event result back to presenter", ctx do
       template = insert(:template)
       event = insert(:event, session_template_id: template.id, type: :poll)
 

@@ -23,7 +23,7 @@ defmodule Sozisel.Model.Quizzes.Quiz do
   def changeset(quiz, attrs) do
     quiz
     |> cast(attrs, [:duration_time_sec, :target_percentage_of_participants, :tracking_mode])
-    |> cast_embed(:quiz_questions)
+    |> cast_embed(:quiz_questions, required: true)
     |> validate_required([:duration_time_sec, :target_percentage_of_participants, :tracking_mode])
     |> validate_quiz_questions_length()
     |> validate_inclusion(:target_percentage_of_participants, 1..100)

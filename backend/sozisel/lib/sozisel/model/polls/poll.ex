@@ -69,7 +69,7 @@ defmodule Sozisel.Model.Polls.Poll do
     schema
     |> cast(attrs, [:question])
     |> validate_required([:question])
-    |> cast_embed(:options)
+    |> cast_embed(:options, required: true)
     |> validate_unique_option_ids()
   end
 
