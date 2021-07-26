@@ -14,6 +14,7 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
       eventData {
         ... on Poll {
           question
+          isMultiChoice
           options {
             id
             text
@@ -36,6 +37,7 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
       eventData {
         ... on Poll {
           question
+          isMultiChoice
           options {
             id
             text
@@ -69,6 +71,7 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
           startMinute: 10,
           eventData: %{
             question: "How are you today?",
+            isMultiChoice: false,
             options: [
               %{id: "1", text: "well"},
               %{id: "2", text: "not well"}
@@ -86,7 +89,8 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
                    "startMinute" => 10,
                    "eventData" => %{
                      "question" => "How are you today?",
-                     "options" => options
+                     "options" => options,
+                     "isMultiChoice" => false
                    },
                    "sessionTemplate" => %{
                      "id" => _
@@ -104,8 +108,9 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
       variables = %{
         input: %{
           id: poll.id,
-          event_data: %{
+          eventData: %{
             question: "what",
+            isMultiChoice: true,
             options: [
               %{id: "1", text: "nothing"},
               %{id: "2", text: "something"}

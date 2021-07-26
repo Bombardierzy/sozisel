@@ -17,6 +17,7 @@ defmodule Sozisel.Events.PollResultsTest do
         start_time: 120,
         event_data: %Poll{
           question: "How are you?",
+          is_multi_choice: false,
           options: [
             %PollOption{id: "1", text: "good"},
             %PollOption{id: "2", text: "bad"},
@@ -43,7 +44,7 @@ defmodule Sozisel.Events.PollResultsTest do
                    launched_event_id: ctx.launched_event.id,
                    participant_id: p.id,
                    result_data: %{
-                     option_id: option_id
+                     option_ids: [option_id]
                    }
                  })
       end
@@ -60,6 +61,11 @@ defmodule Sozisel.Events.PollResultsTest do
                    id: "2",
                    text: "bad",
                    votes: 1
+                 },
+                 %{
+                   id: "3",
+                   text: "meh",
+                   votes: 0
                  }
                ]
              } = Poll.poll_summary(ctx.launched_event.id)

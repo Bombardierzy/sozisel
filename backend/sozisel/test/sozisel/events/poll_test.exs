@@ -14,6 +14,7 @@ defmodule Sozise.Events.PollTest do
     start_minute: 42,
     event_data: %{
       question: "Do you like being here?",
+      is_multi_choice: false,
       options: [
         %{id: "1", text: "yes"},
         %{id: "2", text: "no"},
@@ -27,6 +28,7 @@ defmodule Sozise.Events.PollTest do
     start_minute: 43,
     event_data: %{
       question: "Do you like being at all?",
+      is_multi_choice: true,
       options: [
         %{id: "1", text: "yes"},
         %{id: "2", text: "no"},
@@ -50,7 +52,8 @@ defmodule Sozise.Events.PollTest do
 
       valid_attrs = Map.put(@valid_attrs, :session_template_id, template.id)
 
-      assert {:ok, %Event{event_data: %Poll{options: options}}} = Events.create_event(valid_attrs)
+      assert {:ok, %Event{event_data: %Poll{options: options, is_multi_choice: false}}} =
+               Events.create_event(valid_attrs)
 
       assert options == [
                %PollOption{id: "1", text: "yes"},
@@ -63,8 +66,10 @@ defmodule Sozise.Events.PollTest do
       template = insert(:template)
       event = poll_fixture(template)
 
-      assert {:ok, %Event{event_data: %Poll{question: question, options: options}}} =
-               Events.update_event(event, @update_attrs)
+      assert {:ok,
+              %Event{
+                event_data: %Poll{question: question, options: options, is_multi_choice: true}
+              }} = Events.update_event(event, @update_attrs)
 
       assert question == "Do you like being at all?"
 
@@ -80,14 +85,27 @@ defmodule Sozise.Events.PollTest do
       session = insert(:session, session_template_id: template.id)
       participant = insert(:participant, session_id: session.id)
 
-      event = poll_fixture(template)
-      launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
+      poll = poll_fixture(template)
+      launched_event = insert(:launched_event, event_id: poll.id, session_id: session.id)
 
-      assert {:ok, %EventResult{result_data: %PollResult{option_id: "1"}}} =
+      assert {:ok, %EventResult{result_data: %PollResult{option_ids: ["1"]}}} =
                EventResults.create_event_result(%{
                  launched_event_id: launched_event.id,
                  participant_id: participant.id,
-                 result_data: %{option_id: "1"}
+                 result_data: %{option_ids: ["1"]}
+               })
+
+      multi_choice_poll = poll_fixture(template)
+      {:ok, event} = Events.update_event(multi_choice_poll, @update_attrs)
+
+      launched_event =
+        insert(:launched_event, event_id: multi_choice_poll.id, session_id: session.id)
+
+      assert {:ok, %EventResult{result_data: %PollResult{option_ids: ["1", "2"]}}} =
+               EventResults.create_event_result(%{
+                 launched_event_id: launched_event.id,
+                 participant_id: participant.id,
+                 result_data: %{option_ids: ["1", "2"]}
                })
     end
   end

@@ -87,6 +87,7 @@ defmodule Sozisel.Factory do
       :poll ->
         %Poll{
           question: "Who do you like?",
+          is_multi_choice: false,
           options: [
             %PollOption{id: "1", text: "Everyone"},
             %PollOption{id: "2", text: "No one"}
@@ -149,10 +150,20 @@ defmodule Sozisel.Factory do
     %QuizResult{participant_answers: answers}
   end
 
-  def random_event_result(%Poll{options: options}) do
-    option_id = Enum.random(options).id
+  def random_event_result(%Poll{options: options, is_multi_choice: multi_choice}) do
+    option_ids =
+      if multi_choice do
+        options
+        |> Enum.map(& &1.id)
+        |> Enum.take_random(:rand.uniform(length(options)))
+      else
+        options
+        |> Enum.random()
+        |> then(& &1.id)
+        |> List.wrap()
+      end
 
-    %PollResult{option_id: option_id}
+    %PollResult{option_ids: option_ids}
   end
 
   def launched_event_factory(attrs) do

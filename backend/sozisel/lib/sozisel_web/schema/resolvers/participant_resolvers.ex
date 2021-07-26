@@ -75,31 +75,33 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
         %{
           input: %{
             launched_event_id: launched_event_id,
-            poll_option_id: option_id
+            poll_option_ids: option_ids
           }
         },
         ctx
       ) do
-    verify_launched_event(ctx, launched_event_id, fn %{
-                                                       launched_event: launched_event,
-                                                       session: session,
-                                                       participant: participant
-                                                     } ->
-      {:ok, event_result} =
-        EventResults.create_event_result(%{
-          participant_id: participant.id,
-          launched_event_id: launched_event.id,
-          result_data: %{option_id: option_id}
-        })
+    on_verified = fn %{
+                       launched_event: launched_event,
+                       session: session,
+                       participant: participant
+                     } ->
+      with {:ok, event_result} <-
+             EventResults.create_event_result(%{
+               participant_id: participant.id,
+               launched_event_id: launched_event.id,
+               result_data: %{option_ids: option_ids}
+             }) do
+        Helpers.subscription_publish(
+          :event_result_submitted,
+          Topics.session_presenter(session.id, session.user_id),
+          event_result
+        )
 
-      Helpers.subscription_publish(
-        :event_result_submitted,
-        Topics.session_presenter(session.id, session.user_id),
-        event_result
-      )
+        {:ok, event_result}
+      end
+    end
 
-      {:ok, event_result}
-    end)
+    verify_launched_event(ctx, launched_event_id, on_verified)
   end
 
   def submit_quiz_results(
@@ -112,11 +114,11 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
         },
         ctx
       ) do
-    verify_launched_event(ctx, launched_event_id, fn %{
-                                                       launched_event: launched_event,
-                                                       event: event,
-                                                       participant: participant
-                                                     } ->
+    on_verify = fn %{
+                     launched_event: launched_event,
+                     event: event,
+                     participant: participant
+                   } ->
       event_questions = Map.get(event.event_data, :quiz_questions)
 
       participant_answers =
@@ -142,22 +144,24 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
           }
         end)
 
-      {:ok, event_result} =
-        %{
-          participant_id: participant.id,
-          launched_event_id: launched_event.id,
-          result_data: %QuizResult{participant_answers: participant_answers}
-        }
-        |> Utils.from_deep_struct()
-        |> EventResults.create_event_result()
+      with {:ok, event_result} <-
+             %{
+               participant_id: participant.id,
+               launched_event_id: launched_event.id,
+               result_data: %QuizResult{participant_answers: participant_answers}
+             }
+             |> Utils.from_deep_struct()
+             |> EventResults.create_event_result() do
+        Helpers.subscription_publish(
+          :event_result_submitted,
+          Topics.session_presenter(launched_event.session.id, launched_event.session.user_id),
+          event_result
+        )
 
-      Helpers.subscription_publish(
-        :event_result_submitted,
-        Topics.session_presenter(launched_event.session.id, launched_event.session.user_id),
-        event_result
-      )
+        {:ok, event_result}
+      end
+    end
 
-      {:ok, event_result}
-    end)
+    verify_launched_event(ctx, launched_event_id, on_verify)
   end
 end
