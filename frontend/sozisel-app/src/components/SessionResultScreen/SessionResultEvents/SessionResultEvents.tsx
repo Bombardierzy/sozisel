@@ -1,9 +1,11 @@
 import "./SessionResultEvents.scss";
 
-import EventCard, { MockEvent } from "./EventCard/EventCard";
+import { CircularProgress, List } from "@material-ui/core";
 
-import { List } from "@material-ui/core";
+import ErrorAlert from "../../utils/Alerts/ErrorAlert";
+import EventCard from "./EventCard/EventCard";
 import { ReactElement } from "react";
+import { useSessionSummaryQuery } from "../../../graphql";
 
 interface SessionResultEventsProps {
   sessionId: string;
@@ -12,15 +14,40 @@ interface SessionResultEventsProps {
 export default function SessionResultEvents({
   sessionId,
 }: SessionResultEventsProps): ReactElement {
-  const events: MockEvent[] = [{ name: "event", id: "adsdf", startMinute: 12 }];
+  const { data, loading } = useSessionSummaryQuery({
+    variables: { id: sessionId },
+  });
+
+  if (loading) {
+    return (
+      <>
+        <div className="SessionResultEvents">
+          <CircularProgress></CircularProgress>
+        </div>
+      </>
+    );
+  }
+
+  if (data?.sessionSummary) {
+    console.log(data.sessionSummary);
+
+    return (
+      <>
+        <div className="SessionResultEvents">
+          <List>
+            {data.sessionSummary.eventParticipations.map((element, _) => (
+              <EventCard key={element.eventId} event={element} />
+            ))}
+          </List>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="SessionResultEvents">
-        <List>
-          {events.map((element, _) => (
-            <EventCard key={element.id} event={element} />
-          ))}
-        </List>
+        <ErrorAlert />
       </div>
     </>
   );

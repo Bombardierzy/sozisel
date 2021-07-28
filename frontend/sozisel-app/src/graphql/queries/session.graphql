@@ -84,6 +84,8 @@ query SessionSummary($id: ID!) {
         eventParticipations {
             eventId
             eventName
+            startMinute
+            eventType
             submissions
         }
     }

@@ -2,7 +2,9 @@
 
 .SessionResultEvents {
     background-color: $bg-01;
-    padding: $spacing-03 20%;
+    padding: $spacing-04 20%;
+    height: calc(100% - #{$navbar-height} - #{3 * $spacing-09});
+    overflow: scroll;
 
     .errorAlert{
         padding: $spacing-05;

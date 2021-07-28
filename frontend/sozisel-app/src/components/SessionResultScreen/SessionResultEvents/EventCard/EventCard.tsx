@@ -9,31 +9,26 @@ import {
 } from "@material-ui/core";
 import React, { BaseSyntheticEvent, ReactElement, useState } from "react";
 
+import { EventParticipation } from "../../../../graphql";
 import useAvatarById from "../../../../hooks/useAvatarById";
-import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-// temporary mock
-
-export interface MockEvent {
-  name: string;
-  id: string;
-  startMinute: number;
-}
 
 export interface EventCardProps {
   key: string;
-  event: MockEvent;
+  event: EventParticipation;
 }
 
 export default function EventCard({ event }: EventCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const history = useHistory();
-  const avatar = useAvatarById(event.id);
+  const avatar = useAvatarById(event.eventId);
   const [raised, setRaised] = useState<boolean>(false);
 
   const onMouseOverChange = (_: BaseSyntheticEvent) => {
     setRaised(!raised);
+  };
+
+  const onButtonClick = () => {
+    // TODO navigate to event details base on event type
   };
 
   return (
@@ -48,18 +43,19 @@ export default function EventCard({ event }: EventCardProps): ReactElement {
           <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
           <CardContent className="cardContent">
             <Typography component="h5" variant="h5">
-              {event.name}
+              {event.eventName}
             </Typography>
-            {/* TODO add hook useEventType */}
             <Typography variant="subtitle1" color="textSecondary">
-              {t("components.SessionEventResults.eventType")} : Quiz
+              {t("components.SessionEventResults.eventType")} :{" "}
+              {event.eventType}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
               {t("components.SessionEventResults.startTime")}:{" "}
               {event.startMinute}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              {t("components.SessionEventResults.participantNumber")}: 55
+              {t("components.SessionEventResults.participantNumber")}:{" "}
+              {event.submissions}
             </Typography>
           </CardContent>
           <CardActions className="cardActions">
@@ -68,6 +64,7 @@ export default function EventCard({ event }: EventCardProps): ReactElement {
               color="primary"
               fullWidth
               className="actionButton"
+              onClick={onButtonClick}
             >
               {t("components.SessionEventResults.details")}
             </Button>
