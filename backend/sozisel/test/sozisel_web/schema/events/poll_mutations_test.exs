@@ -99,7 +99,7 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
     end
 
     test "update an existing poll", ctx do
-      poll = insert(:event, session_template_id: ctx.template.id, type: :poll)
+      poll = insert(:poll_event, session_template_id: ctx.template.id)
 
       variables = %{
         input: %{
@@ -132,7 +132,7 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
     end
 
     test "delete poll", ctx do
-      %{id: poll_id} = insert(:event, session_template_id: ctx.template.id, type: :poll)
+      %{id: poll_id} = insert(:poll_event, session_template_id: ctx.template.id)
 
       variables = %{
         id: poll_id

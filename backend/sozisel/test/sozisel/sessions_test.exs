@@ -337,8 +337,8 @@ defmodule Sozisel.SessionsTest do
 
     test "session summary returns a proper structure" do
       template = insert(:template)
-      event1 = insert(:event, session_template_id: template.id)
-      event2 = insert(:event, session_template_id: template.id)
+      event1 = insert(:quiz_event, session_template_id: template.id)
+      event2 = insert(:quiz_event, session_template_id: template.id)
 
       session = insert(:session, session_template_id: template.id)
 

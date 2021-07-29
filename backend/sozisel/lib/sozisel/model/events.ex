@@ -68,13 +68,4 @@ defmodule Sozisel.Model.Events do
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.create_changeset(event, attrs)
   end
-
-  # FIXME: I don't remember why we added that to be honest...
-  def marshal_participant_event_data(%{__struct__: Quiz} = event_data) do
-    event_data
-  end
-
-  def marshal_participant_event_data(%{__struct__: Poll} = event_data) do
-    event_data
-  end
 end

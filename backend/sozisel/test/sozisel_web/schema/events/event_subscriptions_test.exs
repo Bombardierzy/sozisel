@@ -77,10 +77,16 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
   """
 
   def mock_participant_event(session \\ nil, type) do
-    if is_nil(session) do
-      build(:event, type: type)
-    else
-      build(:event, session_id: session.id, type: type)
+    attrs =
+      if session == nil do
+        %{}
+      else
+        %{session_id: session.id}
+      end
+
+    case type do
+      :poll -> build(:poll_event, attrs)
+      :quiz -> build(:quiz_event, attrs)
     end
   end
 
@@ -176,7 +182,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
     test "broadcast quiz event result submitted event back to presenter", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
 
       socket = test_socket(ctx.user)
 
@@ -217,7 +223,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
     test "broadcast poll event result back to presenter", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id, type: :poll)
+      event = insert(:poll_event, session_template_id: template.id)
 
       socket = test_socket(ctx.user)
 
@@ -247,7 +253,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
     test "broadcast poll summary to participants on submit poll mutation", ctx do
       template = insert(:template)
-      poll = insert(:event, session_template_id: template.id, type: :poll)
+      poll = insert(:poll_event, session_template_id: template.id)
 
       participant = insert(:participant, session_id: ctx.session.id)
 

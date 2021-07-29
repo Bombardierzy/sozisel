@@ -20,7 +20,7 @@ defmodule Sozisel.Events.LaunchedEventsTest do
 
     setup do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
 
       session = insert(:session, session_template_id: template.id)
       secondary_session = insert(:session, session_template_id: template.id)

@@ -61,13 +61,43 @@ defmodule Sozisel.Factory do
     }
   end
 
-  def event_factory(attrs) do
+  def quiz_event_factory(attrs) do
+    event_data =
+      case attrs[:event_data] do
+        nil -> build(:quiz_event_data)
+        %Quiz{} = quiz -> quiz
+      end
+
     %Event{
-      name: attrs[:event_name] || sequence(:event_name, &"some-event-#{&1}"),
+      name: attrs[:event_name] || sequence(:event_name, &"some-quiz-event-#{&1}"),
       session_template_id: attrs[:session_template_id],
       start_minute: attrs[:start_minute] || 2137,
-      event_data: attrs[:event_data] || build(:event_data, type: attrs[:type] || :quiz)
+      event_data: event_data
     }
+  end
+
+  def poll_event_factory(attrs) do
+    event_data =
+      case attrs[:event_data] do
+        nil -> build(:poll_event_data)
+        %Poll{} = poll -> poll
+      end
+
+    %Event{
+      name: attrs[:event_name] || sequence(:event_name, &"some-poll-event-#{&1}"),
+      session_template_id: attrs[:session_template_id],
+      start_minute: attrs[:start_minute] || 2137,
+      event_data: event_data
+    }
+  end
+
+  def random_event_factory(attrs) do
+    [:quiz, :poll]
+    |> Enum.random()
+    |> case do
+      :quiz -> build(:quiz_event, attrs)
+      :poll -> build(:poll_event, attrs)
+    end
   end
 
   def event_result_factory(%{
@@ -82,55 +112,53 @@ defmodule Sozisel.Factory do
     }
   end
 
-  def event_data_factory(attrs) do
-    case attrs[:type] do
-      :poll ->
-        %Poll{
-          question: "Who do you like?",
-          options: [
-            %PollOption{id: "1", text: "Everyone"},
-            %PollOption{id: "2", text: "No one"}
+  def quiz_event_data_factory(_attrs) do
+    %Quiz{
+      duration_time_sec: 120,
+      target_percentage_of_participants: 100,
+      tracking_mode: false,
+      quiz_questions: [
+        %QuizQuestion{
+          id: "1",
+          question: "Kto jest twórcą Sozisela?",
+          answers: [
+            %Answer{text: "Jakub Perżyło", id: "1"},
+            %Answer{text: "Przemysław Wątroba", id: "2"},
+            %Answer{text: "Jakub Myśliwiec", id: "3"},
+            %Answer{text: "Sebastian Kuśnierz", id: "4"},
+            %Answer{text: "Flaneczki Team", id: "5"}
+          ],
+          correct_answers: [
+            %Answer{text: "Jakub Perżyło", id: "1"},
+            %Answer{text: "Przemysław Wątroba", id: "2"},
+            %Answer{text: "Jakub Myśliwiec", id: "3"},
+            %Answer{text: "Sebastian Kuśnierz", id: "4"}
+          ]
+        },
+        %QuizQuestion{
+          id: "2",
+          question: "Całka z x^2?",
+          answers: [
+            %Answer{text: "1/3 * x^3", id: "1"},
+            %Answer{text: "1/3 * x^3 + C", id: "2"},
+            %Answer{text: "2x", id: "3"}
+          ],
+          correct_answers: [
+            %Answer{text: "1/3 * x^3 + C", id: "2"}
           ]
         }
+      ]
+    }
+  end
 
-      :quiz ->
-        %Quiz{
-          duration_time_sec: 120,
-          target_percentage_of_participants: 100,
-          tracking_mode: false,
-          quiz_questions: [
-            %QuizQuestion{
-              id: "1",
-              question: "Kto jest twórcą Sozisela?",
-              answers: [
-                %Answer{text: "Jakub Perżyło", id: "1"},
-                %Answer{text: "Przemysław Wątroba", id: "2"},
-                %Answer{text: "Jakub Myśliwiec", id: "3"},
-                %Answer{text: "Sebastian Kuśnierz", id: "4"},
-                %Answer{text: "Flaneczki Team", id: "5"}
-              ],
-              correct_answers: [
-                %Answer{text: "Jakub Perżyło", id: "1"},
-                %Answer{text: "Przemysław Wątroba", id: "2"},
-                %Answer{text: "Jakub Myśliwiec", id: "3"},
-                %Answer{text: "Sebastian Kuśnierz", id: "4"}
-              ]
-            },
-            %QuizQuestion{
-              id: "2",
-              question: "Całka z x^2?",
-              answers: [
-                %Answer{text: "1/3 * x^3", id: "1"},
-                %Answer{text: "1/3 * x^3 + C", id: "2"},
-                %Answer{text: "2x", id: "3"}
-              ],
-              correct_answers: [
-                %Answer{text: "1/3 * x^3 + C", id: "2"}
-              ]
-            }
-          ]
-        }
-    end
+  def poll_event_data_factory(_attrs) do
+    %Poll{
+      question: "Who do you like?",
+      options: [
+        %PollOption{id: "1", text: "Everyone"},
+        %PollOption{id: "2", text: "No one"}
+      ]
+    }
   end
 
   def random_event_result(%Quiz{} = quiz) do
