@@ -42,7 +42,7 @@ defmodule SoziselWeb.Schema.Types.PollTypes do
   input_object :poll_input do
     field :question, non_null(:string)
     field :options, strong_list_of(:poll_option_input)
-    field :is_multi_choice, non_null(:boolean)
+    field :is_multi_choice, :boolean, default_value: false
   end
 
   input_object :create_poll_input do
