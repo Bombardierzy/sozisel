@@ -37,14 +37,14 @@ defmodule Sozisel.Model.Polls.Poll do
   @primary_key false
   embedded_schema do
     field :question, :string
-    field :is_multi_choice, :boolean
+    field :is_multi_choice, :boolean, default: false
     embeds_many :options, PollOption, on_replace: :delete
   end
 
   def changeset(schema, attrs) do
     schema
     |> cast(attrs, [:question, :is_multi_choice])
-    |> validate_required([:question, :is_multi_choice])
+    |> validate_required([:question])
     |> cast_embed(:options, required: true)
     |> validate_unique_option_ids()
   end
