@@ -19,6 +19,7 @@ import JitsiFrame from "../Jitsi/JitsiFrame";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
+import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useTranslation } from "react-i18next";
 
 export interface ParticipantActiveSessionProps {
@@ -35,6 +36,17 @@ export default function ParticipantActiveSession({
   const history = useHistory();
   const { data: session, loading: sessionLoading } =
     useActiveSessionThumbnailQuery({ variables: { id } });
+
+  const {
+    participants,
+    error: getParticipantsError,
+    loading: getParticipantsLoading,
+  } = useLiveSessionParticipation({
+    sessionId: id,
+    type: "participant",
+    token,
+  });
+
   const { data: eventData } = useEventLaunchedSubscription({
     variables: { token },
   });
@@ -107,7 +119,11 @@ export default function ParticipantActiveSession({
           )}
           {!activeEvent && (
             <div className="moduleComponent">
-              <ParticipantsList sessionId={id} />
+              <ParticipantsList
+                participants={participants}
+                loading={getParticipantsLoading}
+                error={getParticipantsError}
+              />
             </div>
           )}
           {activeEvent &&

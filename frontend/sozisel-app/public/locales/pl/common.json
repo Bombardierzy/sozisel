@@ -76,20 +76,15 @@
           "defaultQuestion": "Treść pytania..."
         },
         "durationTime": "Czas trwania (w sekundach)",
-        "percentageOfParticipants": "Procent uczestników",
-        "trackingMode": "Śledzenie odpowiedzi"
+        "percentageOfParticipants": "Procent uczestników"
       },
       "EventList": {
         "Quiz": {
           "startMinute": "Czas rozpoczęcia: {{value}} minuta",
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
-          "trackingMode": "Śledzenie odpowiedzi: {{value}}",
           "onDeleteEventMessage": "Usunięto wydarzenie!",
-          "addNewQuestion": "Dodaj kolejne pytanie",
-          "enableTrackingMode": "włączone",
-          "disableTrackingMode": "wyłączone"
-        }
+          "addNewQuestion": "Dodaj kolejne pytanie"        }
       }
     },
     "SessionDetails": {
@@ -173,7 +168,7 @@
       "dialogButtonText": "OK"
     },
     "ParticipantActiveSession": {
-      "exitSession": "Wyjdź", 
+      "exitSession": "Wyjdź",
       "next": "Dalej"
     },
     "PresenterSession": {
@@ -184,6 +179,19 @@
       "ParticipantsList": {
         "fetchingError": "Błąd ładowania uczestników. Spróbuj ponownie później.",
         "header": "Uczestnicy"
+      },
+      "EventsTimeline": {
+        "header": "Wydarzenia",
+        "eventDetailsHeader": "Szczegóły wydarzenia :",
+        "startMinute": "{{value}} minuta",
+        "endSessionButton": "Zakończ sesję",
+        "launchEventError": "Błąd podczas uruchomienia wydarzenia. Proszę spróbuj pożniej.",
+        "endSessionError": "Błąd podczas zamykannia sesji. Proszę spróbuj pożniej.",
+        "QuizDetails": {
+          "durationTime": "Czas trwania: {{value}} sekund",
+          "percentageOfParticipants": "Uczestnicy: {{value}}%",
+          "questionsNumber": "Ilość pytań: "
+        }
       }
     }
   },

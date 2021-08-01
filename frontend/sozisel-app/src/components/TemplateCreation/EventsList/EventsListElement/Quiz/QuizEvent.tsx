@@ -65,17 +65,6 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
                 { value: event.eventData.targetPercentageOfParticipants }
               )}
             </Typography>
-            <Typography>
-              {t("components.TemplateCreation.EventList.Quiz.trackingMode", {
-                value: event.eventData.trackingMode
-                  ? t(
-                      "components.TemplateCreation.EventList.Quiz.enableTrackingMode"
-                    )
-                  : t(
-                      "components.TemplateCreation.EventList.Quiz.disableTrackingMode"
-                    ),
-              })}
-            </Typography>
           </div>
           <IconButton
             className="editButton"

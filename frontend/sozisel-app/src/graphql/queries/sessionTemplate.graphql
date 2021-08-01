@@ -22,7 +22,6 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
                 ... on Quiz {
                     __typename
                     durationTimeSec
-                    trackingMode
                     targetPercentageOfParticipants
                     quizQuestions {
                         id
@@ -66,7 +65,6 @@ query SessionTemplate($id: ID!) {
                 ... on Quiz {
                     __typename
                     durationTimeSec
-                    trackingMode
                     targetPercentageOfParticipants
                     quizQuestions {
                         id

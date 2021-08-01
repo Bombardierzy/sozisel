@@ -80,7 +80,7 @@ Repo.transaction(fn ->
     |> Enum.map(&Sessions.create_agenda_entry(&1))
     |> Enum.map(&elem(&1, 1))
 
-  {:ok, _event1} =
+  {:ok, event1} =
     %{
       session_template_id: template1.id,
       name: "Znani przestępcy",
@@ -88,7 +88,6 @@ Repo.transaction(fn ->
       event_data: %{
         duration_time_sec: 300,
         target_percentage_of_participants: 100,
-        tracking_mode: false,
         quiz_questions: [
           %{
             id: "fD875==",
@@ -109,7 +108,6 @@ Repo.transaction(fn ->
       event_data: %{
         duration_time_sec: 300,
         target_percentage_of_participants: 100,
-        tracking_mode: false,
         quiz_questions: [
           %{
             id: "1",

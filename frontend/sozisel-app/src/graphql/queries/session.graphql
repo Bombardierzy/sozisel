@@ -16,6 +16,10 @@ query SessionDetails($id: ID!){
         entryPassword
         useJitsi
         startTime
+        launchedEvents {
+            id
+            insertedAt
+        }
         sessionTemplate {
             id
             estimatedTime
@@ -97,7 +101,6 @@ query SessionBasicInfo($id: ID!) {
 fragment quizFields on Quiz {
     __typename
     durationTimeSec
-    trackingMode
     targetPercentageOfParticipants
     quizQuestions {
         id
