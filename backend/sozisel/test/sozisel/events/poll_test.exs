@@ -11,6 +11,7 @@ defmodule Sozise.Events.PollTest do
 
   @valid_attrs %{
     name: "some poll",
+    duration_time_sec: 120,
     start_minute: 42,
     event_data: %{
       question: "Do you like being here?",

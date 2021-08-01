@@ -54,7 +54,6 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   # ============================
 
   input_object :quiz_input do
-    field :duration_time_sec, non_null(:integer)
     field :target_percentage_of_participants, non_null(:integer)
     field :quiz_questions, strong_list_of(:quiz_question_input)
   end
@@ -73,6 +72,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   input_object :create_quiz_input do
     field :name, non_null(:string)
+    field :duration_time_sec, non_null(:integer)
     field :start_minute, non_null(:integer)
     field :event_data, non_null(:quiz_input)
     field :session_template_id, non_null(:string)
@@ -81,6 +81,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   input_object :update_quiz_input do
     field :id, non_null(:id)
     field :name, :string
+    field :duration_time_sec, :integer
     field :start_minute, :integer
     field :event_data, non_null(:quiz_input)
   end

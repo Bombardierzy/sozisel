@@ -48,6 +48,7 @@ defmodule SoziselWeb.Schema.Types.PollTypes do
   input_object :create_poll_input do
     field :session_template_id, non_null(:id)
     field :name, non_null(:string)
+    field :duration_time_sec, non_null(:integer)
     field :start_minute, non_null(:integer)
     field :event_data, non_null(:poll_input)
   end
@@ -55,6 +56,7 @@ defmodule SoziselWeb.Schema.Types.PollTypes do
   input_object :update_poll_input do
     field :id, non_null(:string)
     field :name, :string
+    field :duration_time_sec, :integer
     field :start_minute, :integer
     field :event_data, :poll_input
   end

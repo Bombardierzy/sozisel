@@ -5,7 +5,6 @@ defmodule Sozisel.Model.Quizzes.Quiz do
   alias Sozisel.Model.Quizzes.QuizQuestion
 
   @type t :: %__MODULE__{
-          duration_time_sec: Integer.t(),
           target_percentage_of_participants: Integer.t(),
           quiz_questions: [QuizQuestion.t()]
         }
@@ -14,16 +13,15 @@ defmodule Sozisel.Model.Quizzes.Quiz do
 
   ### As we resign from tracking_mode property all quizzes are tracked by default
   embedded_schema do
-    field :duration_time_sec, :integer
     field :target_percentage_of_participants, :integer
     embeds_many :quiz_questions, QuizQuestion, on_replace: :delete
   end
 
   def changeset(quiz, attrs) do
     quiz
-    |> cast(attrs, [:duration_time_sec, :target_percentage_of_participants])
+    |> cast(attrs, [:target_percentage_of_participants])
     |> cast_embed(:quiz_questions)
-    |> validate_required([:duration_time_sec, :target_percentage_of_participants])
+    |> validate_required([:target_percentage_of_participants])
     |> validate_quiz_questions_length()
     |> validate_inclusion(:target_percentage_of_participants, 1..100)
   end

@@ -10,6 +10,7 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
     createPoll(input: $input) {
       id
       name
+      durationTimeSec
       startMinute
       eventData {
         ... on Poll {
@@ -33,6 +34,7 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
     updatePoll(input: $input) {
       id
       name
+      durationTimeSec
       startMinute
       eventData {
         ... on Poll {
@@ -68,6 +70,7 @@ defmodule SoziselWeb.Schema.Events.PollMutationsTest do
       variables = %{
         input: %{
           name: "some poll",
+          duration_time_sec: 12,
           startMinute: 10,
           eventData: %{
             question: "How are you today?",

@@ -71,6 +71,7 @@ defmodule Sozisel.Factory do
     %Event{
       name: attrs[:event_name] || sequence(:event_name, &"some-quiz-event-#{&1}"),
       session_template_id: attrs[:session_template_id],
+      duration_time_sec: attrs[:duration_time_sec] || 120,
       start_minute: attrs[:start_minute] || 2137,
       event_data: event_data
     }
@@ -86,6 +87,7 @@ defmodule Sozisel.Factory do
     %Event{
       name: attrs[:event_name] || sequence(:event_name, &"some-poll-event-#{&1}"),
       session_template_id: attrs[:session_template_id],
+      duration_time_sec: attrs[:duration_time_sec] || 120,
       start_minute: attrs[:start_minute] || 2137,
       event_data: event_data
     }
@@ -114,7 +116,6 @@ defmodule Sozisel.Factory do
 
   def quiz_event_data_factory(_attrs) do
     %Quiz{
-      duration_time_sec: 120,
       target_percentage_of_participants: 100,
       quiz_questions: [
         %QuizQuestion{
