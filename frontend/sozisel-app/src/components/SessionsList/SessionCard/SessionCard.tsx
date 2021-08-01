@@ -21,11 +21,11 @@ import React, {
 
 import { Alert } from "@material-ui/lab";
 import CloseIcon from "@material-ui/icons/Close";
+import CustomAvatar from "../../utils/Avatar/CustomAvatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { Session } from "../../../model/Session";
 import ShareIcon from "@material-ui/icons/Share";
-import useAvatarById from "../../../hooks/useAvatarById";
 import { useHistory } from "react-router-dom";
 import useSessionStatus from "../../../hooks/useSessionStatus";
 import { useStartSessionMutation } from "../../../graphql";
@@ -45,7 +45,6 @@ export default function SessionCard({
   const history = useHistory();
   const { status, isScheduled, isEnded } = useSessionStatus(session);
   const sessionLink = `${window.location.protocol}//${window.location.hostname}/sessions/${session.id}/join`;
-  const avatar = useAvatarById(session.id);
   const [raised, setRaised] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
@@ -93,7 +92,7 @@ export default function SessionCard({
         onClick={onCardClick}
       >
         <div className="sessionCardContent">
-          <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
+          <CustomAvatar id={session.id} />
           <CardContent className="cardContent">
             <Typography component="h5" variant="h5">
               {session.name}
