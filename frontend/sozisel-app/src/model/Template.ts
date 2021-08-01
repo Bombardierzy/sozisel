@@ -15,6 +15,7 @@ export interface Event {
   id: string;
   eventData: EventData;
   name: string;
+  durationTimeSec: number;
   startMinute: number;
 }
 
@@ -29,7 +30,6 @@ export type EventData = Quiz | Poll;
 
 export interface Quiz {
   __typename?: string;
-  durationTimeSec: number;
   quizQuestions: QuizQuestion[];
   targetPercentageOfParticipants: number;
 }

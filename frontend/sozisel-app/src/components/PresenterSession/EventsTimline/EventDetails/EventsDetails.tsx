@@ -25,7 +25,10 @@ export default function EventDetails({
           <Typography className="eventDetailsHeader">
             {t("components.PresenterSession.EventsTimeline.eventDetailsHeader")}
           </Typography>
-          <QuizDetails quiz={activeEvent.eventData} />
+          <QuizDetails
+            durationTime={activeEvent.durationTimeSec}
+            quiz={activeEvent.eventData}
+          />
         </>
       )}
     </div>

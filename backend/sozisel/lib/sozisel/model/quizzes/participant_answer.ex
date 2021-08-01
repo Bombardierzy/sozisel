@@ -23,7 +23,7 @@ defmodule Sozisel.Model.Quizzes.ParticipantAnswer do
   def changeset(participant_answer, attrs) do
     participant_answer
     |> cast(attrs, [:question_id, :is_correct, :final_answer_ids])
-    |> cast_embed(:track_nodes, required: true)
+    |> cast_embed(:track_nodes)
     |> validate_required([:question_id, :is_correct, :final_answer_ids])
   end
 end

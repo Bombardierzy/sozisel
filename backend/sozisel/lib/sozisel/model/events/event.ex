@@ -11,6 +11,7 @@ defmodule Sozisel.Model.Events.Event do
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
           name: String.t(),
+          duration_time_sec: Integer.t(),
           start_minute: Integer.t(),
           event_data: PolymorphicEmbed.t(),
           inserted_at: DateTime.t(),
@@ -19,6 +20,7 @@ defmodule Sozisel.Model.Events.Event do
 
   schema "events" do
     field :name, :string
+    field :duration_time_sec, :integer
     field :start_minute, :integer
 
     field :event_data, PolymorphicEmbed,
@@ -37,16 +39,26 @@ defmodule Sozisel.Model.Events.Event do
 
   def create_changeset(event, attrs \\ %{}) do
     event
-    |> cast(attrs, [:name, :start_minute, :session_template_id])
+    |> cast(attrs, [:name, :duration_time_sec, :start_minute, :session_template_id])
     |> cast_polymorphic_embed(:event_data, required: true)
-    |> validate_required([:name, :start_minute, :event_data, :session_template_id])
+    |> validate_required([
+      :name,
+      :duration_time_sec,
+      :start_minute,
+      :event_data,
+      :session_template_id
+    ])
+    |> validate_number(:duration_time_sec, greater_than: 0)
+    |> validate_number(:start_minute, greater_than_or_equal_to: 0)
     |> foreign_key_constraint(:session_template_id)
   end
 
   def update_changeset(event, attrs \\ %{}) do
     event
-    |> cast(attrs, [:name, :start_minute])
+    |> cast(attrs, [:name, :duration_time_sec, :start_minute])
     |> cast_polymorphic_embed(:event_data, required: true)
-    |> validate_required([:name, :start_minute, :event_data])
+    |> validate_required([:name, :duration_time_sec, :start_minute, :event_data])
+    |> validate_number(:duration_time_sec, greater_than: 0)
+    |> validate_number(:start_minute, greater_than_or_equal_to: 0)
   end
 end

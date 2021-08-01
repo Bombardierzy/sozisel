@@ -54,9 +54,9 @@ defmodule Sozisel.Events.QuizResultsTest do
     @invalid_attrs %{participant_token: nil, result_data: nil}
     @valid_attrs_for_event %{
       name: "some name",
+      duration_time_sec: 12,
       start_minute: 42,
       event_data: %{
-        duration_time_sec: 12,
         target_percentage_of_participants: 2,
         quiz_questions: [
           %{

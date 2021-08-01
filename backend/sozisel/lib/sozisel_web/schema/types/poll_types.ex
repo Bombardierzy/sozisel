@@ -46,17 +46,15 @@ defmodule SoziselWeb.Schema.Types.PollTypes do
   end
 
   input_object :create_poll_input do
-    field :session_template_id, non_null(:id)
-    field :name, non_null(:string)
-    field :start_minute, non_null(:integer)
+    import_fields :create_event_input_base
+
     field :event_data, non_null(:poll_input)
   end
 
   input_object :update_poll_input do
-    field :id, non_null(:string)
-    field :name, :string
-    field :start_minute, :integer
-    field :event_data, :poll_input
+    import_fields :update_event_input_base
+
+    field :event_data, non_null(:poll_input)
   end
 
   input_object :poll_result_input do

@@ -7,6 +7,7 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   object :event do
     field :id, non_null(:id)
     field :name, non_null(:string)
+    field :duration_time_sec, non_null(:integer)
     field :start_minute, non_null(:integer)
     field :event_data, non_null(:event_data)
 
@@ -15,6 +16,20 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
     end
 
     timestamps()
+  end
+
+  input_object :create_event_input_base do
+    field :name, non_null(:string)
+    field :duration_time_sec, non_null(:integer)
+    field :start_minute, non_null(:integer)
+    field :session_template_id, non_null(:id)
+  end
+
+  input_object :update_event_input_base do
+    field :id, non_null(:id)
+    field :name, :string
+    field :duration_time_sec, :integer
+    field :start_minute, :integer
   end
 
   object :launched_event do

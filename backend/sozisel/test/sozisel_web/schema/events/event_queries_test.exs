@@ -10,10 +10,10 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
     event(id: $id) {
       id
       name
+      durationTimeSec
       startMinute
       eventData {
         ... on Quiz {
-          durationTimeSec
           targetPercentageOfParticipants
           quizQuestions {
               question
@@ -38,9 +38,9 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
 
   @valid_attrs %{
     name: "some name",
+    duration_time_sec: 12,
     start_minute: 42,
     event_data: %{
-      duration_time_sec: 12,
       target_percentage_of_participants: 2,
       quiz_questions: [
         %{
@@ -83,9 +83,9 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
                  "event" => %{
                    "id" => ^event_id,
                    "name" => "some name",
+                   "durationTimeSec" => 12,
                    "startMinute" => 42,
                    "eventData" => %{
-                     "durationTimeSec" => 12,
                      "targetPercentageOfParticipants" => 2,
                      "quizQuestions" => [
                        %{

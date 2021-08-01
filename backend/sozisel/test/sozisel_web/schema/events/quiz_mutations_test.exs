@@ -10,10 +10,10 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
     createQuiz(input: $input) {
       id
       name
+      durationTimeSec
       startMinute
       eventData {
         ... on Quiz {
-          durationTimeSec
           targetPercentageOfParticipants
           quizQuestions {
             question
@@ -41,10 +41,10 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
     updateQuiz(input: $input) {
       id
       name
+      durationTimeSec
       startMinute
       eventData {
         ... on Quiz {
-          durationTimeSec
           targetPercentageOfParticipants
           quizQuestions {
             question
@@ -75,9 +75,9 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
 
   @valid_attrs %{
     name: "some name",
+    duration_time_sec: 12,
     start_minute: 42,
     event_data: %{
-      duration_time_sec: 12,
       target_percentage_of_participants: 2,
       quiz_questions: [
         %{
@@ -117,9 +117,9 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       variables = %{
         input: %{
           name: "event",
+          durationTimeSec: 25,
           startMinute: 10,
           eventData: %{
-            durationTimeSec: 25,
             targetPercentageOfParticipants: 90,
             quizQuestions: [
               %{
@@ -145,9 +145,9 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                  "createQuiz" => %{
                    "id" => _,
                    "name" => "event",
+                   "durationTimeSec" => 25,
                    "startMinute" => 10,
                    "eventData" => %{
-                     "durationTimeSec" => 25,
                      "targetPercentageOfParticipants" => 90,
                      "quizQuestions" => [
                        %{
@@ -180,9 +180,9 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
         input: %{
           id: event.id,
           name: "updated event",
+          durationTimeSec: 42,
           startMinute: 50,
           eventData: %{
-            durationTimeSec: 42,
             targetPercentageOfParticipants: 25,
             quizQuestions: %{
               question: "Updated question?",
@@ -206,9 +206,9 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
                  "updateQuiz" => %{
                    "id" => _,
                    "name" => "updated event",
+                   "durationTimeSec" => 42,
                    "startMinute" => 50,
                    "eventData" => %{
-                     "durationTimeSec" => 42,
                      "targetPercentageOfParticipants" => 25,
                      "quizQuestions" => quiz_questions
                    }
@@ -245,9 +245,9 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
       variables = %{
         input: %{
           name: "event",
+          durationTimeSec: 25,
           startMinute: 10,
           eventData: %{
-            durationTimeSec: 25,
             targetPercentageOfParticipants: 90,
             quizQuestions: [
               %{
@@ -286,9 +286,9 @@ defmodule SoziselWeb.Schema.QuizMutationsTest do
         input: %{
           id: event.id,
           name: "updated event",
+          durationTimeSec: 42,
           startMinute: 50,
           eventData: %{
-            durationTimeSec: 42,
             targetPercentageOfParticipants: 25,
             quizQuestions: %{
               question: "Updated question?",

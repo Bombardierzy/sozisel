@@ -9,9 +9,9 @@ defmodule Sozisel.Events.QuizTest do
   describe "quiz events" do
     @valid_attrs %{
       name: "some name",
+      duration_time_sec: 120,
       start_minute: 42,
       event_data: %{
-        duration_time_sec: 12,
         target_percentage_of_participants: 2,
         quiz_questions: [
           %{
@@ -42,9 +42,9 @@ defmodule Sozisel.Events.QuizTest do
     }
     @update_attrs %{
       name: "some updated name",
+      duration_time_sec: 60,
       start_minute: 43,
       event_data: %{
-        duration_time_sec: 13,
         target_percentage_of_participants: 4,
         quiz_questions: [
           %{
@@ -71,9 +71,9 @@ defmodule Sozisel.Events.QuizTest do
     }
     @invalid_attrs_with_no_correct_answers %{
       name: "some updated name",
+      duration_time_sec: 13,
       start_minute: 43,
       event_data: %{
-        duration_time_sec: 13,
         target_percentage_of_participants: 4,
         quiz_questions: [
           %{
@@ -91,9 +91,9 @@ defmodule Sozisel.Events.QuizTest do
     }
     @invalid_attrs_with_no_quiz_questions %{
       name: "some updated name",
+      duration_time_sec: 13,
       start_minute: 43,
       event_data: %{
-        duration_time_sec: 13,
         target_percentage_of_participants: 4,
         quiz_questions: []
       }
@@ -136,7 +136,6 @@ defmodule Sozisel.Events.QuizTest do
       assert Map.fetch(event.event_data, :target_percentage_of_participants) == {:ok, 2}
 
       assert event.event_data == %Sozisel.Model.Quizzes.Quiz{
-               duration_time_sec: 12,
                target_percentage_of_participants: 2,
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
@@ -184,7 +183,6 @@ defmodule Sozisel.Events.QuizTest do
       assert Map.fetch(event.event_data, :target_percentage_of_participants) == {:ok, 4}
 
       assert event.event_data == %Sozisel.Model.Quizzes.Quiz{
-               duration_time_sec: 13,
                target_percentage_of_participants: 4,
                quiz_questions: [
                  %Sozisel.Model.Quizzes.QuizQuestion{
