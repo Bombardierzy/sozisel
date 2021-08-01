@@ -69,7 +69,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
           %ParticipantAnswer{
             question_id: "some id",
             final_answer_ids: ["some answer id"],
-            is_correct: false,
+            points: 0,
             track_nodes: []
           }
         ]

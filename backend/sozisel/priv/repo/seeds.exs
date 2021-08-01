@@ -173,7 +173,7 @@ Repo.transaction(fn ->
           %{
             question_id: "fD875",
             final_answer_ids: ["gasdh=="],
-            is_correct: false,
+            points: 0,
             track_nodes: []
           }
         ]
@@ -189,7 +189,7 @@ Repo.transaction(fn ->
           %{
             question_id: "fD875",
             final_answer_ids: ["gasdh=="],
-            is_correct: false,
+            points: 1,
             track_nodes: []
           }
         ]
@@ -205,7 +205,7 @@ Repo.transaction(fn ->
           %{
             question_id: "1",
             final_answer_ids: ["1"],
-            is_correct: true,
+            points: 1,
             track_nodes: []
           }
         ]

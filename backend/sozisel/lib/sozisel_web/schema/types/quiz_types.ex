@@ -21,12 +21,13 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   object :quiz_result do
     field :participant_answers, strong_list_of(:participant_quiz_answer)
+    field :quiz_time, (:float)
   end
 
   object :participant_quiz_answer do
     field :question_id, non_null(:string)
     field :final_answer_ids, strong_list_of(:string)
-    field :is_correct, non_null(:boolean)
+    field :points, non_null(:float)
     field :track_nodes, strong_list_of(:quiz_answer_track_node)
   end
 
@@ -87,6 +88,7 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   input_object :quiz_result_input do
     field :launched_event_id, non_null(:string)
+    field :quiz_time, non_null(:float)
     field :participant_answers, strong_list_of(:participant_quiz_answer_input)
   end
 
@@ -101,4 +103,11 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
     field :answer_id, non_null(:string)
     field :selected, non_null(:boolean)
   end
+
+  object :quiz_summary do
+    field :number_of_participants, non_null(:integer)
+    field :average_points, non_null(:float)
+    field :average_answer_time, non_null(:float)
+  end
+  
 end

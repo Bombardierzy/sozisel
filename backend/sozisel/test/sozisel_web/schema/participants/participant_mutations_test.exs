@@ -30,7 +30,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
           participantAnswers {
             questionId
             finalAnswerIds
-            is_correct
+            points
             track_nodes {
               reaction_time
               answer_id
@@ -238,7 +238,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                      "participantAnswers" => [
                        %{
                          "finalAnswerIds" => ["3", "2"],
-                         "is_correct" => false,
+                         "points" => 0,
                          "questionId" => "1",
                          "track_nodes" => [
                            %{"answer_id" => "3", "reaction_time" => 1.23, "selected" => true},
@@ -250,7 +250,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                        %{
                          "finalAnswerIds" => ["2"],
                          "questionId" => "2",
-                         "is_correct" => true,
+                         "points" => 1,
                          "track_nodes" => [
                            %{"answer_id" => "1", "reaction_time" => 1.23, "selected" => true},
                            %{"answer_id" => "1", "reaction_time" => 2.01, "selected" => false},
@@ -316,7 +316,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                      "participantAnswers" => [
                        %{
                          "finalAnswerIds" => [],
-                         "is_correct" => false,
+                         "points" => 0,
                          "questionId" => "1",
                          "track_nodes" => [
                            %{"answer_id" => "3", "reaction_time" => 1.23, "selected" => true},
@@ -326,7 +326,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                        %{
                          "finalAnswerIds" => ["2"],
                          "questionId" => "2",
-                         "is_correct" => true,
+                         "points" => 1,
                          "track_nodes" => [
                            %{"answer_id" => "1", "reaction_time" => 1.23, "selected" => true},
                            %{"answer_id" => "1", "reaction_time" => 2.01, "selected" => false},

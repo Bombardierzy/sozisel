@@ -2,7 +2,7 @@ defmodule Sozisel.Model.EventResults do
   import Ecto.Query, warn: false
   alias Sozisel.Repo
 
-  alias Sozisel.Model.{EventResults, LaunchedEvents.LaunchedEvent}
+  alias Sozisel.Model.{EventResults, LaunchedEvents.LaunchedEvent, Utils}
   alias EventResults.EventResult
 
   def list_event_results do
@@ -34,5 +34,27 @@ defmodule Sozisel.Model.EventResults do
   def get_all_event_results(%LaunchedEvent{id: launched_event_id}) do
     from(res in EventResult, where: res.launched_event_id == ^launched_event_id)
     |> Repo.all()
+  end
+
+  def quiz_result_summary(%LaunchedEvent{} = event_launched) do
+    quiz_results = get_all_event_results(event_launched)
+    # IO.inspect(quiz_results)
+
+    Enum.each(quiz_results, fn event_data -> 
+      %{result_data: result_data} = Utils.from_deep_struct(event_data) 
+      |> Map.take([:result_data])
+
+      %{quiz_time: quiz_time} = 
+      result_data
+      |> Map.take([:quiz_time])
+      quiz_time
+     end)
+     
+    %{
+        number_of_participants: length(quiz_results),
+        average_points: 32.12,
+        average_answer_time: 434.321
+    }
+
   end
 end
