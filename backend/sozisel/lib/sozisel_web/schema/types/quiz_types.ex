@@ -71,18 +71,14 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   end
 
   input_object :create_quiz_input do
-    field :name, non_null(:string)
-    field :duration_time_sec, non_null(:integer)
-    field :start_minute, non_null(:integer)
+    import_fields :create_event_input_base
+
     field :event_data, non_null(:quiz_input)
-    field :session_template_id, non_null(:string)
   end
 
   input_object :update_quiz_input do
-    field :id, non_null(:id)
-    field :name, :string
-    field :duration_time_sec, :integer
-    field :start_minute, :integer
+    import_fields :update_event_input_base
+
     field :event_data, non_null(:quiz_input)
   end
 

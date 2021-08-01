@@ -48,6 +48,8 @@ defmodule Sozisel.Model.Events.Event do
       :event_data,
       :session_template_id
     ])
+    |> validate_number(:duration_time_sec, greater_than: 0)
+    |> validate_number(:start_minute, greater_than_or_equal_to: 0)
     |> foreign_key_constraint(:session_template_id)
   end
 
@@ -56,5 +58,7 @@ defmodule Sozisel.Model.Events.Event do
     |> cast(attrs, [:name, :duration_time_sec, :start_minute])
     |> cast_polymorphic_embed(:event_data, required: true)
     |> validate_required([:name, :duration_time_sec, :start_minute, :event_data])
+    |> validate_number(:duration_time_sec, greater_than: 0)
+    |> validate_number(:start_minute, greater_than_or_equal_to: 0)
   end
 end
