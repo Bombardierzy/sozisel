@@ -42,6 +42,7 @@ query SessionDetails($id: ID!){
                 startMinute
                 eventData {
                     ... quizFields
+                    ... pollFields
                 }
             }
         }
@@ -113,5 +114,15 @@ fragment quizFields on Quiz {
             text
             id
         }
+    }
+}
+
+fragment pollFields on Poll {
+    __typename
+    isMultiChoice
+    question
+    options {
+        id
+        text
     }
 }

@@ -3,7 +3,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
   alias Sozisel.Repo
   alias SoziselWeb.Schema.Helpers
   alias SoziselWeb.Schema.Subscriptions.Topics
-  alias Sozisel.Model.{Sessions, Sessions.Session, SessionRecordings.SessionRecording}
+  alias Sozisel.Model.{Sessions, Sessions.Session, SessionRecordings.SessionRecording, Polls.Poll}
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
@@ -93,6 +93,10 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     session = fetch_resource!(ctx, Session)
 
     {:ok, session |> Sessions.session_summary()}
+  end
+
+  def poll_summary(_parent, %{launched_event_id: launched_event_id}, _ctx) do
+    {:ok, Poll.poll_summary(launched_event_id)}
   end
 
   def upload_recording(
