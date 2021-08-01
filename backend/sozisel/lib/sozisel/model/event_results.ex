@@ -32,9 +32,10 @@ defmodule Sozisel.Model.EventResults do
     EventResult.create_changeset(event_result, attrs)
   end
 
-  def get_all_event_results(%LaunchedEvent{id: launched_event_id}) do
-    from(res in EventResult, where: res.launched_event_id == ^launched_event_id)
-    |> Repo.all()
+  def get_all_event_results(%LaunchedEvent{} = launched_event) do
+    launched_event
+    |> Repo.preload(:event_results)
+    |> then(& &1.event_results)
   end
 
   def quiz_summary(%LaunchedEvent{} = event_launched) do
