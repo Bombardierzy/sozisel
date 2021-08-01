@@ -6,12 +6,12 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import CustomAvatar from "../../utils/Avatar/CustomAvatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import IconButton from "@material-ui/core/IconButton";
 import { SessionTemplate } from "../../../model/Template";
 import Typography from "@material-ui/core/Typography";
-import useAvatarById from "../../../hooks/useAvatarById";
 import { useHistory } from "react-router";
 import useMyId from "../../../hooks/useMyId";
 import { useTranslation } from "react-i18next";
@@ -31,7 +31,6 @@ export default function TemplateCard({
   const { t } = useTranslation("common");
   const history = useHistory();
   const currentUserId = useMyId();
-  const avatar = useAvatarById(template.id);
   const [raised, setRaised] = useState<boolean>(false);
 
   const onMouseOverChange = () => {
@@ -54,7 +53,7 @@ export default function TemplateCard({
       onClick={onClick}
     >
       <div className="templateCard">
-        <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
+        <CustomAvatar id={template.id} />
         <CardContent className="cardContent">
           <Typography component="h5" variant="h5">
             {template.name}

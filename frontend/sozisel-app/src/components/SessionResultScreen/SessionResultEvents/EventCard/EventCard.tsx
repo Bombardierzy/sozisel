@@ -9,8 +9,8 @@ import {
 } from "@material-ui/core";
 import React, { BaseSyntheticEvent, ReactElement, useState } from "react";
 
+import CustomAvatar from "../../../utils/Avatar/CustomAvatar";
 import { EventParticipation } from "../../../../graphql";
-import useAvatarById from "../../../../hooks/useAvatarById";
 import { useTranslation } from "react-i18next";
 
 export interface EventCardProps {
@@ -20,7 +20,6 @@ export interface EventCardProps {
 
 export default function EventCard({ event }: EventCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const avatar = useAvatarById(event.eventId);
   const [raised, setRaised] = useState<boolean>(false);
 
   const onMouseOverChange = (_: BaseSyntheticEvent) => {
@@ -40,7 +39,7 @@ export default function EventCard({ event }: EventCardProps): ReactElement {
         onMouseOut={onMouseOverChange}
       >
         <div className="eventCardContent">
-          <img width="151" src={`data:image/svg+xml;base64,${btoa(avatar)}`} />
+          <CustomAvatar id={event.eventId} />
           <CardContent className="cardContent">
             <Typography component="h5" variant="h5">
               {event.eventName}

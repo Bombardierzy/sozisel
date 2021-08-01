@@ -20,22 +20,18 @@ export default function SessionResultEvents({
 
   if (loading) {
     return (
-      <>
-        <div className="SessionResultEvents">
-          <CircularProgress></CircularProgress>
-        </div>
-      </>
+      <div className="SessionResultEvents">
+        <CircularProgress />
+      </div>
     );
   }
 
   if (data?.sessionSummary) {
-    console.log(data.sessionSummary);
-
     return (
       <>
         <div className="SessionResultEvents">
           <List>
-            {data.sessionSummary.eventParticipations.map((element, _) => (
+            {data.sessionSummary.eventParticipations.map((element) => (
               <EventCard key={element.eventId} event={element} />
             ))}
           </List>
