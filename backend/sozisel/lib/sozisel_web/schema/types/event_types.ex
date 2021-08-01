@@ -76,4 +76,9 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
 
     field :event_data, non_null(:participant_event_data)
   end
+
+  enum :event_type do
+    value(:quiz)
+    value(:pool)
+  end
 end
