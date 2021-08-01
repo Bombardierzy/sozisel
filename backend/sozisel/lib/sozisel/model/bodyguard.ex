@@ -7,7 +7,15 @@ defmodule Sozisel.Model.Bodyguard do
   """
   @behaviour Bodyguard.Policy
 
-  alias Sozisel.Model.{Events, Sessions, Sessions.Session, Sessions.Template, Users.User, LaunchedEvents.LaunchedEvent}
+  alias Sozisel.Model.{
+    Events,
+    Sessions,
+    Sessions.Session,
+    Sessions.Template,
+    Users.User,
+    LaunchedEvents.LaunchedEvent
+  }
+
   alias Events.Event
 
   @unauthorized {:error, "unauthorized"}
@@ -58,12 +66,12 @@ defmodule Sozisel.Model.Bodyguard do
       do: Sessions.is_template_owner(session_template_id, user_id) |> handle_result()
 
   # LaunchedEvents
-  def authorize(:query_launched_event, %User{id: user_id}, %LaunchedEvent{session_id: session_id}), 
-      do: 
+  def authorize(:query_launched_event, %User{id: user_id}, %LaunchedEvent{session_id: session_id}),
+    do:
       session_id
       |> Sessions.is_session_owner(user_id)
       |> handle_result()
-  
+
   def authorize(_, _, _), do: @unauthorized
 
   defp handle_result(true), do: :ok

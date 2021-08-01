@@ -12,11 +12,18 @@ defmodule SoziselWeb.Schema.Queries.QuizQueries do
       resolve &LaunchedEventResolvers.get_quiz_summary/3
     end
 
-    # field :event_result_details, strong_list_of(:event_result) do
-    #   arg :id, non_null(:id)
+    field :quiz_participants_summary, strong_list_of(:quiz_participant_summary) do
+      arg :id, non_null(:id)
 
-    #   middleware Middleware.Authorization
-    #   resolve &EventResolvers.event_details/3
-    # end
+      middleware Middleware.ResourceAuthorization, {:query_launched_event, LaunchedEvent}
+      resolve &LaunchedEventResolvers.get_quiz_participants_summary/3
+    end
+
+    field :quiz_questions_summary, strong_list_of(:quiz_question_summary) do
+      arg :id, non_null(:id)
+
+      middleware Middleware.ResourceAuthorization, {:query_launched_event, LaunchedEvent}
+      resolve &LaunchedEventResolvers.get_quiz_questions_summary/3
+    end
   end
 end

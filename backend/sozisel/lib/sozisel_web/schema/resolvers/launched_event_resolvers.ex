@@ -10,57 +10,26 @@ defmodule SoziselWeb.Schema.Resolvers.LaunchedEventResolvers do
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
   def get_quiz_summary(_parent, _args, ctx) do
-    quiz_summary = 
-    fetch_resource!(ctx, LaunchedEvent)
-    |> EventResults.quiz_result_summary()
-
-    # quiz_sumamry = 
-    # %{
-    #     number_of_participants: 32,
-    #     average_points: 32.12,
-    #     average_answer_time: 312.2
-    # }
+    quiz_summary =
+      fetch_resource!(ctx, LaunchedEvent)
+      |> EventResults.quiz_summary()
 
     {:ok, quiz_summary}
   end
 
-#   def create(_parent, %{input: input}, ctx) do
-#     user = Context.current_user!(ctx)
+  def get_quiz_participants_summary(_parent, _args, ctx) do
+    quiz_participant_summary =
+      fetch_resource!(ctx, LaunchedEvent)
+      |> EventResults.quiz_participants_summary()
 
-#     with %Template{} = template <- Sessions.get_template(input.session_template_id),
-#          true <- template.user_id == user.id do
-#       Events.create_event(input)
-#     else
-#       nil -> {:error, "sessions template not found"}
-#       false -> {:error, "unauthorized"}
-#     end
-#   end
+    {:ok, quiz_participant_summary}
+  end
 
-#   def update(_parent, %{input: input}, ctx) do
-#     fetch_resource!(ctx, Event)
-#     |> Events.update_event(input)
-#   end
+  def get_quiz_questions_summary(_parent, _args, ctx) do
+    quiz_questions_summary =
+      fetch_resource!(ctx, LaunchedEvent)
+      |> EventResults.quiz_questions_summary()
 
-#   def delete(_parent, _args, ctx) do
-#     fetch_resource!(ctx, Event)
-#     |> Events.delete_event()
-#   end
-
-#   def event_details(_parent, %{id: launched_event_id}, ctx) do
-#     user_id = Context.current_user!(ctx).id
-
-#     with %LaunchedEvent{} = launched_event <-
-#            LaunchedEvents.get_launched_event(launched_event_id),
-#          %LaunchedEvent{session: %Session{user_id: ^user_id}} = launched_event <-
-#            Repo.preload(launched_event, [:session]) do
-#       results =
-#         launched_event
-#         |> EventResults.get_all_event_results()
-
-#       {:ok, results}
-#     else
-#       %LaunchedEvent{} -> {:error, :unauthorized}
-#       nil -> {:ok, nil}
-#     end
-#   end
+    {:ok, quiz_questions_summary}
+  end
 end

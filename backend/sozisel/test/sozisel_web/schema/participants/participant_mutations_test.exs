@@ -30,6 +30,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
           participantAnswers {
             questionId
             finalAnswerIds
+            answer_time
             points
             track_nodes {
               reaction_time
@@ -37,6 +38,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
               selected
             }
           }
+          quiz_answer_time
         }
       }
     }
@@ -201,6 +203,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "1",
               final_answer_ids: ["3", "2"],
+              answer_time: 5.23,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "3", selected: true},
                 %{reaction_time: 2.53, answer_id: "3", selected: false},
@@ -211,13 +214,15 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "2",
               final_answer_ids: ["2"],
+              answer_time: 6.35,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "1", selected: true},
                 %{reaction_time: 2.01, answer_id: "1", selected: false},
                 %{reaction_time: 4.25, answer_id: "3", selected: true}
               ]
             }
-          ]
+          ],
+          quiz_answer_time: 412.32
         },
         token: participant.token
       }
@@ -238,7 +243,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                      "participantAnswers" => [
                        %{
                          "finalAnswerIds" => ["3", "2"],
-                         "points" => 0,
+                         "answer_time" => 5.23,
+                         "points" => 0.0,
                          "questionId" => "1",
                          "track_nodes" => [
                            %{"answer_id" => "3", "reaction_time" => 1.23, "selected" => true},
@@ -250,14 +256,16 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                        %{
                          "finalAnswerIds" => ["2"],
                          "questionId" => "2",
-                         "points" => 1,
+                         "answer_time" => 6.35,
+                         "points" => 1.0,
                          "track_nodes" => [
                            %{"answer_id" => "1", "reaction_time" => 1.23, "selected" => true},
                            %{"answer_id" => "1", "reaction_time" => 2.01, "selected" => false},
                            %{"answer_id" => "3", "reaction_time" => 4.25, "selected" => true}
                          ]
                        }
-                     ]
+                     ],
+                     "quiz_answer_time" => 412.32
                    }
                  }
                }
@@ -281,6 +289,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "1",
               final_answer_ids: [],
+              answer_time: 3.63,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "3", selected: true},
                 %{reaction_time: 2.53, answer_id: "3", selected: false}
@@ -289,13 +298,15 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "2",
               final_answer_ids: ["2"],
+              answer_time: 7.85,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "1", selected: true},
                 %{reaction_time: 2.01, answer_id: "1", selected: false},
                 %{reaction_time: 4.25, answer_id: "3", selected: true}
               ]
             }
-          ]
+          ],
+          quiz_answer_time: 32.12
         },
         token: participant.token
       }
@@ -316,7 +327,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                      "participantAnswers" => [
                        %{
                          "finalAnswerIds" => [],
-                         "points" => 0,
+                         "answer_time" => 3.63,
+                         "points" => 0.0,
                          "questionId" => "1",
                          "track_nodes" => [
                            %{"answer_id" => "3", "reaction_time" => 1.23, "selected" => true},
@@ -325,15 +337,17 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                        },
                        %{
                          "finalAnswerIds" => ["2"],
+                         "answer_time" => 7.85,
                          "questionId" => "2",
-                         "points" => 1,
+                         "points" => 1.0,
                          "track_nodes" => [
                            %{"answer_id" => "1", "reaction_time" => 1.23, "selected" => true},
                            %{"answer_id" => "1", "reaction_time" => 2.01, "selected" => false},
                            %{"answer_id" => "3", "reaction_time" => 4.25, "selected" => true}
                          ]
                        }
-                     ]
+                     ],
+                     "quiz_answer_time" => 32.12
                    }
                  }
                }
@@ -350,6 +364,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "1",
               final_answer_ids: [],
+              answer_time: 4.34,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "3", selected: true},
                 %{reaction_time: 2.53, answer_id: "3", selected: false}
@@ -358,13 +373,15 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "2",
               final_answer_ids: ["3"],
+              answer_time: 6.35,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "1", selected: true},
                 %{reaction_time: 2.01, answer_id: "1", selected: false},
                 %{reaction_time: 4.25, answer_id: "3", selected: true}
               ]
             }
-          ]
+          ],
+          quiz_answer_time: 42.12
         },
         token: participant.token
       }

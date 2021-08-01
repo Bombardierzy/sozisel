@@ -129,12 +129,13 @@ defmodule Sozisel.Factory do
           question_id: id,
           final_answer_ids:
             answers |> Enum.take_random(:rand.uniform(length(answers))) |> Enum.map(& &1.id),
-          points: 0,
+          answer_time: 12.4,
+          points: 0.53,
           track_nodes: []
         }
       end)
 
-    %QuizResult{participant_answers: answers, quiz_time: 43.25}
+    %QuizResult{participant_answers: answers, quiz_answer_time: 43.25}
   end
 
   def launched_event_factory(attrs) do

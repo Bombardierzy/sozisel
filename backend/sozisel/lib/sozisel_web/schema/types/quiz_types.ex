@@ -21,12 +21,13 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   object :quiz_result do
     field :participant_answers, strong_list_of(:participant_quiz_answer)
-    field :quiz_time, (:float)
+    field :quiz_answer_time, :float
   end
 
   object :participant_quiz_answer do
     field :question_id, non_null(:string)
     field :final_answer_ids, strong_list_of(:string)
+    field :answer_time, non_null(:float)
     field :points, non_null(:float)
     field :track_nodes, strong_list_of(:quiz_answer_track_node)
   end
@@ -88,13 +89,14 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   input_object :quiz_result_input do
     field :launched_event_id, non_null(:string)
-    field :quiz_time, non_null(:float)
+    field :quiz_answer_time, non_null(:float)
     field :participant_answers, strong_list_of(:participant_quiz_answer_input)
   end
 
   input_object :participant_quiz_answer_input do
     field :question_id, non_null(:string)
     field :final_answer_ids, strong_list_of(:string)
+    field :answer_time, non_null(:float)
     field :track_nodes, list_of(:quiz_answer_track_node_input)
   end
 
@@ -104,10 +106,38 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
     field :selected, non_null(:boolean)
   end
 
+  # ==== QUIZ SUMMARY ======
+
   object :quiz_summary do
     field :number_of_participants, non_null(:integer)
     field :average_points, non_null(:float)
-    field :average_answer_time, non_null(:float)
+    field :average_quiz_answer_time, non_null(:float)
   end
-  
+
+  object :quiz_participant_summary do
+    field :full_name, non_null(:string)
+    field :email, non_null(:string)
+    field :number_of_points, non_null(:float)
+    field :quiz_answer_time, non_null(:float)
+    field :participant_answers, strong_list_of(:participant_quiz_answer)
+  end
+
+  object :quiz_question_summary do
+    field :question, non_null(:string)
+    field :question_id, non_null(:string)
+    field :answers, strong_list_of(:answer)
+    field :correct_answers, strong_list_of(:answer)
+    field :average_point, non_null(:float)
+    field :average_answer_time, non_null(:float)
+    field :participants_answers, strong_list_of(:participant_answer)
+  end
+
+  object :participant_answer do
+    field :full_name, non_null(:string)
+    field :email, non_null(:string)
+    field :points, non_null(:float)
+    field :answer_time, non_null(:float)
+    field :final_answer_ids, strong_list_of(:string)
+    field :track_nodes, strong_list_of(:quiz_answer_track_node)
+  end
 end
