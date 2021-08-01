@@ -199,7 +199,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
     test "finish quiz, check answers and subscribe result to presenter", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id)
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
       participant = insert(:participant, session_id: session.id)
@@ -279,7 +279,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
     test "finish quiz without select answers, check and subscribe result to presenter", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id)
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
       participant = insert(:participant, session_id: session.id)
@@ -392,7 +392,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
     test "submit poll result", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id, type: :poll)
+      event = insert(:poll_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id)
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
       participant = insert(:participant, session_id: session.id)

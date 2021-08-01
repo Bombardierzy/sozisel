@@ -26,7 +26,7 @@ defmodule Sozisel.Events.PollResultsTest do
         }
       }
 
-      poll = insert(:event, event)
+      poll = insert(:poll_event, event)
 
       launched_event = insert(:launched_event, session_id: session.id, event_id: poll.id)
 
