@@ -58,7 +58,7 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
             </Typography>
             <Typography>
               {t("components.TemplateCreation.EventList.Quiz.durationTime", {
-                value: eventData.durationTimeSec,
+                value: event.durationTimeSec,
               })}
             </Typography>
             <Typography>

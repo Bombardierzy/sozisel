@@ -113,19 +113,16 @@ export default function EventsTimeline({
   useEffect(() => {
     const lastEventIdx = launchedEvents.length - 1;
     if (lastEventIdx >= 0) {
-      // const lastEvent = launchedEvents[launchedEvents.length - 1];
-      // const lastEventStartTime = new Date(lastEvent.insertedAt).getTime();
-      // const currentTime = Math.floor((Date.now() - lastEventStartTime) / 1000);
-      // FIXME: YEA FUCKING GUESS THE DURATION TIME WITH THIS SHIT WHEN EVENT DATA CAN BE LITERALLY ANYTHING AND NOT JUST FUCKING QUIZ
-      // setActiveEvent({
-      //   idx:
-      //     currentTime < events[lastEventIdx].eventData.durationTimeSec
-      //       ? lastEventIdx
-      //       : lastEventIdx + 1,
-      //   id: lastEvent.id,
-      //   currentSec:
-      //     events[lastEventIdx].eventData.durationTimeSec - currentTime,
-      // });
+      const lastEvent = launchedEvents[launchedEvents.length - 1];
+      const lastEventStartTime = new Date(lastEvent.insertedAt).getTime();
+      const currentTime = Math.floor((Date.now() - lastEventStartTime) / 1000);
+      const durationTimeSec = events[lastEventIdx].durationTimeSec;
+
+      setActiveEvent({
+        idx: currentTime < durationTimeSec ? lastEventIdx : lastEventIdx + 1,
+        id: lastEvent.id,
+        currentSec: durationTimeSec - currentTime,
+      });
     }
   }, [events, launchedEvents]);
 
@@ -164,8 +161,7 @@ export default function EventsTimeline({
     if (!launchEventError && activeEvent.idx < events.length) {
       setActiveEvent({
         ...activeEvent,
-        // FIXME: WHAT THE FUCK AM I SUPPOSED TO DO WITH THIS SHIT?
-        // currentSec: events[activeEvent.idx].eventData.durationTimeSec,
+        currentSec: events[activeEvent.idx].durationTimeSec,
         id: events[activeEvent.idx].id,
       });
     }

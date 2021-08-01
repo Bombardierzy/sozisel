@@ -87,6 +87,7 @@ export default function Quiz({
 
   useEffect(() => {
     const eventData = event.eventData as Quiz;
+
     if (event.id !== "") {
       quizDispatch({
         type: "SET_QUESTIONS",
@@ -98,12 +99,12 @@ export default function Quiz({
       });
       quizDispatch({
         type: "SET_DURATION_TIME",
-        durationTime: eventData.durationTimeSec,
+        durationTime: event.durationTimeSec,
       });
     } else {
       onReset();
     }
-  }, [quizDispatch, event.id, event.eventData, onReset]);
+  }, [quizDispatch, event.id, event.durationTimeSec, event.eventData, onReset]);
 
   useEffect(() => {
     percentageOfParticipants !== 0 &&
@@ -117,8 +118,8 @@ export default function Quiz({
         variables: {
           input: {
             name: data.eventName,
+            durationTimeSec: data.durationTime,
             eventData: {
-              durationTimeSec: data.durationTime,
               quizQuestions: questions,
               targetPercentageOfParticipants: data.percentageOfParticipants,
             },
@@ -142,8 +143,8 @@ export default function Quiz({
         variables: {
           input: {
             name: data.eventName,
+            durationTimeSec: data.durationTime,
             eventData: {
-              durationTimeSec: data.durationTime,
               quizQuestions: questions,
               targetPercentageOfParticipants: data.percentageOfParticipants,
             },

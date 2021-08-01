@@ -17,6 +17,7 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
         events {
             id
             name
+            durationTimeSec
             startMinute
             eventData {
                 ...quizFields
@@ -45,6 +46,7 @@ query SessionTemplate($id: ID!) {
         events {
             id
             name
+            durationTimeSec
             startMinute
             eventData {
                 ...quizFields

@@ -7,6 +7,7 @@ export type EventActions =
 export const initialEvent = {
   id: "",
   name: "Nazwa wydarzenia",
+  durationTimeSec: 120,
   startMinute: 0,
   eventData: {} as EventData,
 };
