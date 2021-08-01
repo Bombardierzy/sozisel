@@ -49,7 +49,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       resultData {
         __typename
         ... on PollResult {
-          optionId
+          optionIds
         }
         ... on QuizResult {
           participantAnswers {
@@ -72,6 +72,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
         text
         votes
       }
+      totalVoters
     }
   }
   """
@@ -120,7 +121,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       participant_id: participant.id,
       launched_event_id: launched_event.id,
       result_data: %PollResult{
-        option_id: "1"
+        option_ids: ["1"]
       }
     }
     |> Repo.insert()
@@ -244,7 +245,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                  "eventResultSubmitted" => %{
                    "resultData" => %{
                      "__typename" => "PollResult",
-                     "optionId" => "1"
+                     "optionIds" => ["1"]
                    }
                  }
                }
@@ -271,7 +272,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
           id
           resultData {
             ... on PollResult {
-              optionId
+              optionIds
             }
           }
 
@@ -282,17 +283,22 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       assert %{data: _result} =
                run_query(test_conn(), submit_poll, %{
                  token: participant.token,
-                 input: %{launched_event_id: launched_event.id, poll_option_id: "1"}
+                 input: %{launched_event_id: launched_event.id, poll_option_ids: ["1"]}
                })
 
       assert %{
                data: %{
                  "livePollSummary" => %{
                    "id" => _,
+                   "totalVoters" => 1,
                    "optionSummaries" => [
                      %{
                        "id" => "1",
                        "votes" => 1
+                     },
+                     %{
+                       "id" => "2",
+                       "votes" => 0
                      }
                    ]
                  }

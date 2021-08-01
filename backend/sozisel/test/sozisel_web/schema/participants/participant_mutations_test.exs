@@ -49,7 +49,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
       id
       resultData {
         ... on PollResult {
-          optionId
+          optionIds
         }
       }
     }
@@ -400,7 +400,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
       variables = %{
         input: %{
           launched_event_id: launched_event.id,
-          poll_option_id: "1"
+          poll_option_ids: ["1"]
         },
         token: participant.token
       }
@@ -410,7 +410,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                  "submitPollResult" => %{
                    "id" => _,
                    "resultData" => %{
-                     "optionId" => "1"
+                     "optionIds" => ["1"]
                    }
                  }
                }

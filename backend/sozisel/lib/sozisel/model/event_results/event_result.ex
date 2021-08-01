@@ -23,7 +23,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
     field :result_data, PolymorphicEmbed,
       types: [
         quiz_result: [module: QuizResult, identify_by_fields: [:participant_answers]],
-        poll_result: [module: PollResult, identify_by_fields: [:option_id]]
+        poll_result: [module: PollResult, identify_by_fields: [:option_ids]]
       ],
       on_type_not_found: :raise,
       on_replace: :update
