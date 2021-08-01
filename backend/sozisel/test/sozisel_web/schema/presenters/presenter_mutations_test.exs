@@ -27,7 +27,7 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
       template = insert(:template, user_id: user.id)
       session = insert(:session, session_template_id: template.id, user_id: user.id)
 
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:random_event, session_template_id: template.id)
 
       [conn: test_conn(user), user: user, template: template, event: event, session: session]
     end

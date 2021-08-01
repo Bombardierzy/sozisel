@@ -1,4 +1,4 @@
-defmodule Sozisel.LaunchedEventsTest do
+defmodule Sozisel.Events.LaunchedEventsTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.{LaunchedEvents, LaunchedEvents.LaunchedEvent}
@@ -20,7 +20,7 @@ defmodule Sozisel.LaunchedEventsTest do
 
     setup do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
 
       session = insert(:session, session_template_id: template.id)
       secondary_session = insert(:session, session_template_id: template.id)

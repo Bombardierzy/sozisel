@@ -19,5 +19,13 @@ defmodule SoziselWeb.Schema.Mutations.ParticipantMutations do
 
       resolve &ParticipantResolvers.submit_quiz_results/3
     end
+
+    field :submit_poll_result, :event_result do
+      arg :input, non_null(:poll_result_input)
+      arg :token, non_null(:string)
+
+      middleware Middleware.Participant
+      resolve &ParticipantResolvers.submit_poll_result/3
+    end
   end
 end

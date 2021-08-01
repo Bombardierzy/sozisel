@@ -10,4 +10,8 @@ defmodule SoziselWeb.Schema.Subscriptions.Topics do
   def session_all_participants(session_id) do
     "session:#{session_id}:participants"
   end
+
+  def poll(launched_event_id) do
+    "poll:#{launched_event_id}"
+  end
 end

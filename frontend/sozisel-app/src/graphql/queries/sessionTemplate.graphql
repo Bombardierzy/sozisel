@@ -19,23 +19,8 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
             name
             startMinute
             eventData {
-                ... on Quiz {
-                    __typename
-                    durationTimeSec
-                    targetPercentageOfParticipants
-                    quizQuestions {
-                        id
-                        question
-                        answers {
-                            text
-                            id
-                        }
-                        correctAnswers {
-                            text
-                            id
-                        }
-                    }
-                }
+                ...quizFields
+                ...pollFields
             }
         }
     }
@@ -62,23 +47,8 @@ query SessionTemplate($id: ID!) {
             name
             startMinute
             eventData {
-                ... on Quiz {
-                    __typename
-                    durationTimeSec
-                    targetPercentageOfParticipants
-                    quizQuestions {
-                        id
-                        question
-                        answers {
-                            text
-                            id
-                        }
-                        correctAnswers {
-                            text
-                            id
-                        }
-                    }
-                }
+                ...quizFields
+                ...pollFields
             }
         }
     }

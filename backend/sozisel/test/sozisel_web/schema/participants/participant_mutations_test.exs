@@ -13,7 +13,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
   }
   """
 
-  @finish_quiz """
+  @submit_quiz_result_mutation """
   mutation SubmitQuizResults($input: QuizResultInput!, $token: String!) {
     submitQuizResults(input: $input, token: $token) {
       id
@@ -37,6 +37,19 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
               selected
             }
           }
+        }
+      }
+    }
+  }
+  """
+
+  @submit_poll_result_mutation """
+  mutation SubmitPollResult($input: PollResultInput!, $token: String!) {
+    submitPollResult(input: $input, token: $token) {
+      id
+      resultData {
+        ... on PollResult {
+          optionIds
         }
       }
     }
@@ -186,7 +199,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
     test "finish quiz, check answers and subscribe result to presenter", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id)
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
       participant = insert(:participant, session_id: session.id)
@@ -261,12 +274,12 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                    }
                  }
                }
-             } = run_query(ctx.conn, @finish_quiz, variables)
+             } = run_query(ctx.conn, @submit_quiz_result_mutation, variables)
     end
 
     test "finish quiz without select answers, check and subscribe result to presenter", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id)
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
       participant = insert(:participant, session_id: session.id)
@@ -337,10 +350,10 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                    }
                  }
                }
-             } = run_query(ctx.conn, @finish_quiz, variables)
+             } = run_query(ctx.conn, @submit_quiz_result_mutation, variables)
     end
 
-    test "forbid check quiz eith wrong launched_event_id", ctx do
+    test "forbid check quiz with wrong launched_event_id", ctx do
       participant = insert(:participant)
 
       variables = %{
@@ -374,7 +387,34 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                  "submitQuizResults" => nil
                },
                errors: [%{"message" => "unauthorized"}]
-             } = run_query(ctx.conn, @finish_quiz, variables)
+             } = run_query(ctx.conn, @submit_quiz_result_mutation, variables)
+    end
+
+    test "submit poll result", ctx do
+      template = insert(:template)
+      event = insert(:poll_event, session_template_id: template.id)
+      session = insert(:session, session_template_id: template.id)
+      launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
+      participant = insert(:participant, session_id: session.id)
+
+      variables = %{
+        input: %{
+          launched_event_id: launched_event.id,
+          poll_option_ids: ["1"]
+        },
+        token: participant.token
+      }
+
+      assert %{
+               data: %{
+                 "submitPollResult" => %{
+                   "id" => _,
+                   "resultData" => %{
+                     "optionIds" => ["1"]
+                   }
+                 }
+               }
+             } = run_query(ctx.conn, @submit_poll_result_mutation, variables)
     end
   end
 end

@@ -48,6 +48,60 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     end
   end
 
+  defmacrop verify_launched_event(ctx, launched_event_id, do_block) do
+    quote do
+      with %LaunchedEvent{} = launched_event <-
+             LaunchedEvents.get_launched_event(unquote(launched_event_id)),
+           %LaunchedEvent{session: %Session{}, event: %Event{}} = launched_event <-
+             Repo.preload(launched_event, [:session, :event]),
+           %{context: %{session: session_ctx, participant: participant}} <- unquote(ctx),
+           true <- launched_event.session.id == session_ctx.id do
+        unquote(do_block).(%{
+          launched_event: launched_event,
+          event: launched_event.event,
+          session: launched_event.session,
+          participant: participant
+        })
+      else
+        _ -> {:error, "unauthorized"}
+      end
+    end
+  end
+
+  def submit_poll_result(
+        _parent,
+        %{
+          input: %{
+            launched_event_id: launched_event_id,
+            poll_option_ids: option_ids
+          }
+        },
+        ctx
+      ) do
+    on_verified = fn %{
+                       launched_event: launched_event,
+                       session: session,
+                       participant: participant
+                     } ->
+      with {:ok, event_result} <-
+             EventResults.create_event_result(%{
+               participant_id: participant.id,
+               launched_event_id: launched_event.id,
+               result_data: %{option_ids: option_ids}
+             }) do
+        Helpers.subscription_publish(
+          :event_result_submitted,
+          Topics.session_presenter(session.id, session.user_id),
+          event_result
+        )
+
+        {:ok, event_result}
+      end
+    end
+
+    verify_launched_event(ctx, launched_event_id, on_verified)
+  end
+
   def submit_quiz_results(
         _parent,
         %{
@@ -58,13 +112,12 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
         },
         ctx
       ) do
-    with %LaunchedEvent{} = launched_event <-
-           LaunchedEvents.get_launched_event(launched_event_id),
-         %LaunchedEvent{session: %Session{}, event: %Event{}} = launched_event <-
-           Repo.preload(launched_event, [:session, :event]),
-         %{context: %{session: session_ctx, participant: participant}} <- ctx,
-         true <- launched_event.session.id == session_ctx.id do
-      event_questions = Map.get(launched_event.event.event_data, :quiz_questions)
+    on_verify = fn %{
+                     launched_event: launched_event,
+                     event: event,
+                     participant: participant
+                   } ->
+      event_questions = Map.get(event.event_data, :quiz_questions)
 
       participant_answers =
         Enum.map(event_questions, fn event_question ->
@@ -89,24 +142,24 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
           }
         end)
 
-      {:ok, event_result} =
-        %{
-          participant_id: participant.id,
-          launched_event_id: launched_event.id,
-          result_data: %QuizResult{participant_answers: participant_answers}
-        }
-        |> Utils.from_deep_struct()
-        |> EventResults.create_event_result()
+      with {:ok, event_result} <-
+             %{
+               participant_id: participant.id,
+               launched_event_id: launched_event.id,
+               result_data: %QuizResult{participant_answers: participant_answers}
+             }
+             |> Utils.from_deep_struct()
+             |> EventResults.create_event_result() do
+        Helpers.subscription_publish(
+          :event_result_submitted,
+          Topics.session_presenter(launched_event.session.id, launched_event.session.user_id),
+          event_result
+        )
 
-      Helpers.subscription_publish(
-        :event_result_submitted,
-        Topics.session_presenter(launched_event.session.id, launched_event.session.user_id),
-        event_result
-      )
-
-      {:ok, event_result}
-    else
-      _ -> {:error, "unauthorized"}
+        {:ok, event_result}
+      end
     end
+
+    verify_launched_event(ctx, launched_event_id, on_verify)
   end
 end

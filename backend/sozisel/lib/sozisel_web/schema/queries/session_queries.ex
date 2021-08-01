@@ -26,6 +26,14 @@ defmodule SoziselWeb.Schema.Queries.SessionQueries do
       resolve &SessionResolvers.session_summary/3
     end
 
+    field :poll_summary, :poll_summary do
+      arg :launched_event_id, non_null(:id)
+
+      middleware Middleware.ResourceAuthorization, {:query_session_summary, Session}
+
+      resolve &SessionResolvers.poll_summary/3
+    end
+
     field :session_thumbnail, :session_thumbnail do
       arg :id, non_null(:id)
 
