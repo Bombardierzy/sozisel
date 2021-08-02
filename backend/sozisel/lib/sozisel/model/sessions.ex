@@ -307,25 +307,27 @@ defmodule Sozisel.Model.Sessions do
 
     participations =
       """
-      select le.event_id, e.name, le.inserted_at, count(er.id) from sessions s
+      select le.event_id, e.name, le.inserted_at, e.event_data->>'__type__', count(er.id) from sessions s
       join launched_events le on le.session_id = s.id
       join events e on e.id = le.event_id
       left join event_results er on er.launched_event_id = le.id
       where s.id = '#{session_id}'
-      group by le.event_id, e.name, le.inserted_at
+      group by le.event_id, e.name, le.inserted_at, e.event_data
       order by le.inserted_at;
       """
       |> Repo.query()
       |> case do
         {:ok, %Postgrex.Result{rows: rows}} ->
           rows
-          |> Enum.map(fn [event_id, name, inserted_at, count] ->
+          |> Enum.map(fn [event_id, name, inserted_at, event_type, count] ->
             {:ok, event_id} = Ecto.UUID.load(event_id)
+            {:ok, inserted_date_time} = DateTime.from_naive(inserted_at, "Etc/UTC")
 
             %{
               event_id: event_id,
               event_name: name,
-              start_minute: Date.diff(inserted_at, start_time) |> div(60),
+              start_minute: DateTime.diff(inserted_date_time, start_time) |> div(60),
+              event_type: String.to_existing_atom(event_type),
               submissions: count
             }
           end)

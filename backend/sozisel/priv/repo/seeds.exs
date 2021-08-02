@@ -84,9 +84,9 @@ Repo.transaction(fn ->
     %{
       session_template_id: template1.id,
       name: "Znani przestępcy",
+      duration_time_sec: 300,
       start_minute: 20,
       event_data: %{
-        duration_time_sec: 300,
         target_percentage_of_participants: 100,
         quiz_questions: [
           %{
@@ -104,9 +104,9 @@ Repo.transaction(fn ->
     %{
       session_template_id: template1.id,
       name: "Ludzie",
+      duration_time_sec: 300,
       start_minute: 20,
       event_data: %{
-        duration_time_sec: 300,
         target_percentage_of_participants: 100,
         quiz_questions: [
           %{
@@ -171,7 +171,7 @@ Repo.transaction(fn ->
       result_data: %{
         participant_answers: [
           %{
-            question_id: "fD875",
+            question_id: "fD875==",
             final_answer_ids: ["gasdh=="],
             points: 0,
             track_nodes: []
@@ -187,7 +187,7 @@ Repo.transaction(fn ->
       result_data: %{
         participant_answers: [
           %{
-            question_id: "fD875",
+            question_id: "fD875==",
             final_answer_ids: ["gasdh=="],
             points: 1,
             track_nodes: []

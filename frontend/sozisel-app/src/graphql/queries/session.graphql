@@ -39,9 +39,11 @@ query SessionDetails($id: ID!){
             events {
                 id
                 name
+                durationTimeSec
                 startMinute
                 eventData {
                     ... quizFields
+                    ... pollFields
                 }
             }
         }
@@ -84,6 +86,8 @@ query SessionSummary($id: ID!) {
         eventParticipations {
             eventId
             eventName
+            startMinute
+            eventType
             submissions
         }
     }
@@ -100,7 +104,6 @@ query SessionBasicInfo($id: ID!) {
 
 fragment quizFields on Quiz {
     __typename
-    durationTimeSec
     targetPercentageOfParticipants
     quizQuestions {
         id
@@ -113,5 +116,15 @@ fragment quizFields on Quiz {
             text
             id
         }
+    }
+}
+
+fragment pollFields on Poll {
+    __typename
+    isMultiChoice
+    question
+    options {
+        id
+        text
     }
 }

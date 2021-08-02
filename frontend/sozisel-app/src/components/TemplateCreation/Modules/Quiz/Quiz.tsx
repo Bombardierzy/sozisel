@@ -23,6 +23,7 @@ import {
 import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import QuestionsList from "./QuestionsList/QuestionsList";
+import { Quiz } from "../../../../model/Template";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useQuizContext } from "../../../../contexts/Quiz/QuizContext";
@@ -85,31 +86,25 @@ export default function Quiz({
   }, [eventDispatch, quizDispatch, setValue, t]);
 
   useEffect(() => {
+    const eventData = event.eventData as Quiz;
+
     if (event.id !== "") {
       quizDispatch({
         type: "SET_QUESTIONS",
-        questions: event.eventData.quizQuestions,
+        questions: eventData.quizQuestions,
       });
       quizDispatch({
         type: "SET_PERCENTAGE_OF_PARTICIPANTS",
-        percentageOfParticipants:
-          event.eventData.targetPercentageOfParticipants,
+        percentageOfParticipants: eventData.targetPercentageOfParticipants,
       });
       quizDispatch({
         type: "SET_DURATION_TIME",
-        durationTime: event.eventData.durationTimeSec,
+        durationTime: event.durationTimeSec,
       });
     } else {
       onReset();
     }
-  }, [
-    quizDispatch,
-    event.id,
-    event.eventData.quizQuestions,
-    event.eventData.targetPercentageOfParticipants,
-    event.eventData.durationTimeSec,
-    onReset,
-  ]);
+  }, [quizDispatch, event.id, event.durationTimeSec, event.eventData, onReset]);
 
   useEffect(() => {
     percentageOfParticipants !== 0 &&
@@ -123,8 +118,8 @@ export default function Quiz({
         variables: {
           input: {
             name: data.eventName,
+            durationTimeSec: data.durationTime,
             eventData: {
-              durationTimeSec: data.durationTime,
               quizQuestions: questions,
               targetPercentageOfParticipants: data.percentageOfParticipants,
             },
@@ -148,8 +143,8 @@ export default function Quiz({
         variables: {
           input: {
             name: data.eventName,
+            durationTimeSec: data.durationTime,
             eventData: {
-              durationTimeSec: data.durationTime,
               quizQuestions: questions,
               targetPercentageOfParticipants: data.percentageOfParticipants,
             },

@@ -7,6 +7,7 @@ defmodule Sozisel.Factory do
     Events,
     EventResults,
     Quizzes,
+    Polls,
     Participants,
     LaunchedEvents
   }
@@ -16,6 +17,7 @@ defmodule Sozisel.Factory do
   alias Sessions.{Template, AgendaEntry, Session}
   alias LaunchedEvents.LaunchedEvent
   alias Participants.Participant
+  alias Polls.{Poll, PollResult, Poll.PollOption}
   alias Events.Event
   alias Quizzes.{Answer, Quiz, QuizQuestion, QuizResult, ParticipantAnswer}
 
@@ -59,13 +61,45 @@ defmodule Sozisel.Factory do
     }
   end
 
-  def event_factory(attrs) do
+  def quiz_event_factory(attrs) do
+    event_data =
+      case attrs[:event_data] do
+        nil -> build(:quiz_event_data)
+        %Quiz{} = quiz -> quiz
+      end
+
     %Event{
-      name: attrs[:event_name] || sequence(:event_name, &"some-event-#{&1}"),
+      name: attrs[:event_name] || sequence(:event_name, &"some-quiz-event-#{&1}"),
       session_template_id: attrs[:session_template_id],
+      duration_time_sec: attrs[:duration_time_sec] || 120,
       start_minute: attrs[:start_minute] || 2137,
-      event_data: build(:event_data, type: attrs[:type] || :quiz)
+      event_data: event_data
     }
+  end
+
+  def poll_event_factory(attrs) do
+    event_data =
+      case attrs[:event_data] do
+        nil -> build(:poll_event_data)
+        %Poll{} = poll -> poll
+      end
+
+    %Event{
+      name: attrs[:event_name] || sequence(:event_name, &"some-poll-event-#{&1}"),
+      session_template_id: attrs[:session_template_id],
+      duration_time_sec: attrs[:duration_time_sec] || 120,
+      start_minute: attrs[:start_minute] || 2137,
+      event_data: event_data
+    }
+  end
+
+  def random_event_factory(attrs) do
+    [:quiz, :poll]
+    |> Enum.random()
+    |> case do
+      :quiz -> build(:quiz_event, attrs)
+      :poll -> build(:poll_event, attrs)
+    end
   end
 
   def event_result_factory(%{
@@ -80,45 +114,51 @@ defmodule Sozisel.Factory do
     }
   end
 
-  def event_data_factory(attrs) do
-    case attrs[:type] do
-      :quiz ->
-        %Quiz{
-          duration_time_sec: 120,
-          target_percentage_of_participants: 100,
-          quiz_questions: [
-            %QuizQuestion{
-              id: "1",
-              question: "Kto jest twórcą Sozisela?",
-              answers: [
-                %Answer{text: "Jakub Perżyło", id: "1"},
-                %Answer{text: "Przemysław Wątroba", id: "2"},
-                %Answer{text: "Jakub Myśliwiec", id: "3"},
-                %Answer{text: "Sebastian Kuśnierz", id: "4"},
-                %Answer{text: "Flaneczki Team", id: "5"}
-              ],
-              correct_answers: [
-                %Answer{text: "Jakub Perżyło", id: "1"},
-                %Answer{text: "Przemysław Wątroba", id: "2"},
-                %Answer{text: "Jakub Myśliwiec", id: "3"},
-                %Answer{text: "Sebastian Kuśnierz", id: "4"}
-              ]
-            },
-            %QuizQuestion{
-              id: "2",
-              question: "Całka z x^2?",
-              answers: [
-                %Answer{text: "1/3 * x^3", id: "1"},
-                %Answer{text: "1/3 * x^3 + C", id: "2"},
-                %Answer{text: "2x", id: "3"}
-              ],
-              correct_answers: [
-                %Answer{text: "1/3 * x^3 + C", id: "2"}
-              ]
-            }
+  def quiz_event_data_factory(_attrs) do
+    %Quiz{
+      target_percentage_of_participants: 100,
+      quiz_questions: [
+        %QuizQuestion{
+          id: "1",
+          question: "Kto jest twórcą Sozisela?",
+          answers: [
+            %Answer{text: "Jakub Perżyło", id: "1"},
+            %Answer{text: "Przemysław Wątroba", id: "2"},
+            %Answer{text: "Jakub Myśliwiec", id: "3"},
+            %Answer{text: "Sebastian Kuśnierz", id: "4"},
+            %Answer{text: "Flaneczki Team", id: "5"}
+          ],
+          correct_answers: [
+            %Answer{text: "Jakub Perżyło", id: "1"},
+            %Answer{text: "Przemysław Wątroba", id: "2"},
+            %Answer{text: "Jakub Myśliwiec", id: "3"},
+            %Answer{text: "Sebastian Kuśnierz", id: "4"}
+          ]
+        },
+        %QuizQuestion{
+          id: "2",
+          question: "Całka z x^2?",
+          answers: [
+            %Answer{text: "1/3 * x^3", id: "1"},
+            %Answer{text: "1/3 * x^3 + C", id: "2"},
+            %Answer{text: "2x", id: "3"}
+          ],
+          correct_answers: [
+            %Answer{text: "1/3 * x^3 + C", id: "2"}
           ]
         }
-    end
+      ]
+    }
+  end
+
+  def poll_event_data_factory(_attrs) do
+    %Poll{
+      question: "Who do you like?",
+      options: [
+        %PollOption{id: "1", text: "Everyone"},
+        %PollOption{id: "2", text: "No one"}
+      ]
+    }
   end
 
   def random_event_result(%Quiz{} = quiz) do
@@ -136,6 +176,22 @@ defmodule Sozisel.Factory do
       end)
 
     %QuizResult{participant_answers: answers, quiz_answer_time: 43.25}
+  end
+
+  def random_event_result(%Poll{options: options, is_multi_choice: multi_choice}) do
+    option_ids =
+      if multi_choice do
+        options
+        |> Enum.map(& &1.id)
+        |> Enum.take_random(:rand.uniform(length(options)))
+      else
+        options
+        |> Enum.random()
+        |> then(& &1.id)
+        |> List.wrap()
+      end
+
+    %PollResult{option_ids: option_ids}
   end
 
   def launched_event_factory(attrs) do

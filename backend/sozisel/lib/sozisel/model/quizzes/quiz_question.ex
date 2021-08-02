@@ -23,8 +23,8 @@ defmodule Sozisel.Model.Quizzes.QuizQuestion do
   def changeset(quiz_question, attrs) do
     quiz_question
     |> cast(attrs, [:question, :id])
-    |> cast_embed(:answers)
-    |> cast_embed(:correct_answers)
+    |> cast_embed(:answers, required: true)
+    |> cast_embed(:correct_answers, required: true)
     |> validate_required([:question, :answers, :correct_answers])
     |> validate_answers_length()
     |> validate_correct_answers_length()

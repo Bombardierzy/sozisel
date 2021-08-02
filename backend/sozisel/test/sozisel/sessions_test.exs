@@ -337,8 +337,8 @@ defmodule Sozisel.SessionsTest do
 
     test "session summary returns a proper structure" do
       template = insert(:template)
-      event1 = insert(:event, session_template_id: template.id)
-      event2 = insert(:event, session_template_id: template.id)
+      event1 = insert(:quiz_event, session_template_id: template.id)
+      event2 = insert(:quiz_event, session_template_id: template.id)
 
       session = insert(:session, session_template_id: template.id)
 
@@ -383,13 +383,15 @@ defmodule Sozisel.SessionsTest do
                  %{
                    event_id: event1.id,
                    event_name: event1.name,
-                   start_minute: Date.diff(event1.inserted_at, session.start_time),
+                   start_minute: DateTime.diff(event1.inserted_at, session.start_time),
+                   event_type: :quiz,
                    submissions: 2
                  },
                  %{
                    event_id: event2.id,
                    event_name: event2.name,
-                   start_minute: Date.diff(event2.inserted_at, session.start_time),
+                   start_minute: DateTime.diff(event2.inserted_at, session.start_time),
+                   event_type: :quiz,
                    submissions: 1
                  }
                ]

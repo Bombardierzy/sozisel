@@ -10,6 +10,7 @@ import {
   Stepper,
   Typography,
 } from "@material-ui/core";
+import { Event, Quiz } from "../../../model/Template";
 import React, { ReactElement, useEffect, useState } from "react";
 import {
   useEndSessionMutation,
@@ -19,7 +20,6 @@ import {
 import { AUTO_HIDE_DURATION } from "../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import { Event } from "../../../model/Template";
 import EventDetails from "./EventDetails/EventsDetails";
 import { Participant } from "../../../hooks/useLiveSessionParticipation";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
@@ -94,7 +94,7 @@ export default function EventsTimeline({
 
   const onEndSession = async () => {
     try {
-      await endSessionMutation({ variables: { id: "sessionId" } });
+      await endSessionMutation({ variables: { id: sessionId } });
       history.push(`result/summary`);
     } catch (error) {
       console.error(error);
@@ -114,42 +114,54 @@ export default function EventsTimeline({
     const lastEventIdx = launchedEvents.length - 1;
     if (lastEventIdx >= 0) {
       const lastEvent = launchedEvents[launchedEvents.length - 1];
-
       const lastEventStartTime = new Date(lastEvent.insertedAt).getTime();
       const currentTime = Math.floor((Date.now() - lastEventStartTime) / 1000);
+      const durationTimeSec = events[lastEventIdx].durationTimeSec;
 
       setActiveEvent({
-        idx:
-          currentTime < events[lastEventIdx].eventData.durationTimeSec
-            ? lastEventIdx
-            : lastEventIdx + 1,
+        idx: currentTime < durationTimeSec ? lastEventIdx : lastEventIdx + 1,
         id: lastEvent.id,
-        currentSec:
-          events[lastEventIdx].eventData.durationTimeSec - currentTime,
+        currentSec: durationTimeSec - currentTime,
       });
     }
   }, [events, launchedEvents]);
 
   const onNextEvent = async () => {
-    const {
-      id,
-      eventData: { targetPercentageOfParticipants },
-    } = events[activeEvent.idx];
-    await launchEventMutation({
-      variables: {
-        broadcast: targetPercentageOfParticipants === 100,
-        eventId: id,
-        sessionId,
-        targetParticipants: getRandomParticipants(
+    let broadcast: boolean = false;
+    let targetParticipants: string[] = [];
+
+    const event: Event = events[activeEvent.idx];
+
+    switch (event.eventData.__typename) {
+      case "Quiz": {
+        const targetPercentageOfParticipants = (event.eventData as Quiz)
+          .targetPercentageOfParticipants;
+
+        broadcast = targetPercentageOfParticipants === 100;
+        targetParticipants = getRandomParticipants(
           participants,
           targetPercentageOfParticipants
-        ),
+        );
+        break;
+      }
+      case "Poll": {
+        broadcast = true;
+        break;
+      }
+    }
+
+    await launchEventMutation({
+      variables: {
+        broadcast,
+        targetParticipants,
+        eventId: event.id,
+        sessionId,
       },
     });
     if (!launchEventError && activeEvent.idx < events.length) {
       setActiveEvent({
         ...activeEvent,
-        currentSec: events[activeEvent.idx].eventData.durationTimeSec,
+        currentSec: events[activeEvent.idx].durationTimeSec,
         id: events[activeEvent.idx].id,
       });
     }

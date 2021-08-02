@@ -67,9 +67,9 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
 
   @event_valid_attrs %{
     name: "some name",
+    duration_time_sec: 12,
     start_minute: 42,
     event_data: %{
-      duration_time_sec: 12,
       target_percentage_of_participants: 2,
       quiz_questions: [
         %{

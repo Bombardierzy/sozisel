@@ -1,11 +1,6 @@
 defmodule SoziselWeb.Schema.Resolvers.LaunchedEventResolvers do
-  alias SoziselWeb.Context
-  alias Sozisel.Model.{Events, Sessions, LaunchedEvents, EventResults}
-  alias Events.Event
-  alias Sessions.{Template, Session}
+  alias Sozisel.Model.{LaunchedEvents, EventResults}
   alias LaunchedEvents.LaunchedEvent
-
-  alias Sozisel.Repo
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 

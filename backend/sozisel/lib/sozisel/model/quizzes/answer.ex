@@ -8,7 +8,6 @@ defmodule Sozisel.Model.Quizzes.Answer do
         }
 
   @primary_key false
-
   embedded_schema do
     field :text, :string
     field :id, :string

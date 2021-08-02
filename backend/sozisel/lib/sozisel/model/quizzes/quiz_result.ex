@@ -19,7 +19,7 @@ defmodule Sozisel.Model.Quizzes.QuizResult do
   def changeset(quiz_result, attrs) do
     quiz_result
     |> cast(attrs, [:quiz_answer_time])
-    |> cast_embed(:participant_answers)
+    |> cast_embed(:participant_answers, required: true)
     |> validate_required([:participant_answers, :quiz_answer_time])
   end
 end

@@ -73,7 +73,7 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
 
     test "get quiz summary after summary session", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
       launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
       participant1 = insert(:participant, session_id: session.id)
@@ -108,7 +108,7 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
 
     test "get quiz participants summary after summary session", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
       launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
       participant1 = insert(:participant, session_id: session.id)
@@ -154,7 +154,7 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
 
     test "get quiz questions summary after summary session", ctx do
       template = insert(:template)
-      event = insert(:event, session_template_id: template.id)
+      event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
       launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
       participant1 = insert(:participant, session_id: session.id)

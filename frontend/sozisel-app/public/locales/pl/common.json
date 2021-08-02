@@ -171,6 +171,12 @@
       "exitSession": "Wyjdź",
       "next": "Dalej"
     },
+    "SessionEventResults": {
+      "eventType": "Typ",
+      "startTime": "Czas rozpoczęcia",
+      "participantNumber": "Liczba uczestników",
+      "details": "Szczegóły"
+    },
     "PresenterSession": {
       "fetchingError": "Błąd ładowania danych. Spróbuj ponownie później.",
       "Agenda": {
@@ -186,7 +192,7 @@
         "startMinute": "{{value}} minuta",
         "endSessionButton": "Zakończ sesję",
         "launchEventError": "Błąd podczas uruchomienia wydarzenia. Proszę spróbuj pożniej.",
-        "endSessionError": "Błąd podczas zamykannia sesji. Proszę spróbuj pożniej.",
+        "endSessionError": "Błąd podczas zamykania sesji. Proszę spróbuj pożniej.",
         "QuizDetails": {
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",

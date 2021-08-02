@@ -1,6 +1,9 @@
 defmodule SoziselWeb.Schema.Subscriptions.EventSubscriptions do
   use SoziselWeb.Schema.Notation
 
+  alias Sozisel.Repo
+  alias Sozisel.Model.LaunchedEvents.LaunchedEvent
+  alias Sozisel.Model.Polls.Poll
   alias Sozisel.Model.Users.User
   alias SoziselWeb.Schema.Middleware.Subscriptions.{Participant, Presenter}
   alias SoziselWeb.Schema.Subscriptions.Topics
@@ -12,6 +15,23 @@ defmodule SoziselWeb.Schema.Subscriptions.EventSubscriptions do
       arg :participant_token, non_null(:string)
 
       config subscription_middleware(Participant, [], &handle_participant_topics/2)
+    end
+
+    field :live_poll_summary, :poll_summary do
+      arg :participant_token, non_null(:string)
+      arg :launched_event_id, non_null(:string)
+
+      trigger :submit_poll_result,
+        topic: fn %{launched_event_id: launched_event_id} ->
+          Topics.poll(launched_event_id)
+        end
+
+      # This resolver will run for each participant (executing N queries) but we should not care really
+      resolve fn %{launched_event_id: id}, _, _ ->
+        {:ok, Poll.poll_summary(id)}
+      end
+
+      config subscription_middleware(Participant, [], &handle_participant_poll_topic/2)
     end
   end
 
@@ -31,5 +51,16 @@ defmodule SoziselWeb.Schema.Subscriptions.EventSubscriptions do
         context: %{current_user: %User{id: user_id}}
       }) do
     {:ok, topic: [Topics.session_presenter(session_id, user_id)]}
+  end
+
+  def handle_participant_poll_topic(%{launched_event_id: launched_event_id}, %{
+        context: %{session_id: sid}
+      }) do
+    with %LaunchedEvent{session_id: ^sid} <- Repo.get(LaunchedEvent, launched_event_id) do
+      {:ok, topic: Topics.poll(launched_event_id)}
+    else
+      _ ->
+        {:error, "unauthorized"}
+    end
   end
 end

@@ -2,10 +2,12 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   use SoziselWeb.Schema.Notation
 
   alias Sozisel.Model.Quizzes.Quiz
+  alias Sozisel.Model.Polls.Poll
 
   object :event do
     field :id, non_null(:id)
     field :name, non_null(:string)
+    field :duration_time_sec, non_null(:integer)
     field :start_minute, non_null(:integer)
     field :event_data, non_null(:event_data)
 
@@ -14,6 +16,20 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
     end
 
     timestamps()
+  end
+
+  input_object :create_event_input_base do
+    field :name, non_null(:string)
+    field :duration_time_sec, non_null(:integer)
+    field :start_minute, non_null(:integer)
+    field :session_template_id, non_null(:id)
+  end
+
+  input_object :update_event_input_base do
+    field :id, non_null(:id)
+    field :name, :string
+    field :duration_time_sec, :integer
+    field :start_minute, :integer
   end
 
   object :launched_event do
@@ -35,19 +51,21 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   end
 
   union :event_data do
-    types [:quiz]
+    types [:quiz, :poll]
 
     resolve_type fn
       %Quiz{}, _ -> :quiz
+      %Poll{}, _ -> :poll
       _, _ -> nil
     end
   end
 
   union :participant_event_data do
-    types [:participant_quiz]
+    types [:participant_quiz, :poll]
 
     resolve_type fn
       %Quiz{}, _ -> :participant_quiz
+      %Poll{}, _ -> :poll
       _, _ -> nil
     end
   end
@@ -57,5 +75,10 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
     field :name, non_null(:string)
 
     field :event_data, non_null(:participant_event_data)
+  end
+
+  enum :event_type do
+    value(:quiz)
+    value(:pool)
   end
 end

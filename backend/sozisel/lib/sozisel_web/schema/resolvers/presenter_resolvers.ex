@@ -17,14 +17,10 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
         %Event{} = event,
         %LaunchedEvent{} = launched_event
       ) do
-    event_data = event.event_data
-
-    participant_event_data = Events.marshal_participant_event_data(event_data)
-
     %{
       id: launched_event.id,
       name: event.name,
-      event_data: participant_event_data
+      event_data: event.event_data
     }
   end
 

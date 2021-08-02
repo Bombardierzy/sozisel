@@ -7,11 +7,11 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
+import { Event, Quiz } from "../../../../../model/Template";
 import React, { ReactElement, useState } from "react";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { Event } from "../../../../../model/Template";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import Question from "./Question/Question";
@@ -25,6 +25,8 @@ interface QuizProps {
 }
 
 export default function QuizEvent({ event }: QuizProps): ReactElement {
+  const eventData = event.eventData as Quiz;
+
   const [, dispatch] = useEventContext();
   const { t } = useTranslation("common");
   const [deleteQuizMutation] = useDeleteQuizMutation({
@@ -56,13 +58,13 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
             </Typography>
             <Typography>
               {t("components.TemplateCreation.EventList.Quiz.durationTime", {
-                value: event.eventData.durationTimeSec,
+                value: event.durationTimeSec,
               })}
             </Typography>
             <Typography>
               {t(
                 "components.TemplateCreation.EventList.Quiz.percentageOfParticipants",
-                { value: event.eventData.targetPercentageOfParticipants }
+                { value: eventData.targetPercentageOfParticipants }
               )}
             </Typography>
           </div>
@@ -88,7 +90,7 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
         </div>
       </AccordionSummary>
       <AccordionDetails className="questions">
-        {event.eventData.quizQuestions.map((question, idx) => (
+        {eventData.quizQuestions.map((question, idx: number) => (
           <Question key={idx} number={idx + 1} question={question} />
         ))}
       </AccordionDetails>
