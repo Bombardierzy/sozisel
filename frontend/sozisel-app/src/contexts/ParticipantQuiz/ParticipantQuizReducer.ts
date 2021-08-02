@@ -6,7 +6,11 @@ import {
 export type ParticipantQuizActions =
   | { type: "SELECT_ANSWER"; answerId: string; reactionTime: number }
   | { type: "UNSELECT_ANSWER"; answerId: string; reactionTime: number }
-  | { type: "NEXT_QUESTION"; question: ParticipantQuizQuestion }
+  | {
+      type: "NEXT_QUESTION";
+      question: ParticipantQuizQuestion;
+      answerTime: number;
+    }
   | { type: "SET_QUESTION"; question: ParticipantQuizQuestion };
 
 export interface ParticipantQuizStoreInterface {
@@ -18,7 +22,12 @@ export interface ParticipantQuizStoreInterface {
 export const participantQuizInitialState =
   (): ParticipantQuizStoreInterface => ({
     currentQuestion: { question: "", answers: [], id: "" },
-    currentAnswer: { finalAnswerIds: [], questionId: "", trackNodes: [] },
+    currentAnswer: {
+      finalAnswerIds: [],
+      questionId: "",
+      trackNodes: [],
+      answerTime: 0,
+    },
     answers: [],
   });
 
@@ -32,6 +41,7 @@ export default function participantQuizReducer(
         ...state,
         currentQuestion: action.question,
         currentAnswer: {
+          answerTime: 0,
           finalAnswerIds: [],
           questionId: action.question.id,
           trackNodes: [],
@@ -63,13 +73,25 @@ export default function participantQuizReducer(
           finalAnswerIds: [],
           questionId: action.question.id,
           trackNodes: [],
+          answerTime: 0,
         },
-        answers: [...state.answers, state.currentAnswer],
+        answers: [
+          ...state.answers,
+          submitAnswer(state.currentAnswer, action.answerTime),
+        ],
       };
     default:
       return state;
   }
 }
+
+const submitAnswer = (
+  currentAnswer: ParticipantQuizAnswerInput,
+  answerTime: number
+): ParticipantQuizAnswerInput => {
+  currentAnswer.answerTime = answerTime;
+  return currentAnswer;
+};
 
 const selectAnswer = (
   currentAnswer: ParticipantQuizAnswerInput,
