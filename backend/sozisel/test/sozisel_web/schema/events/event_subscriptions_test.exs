@@ -1,10 +1,6 @@
 defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
   use SoziselWeb.AbsintheCase
 
-  alias Sozisel.Model.Quizzes.{QuizResult, ParticipantAnswer}
-  alias Sozisel.Model.Polls.PollResult
-  alias Sozisel.Model.EventResults.EventResult
-
   import Sozisel.Factory
 
   @launch_event_mutation """

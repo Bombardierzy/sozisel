@@ -46,7 +46,7 @@ export default function ParticipantQuizEvent({
   };
 
   const countdownTimer = useCountdownTimer({
-    startValue: quiz.durationTimeSec,
+    startValue: event.durationTimeSec,
     onFinishCallback: submit,
   });
 

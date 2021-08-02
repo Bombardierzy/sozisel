@@ -8,6 +8,7 @@ subscription EventLaunched($token: String!){
     eventLaunched(participantToken: $token){
         id
         name
+        durationTimeSec
         eventData {
             ... participantQuizFields
             ... pollFields
@@ -17,7 +18,6 @@ subscription EventLaunched($token: String!){
 
 fragment participantQuizFields on ParticipantQuiz {
     __typename
-    durationTimeSec
     quizQuestions {
         id
         question

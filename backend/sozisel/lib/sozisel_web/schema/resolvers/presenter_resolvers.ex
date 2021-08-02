@@ -20,6 +20,7 @@ defmodule SoziselWeb.Schema.Resolvers.PresenterResolvers do
     %{
       id: launched_event.id,
       name: event.name,
+      duration_time_sec: event.duration_time_sec,
       event_data: event.event_data
     }
   end
