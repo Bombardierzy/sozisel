@@ -1,6 +1,7 @@
 import { FC, createContext, useContext, useMemo } from "react";
 
 import { Socket } from "phoenix";
+import { USER_TOKEN } from "../common/consts";
 
 const Context = createContext<Socket | undefined>(undefined);
 
@@ -16,7 +17,10 @@ export function usePhoenixSocket(): Socket {
 
 export const PhoenixSocketProvider: FC = ({ children }) => {
   const socket = useMemo(() => {
-    const sock = new Socket(`ws://${window.location.hostname}:4000/socket`);
+    const token = localStorage.getItem(USER_TOKEN);
+    const sock = new Socket(`ws://${window.location.hostname}:4000/socket`, {
+      params: { token },
+    });
     sock.connect();
     return sock;
   }, []);

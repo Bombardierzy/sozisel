@@ -39,7 +39,6 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
   # ==== PARTICIPANT QUIZ ======
 
   object :participant_quiz do
-    field :duration_time_sec, non_null(:integer)
     field :quiz_questions, strong_list_of(:participant_quiz_question)
   end
 
