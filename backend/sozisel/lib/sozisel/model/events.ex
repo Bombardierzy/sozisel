@@ -10,9 +10,7 @@ defmodule Sozisel.Model.Events do
   alias Sozisel.Model.EventResults.EventResult
   alias Sozisel.Model.Events.Event
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
-  alias Sozisel.Model.Polls.Poll
   alias Sozisel.Model.Utils
-  alias Sozisel.Model.Quizzes.Quiz
 
   def list_events do
     Repo.all(Event)

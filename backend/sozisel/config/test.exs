@@ -15,4 +15,4 @@ config :sozisel, SoziselWeb.Endpoint,
 config :bcrypt_elixir, log_rounds: 4
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :error
