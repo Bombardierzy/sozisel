@@ -129,25 +129,25 @@ defmodule Sozise.Events.PollTest do
       # multi choice -> false, option_ids > 1
       assert {:error, :unmatched_event_result} = try_create.(["1", "2"])
 
-      # # multi choice -> false, non existent option
-      # assert {:error, :unmatched_event_result} = try_create.(["random id"])
+      # multi choice -> false, non existent option
+      assert {:error, :unmatched_event_result} = try_create.(["random id"])
 
-      # Events.update_event(poll, @update_attrs)
+      Events.update_event(poll, @update_attrs)
 
-      # # multi choice -> true, empty option_ids
-      # assert {:error, :unmatched_event_result} = try_create.([])
+      # multi choice -> true, empty option_ids
+      assert {:error, :unmatched_event_result} = try_create.([])
 
-      # # multi choice -> true, duplicated options
-      # assert {:error, :unmatched_event_result} = try_create.(["1", "1"])
+      # multi choice -> true, duplicated options
+      assert {:error, :unmatched_event_result} = try_create.(["1", "1"])
 
-      # # multi choice -> true, unknown options
-      # assert {:error, :unmatched_event_result} = try_create.(["random option", "another one"])
+      # multi choice -> true, unknown options
+      assert {:error, :unmatched_event_result} = try_create.(["random option", "another one"])
 
-      # # success
-      # assert {:ok, %EventResult{result_data: %PollResult{option_ids: option_ids}}} =
-      #          try_create.(["1", "2"])
+      # success
+      assert {:ok, %EventResult{result_data: %PollResult{option_ids: option_ids}}} =
+               try_create.(["1", "2"])
 
-      # assert option_ids == option_ids
+      assert option_ids == option_ids
     end
   end
 end
