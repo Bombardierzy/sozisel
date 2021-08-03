@@ -101,47 +101,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       :quiz -> insert(:quiz_event, session_template_id: session_template.id)
     end
   end
-# FIXME
-# <<<<<<< HEAD
-#   def mock_quiz_event_result(session, event, participant) do
-#     launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
 
-#     %EventResult{
-#       id: Ecto.UUID.generate(),
-#       participant_id: participant.id,
-#       launched_event_id: launched_event.id,
-#       result_data: %QuizResult{
-#         participant_answers: [
-#           %ParticipantAnswer{
-#             question_id: "some id",
-#             final_answer_ids: ["some answer id"],
-#             points: 0,
-#             track_nodes: []
-#           }
-#         ]
-#       }
-#     }
-#     |> Repo.insert()
-#     |> elem(1)
-#   end
-
-#   def mock_poll_event_result(session, event, participant) do
-#     launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
-
-#     %EventResult{
-#       id: Ecto.UUID.generate(),
-#       participant_id: participant.id,
-#       launched_event_id: launched_event.id,
-#       result_data: %PollResult{
-#         option_ids: ["1"]
-#       }
-#     }
-#     |> Repo.insert()
-#     |> elem(1)
-#   end
-
-# =======
-# >>>>>>> master
   describe "Event subscriptions should" do
     setup do
       user = insert(:user)
@@ -233,9 +193,11 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                      %{
                        question_id: "1",
                        final_answer_ids: ["1"],
+                       answer_time: 2.41,
                        track_nodes: []
                      }
-                   ]
+                   ],
+                   quiz_answer_time: 2.41
                  }
                })
 

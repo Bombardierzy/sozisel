@@ -126,51 +126,32 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
             participant_answers
             |> Enum.find(&(&1.question_id == event_question.id))
 
-# FIXME
-# <<<<<<< HEAD
-#           correct_answers_ids =
-#             event_question.correct_answers
-#             |> Enum.map(& &1.id)
+          if answer_on_question != nil do
+            correct_answers_ids =
+              event_question.correct_answers
+              |> Enum.map(& &1.id)
 
-#           track_nodes =
-#             answer_on_question.track_nodes
-#             |> Enum.map(&struct(TrackNode, &1))
+            track_nodes =
+              answer_on_question.track_nodes
+              |> Enum.map(&struct(TrackNode, &1))
 
-#           points =
-#             if Enum.sort(answer_on_question.final_answer_ids) == Enum.sort(correct_answers_ids) do
-#               1
-#             else
-#               0
-#             end
+                        points =
+            if Enum.sort(answer_on_question.final_answer_ids) == Enum.sort(correct_answers_ids) do
+              1
+            else
+              0
+            end
 
-#           %ParticipantAnswer{
-#             question_id: event_question.id,
-#             final_answer_ids: answer_on_question.final_answer_ids,
-#             answer_time: answer_on_question.answer_time,
-#             points: points,
-#             track_nodes: track_nodes
-#           }
-# =======
-#           if answer_on_question != nil do
-#             correct_answers_ids =
-#               event_question.correct_answers
-#               |> Enum.map(& &1.id)
-
-#             track_nodes =
-#               answer_on_question.track_nodes
-#               |> Enum.map(&struct(TrackNode, &1))
-
-#             %ParticipantAnswer{
-#               question_id: event_question.id,
-#               final_answer_ids: answer_on_question.final_answer_ids,
-#               is_correct:
-#                 Enum.sort(answer_on_question.final_answer_ids) == Enum.sort(correct_answers_ids),
-#               track_nodes: track_nodes
-#             }
-#           else
-#             nil
-#           end
-# >>>>>>> master
+            %ParticipantAnswer{
+              question_id: event_question.id,
+              final_answer_ids: answer_on_question.final_answer_ids,
+              answer_time: answer_on_question.answer_time,
+              points: points,
+              track_nodes: track_nodes
+            }
+          else
+            nil
+          end
         end)
         |> Enum.reject(&is_nil(&1))
 
