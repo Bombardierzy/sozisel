@@ -45,7 +45,7 @@ interface TimerProps {
 }
 
 const Timer = ({ onFinishCallback, startValue }: TimerProps): ReactElement => {
-  const { countdownTimer } = useCountdownTimer({
+  const countdownTimer = useCountdownTimer({
     startValue,
     onFinishCallback,
   });

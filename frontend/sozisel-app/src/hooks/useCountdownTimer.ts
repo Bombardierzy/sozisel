@@ -5,11 +5,6 @@ export interface UseCountdownTimerProps {
   onFinishCallback: () => void;
 }
 
-export interface CountdownTime {
-  countdownTimer: string;
-  timeFromStart: number;
-}
-
 function formatTimer(secondsLeft: number): string {
   return `${
     secondsLeft / 60 < 10
@@ -20,7 +15,7 @@ function formatTimer(secondsLeft: number): string {
 export default function useCountdownTimer({
   startValue,
   onFinishCallback,
-}: UseCountdownTimerProps): CountdownTime {
+}: UseCountdownTimerProps): string {
   const [secondsLeft, setSecondsLeft] = useState<number>(startValue);
   const [timerText, setTimerText] = useState<string>(formatTimer(secondsLeft));
 
@@ -41,5 +36,5 @@ export default function useCountdownTimer({
     };
   }, [secondsLeft, onFinishCallback]);
 
-  return { countdownTimer: timerText, timeFromStart: startValue - secondsLeft };
+  return timerText;
 }

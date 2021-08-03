@@ -73,6 +73,7 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   object :participant_event do
     field :id, non_null(:id)
     field :name, non_null(:string)
+    field :duration_time_sec, non_null(:integer)
 
     field :event_data, non_null(:participant_event_data)
   end

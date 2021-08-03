@@ -39,28 +39,27 @@ export default function ParticipantQuizEvent({
   }, [questionNumber]);
 
   const submit = () => {
-    const finalAnswers = [...answers, currentAnswer];
+    const finalAnswers = [
+      ...answers,
+      { ...currentAnswer, answerTime: (Date.now() - questionStartTime) / 1000 },
+    ];
     submitMutation({
       variables: {
         token: token,
         input: {
           launchedEventId: event.id,
           participantAnswers: finalAnswers,
-          quizAnswerTime: quiz.durationTimeSec - timeFromStart,
+          quizAnswerTime: finalAnswers
+            .map((element) => element.answerTime)
+            .reduce((prev, curr) => prev + curr),
         },
       },
     });
-    console.log({
-      launchedEventId: event.id,
-      participantAnswers: finalAnswers,
-      quizAnswerTime: quiz.durationTimeSec - timeFromStart,
-    });
-
     onQuizFinished();
   };
 
-  const { countdownTimer, timeFromStart } = useCountdownTimer({
-    startValue: quiz.durationTimeSec,
+  const countdownTimer = useCountdownTimer({
+    startValue: event.durationTimeSec,
     onFinishCallback: submit,
   });
 
@@ -71,7 +70,7 @@ export default function ParticipantQuizEvent({
       dispatch({
         type: "NEXT_QUESTION",
         question: quiz.quizQuestions[questionNumber + 1],
-        answerTime: Date.now() - questionStartTime,
+        answerTime: (Date.now() - questionStartTime) / 1000,
       });
       setQuestionNumber(questionNumber + 1);
     }

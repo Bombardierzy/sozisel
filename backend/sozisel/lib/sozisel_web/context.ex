@@ -51,6 +51,7 @@ defmodule SoziselWeb.Context do
           nil
 
         _ ->
+          Logger.warn("Bearer token is missing in authorization params...")
           nil
       end
 
@@ -63,7 +64,8 @@ defmodule SoziselWeb.Context do
       with {:ok, user} <- authorize(token) do
         user
       else
-        _ ->
+        {:error, :invalid_token} ->
+          Logger.warn("Failed to authorize user, invalid token")
           nil
       end
 
@@ -71,6 +73,7 @@ defmodule SoziselWeb.Context do
   end
 
   def build_context(_args) do
+    Logger.warn("Context has been created without any parameters...")
     %{}
   end
 
