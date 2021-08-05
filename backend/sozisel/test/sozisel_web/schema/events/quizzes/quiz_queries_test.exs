@@ -71,7 +71,7 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
       [conn: test_conn(user), user: user]
     end
 
-    test "get quiz summary after summary session", ctx do
+    def data_fixture(ctx) do
       template = insert(:template)
       event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
@@ -90,6 +90,12 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
         participant: participant2,
         result_data: random_event_result(event.event_data)
       )
+
+      launched_event
+    end
+
+    test "get quiz summary after summary session", ctx do
+      launched_event = data_fixture(ctx)
 
       variables = %{
         id: launched_event.id
@@ -107,24 +113,7 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
     end
 
     test "get quiz participants summary after summary session", ctx do
-      template = insert(:template)
-      event = insert(:quiz_event, session_template_id: template.id)
-      session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
-      launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
-      participant1 = insert(:participant, session_id: session.id)
-      participant2 = insert(:participant, session_id: session.id)
-
-      insert(:event_result,
-        launched_event: launched_event,
-        participant: participant1,
-        result_data: random_event_result(event.event_data)
-      )
-
-      insert(:event_result,
-        launched_event: launched_event,
-        participant: participant2,
-        result_data: random_event_result(event.event_data)
-      )
+      launched_event = data_fixture(ctx)
 
       variables = %{
         id: launched_event.id
@@ -153,24 +142,7 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
     end
 
     test "get quiz questions summary after summary session", ctx do
-      template = insert(:template)
-      event = insert(:quiz_event, session_template_id: template.id)
-      session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
-      launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
-      participant1 = insert(:participant, session_id: session.id)
-      participant2 = insert(:participant, session_id: session.id)
-
-      insert(:event_result,
-        launched_event: launched_event,
-        participant: participant1,
-        result_data: random_event_result(event.event_data)
-      )
-
-      insert(:event_result,
-        launched_event: launched_event,
-        participant: participant2,
-        result_data: random_event_result(event.event_data)
-      )
+      launched_event = data_fixture(ctx)
 
       variables = %{
         id: launched_event.id

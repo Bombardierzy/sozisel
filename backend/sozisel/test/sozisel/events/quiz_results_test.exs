@@ -22,8 +22,7 @@ defmodule Sozisel.Events.QuizResultsTest do
               %{reaction_time: 7.25, answer_id: "3", selected: true}
             ]
           }
-        ],
-        quiz_answer_time: 23.12
+        ]
       }
     }
     @update_attrs %{
@@ -52,8 +51,7 @@ defmodule Sozisel.Events.QuizResultsTest do
               %{reaction_time: 6.61, answer_id: "4", selected: true}
             ]
           }
-        ],
-        quiz_answer_time: 52.64
+        ]
       }
     }
     @invalid_attrs %{participant_token: nil, result_data: nil}
@@ -187,8 +185,7 @@ defmodule Sozisel.Events.QuizResultsTest do
                      }
                    ]
                  }
-               ],
-               quiz_answer_time: 23.12
+               ]
              }
 
       assert event_result.launched_event_id == launched_event.id
@@ -267,8 +264,7 @@ defmodule Sozisel.Events.QuizResultsTest do
                      }
                    ]
                  }
-               ],
-               quiz_answer_time: 52.64
+               ]
              }
 
       assert event_result.launched_event_id == launched_event.id

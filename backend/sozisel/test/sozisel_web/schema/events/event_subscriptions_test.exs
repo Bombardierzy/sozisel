@@ -196,8 +196,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                        answer_time: 2.41,
                        track_nodes: []
                      }
-                   ],
-                   quiz_answer_time: 2.41
+                   ]
                  }
                })
 

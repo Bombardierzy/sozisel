@@ -21,7 +21,6 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   object :quiz_result do
     field :participant_answers, strong_list_of(:participant_quiz_answer)
-    field :quiz_answer_time, :float
   end
 
   object :participant_quiz_answer do
@@ -85,7 +84,6 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
 
   input_object :quiz_result_input do
     field :launched_event_id, non_null(:string)
-    field :quiz_answer_time, non_null(:float)
     field :participant_answers, strong_list_of(:participant_quiz_answer_input)
   end
 

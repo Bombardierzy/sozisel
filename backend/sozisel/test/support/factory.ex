@@ -175,7 +175,7 @@ defmodule Sozisel.Factory do
         }
       end)
 
-    %QuizResult{participant_answers: answers, quiz_answer_time: 43.25}
+    %QuizResult{participant_answers: answers}
   end
 
   def random_event_result(%Poll{options: options, is_multi_choice: multi_choice}) do

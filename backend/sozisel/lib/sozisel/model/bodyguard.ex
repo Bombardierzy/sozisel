@@ -66,11 +66,11 @@ defmodule Sozisel.Model.Bodyguard do
       do: Sessions.is_template_owner(session_template_id, user_id) |> handle_result()
 
   # LaunchedEvents
-  def authorize(:query_launched_event, %User{id: user_id}, %LaunchedEvent{session_id: session_id}),
-    do:
-      session_id
-      |> Sessions.is_session_owner(user_id)
-      |> handle_result()
+  def authorize(:query_launched_event, %User{id: user_id}, %LaunchedEvent{session_id: session_id}) do
+    session_id
+    |> Sessions.is_session_owner(user_id)
+    |> handle_result()
+  end
 
   def authorize(_, _, _), do: @unauthorized
 

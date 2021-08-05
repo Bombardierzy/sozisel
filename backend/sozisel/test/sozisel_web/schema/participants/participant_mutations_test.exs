@@ -38,7 +38,6 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
               selected
             }
           }
-          quiz_answer_time
         }
       }
     }
@@ -234,8 +233,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                 %{reaction_time: 4.25, answer_id: "3", selected: true}
               ]
             }
-          ],
-          quiz_answer_time: 412.32
+          ]
         },
         token: participant.token
       }
@@ -277,8 +275,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                            %{"answer_id" => "3", "reaction_time" => 4.25, "selected" => true}
                          ]
                        }
-                     ],
-                     "quiz_answer_time" => 412.32
+                     ]
                    }
                  }
                }
@@ -318,8 +315,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                 %{reaction_time: 4.25, answer_id: "3", selected: true}
               ]
             }
-          ],
-          quiz_answer_time: 32.12
+          ]
         },
         token: participant.token
       }
@@ -359,8 +355,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                            %{"answer_id" => "3", "reaction_time" => 4.25, "selected" => true}
                          ]
                        }
-                     ],
-                     "quiz_answer_time" => 32.12
+                     ]
                    }
                  }
                }
@@ -393,8 +388,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                 %{reaction_time: 4.25, answer_id: "3", selected: true}
               ]
             }
-          ],
-          quiz_answer_time: 42.12
+          ]
         },
         token: participant.token
       }

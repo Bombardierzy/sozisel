@@ -3,8 +3,7 @@ defmodule Sozisel.Model.EventResults do
 
   alias Sozisel.Repo
 
-  alias Sozisel.Model.{EventResults, LaunchedEvents, Utils, Participants, Events}
-  alias Participants.Participant
+  alias Sozisel.Model.{EventResults, LaunchedEvents, Events}
   alias EventResults.EventResult
   alias LaunchedEvents.LaunchedEvent
   alias Events.Event
@@ -55,6 +54,7 @@ defmodule Sozisel.Model.EventResults do
     launched_event
     |> Repo.preload(:event_results)
     |> then(& &1.event_results)
+    |> Repo.preload(:participant)
   end
 
   def quiz_summary(%LaunchedEvent{} = event_launched) do
@@ -67,11 +67,12 @@ defmodule Sozisel.Model.EventResults do
       |> Enum.sum()
 
     total_quiz_answer_time =
-      quiz_results |> Enum.map(& &1.result_data.quiz_answer_time) |> Enum.sum()
-
-    participant_answers =
       quiz_results
       |> Enum.flat_map(& &1.result_data.participant_answers)
+      |> Enum.map(& &1.answer_time)
+      |> Enum.sum()
+
+    participant_answers = Enum.flat_map(quiz_results, & &1.result_data.participant_answers)
 
     %{
       number_of_participants: length(quiz_results),
@@ -85,29 +86,28 @@ defmodule Sozisel.Model.EventResults do
 
     quiz_participant_summary =
       quiz_results
-      |> Enum.map(fn participant_result ->
-        result_data =
-          participant_result
-          |> Utils.from_deep_struct()
-          |> Map.get(:result_data)
+      |> Enum.map(fn participant_results ->
+        result_data = participant_results.result_data
 
-        participant_answers =
-          result_data
-          |> Map.get(:participant_answers)
+        participant_answers = result_data.participant_answers
 
         number_of_points =
           participant_answers
           |> Enum.map(& &1.points)
           |> Enum.sum()
 
-        %Participant{email: email, full_name: full_name} =
-          Participants.get_participant!(Map.get(participant_result, :participant_id))
+        quiz_answer_time =
+          participant_answers
+          |> Enum.map(& &1.answer_time)
+          |> Enum.sum()
+
+        participant = participant_results.participant
 
         %{
-          full_name: full_name,
-          email: email,
+          full_name: participant.full_name,
+          email: participant.email,
           number_of_points: number_of_points,
-          quiz_answer_time: result_data |> Map.get(:quiz_answer_time),
+          quiz_answer_time: quiz_answer_time,
           participant_answers: participant_answers
         }
       end)
@@ -118,31 +118,17 @@ defmodule Sozisel.Model.EventResults do
   def quiz_questions_summary(%LaunchedEvent{} = event_launched) do
     quiz_results = get_all_event_results(event_launched)
 
-    event = Events.get_event(event_launched.event_id)
+    event =
+      event_launched
+      |> Ecto.assoc(:event)
+      |> Repo.one()
+
     quiz_questions = event.event_data.quiz_questions
 
     quiz_questions_summary =
       quiz_questions
       |> Enum.map(fn question ->
-        participants_answers =
-          quiz_results
-          |> Enum.map(fn participant_results ->
-            %Participant{email: email, full_name: full_name} =
-              Participants.get_participant!(participant_results.participant_id)
-
-            participant_result =
-              participant_results.result_data.participant_answers
-              |> Enum.find(&(&1.question_id == question.id))
-
-            %{
-              full_name: full_name,
-              email: email,
-              points: participant_result.points,
-              answer_time: participant_result.answer_time,
-              final_answer_ids: participant_result.final_answer_ids,
-              track_nodes: participant_result.track_nodes
-            }
-          end)
+        participants_answers = get_participants_answer_for_qestion(quiz_results, question)
 
         total_question_answer_time =
           participants_answers |> Enum.map(& &1.answer_time) |> Enum.sum()
@@ -161,5 +147,25 @@ defmodule Sozisel.Model.EventResults do
       end)
 
     quiz_questions_summary
+  end
+
+  defp get_participants_answer_for_qestion(quiz_results, question) do
+    quiz_results
+    |> Enum.map(fn participant_results ->
+      participant = participant_results.participant
+
+      participant_result =
+        participant_results.result_data.participant_answers
+        |> Enum.find(&(&1.question_id == question.id))
+
+      %{
+        full_name: participant.full_name,
+        email: participant.email,
+        points: participant_result.points,
+        answer_time: participant_result.answer_time,
+        final_answer_ids: participant_result.final_answer_ids,
+        track_nodes: participant_result.track_nodes
+      }
+    end)
   end
 end

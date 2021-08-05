@@ -107,8 +107,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
         %{
           input: %{
             launched_event_id: launched_event_id,
-            participant_answers: participant_answers,
-            quiz_answer_time: quiz_answer_time
+            participant_answers: participant_answers
           }
         },
         ctx
@@ -135,12 +134,12 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
               answer_on_question.track_nodes
               |> Enum.map(&struct(TrackNode, &1))
 
-                        points =
-            if Enum.sort(answer_on_question.final_answer_ids) == Enum.sort(correct_answers_ids) do
-              1
-            else
-              0
-            end
+            points =
+              if Enum.sort(answer_on_question.final_answer_ids) == Enum.sort(correct_answers_ids) do
+                1
+              else
+                0
+              end
 
             %ParticipantAnswer{
               question_id: event_question.id,
@@ -160,8 +159,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
                participant_id: participant.id,
                launched_event_id: launched_event.id,
                result_data: %QuizResult{
-                 participant_answers: participant_answers,
-                 quiz_answer_time: quiz_answer_time
+                 participant_answers: participant_answers
                }
              }
              |> Utils.from_deep_struct()
