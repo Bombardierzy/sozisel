@@ -49,9 +49,6 @@ export default function ParticipantQuizEvent({
         input: {
           launchedEventId: event.id,
           participantAnswers: finalAnswers,
-          quizAnswerTime: finalAnswers
-            .map((element) => element.answerTime)
-            .reduce((prev, curr) => prev + curr),
         },
       },
     });
