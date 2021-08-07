@@ -30,9 +30,19 @@ export default function ParticipantQuizEvent({
   const [questionNumber, setQuestionNumber] = useState<number>(0);
   const [{ answers, currentAnswer }, dispatch] = useParticipantQuizContext();
   const [submitMutation] = useSubmitQuizResultsMutation();
+  const [questionStartTime, setQuestionStartTime] = useState<number>(
+    Date.now()
+  );
+
+  useEffect(() => {
+    setQuestionStartTime(Date.now());
+  }, [questionNumber]);
 
   const submit = () => {
-    const finalAnswers = [...answers, currentAnswer];
+    const finalAnswers = [
+      ...answers,
+      { ...currentAnswer, answerTime: (Date.now() - questionStartTime) / 1000 },
+    ];
     submitMutation({
       variables: {
         token: token,
@@ -57,6 +67,7 @@ export default function ParticipantQuizEvent({
       dispatch({
         type: "NEXT_QUESTION",
         question: quiz.quizQuestions[questionNumber + 1],
+        answerTime: (Date.now() - questionStartTime) / 1000,
       });
       setQuestionNumber(questionNumber + 1);
     }

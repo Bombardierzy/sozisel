@@ -169,7 +169,8 @@ defmodule Sozisel.Factory do
           question_id: id,
           final_answer_ids:
             answers |> Enum.take_random(:rand.uniform(length(answers))) |> Enum.map(& &1.id),
-          is_correct: false,
+          answer_time: 12.4,
+          points: 0.53,
           track_nodes: []
         }
       end)

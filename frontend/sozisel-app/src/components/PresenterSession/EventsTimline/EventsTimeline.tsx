@@ -121,7 +121,7 @@ export default function EventsTimeline({
       setActiveEvent({
         idx: currentTime < durationTimeSec ? lastEventIdx : lastEventIdx + 1,
         id: lastEvent.id,
-        currentSec: durationTimeSec - currentTime,
+        currentSec: Math.max(0, durationTimeSec - currentTime),
       });
     }
   }, [events, launchedEvents]);

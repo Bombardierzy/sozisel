@@ -14,7 +14,8 @@ defmodule Sozisel.Events.QuizResultsTest do
           %{
             question_id: "1",
             final_answer_ids: ["3"],
-            is_correct: false,
+            answer_time: 9.42,
+            points: 0,
             track_nodes: [
               %{reaction_time: 3.32, answer_id: "2", selected: true},
               %{reaction_time: 5.41, answer_id: "1", selected: true},
@@ -30,7 +31,8 @@ defmodule Sozisel.Events.QuizResultsTest do
           %{
             question_id: "1",
             final_answer_ids: ["3"],
-            is_correct: false,
+            answer_time: 10.53,
+            points: 0,
             track_nodes: [
               %{reaction_time: 3.32, answer_id: "2", selected: true},
               %{reaction_time: 5.41, answer_id: "1", selected: true},
@@ -40,7 +42,8 @@ defmodule Sozisel.Events.QuizResultsTest do
           %{
             question_id: "2",
             final_answer_ids: ["3", "4"],
-            is_correct: true,
+            answer_time: 4.23,
+            points: 0,
             track_nodes: [
               %{reaction_time: 1.01, answer_id: "3", selected: true},
               %{reaction_time: 3.11, answer_id: "1", selected: true},
@@ -161,7 +164,8 @@ defmodule Sozisel.Events.QuizResultsTest do
                participant_answers: [
                  %Sozisel.Model.Quizzes.ParticipantAnswer{
                    final_answer_ids: ["3"],
-                   is_correct: false,
+                   answer_time: 9.42,
+                   points: 0,
                    question_id: "1",
                    track_nodes: [
                      %Sozisel.Model.Quizzes.TrackNode{
@@ -211,7 +215,8 @@ defmodule Sozisel.Events.QuizResultsTest do
                participant_answers: [
                  %Sozisel.Model.Quizzes.ParticipantAnswer{
                    final_answer_ids: ["3"],
-                   is_correct: false,
+                   answer_time: 10.53,
+                   points: 0,
                    question_id: "1",
                    track_nodes: [
                      %Sozisel.Model.Quizzes.TrackNode{
@@ -233,7 +238,8 @@ defmodule Sozisel.Events.QuizResultsTest do
                  },
                  %Sozisel.Model.Quizzes.ParticipantAnswer{
                    final_answer_ids: ["3", "4"],
-                   is_correct: true,
+                   answer_time: 4.23,
+                   points: 0,
                    question_id: "2",
                    track_nodes: [
                      %Sozisel.Model.Quizzes.TrackNode{

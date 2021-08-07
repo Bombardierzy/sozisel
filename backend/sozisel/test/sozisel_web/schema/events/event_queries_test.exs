@@ -36,6 +36,31 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
   }
   """
 
+  @get_event_details """
+  query getEventResultDetails($id: ID!) {
+    eventResultDetails(id: $id) {
+      id
+      participant {
+        full_name
+        email
+      }
+      launchedEvent {
+        event {
+          id
+        }
+      }
+      resultData {
+        ... on QuizResult {
+          participantAnswers {
+            questionId
+            finalAnswerIds
+          }
+        }
+      }
+    }
+  }
+  """
+
   @valid_attrs %{
     name: "some name",
     duration_time_sec: 12,
@@ -117,6 +142,79 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
                },
                errors: [%{"message" => "unauthorized"}]
              } = run_query(other_conn, @get_event, %{id: event_id})
+    end
+
+    test "get event details after summary session", ctx do
+      template = insert(:template)
+      event = insert(:quiz_event, session_template_id: template.id)
+      session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
+      launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
+      participant1 = insert(:participant, session_id: session.id)
+      participant2 = insert(:participant, session_id: session.id)
+
+      event_result_id_1 =
+        insert(:event_result,
+          launched_event: launched_event,
+          participant: participant1,
+          result_data: random_event_result(event.event_data)
+        ).id
+
+      event_result_id_2 =
+        insert(:event_result,
+          launched_event: launched_event,
+          participant: participant2,
+          result_data: random_event_result(event.event_data)
+        ).id
+
+      email_1 = participant1.email
+      full_name_1 = participant1.full_name
+
+      email_2 = participant2.email
+      full_name_2 = participant2.full_name
+
+      variables = %{
+        id: launched_event.id
+      }
+
+      assert %{
+               data: %{
+                 "eventResultDetails" => [
+                   %{
+                     "id" => ^event_result_id_1,
+                     "participant" => %{
+                       "email" => ^email_1,
+                       "full_name" => ^full_name_1
+                     },
+                     "resultData" => _
+                   },
+                   %{
+                     "id" => ^event_result_id_2,
+                     "participant" => %{
+                       "email" => ^email_2,
+                       "full_name" => ^full_name_2
+                     },
+                     "resultData" => _
+                   }
+                 ]
+               }
+             } = run_query(ctx.conn, @get_event_details, variables)
+    end
+
+    test "get empty list of event details after summary session", ctx do
+      template = insert(:template)
+      event = insert(:quiz_event, session_template_id: template.id)
+      session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
+      launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
+
+      variables = %{
+        id: launched_event.id
+      }
+
+      assert %{
+               data: %{
+                 "eventResultDetails" => []
+               }
+             } = run_query(ctx.conn, @get_event_details, variables)
     end
   end
 end

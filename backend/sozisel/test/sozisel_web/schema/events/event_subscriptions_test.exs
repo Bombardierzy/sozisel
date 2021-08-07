@@ -193,6 +193,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                      %{
                        question_id: "1",
                        final_answer_ids: ["1"],
+                       answer_time: 2.41,
                        track_nodes: []
                      }
                    ]

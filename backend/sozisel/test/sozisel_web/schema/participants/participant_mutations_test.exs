@@ -30,7 +30,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
           participantAnswers {
             questionId
             finalAnswerIds
-            is_correct
+            answer_time
+            points
             track_nodes {
               reaction_time
               answer_id
@@ -214,6 +215,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "1",
               final_answer_ids: ["3", "2"],
+              answer_time: 5.23,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "3", selected: true},
                 %{reaction_time: 2.53, answer_id: "3", selected: false},
@@ -224,6 +226,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "2",
               final_answer_ids: ["2"],
+              answer_time: 6.35,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "1", selected: true},
                 %{reaction_time: 2.01, answer_id: "1", selected: false},
@@ -251,7 +254,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                      "participantAnswers" => [
                        %{
                          "finalAnswerIds" => ["3", "2"],
-                         "is_correct" => false,
+                         "answer_time" => 5.23,
+                         "points" => 0.0,
                          "questionId" => "1",
                          "track_nodes" => [
                            %{"answer_id" => "3", "reaction_time" => 1.23, "selected" => true},
@@ -263,7 +267,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                        %{
                          "finalAnswerIds" => ["2"],
                          "questionId" => "2",
-                         "is_correct" => true,
+                         "answer_time" => 6.35,
+                         "points" => 1.0,
                          "track_nodes" => [
                            %{"answer_id" => "1", "reaction_time" => 1.23, "selected" => true},
                            %{"answer_id" => "1", "reaction_time" => 2.01, "selected" => false},
@@ -294,6 +299,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "1",
               final_answer_ids: [],
+              answer_time: 3.63,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "3", selected: true},
                 %{reaction_time: 2.53, answer_id: "3", selected: false}
@@ -302,6 +308,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "2",
               final_answer_ids: ["2"],
+              answer_time: 7.85,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "1", selected: true},
                 %{reaction_time: 2.01, answer_id: "1", selected: false},
@@ -329,7 +336,8 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                      "participantAnswers" => [
                        %{
                          "finalAnswerIds" => [],
-                         "is_correct" => false,
+                         "answer_time" => 3.63,
+                         "points" => 0.0,
                          "questionId" => "1",
                          "track_nodes" => [
                            %{"answer_id" => "3", "reaction_time" => 1.23, "selected" => true},
@@ -338,8 +346,9 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                        },
                        %{
                          "finalAnswerIds" => ["2"],
+                         "answer_time" => 7.85,
                          "questionId" => "2",
-                         "is_correct" => true,
+                         "points" => 1.0,
                          "track_nodes" => [
                            %{"answer_id" => "1", "reaction_time" => 1.23, "selected" => true},
                            %{"answer_id" => "1", "reaction_time" => 2.01, "selected" => false},
@@ -363,6 +372,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "1",
               final_answer_ids: [],
+              answer_time: 4.34,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "3", selected: true},
                 %{reaction_time: 2.53, answer_id: "3", selected: false}
@@ -371,6 +381,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
             %{
               question_id: "2",
               final_answer_ids: ["3"],
+              answer_time: 6.35,
               track_nodes: [
                 %{reaction_time: 1.23, answer_id: "1", selected: true},
                 %{reaction_time: 2.01, answer_id: "1", selected: false},

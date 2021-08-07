@@ -23,6 +23,17 @@ defmodule Sozisel.Model.Sessions do
   end
 
   @doc """
+  Checks if user is an owner of given session
+  """
+  def is_session_owner(session_id, user_id) do
+    from(
+      s in Session,
+      where: s.id == ^session_id and s.user_id == ^user_id
+    )
+    |> Repo.exists?()
+  end
+
+  @doc """
   Returns the list of session_templates.
   """
   def list_session_templates do

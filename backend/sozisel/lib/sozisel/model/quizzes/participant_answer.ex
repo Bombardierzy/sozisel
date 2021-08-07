@@ -7,7 +7,8 @@ defmodule Sozisel.Model.Quizzes.ParticipantAnswer do
   @type t :: %__MODULE__{
           question_id: String.t(),
           final_answer_ids: [String.t()],
-          is_correct: Boolean.t(),
+          answer_time: Float.t(),
+          points: Flaot.t(),
           track_nodes: [TrackNode.t()]
         }
 
@@ -16,14 +17,15 @@ defmodule Sozisel.Model.Quizzes.ParticipantAnswer do
   embedded_schema do
     field :question_id, :string
     field :final_answer_ids, {:array, :string}
-    field :is_correct, :boolean
+    field :answer_time, :float
+    field :points, :float
     embeds_many :track_nodes, TrackNode, on_replace: :delete
   end
 
   def changeset(participant_answer, attrs) do
     participant_answer
-    |> cast(attrs, [:question_id, :is_correct, :final_answer_ids])
+    |> cast(attrs, [:question_id, :points, :final_answer_ids, :answer_time])
     |> cast_embed(:track_nodes)
-    |> validate_required([:question_id, :is_correct, :final_answer_ids])
+    |> validate_required([:question_id, :points, :final_answer_ids, :answer_time])
   end
 end
