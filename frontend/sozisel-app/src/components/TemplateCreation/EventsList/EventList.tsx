@@ -16,6 +16,8 @@ export default function EventList({ events }: EventListProps): ReactElement {
       {events &&
         [...events]
           .sort((a, b) => a.name.localeCompare(b.name))
+          // TODO: this is temporary until we implement Poll view
+          .filter((event) => event.eventData.__typename === "Quiz")
           .map((event: Event) => {
             switch (event.eventData.__typename) {
               case "Quiz":

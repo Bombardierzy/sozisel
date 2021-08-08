@@ -1,7 +1,6 @@
 version: "3.9"
 services:
   postgres:
-    container_name: postgres
     image: postgres:12.2
     environment:
       - POSTGRES_DB=sozisel_dev

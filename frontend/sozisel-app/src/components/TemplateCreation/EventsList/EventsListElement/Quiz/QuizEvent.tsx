@@ -15,7 +15,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import Question from "./Question/Question";
-import omitDeep from "omit-deep-lodash";
 import { useDeleteQuizMutation } from "../../../../../graphql";
 import { useEventContext } from "../../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
@@ -36,7 +35,7 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
   const onEdit = () => {
     dispatch({
       type: "SET_EVENT",
-      event: omitDeep({ ...event }, "__typename") as Event,
+      event: event as Event,
     });
   };
 

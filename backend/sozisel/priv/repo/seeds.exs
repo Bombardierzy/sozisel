@@ -174,6 +174,7 @@ Repo.transaction(fn ->
             question_id: "fD875==",
             final_answer_ids: ["gasdh=="],
             points: 0,
+            answer_time: 10,
             track_nodes: []
           }
         ]
@@ -190,6 +191,7 @@ Repo.transaction(fn ->
             question_id: "fD875==",
             final_answer_ids: ["gasdh=="],
             points: 1,
+            answer_time: 9,
             track_nodes: []
           }
         ]
@@ -206,6 +208,7 @@ Repo.transaction(fn ->
             question_id: "1",
             final_answer_ids: ["1"],
             points: 1,
+            answer_time: 5,
             track_nodes: []
           }
         ]

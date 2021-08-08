@@ -5,9 +5,9 @@ import {
   InputAdornment,
   Snackbar,
   TextField,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
-import { Control, Controller, DeepMap, FieldError } from "react-hook-form";
 import React, {
   ReactElement,
   useCallback,
@@ -22,6 +22,10 @@ import {
 
 import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
+import { Controller } from "react-hook-form";
+import { EventModuleProps } from "../EventModuleProps";
+import { EventProperties } from "../../EventCreation/EventProperties";
+import { InfoOutlined } from "@material-ui/icons";
 import QuestionsList from "./QuestionsList/QuestionsList";
 import { Quiz } from "../../../../model/Template";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
@@ -29,28 +33,7 @@ import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useQuizContext } from "../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
 
-interface QuizProps {
-  /*eslint-disable */
-  errors: DeepMap<Record<string, any>, FieldError>;
-  handleSubmit: (cb: any) => () => void;
-  /*eslint-enable */
-  control: Control;
-  setValue: (
-    name: string,
-    value: string | number,
-    config?:
-      | Partial<{
-          shouldValidate: boolean;
-          shouldDirty: boolean;
-        }>
-      | undefined
-  ) => void;
-}
-
-interface QuizData {
-  eventName: string;
-  durationTime: number;
-  startMinute: number;
+interface QuizData extends EventProperties {
   percentageOfParticipants: number;
 }
 
@@ -59,7 +42,7 @@ export default function Quiz({
   control,
   handleSubmit,
   setValue,
-}: QuizProps): ReactElement {
+}: EventModuleProps): ReactElement {
   const { id } = useContext(TemplateContext);
   const [createQuiz, { error: createQuizError }] = useCreateQuizMutation({
     refetchQueries: ["SessionTemplate"],
@@ -70,20 +53,17 @@ export default function Quiz({
   });
   const [event, eventDispatch] = useEventContext();
   const { t } = useTranslation("common");
-  const [{ questions, percentageOfParticipants, durationTime }, quizDispatch] =
+  const [{ questions, percentageOfParticipants }, quizDispatch] =
     useQuizContext();
 
   const onReset = useCallback((): void => {
-    setValue(
-      "eventName",
-      String(t("components.TemplateCreation.EventCreation.moduleName"))
-    );
+    setValue("eventName", "");
     setValue("durationTime", "");
     setValue("startMinute", "");
     setValue("percentageOfParticipants", "");
     quizDispatch({ type: "RESET" });
     eventDispatch({ type: "RESET" });
-  }, [eventDispatch, quizDispatch, setValue, t]);
+  }, [eventDispatch, quizDispatch, setValue]);
 
   useEffect(() => {
     const eventData = event.eventData as Quiz;
@@ -97,20 +77,15 @@ export default function Quiz({
         type: "SET_PERCENTAGE_OF_PARTICIPANTS",
         percentageOfParticipants: eventData.targetPercentageOfParticipants,
       });
-      quizDispatch({
-        type: "SET_DURATION_TIME",
-        durationTime: event.durationTimeSec,
-      });
     } else {
       onReset();
     }
-  }, [quizDispatch, event.id, event.durationTimeSec, event.eventData, onReset]);
+  }, [quizDispatch, event.id, event.eventData, onReset]);
 
   useEffect(() => {
     percentageOfParticipants !== 0 &&
       setValue("percentageOfParticipants", percentageOfParticipants);
-    durationTime !== 0 && setValue("durationTime", durationTime);
-  }, [percentageOfParticipants, durationTime, setValue]);
+  }, [percentageOfParticipants, setValue]);
 
   const onUpdate = useCallback(
     async (data: QuizData) => {
@@ -165,26 +140,15 @@ export default function Quiz({
   return (
     <div className="Quiz">
       <div className="quizForm">
-        <Typography className="label">
-          {t("components.TemplateCreation.Quiz.durationTime")}
-        </Typography>
-        <Controller
-          name="durationTime"
-          control={control}
-          defaultValue={""}
-          as={
-            <TextField
-              variant="outlined"
-              size="small"
-              className="durationTime"
-              error={!!errors.durationTime}
-              helperText={errors.durationTime && t(errors.durationTime.message)}
-            />
-          }
-        />
-
-        <Typography className="label">
+        <Typography className="labelWithIcon">
           {t("components.TemplateCreation.Quiz.percentageOfParticipants")}
+          <Tooltip
+            title={
+              t("components.TemplateCreation.Quiz.percentageExplanation") || ""
+            }
+          >
+            <InfoOutlined fontSize="small" className="infoIconSpace" />
+          </Tooltip>
         </Typography>
         <Controller
           name="percentageOfParticipants"
@@ -208,7 +172,7 @@ export default function Quiz({
             />
           }
         />
-
+        <div className="spacer" />
         <QuestionsList />
         {(createQuizError || updateQuizError) && (
           <Typography className="error">

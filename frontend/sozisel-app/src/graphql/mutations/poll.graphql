@@ -1,0 +1,23 @@
+mutation CreatePoll($input: CreatePollInput!) {
+  createPoll(input: $input) {
+    id
+  }
+}
+
+mutation UpdatePoll($input: UpdatePollInput!) {
+  updatePoll(input: $input) {
+    id
+  }
+}
+
+mutation DeletePoll($id: ID!) {
+  deletePoll(id: $id) {
+    id
+  }
+}
+
+mutation SubmitPollResults($token: String!, $input: PollResultInput!){
+  submitPollResult(token: $token, input: $input){
+    id
+  }
+}
