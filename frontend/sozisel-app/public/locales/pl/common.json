@@ -88,6 +88,13 @@
         "addOption": "Dodaj kolejną opcję"
       },
       "EventList": {
+        "type": {
+          "Quiz": "Typ: quiz",
+          "Poll": "Typ: ankieta"
+        },
+        "startMinute": "Czas rozpoczęcia: {{value}} minuta",
+        "durationTime": "Czas trwania: {{value}} sekund",
+        "percentageOfParticipants": "Uczestnicy: {{value}}%",
         "Quiz": {
           "startMinute": "Czas rozpoczęcia: {{value}} minuta",
           "durationTime": "Czas trwania: {{value}} sekund",

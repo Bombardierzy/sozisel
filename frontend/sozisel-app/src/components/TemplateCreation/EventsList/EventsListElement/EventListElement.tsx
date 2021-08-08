@@ -1,4 +1,4 @@
-import "./QuizEvent.scss";
+import "./EventListElement.scss";
 
 import {
   Accordion,
@@ -7,31 +7,74 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import { Event, Quiz } from "../../../../../model/Template";
-import React, { ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState } from "react";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { Event } from "../../../../model/Template";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import Question from "./Question/Question";
-import { useDeleteQuizMutation } from "../../../../../graphql";
-import { useEventContext } from "../../../../../contexts/Event/EventContext";
+import Question from "./Quiz/Question/Question";
+import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 
-interface QuizProps {
+const EventHeaders: FC<{ event: Event }> = ({ event }) => {
+  const { t } = useTranslation("common");
+
+  switch (event.eventData.__typename) {
+    case "Quiz": {
+      return (
+        <>
+          <Typography>
+            {t(
+              "components.TemplateCreation.EventList.Quiz.percentageOfParticipants",
+              { value: event.eventData.targetPercentageOfParticipants }
+            )}
+          </Typography>
+        </>
+      );
+    }
+    case "Poll": {
+      return <></>;
+    }
+
+    default: {
+      return <></>;
+    }
+  }
+};
+
+const EventElementDetails: FC<{ event: Event }> = ({ event }) => {
+  switch (event.eventData.__typename) {
+    case "Quiz": {
+      return (
+        <>
+          {event.eventData.quizQuestions.map((question, idx: number) => (
+            <Question key={idx} number={idx + 1} question={question} />
+          ))}
+        </>
+      );
+    }
+    default: {
+      return <></>;
+    }
+  }
+};
+
+interface EventListElementProps {
   event: Event;
+  onDelete: (eventId: string) => void;
 }
 
-export default function QuizEvent({ event }: QuizProps): ReactElement {
-  const eventData = event.eventData as Quiz;
-
+export default function EventListElement({
+  event,
+  onDelete,
+}: EventListElementProps): ReactElement {
   const [, dispatch] = useEventContext();
   const { t } = useTranslation("common");
-  const [deleteQuizMutation] = useDeleteQuizMutation({
-    refetchQueries: ["SessionTemplate"],
-  });
+
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
   const onEdit = () => {
     dispatch({
       type: "SET_EVENT",
@@ -40,7 +83,7 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
   };
 
   return (
-    <Accordion className="QuizEvent" expanded={isExpanded}>
+    <Accordion className="EventListElement" expanded={isExpanded}>
       <AccordionSummary
         onClick={() => setIsExpanded(!isExpanded)}
         expandIcon={<ExpandMoreIcon />}
@@ -51,21 +94,21 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
           <div className="description">
             <Typography className="header">{event.name}</Typography>
             <Typography>
-              {t("components.TemplateCreation.EventList.Quiz.startMinute", {
+              {t(
+                `components.TemplateCreation.EventList.type.${event.eventData.__typename}`
+              )}
+            </Typography>
+            <Typography>
+              {t("components.TemplateCreation.EventList.startMinute", {
                 value: event.startMinute,
               })}
             </Typography>
             <Typography>
-              {t("components.TemplateCreation.EventList.Quiz.durationTime", {
+              {t("components.TemplateCreation.EventList.durationTime", {
                 value: event.durationTimeSec,
               })}
             </Typography>
-            <Typography>
-              {t(
-                "components.TemplateCreation.EventList.Quiz.percentageOfParticipants",
-                { value: eventData.targetPercentageOfParticipants }
-              )}
-            </Typography>
+            <EventHeaders event={event} />
           </div>
           <IconButton
             className="editButton"
@@ -80,7 +123,7 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
             className="deleteButton"
             onClick={(e) => {
               e.stopPropagation();
-              deleteQuizMutation({ variables: { id: event.id } });
+              onDelete(event.id);
               dispatch({ type: "RESET" });
             }}
           >
@@ -89,9 +132,7 @@ export default function QuizEvent({ event }: QuizProps): ReactElement {
         </div>
       </AccordionSummary>
       <AccordionDetails className="questions">
-        {eventData.quizQuestions.map((question, idx: number) => (
-          <Question key={idx} number={idx + 1} question={question} />
-        ))}
+        <EventElementDetails event={event} />
       </AccordionDetails>
     </Accordion>
   );
