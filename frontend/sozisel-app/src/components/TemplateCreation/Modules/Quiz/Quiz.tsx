@@ -48,9 +48,7 @@ export default function Quiz({
     refetchQueries: ["SessionTemplate"],
   });
   const [message, setMessage] = useState<string>("");
-  const [updateQuiz, { error: updateQuizError }] = useUpdateQuizMutation({
-    refetchQueries: ["SessionTemplate"],
-  });
+  const [updateQuiz, { error: updateQuizError }] = useUpdateQuizMutation();
   const [event, eventDispatch] = useEventContext();
   const { t } = useTranslation("common");
   const [{ questions, percentageOfParticipants }, quizDispatch] =

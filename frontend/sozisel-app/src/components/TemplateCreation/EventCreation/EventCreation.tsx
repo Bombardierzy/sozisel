@@ -78,11 +78,13 @@ export default function EventCreation(): ReactElement {
           <Controller
             name="eventName"
             control={control}
+            defaultValue=""
             placeholder={t(
               "components.TemplateCreation.EventCreation.moduleName"
             )}
             as={
               <TextField
+                autoComplete="no"
                 name="eventName"
                 variant="outlined"
                 size="small"

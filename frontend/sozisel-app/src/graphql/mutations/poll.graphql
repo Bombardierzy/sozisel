@@ -7,6 +7,12 @@ mutation CreatePoll($input: CreatePollInput!) {
 mutation UpdatePoll($input: UpdatePollInput!) {
   updatePoll(input: $input) {
     id
+    name
+    startMinute
+    durationTimeSec
+    eventData {
+      ...pollFields
+    }
   }
 }
 

@@ -14,7 +14,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import { Event } from "../../../../model/Template";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import Question from "./Quiz/Question/Question";
+import Poll from "./Poll";
+import { Poll as PollData } from "../../../../graphql";
+import QuizQuestion from "./Quiz/Question";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 
@@ -50,10 +52,13 @@ const EventElementDetails: FC<{ event: Event }> = ({ event }) => {
       return (
         <>
           {event.eventData.quizQuestions.map((question, idx: number) => (
-            <Question key={idx} number={idx + 1} question={question} />
+            <QuizQuestion key={idx} number={idx + 1} question={question} />
           ))}
         </>
       );
+    }
+    case "Poll": {
+      return <Poll data={event.eventData as PollData} />;
     }
     default: {
       return <></>;

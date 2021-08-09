@@ -28,6 +28,7 @@ import { Controller } from "react-hook-form";
 import { EventModuleProps } from "../EventModuleProps";
 import { EventProperties } from "../../EventCreation/EventProperties";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
+import omitDeep from "omit-deep-lodash";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 import { v4 as uuid } from "uuid";
@@ -63,9 +64,7 @@ export function Poll({
 
   const [options, setOptions] = useState<PollOption[]>([defaultOption()]);
 
-  const [updatePoll, { error: updatePollError }] = useUpdatePollMutation({
-    refetchQueries: ["SessionTemplate"],
-  });
+  const [updatePoll, { error: updatePollError }] = useUpdatePollMutation();
   const [event, eventDispatch] = useEventContext();
 
   const [isOptionsError, setOptionsError] = useState<boolean>(false);
@@ -73,16 +72,16 @@ export function Poll({
   const { t } = useTranslation("common");
 
   const onReset = useCallback((): void => {
-    setValue(
-      "eventName",
-      String(t("components.TemplateCreation.EventCreation.moduleName"))
-    );
+    setValue("eventName", "");
     setValue("durationTime", "");
     setValue("startMinute", "");
-    setValue("percentageOfParticipants", "");
+    setValue("question", "");
+    setValue("isMultiChoice", false);
+    setOptions([]);
+
     eventDispatch({ type: "RESET" });
     setOptionsError(false);
-  }, [eventDispatch, setValue, t, setOptionsError]);
+  }, [eventDispatch, setValue, setOptionsError]);
 
   useEffect(() => {
     const eventData = event.eventData as Poll;
@@ -90,7 +89,7 @@ export function Poll({
     if (event.id !== "") {
       setValue("isMultiChoice", eventData.isMultiChoice);
       setValue("question", eventData.question);
-      setOptions(eventData.options);
+      setOptions(omitDeep(eventData.options, "__typename") as PollOption[]);
     }
   }, [event.id, event.eventData, setOptions, onReset, setValue]);
 
@@ -107,6 +106,7 @@ export function Poll({
 
   const onUpdate = useCallback(
     async (data: PollData) => {
+      console.log(data);
       if (!validateOptions(options)) {
         setOptionsError(true);
         return;
@@ -197,9 +197,16 @@ export function Poll({
           </Typography>
           <Controller
             name="isMultiChoice"
-            defaultValue={"false"}
+            defaultValue={false}
             control={control}
-            as={<Checkbox color="primary" size="small" />}
+            // as={<Checkbox color="primary" size="small" />}
+            render={(props) => (
+              <Checkbox
+                {...props}
+                checked={props.value}
+                onChange={(e) => props.onChange(e.target.checked)}
+              />
+            )}
           />
         </div>
 

@@ -100,7 +100,11 @@
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
           "onDeleteEventMessage": "Usunięto wydarzenie!",
-          "addNewQuestion": "Dodaj kolejne pytanie"        }
+          "addNewQuestion": "Dodaj kolejne pytanie"        
+        },
+        "Poll": {
+          "isMultiChoice": "Wielokrotny wybór: "
+        }
       }
     },
     "SessionDetails": {
