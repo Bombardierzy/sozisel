@@ -1,12 +1,13 @@
 import "./EventResultDetails.scss";
 
 import { Button, CircularProgress, IconButton } from "@material-ui/core";
+import { EventType, useSessionSummaryQuery } from "../../../../graphql";
 import React, { ReactElement } from "react";
 import { useHistory, useParams, useRouteMatch } from "react-router";
 
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ErrorAlert from "../../../utils/Alerts/ErrorAlert";
-import { useSessionSummaryQuery } from "../../../../graphql";
+import QuizResultDetails from "./Modules/QuizResultDetails/QuizResultDetails";
 import { useTranslation } from "react-i18next";
 
 export interface EventResultDetailsProps {
@@ -49,6 +50,8 @@ export default function EventResultDetails({
       data.sessionSummary.eventParticipations[
         (currentEventIndex + 1) % eventsListLength
       ].eventId;
+    const eventType =
+      data.sessionSummary.eventParticipations[currentEventIndex].eventType;
     return (
       <div className="EventResultDetails">
         <div className="eventBanner">
@@ -73,7 +76,7 @@ export default function EventResultDetails({
             </Button>
           </div>
         </div>
-        {id}
+        {eventType === EventType.Quiz && <QuizResultDetails id={id} />}
       </div>
     );
   }

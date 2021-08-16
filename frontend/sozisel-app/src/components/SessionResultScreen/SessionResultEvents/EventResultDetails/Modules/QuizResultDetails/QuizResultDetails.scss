@@ -1,0 +1,25 @@
+@import "../../../../../../styles/styles";
+
+
+.QuizResultDetails {
+    height: calc(100% - #{$navbar-height} - #{6 * $spacing-09} - #{$spacing-08});
+    width: calc(100% - 2*#{$spacing-09});
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-09;
+
+    .quizSummary {
+        flex: 1;
+        display: flex;
+        height: 100%;
+        margin-right: $spacing-07;
+    }
+
+    .quizResultView {
+        flex: 3;
+        display: flex;
+        height: 100%;
+    }
+}
