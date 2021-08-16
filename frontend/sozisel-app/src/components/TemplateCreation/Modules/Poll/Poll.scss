@@ -30,6 +30,10 @@
   
   .pollOption {
     margin-bottom: $spacing-03;
+
+    .MuiOutlinedInput-adornedEnd {
+      padding-right: 0;
+    }
   }
   .error {
       @include error;

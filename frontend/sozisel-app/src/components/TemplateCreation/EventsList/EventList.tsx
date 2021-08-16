@@ -21,7 +21,7 @@ export default function EventList({ events }: EventListProps): ReactElement {
 
   const sortedEvents = useMemo(() => {
     if (events) {
-      return [...events].sort((a, b) => a.name.localeCompare(b.name));
+      return [...events].sort((a, b) => a.startMinute - b.startMinute);
     }
 
     return [];
