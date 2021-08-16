@@ -175,7 +175,11 @@
       "eventType": "Typ",
       "startTime": "Czas rozpoczęcia",
       "participantNumber": "Liczba uczestników",
-      "details": "Szczegóły"
+      "details": "Szczegóły",
+      "Banner": {
+        "previous": "POPRZEDNI",
+        "next": "NASTĘPNY"
+      }
     },
     "PresenterSession": {
       "fetchingError": "Błąd ładowania danych. Spróbuj ponownie później.",

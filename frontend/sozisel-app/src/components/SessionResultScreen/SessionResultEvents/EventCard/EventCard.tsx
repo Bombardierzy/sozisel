@@ -16,18 +16,18 @@ import { useTranslation } from "react-i18next";
 export interface EventCardProps {
   key: string;
   event: EventParticipation;
+  onClick: () => void;
 }
 
-export default function EventCard({ event }: EventCardProps): ReactElement {
+export default function EventCard({
+  event,
+  onClick,
+}: EventCardProps): ReactElement {
   const { t } = useTranslation("common");
   const [raised, setRaised] = useState<boolean>(false);
 
   const onMouseOverChange = (_: BaseSyntheticEvent) => {
     setRaised(!raised);
-  };
-
-  const onButtonClick = () => {
-    // TODO navigate to event details base on event type
   };
 
   return (
@@ -63,7 +63,7 @@ export default function EventCard({ event }: EventCardProps): ReactElement {
               color="primary"
               fullWidth
               className="actionButton"
-              onClick={onButtonClick}
+              onClick={onClick}
             >
               {t("components.SessionEventResults.details")}
             </Button>
