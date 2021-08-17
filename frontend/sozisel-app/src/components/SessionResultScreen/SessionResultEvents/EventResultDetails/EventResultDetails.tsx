@@ -40,18 +40,20 @@ export default function EventResultDetails({
   if (data?.sessionSummary) {
     const eventsListLength = data.sessionSummary.eventParticipations.length;
     const currentEventIndex = data.sessionSummary.eventParticipations.findIndex(
-      (element) => element.eventId === id
+      (element) => element.launchedEventId === id
     );
     const previousId =
       data.sessionSummary.eventParticipations[
         currentEventIndex === 0 ? eventsListLength - 1 : currentEventIndex - 1
-      ].eventId;
+      ].launchedEventId;
     const nextId =
       data.sessionSummary.eventParticipations[
         (currentEventIndex + 1) % eventsListLength
-      ].eventId;
+      ].launchedEventId;
     const eventType =
       data.sessionSummary.eventParticipations[currentEventIndex].eventType;
+    const eventName =
+      data.sessionSummary.eventParticipations[currentEventIndex].eventName;
     return (
       <div className="EventResultDetails">
         <div className="eventBanner">
@@ -76,7 +78,9 @@ export default function EventResultDetails({
             </Button>
           </div>
         </div>
-        {eventType === EventType.Quiz && <QuizResultDetails id={id} />}
+        {eventType === EventType.Quiz && (
+          <QuizResultDetails id={id} eventName={eventName} />
+        )}
       </div>
     );
   }

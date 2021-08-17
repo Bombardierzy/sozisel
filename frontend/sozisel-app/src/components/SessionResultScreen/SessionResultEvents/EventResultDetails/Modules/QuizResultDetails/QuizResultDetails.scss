@@ -13,13 +13,50 @@
     .quizSummary {
         flex: 1;
         display: flex;
+        flex-direction: column;
         height: 100%;
         margin-right: $spacing-07;
+        padding: $spacing-06;
     }
 
     .quizResultView {
         flex: 3;
         display: flex;
         height: 100%;
+        padding: $spacing-06;
+    }
+
+    .headerWithIcon {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: $spacing-04;
+    }
+
+    .header{
+        font-size: 32px;
+        font-weight: 600;
+        padding: 0 $spacing-05;
+    }
+
+    .statsRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-02;
+    }
+
+    .statsRowLabel {
+        font-size: 24px;
+        font-weight: 400;
+        color: $text-02;
+    }
+
+    .statsRowValue {
+        font-size: 20px;
+        font-weight: 300;
+        color: $text-01;
     }
 }

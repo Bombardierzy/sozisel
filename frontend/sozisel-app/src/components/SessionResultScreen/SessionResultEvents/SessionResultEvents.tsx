@@ -21,8 +21,8 @@ export default function SessionResultEvents({
   const history = useHistory();
   const { url } = useRouteMatch();
 
-  const onCardClick = (eventId: string) => {
-    history.push(url + `/${eventId}`);
+  const onCardClick = (launchedEventId: string) => {
+    history.push(url + `/${launchedEventId}`);
   };
 
   if (loading) {
@@ -42,7 +42,7 @@ export default function SessionResultEvents({
               <EventCard
                 key={element.eventId}
                 event={element}
-                onClick={() => onCardClick(element.eventId)}
+                onClick={() => onCardClick(element.launchedEventId)}
               />
             ))}
           </List>
