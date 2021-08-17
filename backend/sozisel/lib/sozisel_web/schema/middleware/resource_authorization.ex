@@ -19,6 +19,8 @@ defmodule SoziselWeb.Schema.Middleware.ResourceAuthorization do
 
   alias Sozisel.Repo
 
+  require Logger
+
   defmacrop unauthorized_resolution(resolution) do
     quote do
       Absinthe.Resolution.put_result(unquote(resolution), {:error, :unauthorized})
@@ -42,7 +44,8 @@ defmodule SoziselWeb.Schema.Middleware.ResourceAuthorization do
          :ok <- Sozisel.Model.Bodyguard.authorize(method, user, resource) do
       resolution |> Map.put(:__resource__, {resource_type, resource})
     else
-      _ ->
+      result ->
+        Logger.warn("[#{inspect __MODULE__}] Failed to authroize resource, received result: #{inspect result}")
         unauthorized_resolution(resolution)
     end
   end
