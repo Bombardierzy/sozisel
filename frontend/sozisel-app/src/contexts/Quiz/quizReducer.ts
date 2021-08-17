@@ -1,10 +1,10 @@
 import { Answer, QuizQuestion } from "../../model/Template";
 
+import omitDeep from "omit-deep-lodash";
 import { v4 as uuidv4 } from "uuid";
 
 export type QuizActions =
   | { type: "ADD_ANSWER"; answer: Answer; question: QuizQuestion }
-  | { type: "SET_DURATION_TIME"; durationTime: number }
   | { type: "SET_PERCENTAGE_OF_PARTICIPANTS"; percentageOfParticipants: number }
   | { type: "SET_QUESTIONS"; questions: QuizQuestion[] }
   | { type: "RESET" }
@@ -26,7 +26,6 @@ export type QuizActions =
 
 export interface QuizStoreInterface {
   questions: QuizQuestion[];
-  durationTime: number;
   percentageOfParticipants: number;
 }
 
@@ -39,7 +38,6 @@ export const initialQuestion = (): QuizQuestion => ({
 
 export const quizInitialState = (): QuizStoreInterface => ({
   questions: [initialQuestion()],
-  durationTime: 0,
   percentageOfParticipants: 0,
 });
 
@@ -53,11 +51,6 @@ export default function quizReducer(
         ...state,
         questions: addAnswer(state.questions, action.question, action.answer),
       };
-    case "SET_DURATION_TIME":
-      return {
-        ...state,
-        durationTime: action.durationTime,
-      };
     case "SET_PERCENTAGE_OF_PARTICIPANTS":
       return {
         ...state,
@@ -66,7 +59,11 @@ export default function quizReducer(
     case "SET_QUESTIONS":
       return {
         ...state,
-        questions: action.questions,
+        // This is a hack so that when we load questions from an already existing quiz event
+        // the update mutation does not throw strange errors
+        questions: action.questions.map(
+          (q) => omitDeep(q, "__typename") as QuizQuestion
+        ),
       };
     case "UPDATE_ANSWER":
       return {

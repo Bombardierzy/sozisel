@@ -1,6 +1,7 @@
-@import "../../../../../styles/styles";
 
-.QuizEvent {
+@import "../../../../styles/styles";
+
+.EventListElement {
     margin-top: $spacing-05;
     & > div {
         background-color: $bg-02;
