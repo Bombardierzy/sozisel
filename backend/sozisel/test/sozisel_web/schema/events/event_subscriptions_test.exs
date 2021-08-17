@@ -69,11 +69,8 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
         ... on PollResult {
           optionIds
         }
-        ... on QuizResult {
-          participantAnswers {
-            questionId
-            finalAnswerIds
-          }
+        ... on QuizSimpleResult {
+          totalPoints
         }
       }
     }
@@ -207,8 +204,8 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                data: %{
                  "eventResultSubmitted" => %{
                    "resultData" => %{
-                     "__typename" => "QuizResult",
-                     "participantAnswers" => [_answer]
+                     "__typename" => "QuizSimpleResult",
+                     "totalPoints" => _total_points
                    },
                    "participant" => %{
                      "id" => ^participant_id

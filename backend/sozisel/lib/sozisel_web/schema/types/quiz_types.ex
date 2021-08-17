@@ -23,6 +23,10 @@ defmodule SoziselWeb.Schema.Types.QuizTypes do
     field :participant_answers, strong_list_of(:participant_quiz_answer)
   end
 
+  object :quiz_simple_result do
+    field :total_points, non_null(:float)
+  end
+
   object :participant_quiz_answer do
     field :question_id, non_null(:string)
     field :final_answer_ids, strong_list_of(:string)

@@ -14,6 +14,10 @@ defmodule SoziselWeb.Schema.Subscriptions.SessionSubscriptions do
     end
   end
 
+  @spec handle_session_topics(any, %{
+          :context => %{:session_id => any, optional(any) => any},
+          optional(any) => any
+        }) :: {:ok, [{:topic, [...]}, ...]}
   def handle_session_topics(_args, %{context: %{session_id: sid}}) do
     {:ok, topic: [Topics.session_all_participants(sid)]}
   end
