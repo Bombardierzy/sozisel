@@ -1,8 +1,8 @@
-import './LiveEventDetails.scss';
+import "./LiveEventDetails.scss";
 
 import React, { ReactElement } from "react";
 
-import { ActiveEvent } from '../EventsTimeline';
+import { ActiveEvent } from "../EventsTimeline";
 import useCountdownTimer from "../../../../hooks/useCountdownTimer";
 import useFetchEventLiveResult from "../../../../hooks/useFetchEventLiveResult";
 
@@ -31,14 +31,16 @@ export default function LiveEventDetails({
   onFinishCallback,
   sessionId,
 }: LiveEventDetailsProps): ReactElement {
-
-  useFetchEventLiveResult(sessionId, activeEvent.id);
+  useFetchEventLiveResult(sessionId, activeEvent.id, 'QuizSimpleResult');
 
   return (
     <div className="LiveEventsDetails">
       <span className="title">
         Pozostały czas :{" "}
-        <Timer startValue={activeEvent.currentSec} onFinishCallback={onFinishCallback} />
+        <Timer
+          startValue={activeEvent.currentSec}
+          onFinishCallback={onFinishCallback}
+        />
       </span>
     </div>
   );

@@ -23,10 +23,8 @@ subscription EventResultSubmitted($sessionId: ID!){
             fullName
         }
         resultData {
-            ... on QuizResult{
-                participantAnswers {
-                    points
-                }
+            ... on QuizSimpleResult{
+                totalPoints
             }
         }
     }
