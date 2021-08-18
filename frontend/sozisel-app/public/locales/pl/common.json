@@ -62,10 +62,11 @@
         "submitButtonLabel": "Dodaj"
       },
       "EventCreation": {
-        "moduleName": "Nazwa wydarzenia",
+        "moduleName": "Nazwa wydarzenia...",
         "moduleType": "Typ modułu",
+        "durationTime": "Czas trwania (w sekundach)",
         "startTime": "Czas rozpoczęcia (w minutach)",
-        "submitButtonLabel": "Dodaj",
+        "submitButtonLabel": "Zapisz wydarzenie",
         "updateButtonLabel": "Zaktualizuj wydarzenie",
         "onAddEventMessage": "Dodano nowe wydarzenie!",
         "onEditEventMessage": "Zaktualizowano wydarzenie!"
@@ -75,16 +76,35 @@
           "defaultAnswer": "Odpowiedź...",
           "defaultQuestion": "Treść pytania..."
         },
-        "durationTime": "Czas trwania (w sekundach)",
-        "percentageOfParticipants": "Procent uczestników"
+        "percentageOfParticipants": "Procent uczestników",
+        "percentageExplanation": "Procent obecnych uczestników sesji do których zostanie wysłany quiz"
+      },
+      "Poll": {
+        "question": "Pytanie",
+        "defaultQuestion": "Treść pytania...",
+        "defaultOptionText": "Treść opcji...",
+        "isMultiChoice": "Wielokrotny wybór",
+        "options": "Opcje",
+        "addOption": "Dodaj kolejną opcję"
       },
       "EventList": {
+        "type": {
+          "Quiz": "Typ: quiz",
+          "Poll": "Typ: ankieta"
+        },
+        "startMinute": "Czas rozpoczęcia: {{value}} minuta",
+        "durationTime": "Czas trwania: {{value}} sekund",
+        "percentageOfParticipants": "Uczestnicy: {{value}}%",
         "Quiz": {
           "startMinute": "Czas rozpoczęcia: {{value}} minuta",
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
           "onDeleteEventMessage": "Usunięto wydarzenie!",
-          "addNewQuestion": "Dodaj kolejne pytanie"        }
+          "addNewQuestion": "Dodaj kolejne pytanie"        
+        },
+        "Poll": {
+          "isMultiChoice": "Wielokrotny wybór: "
+        }
       }
     },
     "SessionDetails": {
@@ -211,7 +231,8 @@
     "incorrectStartMinute": "Podana wartości musi być większa od 0",
     "incorrectDurationTime": "Podana wartości musi być większa od 0",
     "percentageOfParticipants": "Podana wartości musi być większa od 0",
-    "incorrectQuizQuestion": "Quiz powinien zawierać przynajmniej jedno pytanie oraz każde pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną !"
+    "incorrectQuizQuestion": "Quiz powinien zawierać przynajmniej jedno pytanie oraz każde pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną!",
+    "incorrectPoll": "Ankieta powinna zawierać przynajmniej 2 opcje do wyboru!"
   },
   "errors": {
     "request": "Wystąpił bład podczas przetwarzania zapytania",

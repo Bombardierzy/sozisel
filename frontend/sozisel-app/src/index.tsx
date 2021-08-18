@@ -26,6 +26,9 @@ export const mainTheme = createMuiTheme({
       main: "#ff9800",
       contrastText: "white",
     },
+    secondary: {
+      main: "#ffd18b",
+    },
   },
   typography: {
     body2: {

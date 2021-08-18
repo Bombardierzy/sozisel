@@ -36,6 +36,7 @@
     "graphql:gen": "graphql-codegen",
     "graphql:gen_from_file": "graphql-codegen --config codegen_file.yml",
     "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:fix": "eslint --fix",
     "lint:eslint": "eslint ./src/**/*.{js,jsx,ts,tsx} --ext .ts,.tsx,.js,.jsx --no-error-on-unmatched-pattern",
     "lint:prettier": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "build": "webpack build"
