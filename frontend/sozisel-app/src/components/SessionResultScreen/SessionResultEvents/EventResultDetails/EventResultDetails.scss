@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    @include poppins-text;
 
     .eventBanner {
         width: 100%;
@@ -22,9 +23,10 @@
 
     .eventBannerItem {
         margin-right: $spacing-04;
-        color: $text-03; 
+        color: $text-04; 
         font-size: 20px;
         font-weight: bold;
+        @include poppins-text;
     }
 
     .errorAlert{

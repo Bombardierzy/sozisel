@@ -9,6 +9,7 @@
     align-items: center;
     justify-content: space-between;
     padding: $spacing-09;
+    @include poppins-text;
 
     .quizSummary {
         flex: 1;
@@ -31,10 +32,11 @@
         flex-direction: row;
         justify-content: start;
         align-items: center;
-        margin-bottom: $spacing-04;
+        margin-bottom: $spacing-07;
     }
 
     .header{
+        color: $text-04;
         font-size: 32px;
         font-weight: 600;
         padding: 0 $spacing-05;
@@ -45,12 +47,12 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: $spacing-02;
+        margin-bottom: $spacing-04;
     }
 
     .statsRowLabel {
         font-size: 24px;
-        font-weight: 400;
+        font-weight: 600;
         color: $text-02;
     }
 
@@ -58,5 +60,29 @@
         font-size: 20px;
         font-weight: 300;
         color: $text-01;
+    }
+
+    .chooseViewLabel {
+        padding: 0 $spacing-07;
+        font-size: 28px;
+        font-weight: 700;
+        color: $primary-accent;
+        text-align: center;
+    }
+
+    .viewCard {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: $spacing-04;
+        margin-bottom: $spacing-05;
+        cursor: pointer;
+        color: $text-01;
+    }
+
+    .activeCard {
+        background-color: $bg-04;
+        color: $primary-accent;
     }
 }
