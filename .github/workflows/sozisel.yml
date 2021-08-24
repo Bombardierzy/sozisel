@@ -10,6 +10,8 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     steps:
+    - name: Update apt
+      run: sudo apt-get update
     - name: Install ffmpeg
       run: sudo apt-get install ffmpeg 
     - uses: actions/checkout@v2
