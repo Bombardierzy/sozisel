@@ -22,7 +22,15 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
       resolve(dataloader(:db))
     end
 
+    field :session_recording, :session_recording do
+      resolve(dataloader(:db))
+    end
+
     timestamps()
+  end
+
+  object :session_recording do
+    field :id, non_null(:id)
   end
 
   object :session_thumbnail do

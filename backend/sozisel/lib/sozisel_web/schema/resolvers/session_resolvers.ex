@@ -9,6 +9,8 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
 
   require Logger
 
+  @media_storage_module Sozisel.MediaStorage.Disk
+
   def get_session(_parent, %{id: session_id}, ctx) do
     user_id = Context.current_user!(ctx).id
 
@@ -104,28 +106,22 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
         %{id: session_id, recording: %Plug.Upload{} = recording},
         _ctx
       ) do
-    upload_path =
-      Path.join([
-        Application.fetch_env!(:sozisel, SoziselWeb.Recordings) |> Keyword.fetch!(:upload_path),
-        "#{session_id}_#{recording.filename}"
-      ])
+    extension = Path.extname(recording.filename)
+    filename = SessionRecording.generate_filename(session_id, extension)
 
     Ecto.Multi.new()
     # TODO: add metadata upload from file to a json map to keep it in postgres
     |> Ecto.Multi.insert(
       :recording,
       SessionRecording.changeset(%SessionRecording{}, %{
-        path: upload_path,
+        path: filename,
         session_id: session_id,
         metadata: %{}
       })
     )
-    |> Ecto.Multi.run(:file_rename, fn _repo, %{recording: session_recording} ->
-      with :ok <- File.touch(session_recording.path),
-           :ok <- File.rename(recording.path, session_recording.path) do
+    |> Ecto.Multi.run(:file_rename, fn _repo, %{recording: _} ->
+      with :ok <- @media_storage_module.store_file(filename, recording.path) do
         {:ok, %{}}
-      else
-        error -> error
       end
     end)
     |> Repo.transaction()
@@ -135,7 +131,37 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
 
       {:error, operation, value, _others} ->
         Logger.error("Failed to upload recording: #{inspect(operation)}, #{inspect(value)}")
-        {:error, "failed to upload recording"}
+
+        # leave changeset as error for more readable error messages
+        if match?(%Ecto.Changeset{}, value) do
+          {:error, value}
+        else
+          {:error, "failed to upload recording"}
+        end
+    end
+  end
+
+  def delete_recording(_parent, %{id: session_id}, _ctx) do
+    with %SessionRecording{} = recording <- Repo.get_by(SessionRecording, session_id: session_id) do
+      Ecto.Multi.new()
+      |> Ecto.Multi.delete(:recording, recording)
+      |> Ecto.Multi.run(:file_storage, fn _repo, %{recording: recording} ->
+        with :ok <- @media_storage_module.remove_file(recording.path) do
+          {:ok, %{}}
+        end
+      end)
+      |> Repo.transaction()
+      |> case do
+        {:ok, %{recording: _}} ->
+          {:ok, "recording has been deleted"}
+
+        {:error, operation, value, _others} ->
+          Logger.error("Failed to delete recording: #{inspect(operation)}, #{inspect(value)}")
+          {:error, "failed to delete recording"}
+      end
+    else
+      nil ->
+        {:error, "recording does not exist"}
     end
   end
 end

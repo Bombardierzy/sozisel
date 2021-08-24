@@ -28,6 +28,12 @@ defmodule Sozisel.Model.SessionRecordings.SessionRecording do
     session_recording
     |> cast(attrs, [:path, :metadata, :session_id])
     |> validate_required([:path, :metadata, :session_id])
+    |> unique_constraint(:session_id, message: "a recording for given session already exists")
     |> foreign_key_constraint(:session_id)
+  end
+
+  @spec generate_filename(session_id :: Ecto.UUID.t(), extension :: String.t()) :: String.t()
+  def generate_filename(session_id, extension) do
+    "session_#{session_id}_#{DateTime.utc_now()}.#{extension}"
   end
 end
