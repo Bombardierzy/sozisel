@@ -20,6 +20,9 @@ query SessionDetails($id: ID!){
             id
             insertedAt
         }
+        sessionRecording {
+           id 
+        }
         sessionTemplate {
             id
             estimatedTime
@@ -46,6 +49,15 @@ query SessionDetails($id: ID!){
                     ... pollFields
                 }
             }
+        }
+    }
+}
+
+query SessionRecording($id: ID!) {
+    session(id: $id) {
+        id
+        sessionRecording {
+            id
         }
     }
 }

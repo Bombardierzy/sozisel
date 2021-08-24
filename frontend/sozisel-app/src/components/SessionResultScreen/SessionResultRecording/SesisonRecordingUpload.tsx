@@ -8,20 +8,24 @@ import {
   DialogContent,
   DialogTitle,
   Snackbar,
+  Typography,
 } from "@material-ui/core";
 import { ReactElement, useCallback, useEffect, useState } from "react";
+import { VideoLabel, VideoLibrary } from "@material-ui/icons";
 
-import { AUTO_HIDE_DURATION } from "../../common/consts";
+import { AUTO_HIDE_DURATION } from "../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import { DropzoneArea } from "material-ui-dropzone";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useUploadSessionRecordingMutation } from "../../graphql";
+import { useUploadSessionRecordingMutation } from "../../../graphql";
 
-export default function SessionRecordingUpload(): ReactElement {
-  // TODO: when used inside session results view then this should be a props parameter
-  // for testing purposes this component has its own react route
-  const { id: sessionId } = useParams<{ id: string }>();
+interface SessionRecordingUploadProps {
+  sessionId: string;
+}
+
+export default function SessionRecordingUpload({
+  sessionId,
+}: SessionRecordingUploadProps): ReactElement {
   const { t } = useTranslation("common");
 
   const [file, setFile] = useState<File | undefined>();
@@ -31,7 +35,7 @@ export default function SessionRecordingUpload(): ReactElement {
   >();
 
   const [uploadSessionRecording, { loading, data, error }] =
-    useUploadSessionRecordingMutation();
+    useUploadSessionRecordingMutation({ refetchQueries: ["SessionRecording"] });
 
   const onFilesChange = (files: File[]) => {
     if (files.length > 0) {
@@ -79,41 +83,50 @@ export default function SessionRecordingUpload(): ReactElement {
   };
 
   return (
-    <>
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={() => setDialogOpened(true)}
-      >
-        {t("components.SessionRecordingUpload.dialogTitle")}
-      </Button>
-      <Dialog open={dialogOpened} onClose={() => setDialogOpened(false)}>
-        <DialogTitle>
+    <div className="SessionRecordingUpload">
+      <div className="placeholder" onClick={() => setDialogOpened(true)}>
+        <VideoLibrary />
+        <Typography variant="h5" className="text">
           {t("components.SessionRecordingUpload.dialogTitle")}
-        </DialogTitle>
+        </Typography>
+      </div>
+
+      <Dialog
+        className="SessionRecordingPopup"
+        open={dialogOpened}
+        onClose={() => setDialogOpened(false)}
+      >
+        <Typography variant="h6" className="poppinsBoldText">
+          {t("components.SessionRecordingUpload.dialogTitle")}
+        </Typography>
+        {/* <DialogTitle classes={{root: "poppinsBoldText"}}>
+        </DialogTitle> */}
         <DialogContent>
-          <div className="SessionRecordingUpload">
-            <DropzoneArea
-              classes={{ textContainer: "textContainer" }}
-              previewGridClasses={{
-                container: "previewContainer",
-              }}
-              filesLimit={1}
-              showFileNames
-              // allow up to 300MB files
-              maxFileSize={3000 * 1000 * 1000}
-              acceptedFiles={["video/mp4"]}
-              dropzoneText={t("components.SessionRecordingUpload.dropzoneText")}
-              showAlerts={false}
-              getFileAddedMessage={() =>
-                t("components.SessionRecordingUpload.addedFile")
-              }
-              getFileRemovedMessage={() =>
-                t("components.SessionRecordingUpload.removedFile")
-              }
-              onChange={onFilesChange}
-            />
-          </div>
+          <DropzoneArea
+            classes={{
+              textContainer: "textContainer",
+              text: "poppinsBoldText",
+              icon: "dropzoneIcon",
+            }}
+            previewGridClasses={{
+              container: "previewContainer",
+            }}
+            getPreviewIcon={() => <VideoLabel />}
+            filesLimit={1}
+            showFileNames
+            // allow up to 300MB files
+            maxFileSize={3000 * 1000 * 1000}
+            acceptedFiles={["video/mp4"]}
+            dropzoneText={t("components.SessionRecordingUpload.dropzoneText")}
+            showAlerts={false}
+            getFileAddedMessage={() =>
+              t("components.SessionRecordingUpload.addedFile")
+            }
+            getFileRemovedMessage={() =>
+              t("components.SessionRecordingUpload.removedFile")
+            }
+            onChange={onFilesChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose}>
@@ -137,6 +150,6 @@ export default function SessionRecordingUpload(): ReactElement {
           </Alert>
         )}
       </Snackbar>
-    </>
+    </div>
   );
 }

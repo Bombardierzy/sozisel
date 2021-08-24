@@ -1,0 +1,69 @@
+@import "../../../styles/styles";
+
+.SessionRecordingUpload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: $bg-03;
+    
+    .placeholder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        .text {
+            color: $text-04;
+            @include poppins-text; 
+        }
+
+
+        // TODO: change all those percentages to project spacings 
+        border-radius: 40px;
+        min-height: 60%;
+        width: 100%;
+        max-width: 1000px;
+
+        background: $bg-01; 
+        border: 2px dashed rgba(0, 0, 0, 0.21);
+        
+        svg {
+            width: 100px;
+            height: 100px;
+            color: $text-04;
+            margin-bottom: 20px;
+        }
+        
+        cursor: pointer;
+        &:hover {
+            background-color: $bg-04;
+        }
+    }
+
+}
+
+.SessionRecordingPopup {
+    .textContainer {
+        padding: $spacing-03;
+    }
+    
+    .poppinsBoldText {
+        @include poppins-text;
+        font-weight: 600;
+        color: $text-05;
+        padding: $spacing-04;
+    }
+    
+    .previewContainer {
+        align-items: center;
+        justify-content: center;
+        width: unset;
+        height: unset;
+        margin: unset;
+    }
+    
+    .dropzoneIcon {
+        color: $text-05;
+    }
+}

@@ -12,7 +12,7 @@ import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import { ReactElement } from "react";
 import SessionResultEvents from "./SessionResultEvents/SessionResultEvents";
 import SessionResultHeader from "./SessionResultHeader";
-import SessionResultRecording from "./SessionResultRecording";
+import { SessionResultRecording } from "./SessionResultRecording/SessionResultRecording";
 import SessionResultSummary from "./SessionResultSummary/SessionResultSummary";
 
 export function SessionResultScreen(): ReactElement {
