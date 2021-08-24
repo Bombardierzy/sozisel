@@ -148,6 +148,13 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
       |> Ecto.Multi.run(:file_storage, fn _repo, %{recording: recording} ->
         with :ok <- @media_storage_module.remove_file(recording.path) do
           {:ok, %{}}
+        else
+          # file does not exist, just delete the database entry
+          {:error, :enoent} ->
+            {:ok, %{}}
+
+          error ->
+            error
         end
       end)
       |> Repo.transaction()
