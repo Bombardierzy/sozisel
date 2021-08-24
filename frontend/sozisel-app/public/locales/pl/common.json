@@ -169,6 +169,7 @@
     "SessionRecordingUpload": {
       "dialogTitle": "Prześlij nagranie sesji",
       "submitText": "Zacznij przesyłanie",
+      "uploadingText": "Trwa przesyłanie...",
       "cancelText": "Anuluj",
       "dropzoneText": "Wybierz lub upuść plik z nagraniem",
       "addedFile": "Wybrano plik!",

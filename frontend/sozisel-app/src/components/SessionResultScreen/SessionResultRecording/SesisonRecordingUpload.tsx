@@ -2,15 +2,13 @@ import "./SessionRecordingUpload.scss";
 
 import {
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Snackbar,
   Typography,
 } from "@material-ui/core";
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import { VideoLabel, VideoLibrary } from "@material-ui/icons";
 
 import { AUTO_HIDE_DURATION } from "../../../common/consts";
@@ -34,8 +32,26 @@ export default function SessionRecordingUpload({
     { message: string; severity: "error" | "success" } | undefined
   >();
 
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+
+  const abortUpload = useRef<() => void | null>();
+
   const [uploadSessionRecording, { loading, data, error }] =
-    useUploadSessionRecordingMutation({ refetchQueries: ["SessionRecording"] });
+    useUploadSessionRecordingMutation({
+      refetchQueries: ["SessionRecording"],
+      context: {
+        fetchOptions: {
+          useUpload: true,
+          onUploadProgress: (progress: number) => {
+            setUploadProgress(progress);
+            console.info("Progress: ", progress);
+          },
+          onAbortPossible: (onAbort: () => void) => {
+            abortUpload.current = onAbort;
+          },
+        },
+      },
+    });
 
   const onFilesChange = (files: File[]) => {
     if (files.length > 0) {
@@ -45,6 +61,9 @@ export default function SessionRecordingUpload({
 
   const handleDialogClose = useCallback(() => {
     setDialogOpened(false);
+    if (abortUpload.current) {
+      abortUpload.current();
+    }
   }, [setDialogOpened]);
 
   const hideSnackbar = useCallback(() => {
@@ -94,7 +113,7 @@ export default function SessionRecordingUpload({
       <Dialog
         className="SessionRecordingPopup"
         open={dialogOpened}
-        onClose={() => setDialogOpened(false)}
+        onClose={handleDialogClose}
       >
         <Typography variant="h6" className="poppinsBoldText">
           {t("components.SessionRecordingUpload.dialogTitle")}
@@ -132,10 +151,20 @@ export default function SessionRecordingUpload({
           <Button onClick={handleDialogClose}>
             {t("components.SessionRecordingUpload.cancelText")}
           </Button>
-          <Button disabled={!file} onClick={handleSubmit} color="primary">
-            {loading && <CircularProgress />}
-            {t("components.SessionRecordingUpload.submitText")}
+          <Button
+            disabled={!file || loading}
+            onClick={handleSubmit}
+            color="primary"
+          >
+            {!loading && t("components.SessionRecordingUpload.submitText")}
+            {loading && t("components.SessionRecordingUpload.uploadingText")}
           </Button>
+
+          {loading && (
+            <Typography variant="body2" color="textSecondary">{`${Math.round(
+              uploadProgress
+            )}%`}</Typography>
+          )}
         </DialogActions>
       </Dialog>
       <Snackbar

@@ -14,7 +14,7 @@ interface SessionResultRecordingProps {
 export function SessionResultRecording({
   sessionId,
 }: SessionResultRecordingProps): ReactElement {
-  const { data, loading, error } = useSessionRecordingQuery({
+  const { data, loading } = useSessionRecordingQuery({
     variables: { id: sessionId },
   });
 

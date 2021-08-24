@@ -14,6 +14,7 @@ import {
 import { Socket as PhoenixSocket } from "phoenix";
 import { USER_TOKEN } from "./common/consts";
 import { create as createAbsintheSocket } from "@absinthe/socket";
+import { customFetch } from "./customUploadFetch";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
 
@@ -24,7 +25,10 @@ const createAbsintheUploadLink = require("apollo-absinthe-upload-link")
 const HOST = window.location.hostname;
 
 function createApolloHttpLink(): ApolloLink {
-  return createAbsintheUploadLink({ uri: `http://${HOST}:4000/api` });
+  return createAbsintheUploadLink({
+    uri: `http://${HOST}:4000/api`,
+    fetch: customFetch,
+  });
 }
 
 function createApolloSocketLink(phoenixSocket: PhoenixSocket): ApolloLink {
