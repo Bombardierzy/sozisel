@@ -9,7 +9,7 @@ defmodule Sozisel.VideoProcessor do
   """
   @spec make_video_streamable(Path.t(), Path.t()) :: :ok | {:error, reason :: any()}
   def make_video_streamable(input_path, output_path) do
-    FFmpex.new_command
+    FFmpex.new_command()
     |> add_input_file(input_path)
     |> add_output_file(output_path)
     |> add_file_option(option_c("copy"))
@@ -23,5 +23,4 @@ defmodule Sozisel.VideoProcessor do
         {:error, command_output}
     end
   end
-
 end

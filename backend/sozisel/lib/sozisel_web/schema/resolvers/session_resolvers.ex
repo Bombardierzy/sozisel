@@ -122,8 +122,9 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     |> Ecto.Multi.run(:file_rename, fn _repo, %{recording: _} ->
       processed_video_path = Path.rootname(recording.path) <> "_processed" <> extension
 
-      with :ok <- Sozisel.VideoProcessor.make_video_streamable(recording.path, processed_video_path),
-       :ok <- @media_storage_module.store_file(filename, processed_video_path) do
+      with :ok <-
+             Sozisel.VideoProcessor.make_video_streamable(recording.path, processed_video_path),
+           :ok <- @media_storage_module.store_file(filename, processed_video_path) do
         {:ok, %{}}
       end
     end)
