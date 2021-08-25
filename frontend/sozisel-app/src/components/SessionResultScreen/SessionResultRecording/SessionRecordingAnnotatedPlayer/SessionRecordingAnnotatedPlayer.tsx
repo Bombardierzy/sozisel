@@ -6,6 +6,7 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import { AnnotationsPanel } from "./AnnotationsPanel";
+import { DeleteResourcePopup } from "../../../utils/Popups/DeleteResourcePopup";
 import { Share } from "@material-ui/icons";
 import { ShareLinkPopup } from "../../../utils/Popups/ShareLinkPopup";
 import { useDeleteSessionRecordingMutation } from "../../../../graphql";
@@ -22,10 +23,11 @@ export function SessionRecordingAnnotatedPlayer({
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const [openShareLink, setOpenShareLink] = useState<boolean>(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
 
   const [error, setError] = useState<string | null>(null);
 
-  const [deleteRecordingMuation] = useDeleteSessionRecordingMutation({
+  const [deleteRecordingMutation] = useDeleteSessionRecordingMutation({
     refetchQueries: ["SessionRecording"],
   });
 
@@ -110,9 +112,7 @@ export function SessionRecordingAnnotatedPlayer({
               contained: "actionButton delete",
               label: "actionButtonLabel",
             }}
-            onClick={() =>
-              deleteRecordingMuation({ variables: { sessionId: sessionId } })
-            }
+            onClick={() => setOpenDeleteDialog(true)}
           >
             {t("components.SessionRecordingAnnotatedPlayer.deleteRecording")}
           </Button>
@@ -137,6 +137,15 @@ export function SessionRecordingAnnotatedPlayer({
         subtitle={t(
           "components.SessionRecordingAnnotatedPlayer.shareLinkSubtitle"
         )}
+      />
+      <DeleteResourcePopup
+        open={openDeleteDialog}
+        title={t("components.SessionRecordingAnnotatedPlayer.deleteRecording")}
+        onCancel={() => setOpenDeleteDialog(false)}
+        onDelete={() => {
+          deleteRecordingMutation({ variables: { sessionId } });
+          setOpenDeleteDialog(false);
+        }}
       />
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}

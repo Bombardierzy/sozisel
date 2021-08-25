@@ -17,7 +17,7 @@ export function SessionResultRecording({
   });
 
   const hasRecording = useMemo(() => {
-    return data?.session?.sessionRecording !== undefined;
+    return data?.session?.sessionRecording !== null;
   }, [data?.session?.sessionRecording]);
 
   if (loading) {
