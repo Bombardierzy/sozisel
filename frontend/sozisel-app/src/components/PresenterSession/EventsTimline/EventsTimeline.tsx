@@ -206,6 +206,7 @@ export default function EventsTimeline({
           onFinishCallback={onFinishCallback}
           activeEvent={activeEvent}
           sessionId={sessionId}
+          event={events[activeEvent.idx]}
         />
       )}
       <Snackbar open={!!launchEventError} autoHideDuration={AUTO_HIDE_DURATION}>

@@ -100,7 +100,7 @@
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
           "onDeleteEventMessage": "Usunięto wydarzenie!",
-          "addNewQuestion": "Dodaj kolejne pytanie"        
+          "addNewQuestion": "Dodaj kolejne pytanie"
         },
         "Poll": {
           "isMultiChoice": "Wielokrotny wybór: "
@@ -217,6 +217,12 @@
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
           "questionsNumber": "Ilość pytań: "
+        },
+        "LiveEventDetails": {
+          "reamaingTime": "Pozostały czas: ",
+          "averagePoint": "Średnia ilość punktów: {{value}}",
+          "completedTrialsNumber": "Ilość zakończonych prób: {{value}}",
+          "numberOfParticipants": "Ilość uczestników: {{value}}"
         }
       }
     }

@@ -1,47 +1,37 @@
 import "./LiveEventDetails.scss";
 
-import React, { ReactElement } from "react";
+import React, { ReactElement, createContext } from "react";
 
 import { ActiveEvent } from "../EventsTimeline";
-import useCountdownTimer from "../../../../hooks/useCountdownTimer";
-import useFetchEventLiveResult from "../../../../hooks/useFetchEventLiveResult";
+import { Event } from "../../../../model/Template";
+import QuziLiveEventDetails from "./QuizLiveEventDetails/QuizLiveEventDetails";
 
 interface LiveEventDetailsProps {
   activeEvent: ActiveEvent;
   onFinishCallback: () => void;
   sessionId: string;
+  event: Event;
 }
 
-interface TimerProps {
-  onFinishCallback: () => void;
-  startValue: number;
-}
-
-const Timer = ({ onFinishCallback, startValue }: TimerProps): ReactElement => {
-  const countdownTimer = useCountdownTimer({
-    startValue,
-    onFinishCallback,
-  });
-
-  return <span className="Timer">{countdownTimer}</span>;
-};
+export const LiveEventContext = createContext<LiveEventDetailsProps>(
+  {} as LiveEventDetailsProps
+);
 
 export default function LiveEventDetails({
   activeEvent,
   onFinishCallback,
   sessionId,
+  event,
 }: LiveEventDetailsProps): ReactElement {
-  useFetchEventLiveResult(sessionId, activeEvent.id, 'QuizSimpleResult');
+
 
   return (
-    <div className="LiveEventsDetails">
-      <span className="title">
-        Pozostały czas :{" "}
-        <Timer
-          startValue={activeEvent.currentSec}
-          onFinishCallback={onFinishCallback}
-        />
-      </span>
-    </div>
+    <LiveEventContext.Provider
+      value={{ activeEvent, event, sessionId, onFinishCallback }}
+    >
+        {
+          event.eventData.__typename === 'Quiz' && <QuziLiveEventDetails />
+        }
+    </LiveEventContext.Provider>
   );
 }
