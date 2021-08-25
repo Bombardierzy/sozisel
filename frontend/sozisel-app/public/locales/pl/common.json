@@ -177,6 +177,11 @@
       "uploadSuccessful": "Nagranie zostało przesłane!",
       "uploadFailed": "Wystąpił błąd podczas przesyłania, spróbuj ponownie później!"
     },
+    "SessionRecordingAnnotatedPlayer": {
+      "playerError": "Wystąpił błąd podczas odtwarzania nagrania, spróbuj ponownie później!",
+      "deleteRecording": "Usuń nagranie",
+      "shareRecording": "Udostępnij nagranie"
+    },
     "JoinSession": {
       "name": "Imię i nazwisko",
       "email": "Email",

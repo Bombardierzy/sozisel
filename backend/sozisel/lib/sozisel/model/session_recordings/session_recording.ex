@@ -34,6 +34,6 @@ defmodule Sozisel.Model.SessionRecordings.SessionRecording do
 
   @spec generate_filename(session_id :: Ecto.UUID.t(), extension :: String.t()) :: String.t()
   def generate_filename(session_id, extension) do
-    "session_#{session_id}_#{DateTime.utc_now() |> DateTime.to_date()}#{extension}" |> String.replace(" ", "_")
+    "session_#{session_id}#{extension}" |> String.replace(" ", "_")
   end
 end

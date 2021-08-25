@@ -44,7 +44,6 @@ export default function SessionRecordingUpload({
           useUpload: true,
           onUploadProgress: (progress: number) => {
             setUploadProgress(progress);
-            console.info("Progress: ", progress);
           },
           onAbortPossible: (onAbort: () => void) => {
             abortUpload.current = onAbort;

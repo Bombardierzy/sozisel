@@ -1,0 +1,60 @@
+@import "../../../../styles/styles";
+
+.SessionRecordingAnnotatedPlayer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: $bg-03;
+    height: 100%;
+    
+    .annotatedGrid {
+        margin-top: 70;
+        display: grid;
+        grid-template-columns: 6fr 4fr;
+        max-width: 1200px;
+        grid-gap: 50px;
+    }
+    
+    video {
+        height: auto;
+        width: 100%;
+        border-radius: 10px;
+    }
+    
+    .actionButtons {
+        position: absolute;
+        
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    
+    .actionButton {
+        border-radius: 26px;
+    }
+
+    .actionButtonLabel {
+        @include poppins-text;
+        color: white; 
+        padding: 4px;
+    }
+    
+    .delete {
+        margin-right: 10px;
+        background-color: $error-color;
+
+        &:hover {
+            background-color: darken($error-color, 10%);
+        }
+    }
+
+    .share {
+        background-color: $primary-accent;
+
+        &:hover {
+            background-color: darken($primary-accent, 10%);
+        }
+    }
+    
+}

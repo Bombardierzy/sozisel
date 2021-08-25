@@ -1,11 +1,10 @@
-import { Button, CircularProgress } from "@material-ui/core";
-import {
-  useDeleteSessionRecordingMutation,
-  useSessionRecordingQuery,
-} from "../../../graphql";
+import { ReactElement, useMemo } from "react";
 
-import { ReactElement } from "react";
+import { CircularProgress } from "@material-ui/core";
+import { SessionRecordingAnnotatedPlayer } from "./SessionRecordingAnnotatedPlayer/SessionRecordingAnnotatedPlayer";
 import SessionRecordingUpload from "./SesisonRecordingUpload";
+import { VideoJsPlayerOptions } from "video.js";
+import { useSessionRecordingQuery } from "../../../graphql";
 
 interface SessionResultRecordingProps {
   sessionId: string;
@@ -18,11 +17,26 @@ export function SessionResultRecording({
     variables: { id: sessionId },
   });
 
+  const playerOptions = useMemo(() => {
+    if (!data?.session?.sessionRecording) return undefined;
+
+    const videoJsOptions: VideoJsPlayerOptions = {
+      // lookup the options in the docs for more options
+      autoplay: true,
+      controls: true,
+      sources: [
+        {
+          src: `http://localhost:4000/recording/session_${sessionId}.mp4`,
+          type: "video/mp4",
+        },
+      ],
+    };
+
+    return videoJsOptions;
+  }, [data?.session?.sessionRecording, sessionId]);
+
   // TODO: remove this, its just for quick recording delete
   //
-  const [deleteRecordingMuation] = useDeleteSessionRecordingMutation({
-    refetchQueries: ["SessionRecording"],
-  });
 
   if (loading) {
     return <CircularProgress />;
@@ -32,15 +46,9 @@ export function SessionResultRecording({
     return <SessionRecordingUpload sessionId={sessionId} />;
   }
 
-  return (
-    <>
-      <Button
-        onClick={() =>
-          deleteRecordingMuation({ variables: { sessionId: sessionId } })
-        }
-      >
-        BOOOOOM
-      </Button>
-    </>
-  );
+  if (playerOptions) {
+    return <SessionRecordingAnnotatedPlayer sessionId={sessionId} />;
+  }
+
+  return <>BOOOOOM</>;
 }
