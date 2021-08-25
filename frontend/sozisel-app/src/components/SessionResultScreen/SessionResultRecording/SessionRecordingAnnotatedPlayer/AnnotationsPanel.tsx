@@ -7,10 +7,11 @@ import { ReactElement, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface AnnotationRowProps {
+  id?: string;
   timestamp?: number;
   label?: string;
   mode: "create" | "edit";
-  onDelete?: () => void;
+  onDelete?: (id: string) => void;
   onCreate?: (time: number, label: string) => void;
   onTimestampPress?: (timestamp: number) => void;
   currentPlayerTimestamp: () => number;
@@ -28,10 +29,19 @@ function formatTimestamp(timestamp: number) {
   return hoursStr + minutesStr + secondsStr;
 }
 
+interface Annotation {
+  id: string;
+  timestamp: number;
+  label: string;
+}
+
 function AnnotationRow({
   mode,
+  id,
   timestamp = 0,
   label = "",
+  onCreate,
+  onDelete,
   onTimestampPress,
   currentPlayerTimestamp,
 }: AnnotationRowProps): ReactElement {
@@ -56,6 +66,15 @@ function AnnotationRow({
     }
   }, [currentPlayerTimestamp, mode, onTimestampPress, timestamp]);
 
+  const handleCreate = () => {
+    if (fieldTimestamp !== -1 && text) {
+      onCreate?.(fieldTimestamp, text);
+    }
+
+    setText("");
+    setFieldTimestamp(-1);
+  };
+
   return (
     <div className="AnnotationRow">
       <Tooltip
@@ -72,7 +91,11 @@ function AnnotationRow({
         <div className="timestamp" onClick={onTimestampPressCb}>
           {mode === "edit" && textTimestamp}
           {mode == "create" &&
-            (fieldTimestamp === -1 ? <Timer /> : fieldTextTimestamp)}
+            (fieldTimestamp === -1 ? (
+              <Timer style={{ fontSize: 18 }} />
+            ) : (
+              fieldTextTimestamp
+            ))}
         </div>
       </Tooltip>
 
@@ -103,7 +126,10 @@ function AnnotationRow({
             ) as string
           }
         >
-          <IconButton size="small">
+          <IconButton
+            size="small"
+            onClick={() => id && onDelete && onDelete(id)}
+          >
             <DeleteOutlined />
           </IconButton>
         </Tooltip>
@@ -118,7 +144,7 @@ function AnnotationRow({
             ) as string
           }
         >
-          <IconButton size="small">
+          <IconButton size="small" onClick={handleCreate}>
             <Edit />
           </IconButton>
         </Tooltip>
@@ -130,34 +156,17 @@ function AnnotationRow({
 interface AnnotationsPanelProps {
   onSeek: (timestamp: number) => void;
   currentPlayerTimestamp: () => number;
+  annotations: Annotation[];
+  onAnnotationCreate: (timestamp: number, label: string) => void;
+  onAnnotationDelete: (id: string) => void;
 }
 export function AnnotationsPanel({
+  annotations,
+  onAnnotationCreate,
+  onAnnotationDelete,
   onSeek,
   currentPlayerTimestamp,
 }: AnnotationsPanelProps): ReactElement {
-  const rows = [
-    { timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { timestamp: 250, label: "Kolejna aferka" },
-    { timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { timestamp: 250, label: "Kolejna aferka" },
-    { timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { timestamp: 250, label: "Kolejna aferka" },
-    { timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { timestamp: 250, label: "Kolejna aferka" },
-    { timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { timestamp: 250, label: "Kolejna aferka" },
-    { timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { timestamp: 250, label: "Kolejna aferka" },
-    { timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { timestamp: 250, label: "Kolejna aferka" },
-  ];
   return (
     <Paper
       className="AnnotationsPanel"
@@ -165,13 +174,14 @@ export function AnnotationsPanel({
       elevation={4}
     >
       <div className="existingAnnotations">
-        {rows.map((row, idx) => (
+        {annotations.map((annotation, idx) => (
           <AnnotationRow
             key={idx}
-            {...row}
+            {...annotation}
             mode="edit"
             onTimestampPress={onSeek}
             currentPlayerTimestamp={currentPlayerTimestamp}
+            onDelete={onAnnotationDelete}
           />
         ))}
       </div>
@@ -180,6 +190,7 @@ export function AnnotationsPanel({
         timestamp={0}
         label=""
         currentPlayerTimestamp={currentPlayerTimestamp}
+        onCreate={onAnnotationCreate}
       />
     </Paper>
   );

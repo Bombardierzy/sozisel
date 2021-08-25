@@ -49,6 +49,39 @@ export function SessionRecordingAnnotatedPlayer({
     return videoRef.current.currentTime;
   }, []);
 
+  const [rows, setRows] = useState([
+    { id: "1", timestamp: 30, label: "Wydarzenie roku, ankieta" },
+    { id: "2", timestamp: 120, label: "Racja musi być po mojej stronie" },
+    { id: "3", timestamp: 250, label: "Kolejna aferka" },
+    { id: "4", timestamp: 30, label: "Wydarzenie roku, ankieta" },
+    { id: "5", timestamp: 30, label: "Wydarzenie roku, ankieta" },
+    { id: "6", timestamp: 30, label: "Wydarzenie roku, ankieta" },
+    { id: "7", timestamp: 30, label: "Wydarzenie roku, ankieta" },
+    { id: "8", timestamp: 30, label: "Wydarzenie roku, ankieta" },
+    { id: "9", timestamp: 30, label: "Wydarzenie roku, ankieta" },
+    { id: "10", timestamp: 120, label: "Racja musi być po mojej stronie" },
+    { id: "11", timestamp: 250, label: "Kolejna aferka" },
+    { id: "12", timestamp: 120, label: "Racja musi być po mojej stronie" },
+    { id: "13", timestamp: 250, label: "Kolejna aferka" },
+    { id: "14", timestamp: 120, label: "Racja musi być po mojej stronie" },
+    { id: "15", timestamp: 250, label: "Kolejna aferka" },
+    { id: "16", timestamp: 120, label: "Racja musi być po mojej stronie" },
+    { id: "17", timestamp: 250, label: "Kolejna aferka" },
+    { id: "18", timestamp: 120, label: "Racja musi być po mojej stronie" },
+    { id: "19", timestamp: 250, label: "Kolejna aferka" },
+    { id: "20", timestamp: 120, label: "Racja musi być po mojej stronie" },
+    { id: "21", timestamp: 250, label: "Kolejna aferka" },
+  ]);
+
+  const deleteRow = useCallback((rowId: string) => {
+    setRows((rows) => rows.filter(({ id }) => rowId != id));
+  }, []);
+
+  const addRow = useCallback((timestamp: number, label: string) => {
+    const id = `${Math.random()}`;
+    setRows((rows) => [...rows, { id, timestamp, label }]);
+  }, []);
+
   return (
     <>
       <div className="SessionRecordingAnnotatedPlayer">
@@ -59,6 +92,9 @@ export function SessionRecordingAnnotatedPlayer({
             controls
           />
           <AnnotationsPanel
+            annotations={rows}
+            onAnnotationCreate={addRow}
+            onAnnotationDelete={deleteRow}
             onSeek={seekPlayer}
             currentPlayerTimestamp={currentPlayerTimestamp}
           />
