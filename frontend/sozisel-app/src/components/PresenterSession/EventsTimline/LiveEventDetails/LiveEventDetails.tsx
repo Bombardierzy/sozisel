@@ -23,15 +23,11 @@ export default function LiveEventDetails({
   sessionId,
   event,
 }: LiveEventDetailsProps): ReactElement {
-
-
   return (
     <LiveEventContext.Provider
       value={{ activeEvent, event, sessionId, onFinishCallback }}
     >
-        {
-          event.eventData.__typename === 'Quiz' && <QuziLiveEventDetails />
-        }
+      {event.eventData.__typename === "Quiz" && <QuziLiveEventDetails />}
     </LiveEventContext.Provider>
   );
 }

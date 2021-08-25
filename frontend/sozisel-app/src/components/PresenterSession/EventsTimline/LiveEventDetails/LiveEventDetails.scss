@@ -5,10 +5,16 @@
 }
 
 .LiveEventsDetails {
+  display: flex;
   margin: $spacing-02 $spacing-05;
+  .eventName {
+    @include text-03;
+    font-weight: 1000;
+  }
 }
 
 .Title {
   display: block;
+  @include text-02;
   margin-top: $spacing-03;
 }
