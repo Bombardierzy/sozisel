@@ -7,6 +7,7 @@ import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import { AnnotationsPanel } from "./AnnotationsPanel";
 import { Share } from "@material-ui/icons";
+import { ShareLinkPopup } from "../../../utils/Popups/ShareLinkPopup";
 import { useDeleteSessionRecordingMutation } from "../../../../graphql";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +20,8 @@ export function SessionRecordingAnnotatedPlayer({
 }: SessionRecordingAnnotatedPlayerProps): ReactElement {
   const { t } = useTranslation("common");
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const [openShareLink, setOpenShareLink] = useState<boolean>(false);
 
   const [error, setError] = useState<string | null>(null);
 
@@ -119,13 +122,22 @@ export function SessionRecordingAnnotatedPlayer({
               contained: "actionButton share",
               label: "actionButtonLabel",
             }}
+            onClick={() => setOpenShareLink(true)}
           >
             {t("components.SessionRecordingAnnotatedPlayer.shareRecording")}
             <Share />
           </Button>
         </div>
       </div>
-
+      <ShareLinkPopup
+        link={location.href}
+        open={openShareLink}
+        onClose={() => setOpenShareLink(false)}
+        title={t("components.SessionRecordingAnnotatedPlayer.shareLinkTitle")}
+        subtitle={t(
+          "components.SessionRecordingAnnotatedPlayer.shareLinkSubtitle"
+        )}
+      />
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         open={error != null}

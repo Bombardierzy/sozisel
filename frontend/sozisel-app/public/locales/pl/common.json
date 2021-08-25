@@ -143,7 +143,7 @@
       "errorMessage": "Błąd podczas wykonywania operacji.",
       "shareSession": "Udostępnij sesje",
       "shareSessionInfo": "Każdy z tym linkiem będzie mógł dołączyć do sesji.",
-      "shareLabel": "Share link"
+      "shareLabel": "Link"
     },
     "LiveSession": {
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
@@ -181,6 +181,8 @@
       "playerError": "Wystąpił błąd podczas odtwarzania nagrania, spróbuj ponownie później!",
       "deleteRecording": "Usuń nagranie",
       "shareRecording": "Udostępnij nagranie",
+      "shareLinkTitle": "Udostępnij link do nagrania",
+      "shareLinkSubtitle": "Każdy, komu udostępnisz link, będzie w stanie obejrzeć nagranie sesjii wraz ze instniejącymi adnotacjami.",
       "AnnotationsPanel": {
         "delete": "Usuń adnotację",
         "add": "Dodaj adnotację",
@@ -231,6 +233,9 @@
           "questionsNumber": "Ilość pytań: "
         }
       }
+    },
+    "ShareLinkPopup": {
+      "copyToClipboard": "Skopiuj do schowka"
     }
   },
   "inputErrors": {
