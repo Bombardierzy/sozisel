@@ -3,17 +3,24 @@
 .SessionRecordingAnnotatedPlayer {
     display: flex;
     justify-content: center;
-    align-items: center;
     position: relative;
     background-color: $bg-03;
     height: 100%;
     
     .annotatedGrid {
-        margin-top: 70;
+        margin-top: 70px;
         display: grid;
         grid-template-columns: 6fr 4fr;
         max-width: 1200px;
         grid-gap: 50px;
+        padding: 10px;
+        height: min-content;
+    }
+    
+    .existingAnnotations {
+        max-height: 300px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
     }
     
     video {

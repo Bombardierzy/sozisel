@@ -180,7 +180,13 @@
     "SessionRecordingAnnotatedPlayer": {
       "playerError": "Wystąpił błąd podczas odtwarzania nagrania, spróbuj ponownie później!",
       "deleteRecording": "Usuń nagranie",
-      "shareRecording": "Udostępnij nagranie"
+      "shareRecording": "Udostępnij nagranie",
+      "AnnotationsPanel": {
+        "delete": "Usuń adnotację",
+        "add": "Dodaj adnotację",
+        "selectCurrentTimestampTip": "Wybierz moment na nagraniu i wcisnij przycisk by ustawić czas",
+        "addPlaceholder": "Treść nowej adnotacji..."
+      }
     },
     "JoinSession": {
       "name": "Imię i nazwisko",

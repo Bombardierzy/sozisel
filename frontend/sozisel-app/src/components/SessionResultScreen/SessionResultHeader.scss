@@ -28,10 +28,10 @@
     .header {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-evenly;
         padding: $spacing-04;
         height: 100%;
-        margin-left: 15%;
+        margin-left: 5%;
     }
     
     .activeLink, .inactiveLink {

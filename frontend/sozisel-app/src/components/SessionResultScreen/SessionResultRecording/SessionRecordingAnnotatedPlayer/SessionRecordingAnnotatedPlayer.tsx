@@ -1,7 +1,7 @@
 import "./SessionRecordingAnnotatedPlayer.scss";
 
 import { Button, Snackbar } from "@material-ui/core";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
 
 import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
@@ -38,6 +38,17 @@ export function SessionRecordingAnnotatedPlayer({
     };
   }, []);
 
+  const seekPlayer = useCallback((timestamp: number) => {
+    if (!videoRef.current) return;
+    videoRef.current.currentTime = timestamp;
+  }, []);
+
+  const currentPlayerTimestamp = useCallback(() => {
+    if (!videoRef.current) return 0;
+
+    return videoRef.current.currentTime;
+  }, []);
+
   return (
     <>
       <div className="SessionRecordingAnnotatedPlayer">
@@ -47,7 +58,10 @@ export function SessionRecordingAnnotatedPlayer({
             src={`http://localhost:4000/recording/session_${sessionId}.mp4`}
             controls
           />
-          <AnnotationsPanel />
+          <AnnotationsPanel
+            onSeek={seekPlayer}
+            currentPlayerTimestamp={currentPlayerTimestamp}
+          />
         </div>
 
         <div className="actionButtons">
