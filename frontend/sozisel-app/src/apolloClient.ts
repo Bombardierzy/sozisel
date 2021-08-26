@@ -68,6 +68,18 @@ export function createApolloClient(
 
   return new ApolloClient({
     link: authLink.concat(splitLink),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        SessionRecording: {
+          fields: {
+            annotations: {
+              merge(_, incoming) {
+                return incoming;
+              },
+            },
+          },
+        },
+      },
+    }),
   });
 }
