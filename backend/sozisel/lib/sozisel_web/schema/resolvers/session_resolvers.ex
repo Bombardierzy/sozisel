@@ -123,6 +123,11 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
         metadata: %{}
       })
     )
+    |> Ecto.Multi.update(:default_annotations, fn %{recording: recording} ->
+      annotations = SessionRecordings.default_recording_annotations(recording)
+
+      Ecto.Changeset.change(recording, annotations: annotations)
+    end)
     |> Ecto.Multi.run(:file_rename, fn _repo, %{recording: _} ->
       processed_video_path = Path.rootname(recording.path) <> "_processed" <> extension
 
