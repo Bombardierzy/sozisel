@@ -1,4 +1,4 @@
-import { ReactElement, useMemo } from "react";
+import { ReactElement, useEffect } from "react";
 
 import { CircularProgress } from "@material-ui/core";
 import { SessionRecordingAnnotatedPlayer } from "./SessionRecordingAnnotatedPlayer/SessionRecordingAnnotatedPlayer";
@@ -12,21 +12,33 @@ interface SessionResultRecordingProps {
 export function SessionResultRecording({
   sessionId,
 }: SessionResultRecordingProps): ReactElement {
-  const { data, loading } = useSessionRecordingQuery({
+  const { data, loading, error } = useSessionRecordingQuery({
     variables: { id: sessionId },
   });
 
-  const hasRecording = useMemo(() => {
-    return data?.session?.sessionRecording !== null;
-  }, [data?.session?.sessionRecording]);
+  useEffect(() => {
+    if (error) {
+      console.error(error);
+    }
+  }, [error]);
 
   if (loading) {
     return <CircularProgress />;
   }
 
-  if (!hasRecording) {
-    return <SessionRecordingUpload sessionId={sessionId} />;
+  if (error) {
+    return <></>;
   }
 
-  return <SessionRecordingAnnotatedPlayer sessionId={sessionId} />;
+  if (data?.session?.sessionRecording) {
+    return (
+      <SessionRecordingAnnotatedPlayer
+        sessionId={sessionId}
+        sessionRecordingId={data.session.sessionRecording.id}
+        annotations={data.session.sessionRecording.annotations}
+      />
+    );
+  }
+
+  return <SessionRecordingUpload sessionId={sessionId} />;
 }

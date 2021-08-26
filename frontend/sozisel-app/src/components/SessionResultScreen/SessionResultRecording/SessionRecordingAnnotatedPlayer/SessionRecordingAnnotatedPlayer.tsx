@@ -1,23 +1,42 @@
 import "./SessionRecordingAnnotatedPlayer.scss";
 
+import { Annotation, AnnotationsPanel } from "./AnnotationsPanel";
 import { Button, Snackbar } from "@material-ui/core";
 import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import {
+  RecordingAnnotation,
+  useDeleteSessionRecordingMutation,
+  useUpdateSessionRecordingAnnotationsMutation,
+} from "../../../../graphql";
 
 import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
-import { AnnotationsPanel } from "./AnnotationsPanel";
 import { DeleteResourcePopup } from "../../../utils/Popups/DeleteResourcePopup";
 import { Share } from "@material-ui/icons";
 import { ShareLinkPopup } from "../../../utils/Popups/ShareLinkPopup";
-import { useDeleteSessionRecordingMutation } from "../../../../graphql";
+import omitDeep from "omit-deep-lodash";
 import { useTranslation } from "react-i18next";
+import { v4 as uuid } from "uuid";
 
 interface SessionRecordingAnnotatedPlayerProps {
   sessionId: string;
+  sessionRecordingId: string;
+  annotations: RecordingAnnotation[];
+}
+
+/**
+ * Strips annotations from "__typename" hidden field.
+ */
+function stripAnnotations(annotations: RecordingAnnotation[]): Annotation[] {
+  return annotations.map(
+    (annotation) => omitDeep(annotation, "__typename") as Annotation
+  );
 }
 
 export function SessionRecordingAnnotatedPlayer({
   sessionId,
+  sessionRecordingId,
+  annotations,
 }: SessionRecordingAnnotatedPlayerProps): ReactElement {
   const { t } = useTranslation("common");
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -30,6 +49,9 @@ export function SessionRecordingAnnotatedPlayer({
   const [deleteRecordingMutation] = useDeleteSessionRecordingMutation({
     refetchQueries: ["SessionRecording"],
   });
+
+  const [updateRecordingAnnotations] =
+    useUpdateSessionRecordingAnnotationsMutation();
 
   const hideSnackbar = () => {
     setError(null);
@@ -54,38 +76,34 @@ export function SessionRecordingAnnotatedPlayer({
     return videoRef.current.currentTime;
   }, []);
 
-  const [rows, setRows] = useState([
-    { id: "1", timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { id: "2", timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { id: "3", timestamp: 250, label: "Kolejna aferka" },
-    { id: "4", timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { id: "5", timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { id: "6", timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { id: "7", timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { id: "8", timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { id: "9", timestamp: 30, label: "Wydarzenie roku, ankieta" },
-    { id: "10", timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { id: "11", timestamp: 250, label: "Kolejna aferka" },
-    { id: "12", timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { id: "13", timestamp: 250, label: "Kolejna aferka" },
-    { id: "14", timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { id: "15", timestamp: 250, label: "Kolejna aferka" },
-    { id: "16", timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { id: "17", timestamp: 250, label: "Kolejna aferka" },
-    { id: "18", timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { id: "19", timestamp: 250, label: "Kolejna aferka" },
-    { id: "20", timestamp: 120, label: "Racja musi być po mojej stronie" },
-    { id: "21", timestamp: 250, label: "Kolejna aferka" },
-  ]);
+  const deleteAnnotation = useCallback(
+    (annotationId: string) => {
+      updateRecordingAnnotations({
+        variables: {
+          sessionRecordingId,
+          annotations: stripAnnotations(annotations).filter(
+            ({ id }) => id !== annotationId
+          ),
+        },
+      });
+    },
+    [annotations, sessionRecordingId, updateRecordingAnnotations]
+  );
 
-  const deleteRow = useCallback((rowId: string) => {
-    setRows((rows) => rows.filter(({ id }) => rowId != id));
-  }, []);
-
-  const addRow = useCallback((timestamp: number, label: string) => {
-    const id = `${Math.random()}`;
-    setRows((rows) => [...rows, { id, timestamp, label }]);
-  }, []);
+  const addAnnotation = useCallback(
+    (timestamp: number, label: string) => {
+      updateRecordingAnnotations({
+        variables: {
+          sessionRecordingId,
+          annotations: [
+            ...stripAnnotations(annotations),
+            { id: uuid(), timestamp: Math.floor(timestamp), label },
+          ],
+        },
+      });
+    },
+    [annotations, sessionRecordingId, updateRecordingAnnotations]
+  );
 
   return (
     <>
@@ -97,9 +115,9 @@ export function SessionRecordingAnnotatedPlayer({
             controls
           />
           <AnnotationsPanel
-            annotations={rows}
-            onAnnotationCreate={addRow}
-            onAnnotationDelete={deleteRow}
+            annotations={annotations}
+            onAnnotationCreate={addAnnotation}
+            onAnnotationDelete={deleteAnnotation}
             onSeek={seekPlayer}
             currentPlayerTimestamp={currentPlayerTimestamp}
           />

@@ -58,6 +58,11 @@ query SessionRecording($id: ID!) {
         id
         sessionRecording {
             id
+            annotations {
+                id
+                timestamp
+                label
+            }
         }
     }
 }

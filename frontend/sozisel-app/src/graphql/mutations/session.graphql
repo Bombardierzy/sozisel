@@ -28,6 +28,17 @@ mutation DeleteSessionRecording($sessionId: ID!) {
   deleteRecordingMessage: deleteSessionRecording(id: $sessionId)
 }
 
+mutation UpdateSessionRecordingAnnotations($sessionRecordingId: ID!, $annotations: [RecordingAnnotationInput!]!) {
+  updateSessionRecordingAnnotations(id: $sessionRecordingId, annotations: $annotations) {
+    id
+    annotations {
+      id
+      timestamp
+      label
+    }
+  }
+}
+
 mutation StartSession($id: ID!) {
   startSession(id: $id) {
     id

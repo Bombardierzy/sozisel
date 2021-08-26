@@ -29,7 +29,7 @@ function formatTimestamp(timestamp: number) {
   return hoursStr + minutesStr + secondsStr;
 }
 
-interface Annotation {
+export interface Annotation {
   id: string;
   timestamp: number;
   label: string;
@@ -92,7 +92,7 @@ function AnnotationRow({
           {mode === "edit" && textTimestamp}
           {mode == "create" &&
             (fieldTimestamp === -1 ? (
-              <Timer style={{ fontSize: 18 }} />
+              <Timer style={{ fontSize: 16 }} />
             ) : (
               fieldTextTimestamp
             ))}
@@ -103,6 +103,7 @@ function AnnotationRow({
         inputProps={{
           className: `labelText ${mode === "create" ? "labelAdd" : ""}`,
           readOnly: mode === "edit",
+          maxLength: 100,
         }}
         placeholder={
           t(
@@ -167,6 +168,12 @@ export function AnnotationsPanel({
   onSeek,
   currentPlayerTimestamp,
 }: AnnotationsPanelProps): ReactElement {
+  const sortedAnnotations = useMemo(() => {
+    const sortedAnnotations = [...annotations];
+    sortedAnnotations.sort((a, b) => a.timestamp - b.timestamp);
+    return sortedAnnotations;
+  }, [annotations]);
+
   return (
     <Paper
       className="AnnotationsPanel"
@@ -174,7 +181,7 @@ export function AnnotationsPanel({
       elevation={4}
     >
       <div className="existingAnnotations">
-        {annotations.map((annotation, idx) => (
+        {sortedAnnotations.map((annotation, idx) => (
           <AnnotationRow
             key={idx}
             {...annotation}

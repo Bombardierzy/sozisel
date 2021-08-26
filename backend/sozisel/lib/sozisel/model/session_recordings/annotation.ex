@@ -21,6 +21,6 @@ defmodule Sozisel.Model.SessionRecordings.Annotation do
     |> cast(attrs, [:id, :timestamp, :label])
     |> validate_required([:id, :timestamp, :label])
     |> validate_number(:timestamp, greater_than_or_equal_to: 0)
-    |> validate_length(:label, min: 1)
+    |> validate_length(:label, min: 1, max: 200)
   end
 end
