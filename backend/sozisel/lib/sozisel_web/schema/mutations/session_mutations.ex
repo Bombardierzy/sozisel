@@ -2,6 +2,7 @@ defmodule SoziselWeb.Schema.Mutations.SessionMutations do
   use SoziselWeb.Schema.Notation
 
   alias Sozisel.Model.Sessions.Session
+  alias Sozisel.Model.SessionRecordings.SessionRecording
   alias SoziselWeb.Schema.{Middleware, Resolvers.SessionResolvers}
 
   object :session_mutations do
@@ -54,6 +55,15 @@ defmodule SoziselWeb.Schema.Mutations.SessionMutations do
 
       middleware Middleware.ResourceAuthorization, {:upload_session_recording, Session}
       resolve &SessionResolvers.delete_recording/3
+    end
+
+    field :update_session_recording_annotations, :session_recording do
+      @desc "SessionRecording's id"
+      arg :id, non_null(:id)
+      arg :annotations, strong_list_of(:recording_annotation_input)
+
+      middleware Middleware.ResourceAuthorization, {:edit_session_recording, SessionRecording}
+      resolve &SessionResolvers.update_recording_annotations/3
     end
   end
 end

@@ -14,6 +14,19 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
   }
   """
 
+  @update_recording_annotations_mutation """
+  mutation UpdateSessionRecordingAnnotations($id: ID!, $annotations: [RecordingAnnotationInput!]!) {
+    updateSessionRecordingAnnotations(id: $id, annotations: $annotations) {
+      id
+      annotations {
+        id
+        timestamp
+        label
+      }
+    }
+  }
+  """
+
   describe "Session recording mutations should" do
     setup do
       user = insert(:user)
@@ -132,6 +145,51 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
                  variables: %{id: ctx.session.id}
                )
                |> json_response(200)
+    end
+
+    test "update recording's annotations", ctx do
+      alias Sozisel.Model.SessionRecordings
+
+      {:ok, %{id: recording_id}} =
+        SessionRecordings.create_session_recording(%{
+          session_id: ctx.session.id,
+          path: "/",
+          metadata: %{}
+        })
+
+      annotations = [
+        %{id: Ecto.UUID.generate(), timestamp: 10, label: "first label"},
+        %{id: Ecto.UUID.generate(), timestamp: 15, label: "second label"}
+      ]
+
+      assert %{
+               data: %{
+                 "updateSessionRecordingAnnotations" => %{
+                   "id" => ^recording_id,
+                   "annotations" => [
+                     %{"id" => _, "timestamp" => 10, "label" => "first label"},
+                     %{"id" => _, "timestamp" => 15, "label" => "second label"}
+                   ]
+                 }
+               }
+             } =
+               run_query(ctx.conn, @update_recording_annotations_mutation, %{
+                 id: recording_id,
+                 annotations: annotations
+               })
+
+      assert %{
+               data: %{
+                 "updateSessionRecordingAnnotations" => %{
+                   "id" => ^recording_id,
+                   "annotations" => []
+                 }
+               }
+             } =
+               run_query(ctx.conn, @update_recording_annotations_mutation, %{
+                 id: recording_id,
+                 annotations: []
+               })
     end
   end
 end

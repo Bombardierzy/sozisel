@@ -3,7 +3,11 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
   alias Sozisel.Repo
   alias SoziselWeb.Schema.Helpers
   alias SoziselWeb.Schema.Subscriptions.Topics
-  alias Sozisel.Model.{Sessions, Sessions.Session, SessionRecordings.SessionRecording, Polls.Poll}
+  alias Sozisel.Model.Sessions
+  alias Sozisel.Model.Sessions.Session
+  alias Sozisel.Model.SessionRecordings
+  alias Sozisel.Model.SessionRecordings.SessionRecording
+  alias Sozisel.Model.Polls.Poll
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
@@ -174,5 +178,11 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
       nil ->
         {:error, "recording does not exist"}
     end
+  end
+
+  def update_recording_annotations(_parent, %{annotations: annotations}, ctx) do
+    session_recording = fetch_resource!(ctx, SessionRecording)
+
+    SessionRecordings.update_session_recording(session_recording, %{annotations: annotations})
   end
 end

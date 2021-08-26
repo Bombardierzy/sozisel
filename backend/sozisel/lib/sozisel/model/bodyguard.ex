@@ -12,6 +12,7 @@ defmodule Sozisel.Model.Bodyguard do
     Sessions,
     Sessions.Session,
     Sessions.Template,
+    SessionRecordings.SessionRecording,
     Users.User,
     LaunchedEvents.LaunchedEvent
   }
@@ -31,6 +32,11 @@ defmodule Sozisel.Model.Bodyguard do
 
   def authorize(:upload_session_recording, %User{id: user_id}, %Session{user_id: user_id}),
     do: :ok
+
+  def authorize(:edit_session_recording, %User{id: user_id}, %SessionRecording{
+        session_id: session_id
+      }),
+      do: Sessions.is_session_owner(session_id, user_id) |> handle_result()
 
   # Session templates
   def authorize(:update_session_template, %User{id: user_id}, %Template{user_id: user_id}),

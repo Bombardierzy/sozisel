@@ -29,8 +29,21 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     timestamps()
   end
 
+  object :recording_annotation do
+    field :id, non_null(:id)
+    field :timestamp, non_null(:integer)
+    field :label, non_null(:string)
+  end
+
+  input_object :recording_annotation_input do
+    field :id, non_null(:id)
+    field :timestamp, non_null(:integer)
+    field :label, non_null(:string)
+  end
+
   object :session_recording do
     field :id, non_null(:id)
+    field :annotations, strong_list_of(:recording_annotation)
   end
 
   object :session_thumbnail do
