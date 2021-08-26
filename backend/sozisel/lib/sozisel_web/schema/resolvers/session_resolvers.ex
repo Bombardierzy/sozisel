@@ -190,4 +190,14 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
 
     SessionRecordings.update_session_recording(session_recording, %{annotations: annotations})
   end
+
+  def reset_recording_annotations(_parent, _args, ctx) do
+    session_recording = fetch_resource!(ctx, SessionRecording)
+
+    default_annotations = SessionRecordings.default_recording_annotations(session_recording)
+
+    SessionRecordings.update_session_recording(session_recording, %{
+      annotations: default_annotations
+    })
+  end
 end

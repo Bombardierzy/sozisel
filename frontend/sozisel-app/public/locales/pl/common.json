@@ -179,6 +179,7 @@
     },
     "SessionRecordingAnnotatedPlayer": {
       "playerError": "Wystąpił błąd podczas odtwarzania nagrania, spróbuj ponownie później!",
+      "resetAnnotations": "Domyślne adnotacje",
       "deleteRecording": "Usuń nagranie",
       "shareRecording": "Udostępnij nagranie",
       "shareLinkTitle": "Udostępnij link do nagrania",

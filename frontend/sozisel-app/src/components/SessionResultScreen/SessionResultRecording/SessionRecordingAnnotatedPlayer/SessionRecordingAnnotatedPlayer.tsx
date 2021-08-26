@@ -6,13 +6,14 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import {
   RecordingAnnotation,
   useDeleteSessionRecordingMutation,
+  useResetSessionRecordingAnnotationsMutation,
   useUpdateSessionRecordingAnnotationsMutation,
 } from "../../../../graphql";
+import { Refresh, Share } from "@material-ui/icons";
 
 import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import { DeleteResourcePopup } from "../../../utils/Popups/DeleteResourcePopup";
-import { Share } from "@material-ui/icons";
 import { ShareLinkPopup } from "../../../utils/Popups/ShareLinkPopup";
 import omitDeep from "omit-deep-lodash";
 import { useTranslation } from "react-i18next";
@@ -52,6 +53,9 @@ export function SessionRecordingAnnotatedPlayer({
 
   const [updateRecordingAnnotations] =
     useUpdateSessionRecordingAnnotationsMutation();
+
+  const [resetRecordingAnnotations] =
+    useResetSessionRecordingAnnotationsMutation();
 
   const hideSnackbar = () => {
     setError(null);
@@ -133,6 +137,19 @@ export function SessionRecordingAnnotatedPlayer({
             onClick={() => setOpenDeleteDialog(true)}
           >
             {t("components.SessionRecordingAnnotatedPlayer.deleteRecording")}
+          </Button>
+          <Button
+            variant="contained"
+            classes={{
+              contained: "actionButton reset",
+              label: "actionButtonLabel",
+            }}
+            onClick={() =>
+              resetRecordingAnnotations({ variables: { sessionRecordingId } })
+            }
+          >
+            {t("components.SessionRecordingAnnotatedPlayer.resetAnnotations")}
+            <Refresh />
           </Button>
           <Button
             variant="contained"

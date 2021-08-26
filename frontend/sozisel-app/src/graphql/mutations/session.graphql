@@ -39,6 +39,17 @@ mutation UpdateSessionRecordingAnnotations($sessionRecordingId: ID!, $annotation
   }
 }
 
+mutation ResetSessionRecordingAnnotations($sessionRecordingId: ID!) {
+  resetSessionRecordingAnnotations(id: $sessionRecordingId) {
+    id
+    annotations {
+      id
+      timestamp
+      label
+    }
+  }
+}
+
 mutation StartSession($id: ID!) {
   startSession(id: $id) {
     id

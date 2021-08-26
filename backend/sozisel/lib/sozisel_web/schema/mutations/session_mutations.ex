@@ -65,5 +65,13 @@ defmodule SoziselWeb.Schema.Mutations.SessionMutations do
       middleware Middleware.ResourceAuthorization, {:edit_session_recording, SessionRecording}
       resolve &SessionResolvers.update_recording_annotations/3
     end
+
+    field :reset_session_recording_annotations, :session_recording do
+      @desc "SessionRecording's id"
+      arg :id, non_null(:id)
+
+      middleware Middleware.ResourceAuthorization, {:edit_session_recording, SessionRecording}
+      resolve &SessionResolvers.reset_recording_annotations/3
+    end
   end
 end

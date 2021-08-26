@@ -55,8 +55,12 @@
             background-color: darken($error-color, 10%);
         }
     }
+    
+    .reset {
+        margin-right: 10px;
+    }
 
-    .share {
+    .share, .reset {
         background-color: $primary-accent;
 
         &:hover {
