@@ -31,36 +31,23 @@ defmodule Sozisel.Model.SessionRecordings do
   end
 
   def default_recording_annotations(%SessionRecording{} = session_recording) do
-    time_to_annotations =
-      from(sr in SessionRecording,
-        join: s in Session,
-        on: sr.session_id == s.id,
-        join: le in LaunchedEvent,
-        on: le.session_id == s.id,
-        join: e in Event,
-        on: e.id == le.event_id,
-        where: sr.id == ^session_recording.id,
-        order_by: le.inserted_at,
-        select: [le.inserted_at, e]
-      )
-      |> Repo.all()
-      |> Enum.map(fn [time, event] ->
-        {DateTime.to_unix(time), %{id: Ecto.UUID.generate(), label: event.name}} |> IO.inspect()
-      end)
+    from(sr in SessionRecording,
+      join: s in Session,
+      on: sr.session_id == s.id,
+      join: le in LaunchedEvent,
+      on: le.session_id == s.id,
+      join: e in Event,
+      on: e.id == le.event_id,
+      where: sr.id == ^session_recording.id,
+      order_by: le.inserted_at,
+      select: [s.inserted_at, le.inserted_at, e]
+    )
+    |> Repo.all()
+    |> Enum.map(fn [session_time, time, event] ->
+      timestamp = DateTime.to_unix(time) - DateTime.to_unix(session_time)
 
-    case time_to_annotations do
-      [] ->
-        []
-
-      [{lowest_time, _annotation} | _rest] ->
-        {annotations, _time} =
-          time_to_annotations
-          |> Enum.map_reduce(lowest_time, fn {time, annotation}, lower_time ->
-            {Map.put(annotation, :timestamp, time - lower_time), time}
-          end)
-
-        annotations
-    end
+      %{id: Ecto.UUID.generate(), timestamp: timestamp, label: event.name}
+    end)
   end
 
   def change_session_recording(%SessionRecording{} = session_recording, attrs \\ %{}) do
