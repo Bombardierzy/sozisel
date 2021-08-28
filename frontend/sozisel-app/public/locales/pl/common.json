@@ -179,6 +179,19 @@
       "Banner": {
         "previous": "POPRZEDNI",
         "next": "NASTĘPNY"
+      },
+      "Quiz": {
+        "averagePoints": "Średnia liczba punktów",
+        "averageAnswerTime": "Średni czas odpowiedzi",
+        "participantsNumber": "Liczba uczestników",
+        "chooseView": "Wybierz widok",
+        "participants": "Uczestnicy",
+        "questions": "Pytania",
+        "charts": "Wykresy",
+        "question": "Pytanie",
+        "name": "Imię",
+        "points": "Punkty",
+        "answerTime": "Czas odpowiedzi"
       }
     },
     "PresenterSession": {

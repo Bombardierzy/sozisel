@@ -92,9 +92,11 @@ export interface EnhancedTableProps<T> {
 }
 
 const ROWS_PER_PAGE = 5;
-export default function EnhancedTable<
-  T extends { [key: string]: string | number }
->({ headCells, data, onClick }: EnhancedTableProps<T>): React.ReactElement {
+export default function EnhancedTable<T extends { [key: string]: unknown }>({
+  headCells,
+  data,
+  onClick,
+}: EnhancedTableProps<T>): React.ReactElement {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof T | undefined>(undefined);
   const [page, setPage] = useState(0);
@@ -108,8 +110,6 @@ export default function EnhancedTable<
   const handleChangePage = (newPage: number) => {
     setPage(newPage);
   };
-
-  const keysToBeDisplayed = headCells.map((cell) => cell.id);
 
   return (
     <div className="TableContainer">
@@ -137,12 +137,12 @@ export default function EnhancedTable<
                     tabIndex={-1}
                     key={index}
                   >
-                    {Object.keys(row)
-                      .filter((key) => keysToBeDisplayed.includes(key))
-                      .map((key, index) => {
+                    {headCells
+                      .map((header) => row[header.id])
+                      .map((value, index) => {
                         return (
                           <TableCell key={index} className="tableCell">
-                            {row[key]}
+                            {value as string | number}
                           </TableCell>
                         );
                       })}
