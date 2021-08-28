@@ -1,5 +1,9 @@
 {
   "components": {
+    "ScoreChart" : {
+      "numberOfParticipants": "Liczba uczestników",
+      "score": "Ilość punktów"
+    },
     "LoginScreen": {
       "emailLabelText": "Email",
       "passwordLabelText": "Hasło",
@@ -220,7 +224,7 @@
         },
         "LiveEventDetails": {
           "reamaingTime": "Pozostały czas: ",
-          "averagePoint": "Średnia ilość punktów: {{value}}",
+          "averagePoint": "Średnia ilość punktów: {{value}}/{{totalPoint}}",
           "completedTrialsNumber": "Ilość zakończonych prób: {{value}}",
           "numberOfParticipants": "Ilość uczestników: {{value}}"
         }

@@ -11,6 +11,7 @@ interface LiveEventDetailsProps {
   onFinishCallback: () => void;
   sessionId: string;
   event: Event;
+  participantsNumber: number;
 }
 
 export const LiveEventContext = createContext<LiveEventDetailsProps>(
@@ -22,10 +23,17 @@ export default function LiveEventDetails({
   onFinishCallback,
   sessionId,
   event,
+  participantsNumber,
 }: LiveEventDetailsProps): ReactElement {
   return (
     <LiveEventContext.Provider
-      value={{ activeEvent, event, sessionId, onFinishCallback }}
+      value={{
+        activeEvent,
+        event,
+        sessionId,
+        onFinishCallback,
+        participantsNumber,
+      }}
     >
       {event.eventData.__typename === "Quiz" && <QuziLiveEventDetails />}
     </LiveEventContext.Provider>

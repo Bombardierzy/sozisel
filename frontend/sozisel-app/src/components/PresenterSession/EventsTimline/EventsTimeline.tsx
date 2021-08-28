@@ -207,6 +207,7 @@ export default function EventsTimeline({
           activeEvent={activeEvent}
           sessionId={sessionId}
           event={events[activeEvent.idx]}
+          participantsNumber={participants.length}
         />
       )}
       <Snackbar open={!!launchEventError} autoHideDuration={AUTO_HIDE_DURATION}>
