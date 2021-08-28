@@ -1,0 +1,78 @@
+@import "../../../../../../../../styles/styles";
+
+
+.QuizResultDetailsDialog {
+
+    .appBar {
+        position: relative;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: 600;
+        padding: 0 $spacing-05;
+    }
+
+    .container {
+        height: calc(100% - 2*#{$spacing-09});;
+        width: calc(100% - 2*#{$spacing-09});;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: $spacing-09;
+        @include poppins-text;
+    }
+
+    .detailsSummary {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin-right: $spacing-07;
+        padding: $spacing-06;
+    }
+
+    .headerWithIcon {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: $spacing-07;
+    }
+
+    .header{
+        color: $text-04;
+        font-size: 32px;
+        font-weight: 600;
+        padding: 0 $spacing-05;
+    }
+
+    .statsRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-04;
+    }
+
+    .statsRowLabel {
+        font-size: 24px;
+        font-weight: 600;
+        color: $text-02;
+    }
+
+    .statsRowValue {
+        font-size: 20px;
+        font-weight: 300;
+        color: $text-01;
+    }
+
+    .detailsView {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: $spacing-06;
+    }
+}
