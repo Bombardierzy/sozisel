@@ -53,7 +53,7 @@ query SessionDetails($id: ID!){
     }
 }
 
-query SessionRecording($id: ID!) {
+query GetRecordingBySession($id: ID!) {
     session(id: $id) {
         id
         sessionRecording {
@@ -63,6 +63,18 @@ query SessionRecording($id: ID!) {
                 timestamp
                 label
             }
+        }
+    }
+}
+
+query SessionRecording($id: ID!) {
+    sessionRecording(id: $id) {
+        id
+        path
+        annotations {
+            id
+            timestamp
+            label
         }
     }
 }

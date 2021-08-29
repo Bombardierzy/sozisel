@@ -3,7 +3,7 @@ import { ReactElement, useEffect } from "react";
 import { CircularProgress } from "@material-ui/core";
 import { SessionRecordingAnnotatedPlayer } from "./SessionRecordingAnnotatedPlayer/SessionRecordingAnnotatedPlayer";
 import SessionRecordingUpload from "./SessionRecordingUpload";
-import { useSessionRecordingQuery } from "../../../graphql";
+import { useGetRecordingBySessionQuery } from "../../../graphql";
 
 interface SessionResultRecordingProps {
   sessionId: string;
@@ -12,7 +12,7 @@ interface SessionResultRecordingProps {
 export function SessionResultRecording({
   sessionId,
 }: SessionResultRecordingProps): ReactElement {
-  const { data, loading, error } = useSessionRecordingQuery({
+  const { data, loading, error } = useGetRecordingBySessionQuery({
     variables: { id: sessionId },
   });
 

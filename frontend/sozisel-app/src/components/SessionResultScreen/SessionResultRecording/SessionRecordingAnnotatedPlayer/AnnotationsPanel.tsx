@@ -11,6 +11,7 @@ interface AnnotationRowProps {
   timestamp?: number;
   label?: string;
   mode: "create" | "edit";
+  readonly?: boolean;
   playerDuration: number;
   onDelete?: (id: string) => void;
   onCreate?: (time: number, label: string) => void;
@@ -38,6 +39,7 @@ export interface Annotation {
 
 function AnnotationRow({
   mode,
+  readonly = false,
   id,
   timestamp = 0,
   label = "",
@@ -133,7 +135,7 @@ function AnnotationRow({
         required
         onChange={(event) => setText(event.target.value)}
       />
-      {mode === "edit" && (
+      {!readonly && mode === "edit" && (
         <Tooltip
           arrow
           placement="top"
@@ -151,7 +153,7 @@ function AnnotationRow({
           </IconButton>
         </Tooltip>
       )}
-      {mode === "create" && (
+      {!readonly && mode === "create" && (
         <Tooltip
           arrow
           placement="top"
@@ -172,6 +174,7 @@ function AnnotationRow({
 
 interface AnnotationsPanelProps {
   duration: number;
+  readonly?: boolean;
   onSeek: (timestamp: number) => void;
   currentPlayerTimestamp: () => number;
   annotations: Annotation[];
@@ -180,6 +183,7 @@ interface AnnotationsPanelProps {
 }
 export function AnnotationsPanel({
   duration,
+  readonly = false,
   annotations,
   onAnnotationCreate,
   onAnnotationDelete,
@@ -201,6 +205,7 @@ export function AnnotationsPanel({
       <div className="existingAnnotations">
         {sortedAnnotations.map((annotation, idx) => (
           <AnnotationRow
+            readonly={readonly}
             playerDuration={duration}
             key={idx}
             {...annotation}
@@ -211,14 +216,16 @@ export function AnnotationsPanel({
           />
         ))}
       </div>
-      <AnnotationRow
-        playerDuration={duration}
-        mode="create"
-        timestamp={0}
-        label=""
-        currentPlayerTimestamp={currentPlayerTimestamp}
-        onCreate={onAnnotationCreate}
-      />
+      {!readonly && (
+        <AnnotationRow
+          playerDuration={duration}
+          mode="create"
+          timestamp={0}
+          label=""
+          currentPlayerTimestamp={currentPlayerTimestamp}
+          onCreate={onAnnotationCreate}
+        />
+      )}
     </Paper>
   );
 }

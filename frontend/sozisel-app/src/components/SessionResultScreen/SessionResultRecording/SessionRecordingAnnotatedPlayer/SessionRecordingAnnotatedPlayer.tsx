@@ -228,7 +228,7 @@ export function SessionRecordingAnnotatedPlayer({
         </div>
       </div>
       <ShareLinkPopup
-        link={location.href}
+        link={`${window.location.protocol}//${window.location.host}/session-recording/${sessionRecordingId}`}
         open={openShareLink}
         onClose={() => setOpenShareLink(false)}
         title={t("components.SessionRecordingAnnotatedPlayer.shareLinkTitle")}
