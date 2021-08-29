@@ -1,7 +1,8 @@
 import "./SessionRecordingAnnotatedPlayer.scss";
 
 import { Annotation, AnnotationsPanel } from "./AnnotationsPanel";
-import { Button, Snackbar } from "@material-ui/core";
+import { AvTimer, Refresh, Share } from "@material-ui/icons";
+import { Button, Snackbar, Tooltip } from "@material-ui/core";
 import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import {
   RecordingAnnotation,
@@ -9,7 +10,6 @@ import {
   useResetSessionRecordingAnnotationsMutation,
   useUpdateSessionRecordingAnnotationsMutation,
 } from "../../../../graphql";
-import { Refresh, Share } from "@material-ui/icons";
 
 import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
@@ -41,6 +41,7 @@ export function SessionRecordingAnnotatedPlayer({
 }: SessionRecordingAnnotatedPlayerProps): ReactElement {
   const { t } = useTranslation("common");
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [videoDuration, setVideoDuration] = useState(0);
 
   const [openShareLink, setOpenShareLink] = useState<boolean>(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
@@ -66,6 +67,10 @@ export function SessionRecordingAnnotatedPlayer({
 
     videoRef.current.onerror = () => {
       setError("components.SessionRecordingAnnotatedPlayer.playerError");
+    };
+
+    videoRef.current.oncanplay = () => {
+      setVideoDuration(videoRef.current?.duration || 0);
     };
   }, []);
 
@@ -109,6 +114,32 @@ export function SessionRecordingAnnotatedPlayer({
     [annotations, sessionRecordingId, updateRecordingAnnotations]
   );
 
+  const syncAnnotationsWithCurrentTimestamp = useCallback(() => {
+    if (!videoRef.current) return;
+    if (annotations.length === 0) return;
+
+    const newOffset = Math.floor(videoRef.current.currentTime);
+    const [first, ...remaining] = stripAnnotations(annotations);
+    const oldOffset = first.timestamp;
+
+    first.timestamp = newOffset;
+
+    const annotationsWithOffset = [
+      first,
+      ...remaining.map((annotation) => ({
+        ...annotation,
+        timestamp: annotation.timestamp - oldOffset + newOffset,
+      })),
+    ];
+
+    updateRecordingAnnotations({
+      variables: {
+        sessionRecordingId,
+        annotations: annotationsWithOffset,
+      },
+    });
+  }, [annotations, sessionRecordingId, updateRecordingAnnotations]);
+
   return (
     <>
       <div className="SessionRecordingAnnotatedPlayer">
@@ -119,6 +150,7 @@ export function SessionRecordingAnnotatedPlayer({
             controls
           />
           <AnnotationsPanel
+            duration={videoDuration}
             annotations={annotations}
             onAnnotationCreate={addAnnotation}
             onAnnotationDelete={deleteAnnotation}
@@ -138,19 +170,50 @@ export function SessionRecordingAnnotatedPlayer({
           >
             {t("components.SessionRecordingAnnotatedPlayer.deleteRecording")}
           </Button>
-          <Button
-            variant="contained"
-            classes={{
-              contained: "actionButton reset",
-              label: "actionButtonLabel",
-            }}
-            onClick={() =>
-              resetRecordingAnnotations({ variables: { sessionRecordingId } })
+          <Tooltip
+            arrow
+            placement="top"
+            title={
+              t(
+                "components.SessionRecordingAnnotatedPlayer.syncAnnotationsTooltip"
+              ) as string
             }
           >
-            {t("components.SessionRecordingAnnotatedPlayer.resetAnnotations")}
-            <Refresh />
-          </Button>
+            <Button
+              variant="contained"
+              classes={{
+                contained: "actionButton reset",
+                label: "actionButtonLabel",
+              }}
+              onClick={syncAnnotationsWithCurrentTimestamp}
+            >
+              {t("components.SessionRecordingAnnotatedPlayer.syncAnnotations")}
+              <AvTimer />
+            </Button>
+          </Tooltip>
+          <Tooltip
+            arrow
+            placement="top"
+            title={
+              t(
+                "components.SessionRecordingAnnotatedPlayer.resetAnnotationsTooltip"
+              ) as string
+            }
+          >
+            <Button
+              variant="contained"
+              classes={{
+                contained: "actionButton reset",
+                label: "actionButtonLabel",
+              }}
+              onClick={() =>
+                resetRecordingAnnotations({ variables: { sessionRecordingId } })
+              }
+            >
+              {t("components.SessionRecordingAnnotatedPlayer.resetAnnotations")}
+              <Refresh />
+            </Button>
+          </Tooltip>
           <Button
             variant="contained"
             classes={{

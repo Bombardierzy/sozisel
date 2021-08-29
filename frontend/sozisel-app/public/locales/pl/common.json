@@ -180,6 +180,9 @@
     "SessionRecordingAnnotatedPlayer": {
       "playerError": "Wystąpił błąd podczas odtwarzania nagrania, spróbuj ponownie później!",
       "resetAnnotations": "Domyślne adnotacje",
+      "resetAnnotationsTooltip": "Reset usunie wszystkie twoje adnotacje oraz przywróci domyślne bazując na nazwach wydarzeń",
+      "syncAnnotations": "Synchroznizuj Adnotacje",
+      "syncAnnotationsTooltip": "Wybierz moment na nagraniu który posłuży jako punk synchronizacji pierwszej adnotacjii i wciśnij przycisk",
       "deleteRecording": "Usuń nagranie",
       "shareRecording": "Udostępnij nagranie",
       "shareLinkTitle": "Udostępnij link do nagrania",
@@ -188,6 +191,7 @@
         "delete": "Usuń adnotację",
         "add": "Dodaj adnotację",
         "selectCurrentTimestampTip": "Wybierz moment na nagraniu i wcisnij przycisk by ustawić czas",
+        "timestampOverflow": "Znacznik czasowy przekracza długość nagrania...",
         "addPlaceholder": "Treść nowej adnotacji..."
       }
     },

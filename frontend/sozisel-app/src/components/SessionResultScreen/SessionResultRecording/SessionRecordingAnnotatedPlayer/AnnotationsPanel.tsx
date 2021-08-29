@@ -11,6 +11,7 @@ interface AnnotationRowProps {
   timestamp?: number;
   label?: string;
   mode: "create" | "edit";
+  playerDuration: number;
   onDelete?: (id: string) => void;
   onCreate?: (time: number, label: string) => void;
   onTimestampPress?: (timestamp: number) => void;
@@ -40,6 +41,7 @@ function AnnotationRow({
   id,
   timestamp = 0,
   label = "",
+  playerDuration,
   onCreate,
   onDelete,
   onTimestampPress,
@@ -49,6 +51,11 @@ function AnnotationRow({
   const [text, setText] = useState<string>(label);
 
   const [fieldTimestamp, setFieldTimestamp] = useState<number>(-1);
+
+  const disabled = useMemo(
+    () => timestamp > playerDuration,
+    [timestamp, playerDuration]
+  );
 
   const textTimestamp = useMemo(() => {
     return formatTimestamp(timestamp);
@@ -66,6 +73,22 @@ function AnnotationRow({
     }
   }, [currentPlayerTimestamp, mode, onTimestampPress, timestamp]);
 
+  const tooltipTitle = useMemo(() => {
+    if (mode === "create") {
+      return t(
+        "components.SessionRecordingAnnotatedPlayer.AnnotationsPanel.selectCurrentTimestampTip"
+      ) as string;
+    }
+
+    if (timestamp > playerDuration) {
+      return t(
+        "components.SessionRecordingAnnotatedPlayer.AnnotationsPanel.timestampOverflow"
+      ) as string;
+    }
+
+    return "";
+  }, [mode, playerDuration, t, timestamp]);
+
   const handleCreate = () => {
     if (fieldTimestamp !== -1 && text) {
       onCreate?.(fieldTimestamp, text);
@@ -77,18 +100,11 @@ function AnnotationRow({
 
   return (
     <div className="AnnotationRow">
-      <Tooltip
-        arrow
-        placement="top"
-        title={
-          mode === "create"
-            ? (t(
-                "components.SessionRecordingAnnotatedPlayer.AnnotationsPanel.selectCurrentTimestampTip"
-              ) as string)
-            : ""
-        }
-      >
-        <div className="timestamp" onClick={onTimestampPressCb}>
+      <Tooltip arrow placement="top" title={tooltipTitle}>
+        <div
+          className={`timestamp ${disabled ? "disabled" : ""}`}
+          onClick={disabled ? undefined : onTimestampPressCb}
+        >
           {mode === "edit" && textTimestamp}
           {mode == "create" &&
             (fieldTimestamp === -1 ? (
@@ -155,6 +171,7 @@ function AnnotationRow({
 }
 
 interface AnnotationsPanelProps {
+  duration: number;
   onSeek: (timestamp: number) => void;
   currentPlayerTimestamp: () => number;
   annotations: Annotation[];
@@ -162,6 +179,7 @@ interface AnnotationsPanelProps {
   onAnnotationDelete: (id: string) => void;
 }
 export function AnnotationsPanel({
+  duration,
   annotations,
   onAnnotationCreate,
   onAnnotationDelete,
@@ -183,6 +201,7 @@ export function AnnotationsPanel({
       <div className="existingAnnotations">
         {sortedAnnotations.map((annotation, idx) => (
           <AnnotationRow
+            playerDuration={duration}
             key={idx}
             {...annotation}
             mode="edit"
@@ -193,6 +212,7 @@ export function AnnotationsPanel({
         ))}
       </div>
       <AnnotationRow
+        playerDuration={duration}
         mode="create"
         timestamp={0}
         label=""

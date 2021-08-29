@@ -2,8 +2,11 @@
 
 .SessionRecordingAnnotatedPlayer {
     display: flex;
-    justify-content: center;
-    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    overflow-y: auto;
     background-color: $bg-03;
     height: 100%;
     
@@ -30,10 +33,11 @@
     }
     
     .actionButtons {
-        position: absolute;
-        
-        bottom: 20px;
-        right: 20px;
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: flex-end;
+        padding: 10px;
     }
     
     

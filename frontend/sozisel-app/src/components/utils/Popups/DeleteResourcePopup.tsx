@@ -1,3 +1,5 @@
+import "./DeleteResourcePopup.scss";
+
 import {
   Button,
   Dialog,
@@ -26,16 +28,31 @@ export function DeleteResourcePopup({
   const { t } = useTranslation("common");
 
   return (
-    <Dialog onClose={onCancel} open={open} maxWidth="sm" fullWidth>
+    <Dialog
+      classes={{
+        root: "DeleteResourcePopup",
+      }}
+      onClose={onCancel}
+      open={open}
+      maxWidth="sm"
+      fullWidth
+    >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <Typography>{t("components.DeleteResourcePopup.warning")}</Typography>
+        <Typography className="warning">
+          {t("components.DeleteResourcePopup.warning")}
+        </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancel}>
+        <Button classes={{ label: "button cancel" }} onClick={onCancel}>
           {t("components.DeleteResourcePopup.cancel")}
         </Button>
-        <Button variant="contained" color="primary" onClick={onDelete}>
+        <Button
+          classes={{ label: "button" }}
+          variant="contained"
+          color="primary"
+          onClick={onDelete}
+        >
           {t("components.DeleteResourcePopup.delete")}
         </Button>
       </DialogActions>
