@@ -49,7 +49,7 @@ export function SessionRecordingAnnotatedPlayer({
   const [error, setError] = useState<string | null>(null);
 
   const [deleteRecordingMutation] = useDeleteSessionRecordingMutation({
-    refetchQueries: ["SessionRecording"],
+    refetchQueries: ["GetRecordingBySession"],
   });
 
   const [updateRecordingAnnotations] =

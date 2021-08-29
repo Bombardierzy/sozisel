@@ -38,7 +38,7 @@ export default function SessionRecordingUpload({
 
   const [uploadSessionRecording, { loading, data, error }] =
     useUploadSessionRecordingMutation({
-      refetchQueries: ["SessionRecording"],
+      refetchQueries: ["GetRecordingBySession"],
       context: {
         fetchOptions: {
           useUpload: true,
