@@ -47,6 +47,10 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     end
   end
 
+  def get_session_recording(_parent, %{id: id}, _ctx) do
+    {:ok, SessionRecordings.get_session_recording!(id)}
+  end
+
   def create(_parent, %{input: input}, ctx) do
     user = Context.current_user!(ctx)
 
