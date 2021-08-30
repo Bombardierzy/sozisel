@@ -1,5 +1,9 @@
 {
   "components": {
+    "ScoreChart" : {
+      "numberOfParticipants": "Liczba uczestników",
+      "score": "Ilość punktów"
+    },
     "LoginScreen": {
       "emailLabelText": "Email",
       "passwordLabelText": "Hasło",
@@ -62,10 +66,11 @@
         "submitButtonLabel": "Dodaj"
       },
       "EventCreation": {
-        "moduleName": "Nazwa wydarzenia",
+        "moduleName": "Nazwa wydarzenia...",
         "moduleType": "Typ modułu",
+        "durationTime": "Czas trwania (w sekundach)",
         "startTime": "Czas rozpoczęcia (w minutach)",
-        "submitButtonLabel": "Dodaj",
+        "submitButtonLabel": "Zapisz wydarzenie",
         "updateButtonLabel": "Zaktualizuj wydarzenie",
         "onAddEventMessage": "Dodano nowe wydarzenie!",
         "onEditEventMessage": "Zaktualizowano wydarzenie!"
@@ -75,16 +80,35 @@
           "defaultAnswer": "Odpowiedź...",
           "defaultQuestion": "Treść pytania..."
         },
-        "durationTime": "Czas trwania (w sekundach)",
-        "percentageOfParticipants": "Procent uczestników"
+        "percentageOfParticipants": "Procent uczestników",
+        "percentageExplanation": "Procent obecnych uczestników sesji do których zostanie wysłany quiz"
+      },
+      "Poll": {
+        "question": "Pytanie",
+        "defaultQuestion": "Treść pytania...",
+        "defaultOptionText": "Treść opcji...",
+        "isMultiChoice": "Wielokrotny wybór",
+        "options": "Opcje",
+        "addOption": "Dodaj kolejną opcję"
       },
       "EventList": {
+        "type": {
+          "Quiz": "Typ: quiz",
+          "Poll": "Typ: ankieta"
+        },
+        "startMinute": "Czas rozpoczęcia: {{value}} minuta",
+        "durationTime": "Czas trwania: {{value}} sekund",
+        "percentageOfParticipants": "Uczestnicy: {{value}}%",
         "Quiz": {
           "startMinute": "Czas rozpoczęcia: {{value}} minuta",
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
           "onDeleteEventMessage": "Usunięto wydarzenie!",
-          "addNewQuestion": "Dodaj kolejne pytanie"        }
+          "addNewQuestion": "Dodaj kolejne pytanie"
+        },
+        "Poll": {
+          "isMultiChoice": "Wielokrotny wybór: "
+        }
       }
     },
     "SessionDetails": {
@@ -123,7 +147,7 @@
       "errorMessage": "Błąd podczas wykonywania operacji.",
       "shareSession": "Udostępnij sesje",
       "shareSessionInfo": "Każdy z tym linkiem będzie mógł dołączyć do sesji.",
-      "shareLabel": "Share link"
+      "shareLabel": "Link"
     },
     "LiveSession": {
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
@@ -149,12 +173,31 @@
     "SessionRecordingUpload": {
       "dialogTitle": "Prześlij nagranie sesji",
       "submitText": "Zacznij przesyłanie",
+      "uploadingText": "Trwa przesyłanie...",
       "cancelText": "Anuluj",
       "dropzoneText": "Wybierz lub upuść plik z nagraniem",
       "addedFile": "Wybrano plik!",
       "removedFile": "Zrezygnowano z pliku!",
       "uploadSuccessful": "Nagranie zostało przesłane!",
       "uploadFailed": "Wystąpił błąd podczas przesyłania, spróbuj ponownie później!"
+    },
+    "SessionRecordingAnnotatedPlayer": {
+      "playerError": "Wystąpił błąd podczas odtwarzania nagrania, spróbuj ponownie później!",
+      "resetAnnotations": "Domyślne adnotacje",
+      "resetAnnotationsTooltip": "Reset usunie wszystkie twoje adnotacje oraz przywróci domyślne bazując na nazwach wydarzeń",
+      "syncAnnotations": "Synchroznizuj Adnotacje",
+      "syncAnnotationsTooltip": "Wybierz moment na nagraniu który posłuży jako punk synchronizacji pierwszej adnotacjii i wciśnij przycisk",
+      "deleteRecording": "Usuń nagranie",
+      "shareRecording": "Udostępnij nagranie",
+      "shareLinkTitle": "Udostępnij link do nagrania",
+      "shareLinkSubtitle": "Każdy, komu udostępnisz link, będzie w stanie obejrzeć nagranie sesjii wraz ze instniejącymi adnotacjami.",
+      "AnnotationsPanel": {
+        "delete": "Usuń adnotację",
+        "add": "Dodaj adnotację",
+        "selectCurrentTimestampTip": "Wybierz moment na nagraniu i wcisnij przycisk by ustawić czas",
+        "timestampOverflow": "Znacznik czasowy przekracza długość nagrania...",
+        "addPlaceholder": "Treść nowej adnotacji..."
+      }
     },
     "JoinSession": {
       "name": "Imię i nazwisko",
@@ -229,8 +272,22 @@
           "durationTime": "Czas trwania: {{value}} sekund",
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
           "questionsNumber": "Ilość pytań: "
+        },
+        "LiveEventDetails": {
+          "reamaingTime": "Pozostały czas: ",
+          "averagePoint": "Średnia ilość punktów: {{value}}/{{totalPoint}}",
+          "completedTrialsNumber": "Ilość zakończonych prób: {{value}}",
+          "numberOfParticipants": "Ilość uczestników: {{value}}"
         }
       }
+    },
+    "ShareLinkPopup": {
+      "copyToClipboard": "Skopiuj do schowka"
+    },
+    "DeleteResourcePopup": {
+      "warning": "Ta czynność jest nieodrwacalna, wraz z usunięciem trwalne znikną dane dotyczące danego zasobu. Czy jesteś pewnien, że chcesz usunąć dany zasób?",
+      "cancel": "Anuluj",
+      "delete": "Usuń"
     }
   },
   "inputErrors": {
@@ -243,7 +300,8 @@
     "incorrectStartMinute": "Podana wartości musi być większa od 0",
     "incorrectDurationTime": "Podana wartości musi być większa od 0",
     "percentageOfParticipants": "Podana wartości musi być większa od 0",
-    "incorrectQuizQuestion": "Quiz powinien zawierać przynajmniej jedno pytanie oraz każde pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną !"
+    "incorrectQuizQuestion": "Quiz powinien zawierać przynajmniej jedno pytanie oraz każde pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną!",
+    "incorrectPoll": "Ankieta powinna zawierać przynajmniej 2 opcje do wyboru!"
   },
   "errors": {
     "request": "Wystąpił bład podczas przetwarzania zapytania",

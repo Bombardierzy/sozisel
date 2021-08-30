@@ -37,7 +37,7 @@ export default function SummaryDetails({
   return (
     <div className="SummaryDetails">
       {lines.map(({ title, value }) => (
-        <div key="title" className="item">
+        <div key={title} className="item">
           <div className="title">{title}</div>
           <div className="value">{value}</div>
         </div>

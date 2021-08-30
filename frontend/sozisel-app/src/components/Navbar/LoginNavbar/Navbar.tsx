@@ -5,14 +5,22 @@ import { ReactElement } from "react";
 import logo from "../../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 
-export default function Navbar(): ReactElement {
+interface NavbarProps {
+  includeLogin?: boolean;
+}
+
+export default function Navbar({
+  includeLogin = true,
+}: NavbarProps): ReactElement {
   const { t } = useTranslation("common");
 
   return (
     <nav className="Navbar">
       <ul>
         <li>
-          <img src={logo} alt="logo" />
+          <NavLink to="/" activeClassName="activeLink">
+            <img src={logo} alt="logo" />
+          </NavLink>
         </li>
         <li>
           <NavLink to="/about" activeClassName="activeLink">
@@ -21,18 +29,20 @@ export default function Navbar(): ReactElement {
         </li>
       </ul>
 
-      <ul className="LoginNav">
-        <li>
-          <NavLink to="/register" activeClassName="activeLink">
-            <button>{t("components.Navbar.registerLink")}</button>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/login" activeClassName="activeLink">
-            <button>{t("components.Navbar.loginLink")}</button>
-          </NavLink>
-        </li>
-      </ul>
+      {includeLogin && (
+        <ul className="LoginNav">
+          <li>
+            <NavLink to="/register" activeClassName="activeLink">
+              <button>{t("components.Navbar.registerLink")}</button>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/login" activeClassName="activeLink">
+              <button>{t("components.Navbar.loginLink")}</button>
+            </NavLink>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 }

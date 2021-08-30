@@ -20,13 +20,21 @@
         margin-top: $spacing-05;
         @include header-01;
     }
+    .labelWithIcon {
+        margin-top: $spacing-05;
+        @include header-01;
+        display: flex;
+    }
     .input {
         width: 100%;
     }
     .submitButton {
-        margin-left: 30%;
+        width: 100%;
         margin-top: $spacing-03;
-        width: 40%;
+    }
+    .updateButton {
+        width: 100%;
+        margin-top: $spacing-04;
     }
     .option:hover {
         background-color: yellow !important;

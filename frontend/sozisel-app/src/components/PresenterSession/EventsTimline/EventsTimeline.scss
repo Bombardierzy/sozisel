@@ -1,9 +1,5 @@
 @import "../../../styles/styles.scss";
 
-.Timer {
-  text-align: center;
-}
-
 .EventsTimeline {
   height: 90%;
   .header {
@@ -30,12 +26,16 @@
   }
   .label {
     span {
-      @include text-02;
+      @include text-06;
     }
   }
   .endSessionContainer {
     position: fixed;
     bottom: 50px;
     right: 40px;
+    .endSessionButton {
+      @include poppins-text;
+      background-color: $error-color;
+    }
   }
 }

@@ -36,7 +36,7 @@ defmodule SoziselWeb.Schema.Subscriptions.EventSubscriptions do
   end
 
   object :presenter_event_subscriptions do
-    field :event_result_submitted, :event_result do
+    field :event_result_submitted, :presenter_event_result do
       arg :session_id, non_null(:id)
 
       config subscription_middleware(Presenter, [], &handle_presenter_topics/2)

@@ -21,9 +21,9 @@ import { AUTO_HIDE_DURATION } from "../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import EventDetails from "./EventDetails/EventsDetails";
+import LiveEventDetails from "./LiveEventDetails/LiveEventDetails";
 import { Participant } from "../../../hooks/useLiveSessionParticipation";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-import useCountdownTimer from "../../../hooks/useCountdownTimer";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 
@@ -38,20 +38,6 @@ interface EventsTimelineProps {
   sessionId: string;
   participants: Participant[];
 }
-
-interface TimerProps {
-  onFinishCallback: () => void;
-  startValue: number;
-}
-
-const Timer = ({ onFinishCallback, startValue }: TimerProps): ReactElement => {
-  const countdownTimer = useCountdownTimer({
-    startValue,
-    onFinishCallback,
-  });
-
-  return <p className="Timer">{countdownTimer}</p>;
-};
 
 const getRandomParticipants = (
   participants: Participant[],
@@ -175,33 +161,35 @@ export default function EventsTimeline({
           {t("components.PresenterSession.EventsTimeline.header")}
         </Typography>
       </div>
-      <Stepper
-        activeStep={activeEvent.idx}
-        alternativeLabel
-        className="stepper"
-      >
-        {events.map(({ name, id, startMinute }, idx) => (
-          <Step key={id}>
-            <StepLabel className="label">
-              {name + " - "}
-              <b>
-                {t("components.PresenterSession.EventsTimeline.startMinute", {
-                  value: startMinute,
-                })}
-              </b>
-              {idx === activeEvent.idx && !activeEvent.id && (
-                <IconButton
-                  color="primary"
-                  className="startEventButton"
-                  onClick={onNextEvent}
-                >
-                  <PlayCircleFilledIcon />
-                </IconButton>
-              )}
-            </StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+      {!activeEvent.id && (
+        <Stepper
+          activeStep={activeEvent.idx}
+          alternativeLabel
+          className="stepper"
+        >
+          {events.map(({ name, id, startMinute }, idx) => (
+            <Step key={id}>
+              <StepLabel className="label">
+                {name + " - "}
+                <b>
+                  {t("components.PresenterSession.EventsTimeline.startMinute", {
+                    value: startMinute,
+                  })}
+                </b>
+                {idx === activeEvent.idx && !activeEvent.id && (
+                  <IconButton
+                    color="primary"
+                    className="startEventButton"
+                    onClick={onNextEvent}
+                  >
+                    <PlayCircleFilledIcon />
+                  </IconButton>
+                )}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      )}
       {activeEvent.idx < events.length && (
         <EventDetails
           activeEvent={events[activeEvent.idx]}
@@ -209,14 +197,22 @@ export default function EventsTimeline({
         />
       )}
       <div className="endSessionContainer">
-        <Button color="primary" variant="contained" onClick={onEndSession}>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={onEndSession}
+          className="endSessionButton"
+        >
           {t("components.PresenterSession.EventsTimeline.endSessionButton")}
         </Button>
       </div>
       {activeEvent.id && (
-        <Timer
-          startValue={activeEvent.currentSec}
+        <LiveEventDetails
           onFinishCallback={onFinishCallback}
+          activeEvent={activeEvent}
+          sessionId={sessionId}
+          event={events[activeEvent.idx]}
+          participantsNumber={participants.length}
         />
       )}
       <Snackbar open={!!launchEventError} autoHideDuration={AUTO_HIDE_DURATION}>

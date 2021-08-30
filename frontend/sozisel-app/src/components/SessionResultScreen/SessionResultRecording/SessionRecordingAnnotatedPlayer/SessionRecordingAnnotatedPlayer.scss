@@ -1,0 +1,75 @@
+@import "../../../../styles/styles";
+
+.SessionRecordingAnnotatedPlayer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    overflow-y: auto;
+    background-color: $bg-03;
+    height: 100%;
+    
+    .annotatedGrid {
+        margin-top: $logo-height;
+        display: grid;
+        grid-template-columns: 6fr 4fr;
+        max-width: 20 * $spacing-10;
+        grid-gap: 5 * $spacing-unit;
+        padding: $spacing-unit;
+        height: min-content;
+    }
+    
+    .existingAnnotations {
+        max-height: 30 * $spacing-unit;
+        overflow-y: auto;
+        margin-bottom: $spacing-unit;
+    }
+    
+    video {
+        height: auto;
+        width: 100%;
+        border-radius: $spacing-unit;
+    }
+    
+    .actionButtons {
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: flex-end;
+        padding: $spacing-unit;
+    }
+    
+    
+    .actionButton {
+        border-radius: $spacing-06;
+    }
+
+    .actionButtonLabel {
+        @include poppins-text;
+        color: white; 
+        padding: $spacing-02;
+    }
+    
+    .delete {
+        margin-right: $spacing-unit;
+        background-color: $error-color;
+
+        &:hover {
+            background-color: darken($error-color, 10%);
+        }
+    }
+    
+    .reset {
+        margin-right: $spacing-unit;
+    }
+
+    .share, .reset {
+        background-color: $primary-accent;
+
+        &:hover {
+            background-color: darken($primary-accent, 10%);
+        }
+    }
+    
+}

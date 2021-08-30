@@ -1,0 +1,57 @@
+@import "../../../../styles/styles";
+
+.AnnotationsPanel {
+    padding: 3 * $spacing-02;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.AnnotationRow {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2 * $spacing-unit; 
+    @include poppins-text;
+
+    .timestamp {
+        color: white;
+        background-color: $primary-accent;
+        border-radius: 0.5 * $spacing-unit;
+        padding: $spacing-unit 1.5 * $spacing-unit;
+        margin-right: $spacing-unit;
+        box-shadow: $default-box-shadow;
+        cursor: pointer;
+        
+        &:hover {
+            background-color: darken($primary-accent, 10%);
+        }
+    }
+    
+    .disabled {
+        cursor: default;
+        background-color: lighten($primary-accent, 20%);
+        
+        &:hover {
+            background-color: lighten($primary-accent, 20%);
+        }
+    }
+    
+    .label {
+        flex: 1;
+        margin-right: $spacing-unit;
+    }
+    
+    .labelText {
+        @include poppins-text;
+        color: $text-01; 
+    }
+    
+    .labelAdd {
+        background-color: white;
+    }
+}
+
+.AnnotationsPanelRounded {
+    border-radius: $spacing-unit !important;
+}

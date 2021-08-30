@@ -1,0 +1,20 @@
+@import "../../../../styles/styles.scss";
+
+.Timer {
+  text-align: center;
+}
+
+.LiveEventsDetails {
+  display: flex;
+  margin: $spacing-02 $spacing-05;
+  .eventName {
+    @include poppins-text;
+    @include text-03;
+  }
+}
+
+.TextSection {
+  display: block;
+  @include text-02;
+  margin-top: $spacing-03;
+}

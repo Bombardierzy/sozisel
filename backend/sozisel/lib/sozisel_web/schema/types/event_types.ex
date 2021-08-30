@@ -80,6 +80,6 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
 
   enum :event_type do
     value(:quiz)
-    value(:pool)
+    value(:poll)
   end
 end

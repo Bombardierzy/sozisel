@@ -10,6 +10,10 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     steps:
+    - name: Update apt
+      run: sudo apt-get update
+    - name: Install ffmpeg
+      run: sudo apt-get install ffmpeg 
     - uses: actions/checkout@v2
     - name: Set up Elixir
       uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24

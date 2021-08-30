@@ -164,10 +164,20 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
              }
              |> Utils.from_deep_struct()
              |> EventResults.create_event_result() do
+        total_points =
+          event_result.result_data.participant_answers
+          |> Enum.map(& &1.points)
+          |> Enum.sum()
+
         Helpers.subscription_publish(
           :event_result_submitted,
           Topics.session_presenter(launched_event.session.id, launched_event.session.user_id),
-          event_result
+          %{
+            id: event_result.id,
+            result_data: %{
+              total_points: total_points
+            }
+          }
         )
 
         {:ok, event_result}

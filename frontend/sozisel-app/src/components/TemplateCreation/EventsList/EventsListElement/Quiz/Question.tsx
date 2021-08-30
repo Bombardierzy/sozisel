@@ -10,7 +10,7 @@ import {
 import React, { ReactElement } from "react";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { QuizQuestion } from "../../../../../../model/Template";
+import { QuizQuestion } from "../../../../../model/Template";
 
 interface QuestionProps {
   question: QuizQuestion;
