@@ -17,6 +17,9 @@ import { DropzoneArea } from "material-ui-dropzone";
 import { useTranslation } from "react-i18next";
 import { useUploadSessionRecordingMutation } from "../../../graphql";
 
+// 300 MB files size limit
+const MAX_FILE_SIZE = 3000 * 1000 * 1000;
+
 interface SessionRecordingUploadProps {
   sessionId: string;
 }
@@ -117,8 +120,6 @@ export default function SessionRecordingUpload({
         <Typography variant="h6" className="poppinsBoldText">
           {t("components.SessionRecordingUpload.dialogTitle")}
         </Typography>
-        {/* <DialogTitle classes={{root: "poppinsBoldText"}}>
-        </DialogTitle> */}
         <DialogContent>
           <DropzoneArea
             classes={{
@@ -132,8 +133,7 @@ export default function SessionRecordingUpload({
             getPreviewIcon={() => <VideoLabel />}
             filesLimit={1}
             showFileNames
-            // allow up to 300MB files
-            maxFileSize={3000 * 1000 * 1000}
+            maxFileSize={MAX_FILE_SIZE}
             acceptedFiles={["video/mp4"]}
             dropzoneText={t("components.SessionRecordingUpload.dropzoneText")}
             showAlerts={false}

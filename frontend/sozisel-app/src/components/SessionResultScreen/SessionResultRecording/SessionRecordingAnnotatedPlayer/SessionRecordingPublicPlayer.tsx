@@ -40,7 +40,7 @@ function Player({ recordingId }: PlayerProps): ReactElement {
   if (data?.sessionRecording)
     return (
       <div>
-        <Navbar login={false} />
+        <Navbar includeLogin={false} />
         <div className="SessionRecordingAnnotatedPlayer">
           <div className="annotatedGrid">
             <video

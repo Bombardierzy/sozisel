@@ -23,10 +23,11 @@ const createAbsintheUploadLink = require("apollo-absinthe-upload-link")
   .createLink as (linkOptions: HttpOptions) => ApolloLink;
 
 const HOST = window.location.hostname;
+const PROTOCOL = window.location.protocol;
 
 function createApolloHttpLink(): ApolloLink {
   return createAbsintheUploadLink({
-    uri: `http://${HOST}:4000/api`,
+    uri: `${PROTOCOL}//${HOST}:4000/api`,
     fetch: customFetch,
   });
 }
@@ -73,6 +74,8 @@ export function createApolloClient(
         SessionRecording: {
           fields: {
             annotations: {
+              // annotations require custom merging policy as the updated annotations should always be replaced as they
+              // does not get partially updated, so on conflict just replace annotations with the incoming ones
               merge(_, incoming) {
                 return incoming;
               },

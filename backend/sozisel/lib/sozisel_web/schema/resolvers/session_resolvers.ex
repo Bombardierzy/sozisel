@@ -118,7 +118,6 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     filename = SessionRecording.generate_filename(session_id, extension)
 
     Ecto.Multi.new()
-    # TODO: add metadata upload from file to a json map to keep it in postgres
     |> Ecto.Multi.insert(
       :recording,
       SessionRecording.changeset(%SessionRecording{}, %{
@@ -149,7 +148,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
       {:error, operation, value, _others} ->
         Logger.error("Failed to upload recording: #{inspect(operation)}, #{inspect(value)}")
 
-        # leave changeset as error for more readable error messages
+        # leave changeset as an error so that error's middleware properly format the error itself
         if match?(%Ecto.Changeset{}, value) do
           {:error, value}
         else

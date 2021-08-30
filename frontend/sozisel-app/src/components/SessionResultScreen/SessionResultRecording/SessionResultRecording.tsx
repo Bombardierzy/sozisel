@@ -22,12 +22,8 @@ export function SessionResultRecording({
     }
   }, [error]);
 
-  if (loading) {
+  if (loading || error) {
     return <CircularProgress />;
-  }
-
-  if (error) {
-    return <></>;
   }
 
   if (data?.session?.sessionRecording) {

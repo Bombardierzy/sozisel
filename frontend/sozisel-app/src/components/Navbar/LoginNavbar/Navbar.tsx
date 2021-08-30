@@ -6,10 +6,12 @@ import logo from "../../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 
 interface NavbarProps {
-  login?: boolean;
+  includeLogin?: boolean;
 }
 
-export default function Navbar({ login = true }: NavbarProps): ReactElement {
+export default function Navbar({
+  includeLogin = true,
+}: NavbarProps): ReactElement {
   const { t } = useTranslation("common");
 
   return (
@@ -27,7 +29,7 @@ export default function Navbar({ login = true }: NavbarProps): ReactElement {
         </li>
       </ul>
 
-      {login && (
+      {includeLogin && (
         <ul className="LoginNav">
           <li>
             <NavLink to="/register" activeClassName="activeLink">

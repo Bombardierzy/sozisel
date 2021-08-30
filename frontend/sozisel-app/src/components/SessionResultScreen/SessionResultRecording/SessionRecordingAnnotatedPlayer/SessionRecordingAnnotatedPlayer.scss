@@ -11,25 +11,25 @@
     height: 100%;
     
     .annotatedGrid {
-        margin-top: 70px;
+        margin-top: $logo-height;
         display: grid;
         grid-template-columns: 6fr 4fr;
-        max-width: 1200px;
-        grid-gap: 50px;
-        padding: 10px;
+        max-width: 20 * $spacing-10;
+        grid-gap: 5 * $spacing-unit;
+        padding: $spacing-unit;
         height: min-content;
     }
     
     .existingAnnotations {
-        max-height: 300px;
+        max-height: 30 * $spacing-unit;
         overflow-y: auto;
-        margin-bottom: 10px;
+        margin-bottom: $spacing-unit;
     }
     
     video {
         height: auto;
         width: 100%;
-        border-radius: 10px;
+        border-radius: $spacing-unit;
     }
     
     .actionButtons {
@@ -37,22 +37,22 @@
         width: 100%;
         box-sizing: border-box;
         justify-content: flex-end;
-        padding: 10px;
+        padding: $spacing-unit;
     }
     
     
     .actionButton {
-        border-radius: 26px;
+        border-radius: $spacing-06;
     }
 
     .actionButtonLabel {
         @include poppins-text;
         color: white; 
-        padding: 4px;
+        padding: $spacing-02;
     }
     
     .delete {
-        margin-right: 10px;
+        margin-right: $spacing-unit;
         background-color: $error-color;
 
         &:hover {
@@ -61,7 +61,7 @@
     }
     
     .reset {
-        margin-right: 10px;
+        margin-right: $spacing-unit;
     }
 
     .share, .reset {

@@ -18,21 +18,19 @@
             @include poppins-text; 
         }
 
-
-        // TODO: change all those percentages to project spacings 
-        border-radius: 40px;
+        border-radius: $spacing-08;
         min-height: 60%;
         width: 100%;
-        max-width: 1000px;
+        max-width: 100 * $spacing-unit;
 
         background: $bg-01; 
         border: 2px dashed rgba(0, 0, 0, 0.21);
         
         svg {
-            width: 100px;
-            height: 100px;
+            width: 10 * $spacing-unit;
+            height: 10 * $spacing-unit;
             color: $text-04;
-            margin-bottom: 20px;
+            margin-bottom: 2 * $spacing-unit;
         }
         
         cursor: pointer;

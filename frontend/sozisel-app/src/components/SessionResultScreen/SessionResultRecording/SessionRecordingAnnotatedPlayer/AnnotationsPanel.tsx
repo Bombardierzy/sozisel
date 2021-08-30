@@ -67,7 +67,7 @@ function AnnotationRow({
     return formatTimestamp(fieldTimestamp);
   }, [fieldTimestamp]);
 
-  const onTimestampPressCb = useCallback(() => {
+  const onTimestampSelect = useCallback(() => {
     if (mode === "create") {
       setFieldTimestamp(currentPlayerTimestamp());
     } else {
@@ -105,7 +105,7 @@ function AnnotationRow({
       <Tooltip arrow placement="top" title={tooltipTitle}>
         <div
           className={`timestamp ${disabled ? "disabled" : ""}`}
-          onClick={disabled ? undefined : onTimestampPressCb}
+          onClick={disabled ? undefined : onTimestampSelect}
         >
           {mode === "edit" && textTimestamp}
           {mode == "create" &&
