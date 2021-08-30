@@ -88,7 +88,7 @@ function EnhancedTableHead<T>({
 export interface EnhancedTableProps<T> {
   headCells: HeadCell<T>[];
   data: T[];
-  onClick: (row: T) => void;
+  onClick?: (row: T) => void;
 }
 
 const ROWS_PER_PAGE = 5;
@@ -133,7 +133,7 @@ export default function EnhancedTable<T extends { [key: string]: unknown }>({
                   <TableRow
                     hover
                     className="tableRow"
-                    onClick={(_event) => onClick(row)}
+                    onClick={(_event) => (onClick ? onClick(row) : null)}
                     tabIndex={-1}
                     key={index}
                   >

@@ -191,7 +191,20 @@
         "question": "Pytanie",
         "name": "Imię",
         "points": "Punkty",
-        "answerTime": "Czas odpowiedzi"
+        "answerTime": "Czas odpowiedzi",
+        "participantDetails": "Szczegóły uczestnika",
+        "resultForQuestions": "Wyniki dla poszczególnych pytań",
+        "questionDetails": "Szegóły pytania",
+        "resultForParticipants": "Wyniki dla poszczególnych uczestników",
+        "dialog": {
+          "answer": "Odpowiedź",
+          "time": "Czas",
+          "action": "Akcja",
+          "finalAnswers": "Ostateczne odpowiedzi",
+          "seconds": "s",
+          "selection": "Zaznaczenie",
+          "unSelection": "Odznaczenie"
+        }
       }
     },
     "PresenterSession": {
