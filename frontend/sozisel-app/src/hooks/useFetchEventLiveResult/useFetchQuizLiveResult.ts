@@ -1,28 +1,32 @@
 import {
   EventResultSubmittedSubscription,
   QuizParticipantSummary,
-  useEventResultSubmittedSubscription,
   useQuizParticipantsSummaryQuery,
-} from "../graphql";
+} from "../../graphql";
 import { useEffect, useState } from "react";
+
+export type QuizResult = {
+  pointSum: number;
+  scoresDistribution: ScoreDistribution[];
+  completedTrialsNumber: number;
+};
+
+export interface ScoreDistribution {
+  score: number;
+  counter: number;
+}
+
+interface Props {
+  skip: boolean;
+  eventResult: EventResultSubmittedSubscription | undefined;
+  eventId: string;
+}
 
 type QuizParticipantsSummary = ({
   __typename?: "QuizParticipantSummary" | undefined;
 } & Pick<QuizParticipantSummary, "numberOfPoints" | "fullName">)[];
 
-interface EventResult {
-  pointSum: number;
-  completedTrialsNumber: number;
-  scoresDistribution: ScoreDistribution[];
-}
-
-interface ScoreDistribution {
-  score: number;
-  counter: number;
-}
-
-type Typename = "QuizSimpleResult";
-
+// function will return distribution of scores for all participants including current completed trial
 const addNewScore = (
   scoreDistribution: ScoreDistribution[],
   eventResult: EventResultSubmittedSubscription
@@ -48,18 +52,19 @@ const addNewScore = (
   return [];
 };
 
+// function will return sum of all participants score including score of current completed trial
 const calculateNewPointSum = (
-  eventResults: EventResult,
+  eventResults: QuizResult,
   eventResult: EventResultSubmittedSubscription,
-  typename: Typename
 ): number => {
   const resultData = eventResult.eventResultSubmitted?.resultData;
-  if (resultData?.__typename === typename) {
+  if (resultData?.__typename === "QuizSimpleResult") {
     return eventResults.pointSum + resultData.totalPoints;
   }
   return 0;
 };
 
+// function will return score distrubution for all completed trials, data comes in the form of array [{user, score}]
 const calcualteScoreDistribution = (
   quizParticipantsSummary: QuizParticipantsSummary
 ) => {
@@ -74,67 +79,60 @@ const calcualteScoreDistribution = (
   }));
 };
 
-const useFetchEventLiveResult = (
-  sessionId: string,
-  eventId: string,
-  typename: Typename
-): EventResult => {
-  const [eventResults, setEventResults] = useState<EventResult>({
+const useFetchQuizLiveResult = ({
+  skip,
+  eventResult,
+  eventId,
+}: Props): QuizResult => {
+  const [quizResults, setQuziResults] = useState<QuizResult>({
     pointSum: 0,
-    completedTrialsNumber: 0,
     scoresDistribution: [],
+    completedTrialsNumber: 0,
   });
-
-  const { data: eventResult, loading: eventResultLoading } =
-    useEventResultSubmittedSubscription({
-      variables: {
-        sessionId,
-      },
-    });
 
   const { data: participantsSummary, loading: participantsSummaryLoading } =
     useQuizParticipantsSummaryQuery({
+      skip,
       variables: {
         id: eventId,
       },
     });
 
   useEffect(() => {
+    if (
+      eventResult &&
+      eventResult?.eventResultSubmitted?.resultData.__typename === "QuizSimpleResult"
+    ) {
+      setQuziResults((quizResults) => ({
+        pointSum: calculateNewPointSum(quizResults, eventResult),
+        scoresDistribution: addNewScore(
+          quizResults.scoresDistribution,
+          eventResult
+        ),
+        completedTrialsNumber: quizResults.completedTrialsNumber + 1,
+      }));
+    }
+  }, [eventResult]);
+
+  useEffect(() => {
     if (participantsSummary) {
       const { quizParticipantsSummary } = participantsSummary;
-      setEventResults({
+      setQuziResults({
         pointSum: quizParticipantsSummary
           .map((item) => item.numberOfPoints)
           .reduce((prev, next) => prev + next, 0),
-        completedTrialsNumber: quizParticipantsSummary.length,
         scoresDistribution: calcualteScoreDistribution(quizParticipantsSummary),
+        completedTrialsNumber: quizParticipantsSummary.length,
       });
     }
   }, [participantsSummary, participantsSummaryLoading]);
 
-  useEffect(() => {
-    if (
-      !eventResultLoading &&
-      eventResult &&
-      eventResult?.eventResultSubmitted?.resultData.__typename === typename
-    ) {
-      setEventResults((eventResults) => ({
-        pointSum: calculateNewPointSum(eventResults, eventResult, typename),
-        completedTrialsNumber: eventResults.completedTrialsNumber + 1,
-        scoresDistribution: addNewScore(
-          eventResults.scoresDistribution,
-          eventResult
-        ),
-      }));
-    }
-  }, [eventResult, eventResultLoading, typename]);
-
   return {
-    ...eventResults,
-    scoresDistribution: eventResults.scoresDistribution.sort((a, b) =>
+    ...quizResults,
+    scoresDistribution: quizResults.scoresDistribution.sort((a, b) =>
       a.score > b.score ? 1 : -1
     ),
   };
 };
 
-export default useFetchEventLiveResult;
+export default useFetchQuizLiveResult;

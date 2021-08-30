@@ -197,7 +197,12 @@ export default function EventsTimeline({
         />
       )}
       <div className="endSessionContainer">
-        <Button color="primary" variant="contained" onClick={onEndSession}>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={onEndSession}
+          className="endSessionButton"
+        >
           {t("components.PresenterSession.EventsTimeline.endSessionButton")}
         </Button>
       </div>

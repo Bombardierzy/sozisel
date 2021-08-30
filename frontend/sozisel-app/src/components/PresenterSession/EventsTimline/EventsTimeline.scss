@@ -33,5 +33,8 @@
     position: fixed;
     bottom: 50px;
     right: 40px;
+    .endSessionButton {
+      @include poppins-text;
+    }
   }
 }

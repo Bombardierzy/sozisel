@@ -8,8 +8,8 @@
   display: flex;
   margin: $spacing-02 $spacing-05;
   .eventName {
+    @include poppins-text;
     @include text-03;
-    font-weight: 1000;
   }
 }
 

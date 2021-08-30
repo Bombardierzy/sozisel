@@ -40,21 +40,26 @@ const ScoreChart = ({ data }: BarChartProps): ReactElement => {
           dataKey="score"
           label={{
             value: t("components.ScoreChart.score"),
-            position: "insideBottomRight",
-            dx: -50,
-            offset: 0,
+            position: "center",
+            dy: 5,
           }}
         />
         <YAxis
           label={{
             value: t("components.ScoreChart.numberOfParticipants"),
+            postion: "center",
             angle: -90,
             dx: -20,
           }}
         />
         <Tooltip />
         <Legend />
-        <Bar dataKey="counter" fill="#F2994A" legendType="none" />
+        <Bar
+          dataKey="counter"
+          fill="#F2994A"
+          name={t("components.ScoreChart.numberOfParticipants")}
+          legendType="none"
+        />
       </BarChart>
     </ResponsiveContainer>
   );

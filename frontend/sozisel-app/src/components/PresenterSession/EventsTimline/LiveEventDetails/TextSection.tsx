@@ -1,12 +1,7 @@
 import "./LiveEventDetails.scss";
-import React, { ReactElement } from "react";
+import React, { FC } from "react";
 
-interface TextSectionProps {
-  children?: ReactElement;
-  text: string;
-}
-
-const TextSection = ({ text, children }: TextSectionProps): ReactElement => (
+const TextSection: FC<{ text: string }> = ({ children, text }) => (
   <span className="TextSection">
     {text}
     {children}
