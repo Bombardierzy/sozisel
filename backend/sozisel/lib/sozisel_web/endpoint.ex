@@ -17,6 +17,10 @@ defmodule SoziselWeb.Endpoint do
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
+  plug Plug.Static,
+    at: "/recording",
+    from: Application.fetch_env!(:sozisel, SoziselWeb.Recordings) |> Keyword.fetch!(:upload_path)
+
   if code_reloading? do
     plug Phoenix.CodeReloader
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :sozisel

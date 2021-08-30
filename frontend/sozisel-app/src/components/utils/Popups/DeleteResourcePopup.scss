@@ -1,0 +1,16 @@
+@import "../../../styles/styles";
+
+.DeleteResourcePopup {
+    .warning {
+        @include poppins-text;
+        font-weight: 400;
+    }
+
+    .button {
+        @include poppins-text;
+    }
+    
+    .cancel {
+        color: $text-05;
+    }
+}

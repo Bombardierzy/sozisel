@@ -1,4 +1,4 @@
-import "./JitsiShowcaseScreen.scss";
+import "./JitsiFrame.scss";
 
 import { InterfaceConfigOptions, JitsiMeetAPI } from "react-jitsi/dist/types";
 import { ReactElement, useEffect, useState } from "react";

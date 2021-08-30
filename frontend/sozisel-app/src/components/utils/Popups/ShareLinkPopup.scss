@@ -1,0 +1,62 @@
+@import "../../../styles/styles";
+
+.ShareLinkPopup {
+    padding: $spacing-04;
+    .dialogTitle{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dialogTitleText{
+        font-size: large;
+        font-weight: 600;
+    }
+
+    .subTitleDialogText{
+        font-size: small;
+        font-weight: 400;
+        color: $text-01;
+        margin-bottom: $spacing-04;
+    }
+
+    .shareLabel{
+        font-size: small;
+        font-weight: 600;
+        color: $main-color;
+    }
+
+    .linkInput{
+        border-radius: $spacing-03;
+        border: 1px solid $bg-06;
+        display: flex;
+        flex-direction: row;
+
+    }
+
+    .copyIconContainer{
+        background-color: $primary-accent;
+        flex: 1 1 auto;
+        border-radius: 0 $spacing-03 $spacing-03 0;
+        text-align: center;
+    }
+
+    .copyIcon{
+        color: $bg-01;
+    }
+
+    .linkText{
+        flex: 20 20 auto;
+        padding: $spacing-04;
+        border-radius: $spacing-03;
+        border: none;
+        outline: none;
+    }
+
+    .dialogContent{
+        display: flex;
+        flex-direction: column;
+        padding: $spacing-03;
+    }
+}

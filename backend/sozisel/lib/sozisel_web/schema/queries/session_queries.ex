@@ -39,5 +39,14 @@ defmodule SoziselWeb.Schema.Queries.SessionQueries do
 
       resolve &SessionResolvers.get_session_thumbnail/3
     end
+
+    # it is ok to expose session recording as the query's user
+    # has to know UUID which can be shared to the public
+    # by the recording's owner so don't protect it
+    field :session_recording, :session_recording do
+      arg :id, non_null(:id)
+
+      resolve &SessionResolvers.get_session_recording/3
+    end
   end
 end

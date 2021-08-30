@@ -106,7 +106,6 @@ export function Poll({
 
   const onUpdate = useCallback(
     async (data: PollData) => {
-      console.log(data);
       if (!validateOptions(options)) {
         setOptionsError(true);
         return;

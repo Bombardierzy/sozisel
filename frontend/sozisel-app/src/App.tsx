@@ -5,14 +5,13 @@ import { ApolloProviderWrapper } from "./contexts/ApolloProviderWrapper";
 import AuthGuard from "./components/Guards/AuthGuard";
 import CreateSession from "./components/SessionDetails/CreateSession";
 import EditSession from "./components/SessionDetails/EditSession/EditSession";
-import JitsiShowcaseScreen from "./components/Jitsi/JitsiShowcaseScreen";
 import JoinSession from "./components/JoinSession/JoinSession";
 import Login from "./components/LoginScreen/LoginScreen";
 import ParticipantGuard from "./components/Guards/ParticipantGuard";
 import { PhoenixSocketProvider } from "./contexts/PhoenixSocketContext";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
-import SessionRecordingUpload from "./components/SessionRecordingUpload/SesisonRecordingUpload";
+import { SessionRecordingPublicPlayer } from "./components/SessionResultScreen/SessionResultRecording/SessionRecordingAnnotatedPlayer/SessionRecordingPublicPlayer";
 import { SessionResultScreen } from "./components/SessionResultScreen/SessionResultScreen";
 import SessionsList from "./components/SessionsList/SessionsList";
 import TemplateCreation from "./components/TemplateCreation/TemplateCreation";
@@ -29,8 +28,6 @@ export default function App(): ReactElement {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/about" component={AboutScreen} />
-          {/* TODO remove JitsiShowcaseScreen component */}
-          <Route exact path="/jitsi" component={JitsiShowcaseScreen} />
           <Route exact path="/home">
             <Redirect to="/templates" />
           </Route>
@@ -46,6 +43,10 @@ export default function App(): ReactElement {
           <Route exact path="/templates/:id/edit">
             <AuthGuard component={TemplateCreation} />
           </Route>
+          <Route
+            path="/session-recording/:id"
+            component={SessionRecordingPublicPlayer}
+          />
           <Route exact path="/sessions">
             <AuthGuard component={SessionsList} />
           </Route>
@@ -54,9 +55,6 @@ export default function App(): ReactElement {
           </Route>
           <Route exact path="/sessions/:id/edit">
             <AuthGuard component={EditSession} />
-          </Route>
-          <Route exact path="/sessions/:id/recording/upload">
-            <AuthGuard component={SessionRecordingUpload} />
           </Route>
           <Route path="/sessions/:id/join" component={JoinSession} />
           <Route exact path="/sessions/:id/live">

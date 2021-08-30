@@ -1,1 +1,2 @@
 src/graphql/index.ts
+src/customUploadFetch.ts

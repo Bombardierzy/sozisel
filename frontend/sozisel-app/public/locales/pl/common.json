@@ -147,7 +147,7 @@
       "errorMessage": "Błąd podczas wykonywania operacji.",
       "shareSession": "Udostępnij sesje",
       "shareSessionInfo": "Każdy z tym linkiem będzie mógł dołączyć do sesji.",
-      "shareLabel": "Share link"
+      "shareLabel": "Link"
     },
     "LiveSession": {
       "placeholder": "Jesteś uczestnikiem trwafjącej sesji."
@@ -173,12 +173,31 @@
     "SessionRecordingUpload": {
       "dialogTitle": "Prześlij nagranie sesji",
       "submitText": "Zacznij przesyłanie",
+      "uploadingText": "Trwa przesyłanie...",
       "cancelText": "Anuluj",
       "dropzoneText": "Wybierz lub upuść plik z nagraniem",
       "addedFile": "Wybrano plik!",
       "removedFile": "Zrezygnowano z pliku!",
       "uploadSuccessful": "Nagranie zostało przesłane!",
       "uploadFailed": "Wystąpił błąd podczas przesyłania, spróbuj ponownie później!"
+    },
+    "SessionRecordingAnnotatedPlayer": {
+      "playerError": "Wystąpił błąd podczas odtwarzania nagrania, spróbuj ponownie później!",
+      "resetAnnotations": "Domyślne adnotacje",
+      "resetAnnotationsTooltip": "Reset usunie wszystkie twoje adnotacje oraz przywróci domyślne bazując na nazwach wydarzeń",
+      "syncAnnotations": "Synchroznizuj Adnotacje",
+      "syncAnnotationsTooltip": "Wybierz moment na nagraniu który posłuży jako punk synchronizacji pierwszej adnotacjii i wciśnij przycisk",
+      "deleteRecording": "Usuń nagranie",
+      "shareRecording": "Udostępnij nagranie",
+      "shareLinkTitle": "Udostępnij link do nagrania",
+      "shareLinkSubtitle": "Każdy, komu udostępnisz link, będzie w stanie obejrzeć nagranie sesjii wraz ze instniejącymi adnotacjami.",
+      "AnnotationsPanel": {
+        "delete": "Usuń adnotację",
+        "add": "Dodaj adnotację",
+        "selectCurrentTimestampTip": "Wybierz moment na nagraniu i wcisnij przycisk by ustawić czas",
+        "timestampOverflow": "Znacznik czasowy przekracza długość nagrania...",
+        "addPlaceholder": "Treść nowej adnotacji..."
+      }
     },
     "JoinSession": {
       "name": "Imię i nazwisko",
@@ -229,6 +248,14 @@
           "numberOfParticipants": "Ilość uczestników: {{value}}"
         }
       }
+    },
+    "ShareLinkPopup": {
+      "copyToClipboard": "Skopiuj do schowka"
+    },
+    "DeleteResourcePopup": {
+      "warning": "Ta czynność jest nieodrwacalna, wraz z usunięciem trwalne znikną dane dotyczące danego zasobu. Czy jesteś pewnien, że chcesz usunąć dany zasób?",
+      "cancel": "Anuluj",
+      "delete": "Usuń"
     }
   },
   "inputErrors": {
