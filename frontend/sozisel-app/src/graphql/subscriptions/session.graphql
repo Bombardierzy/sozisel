@@ -16,6 +16,21 @@ subscription EventLaunched($token: String!){
     }
 }
 
+subscription EventResultSubmitted($sessionId: ID!){
+    eventResultSubmitted(sessionId: $sessionId){
+        id
+        participant {
+            fullName
+        }
+        resultData {
+            ... on QuizSimpleResult{
+                totalPoints
+            }
+        }
+    }
+}
+
+
 fragment participantQuizFields on ParticipantQuiz {
     __typename
     quizQuestions {

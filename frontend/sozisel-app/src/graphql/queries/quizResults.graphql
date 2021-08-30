@@ -1,0 +1,14 @@
+query QuizQuestionsSummary($id: ID!){
+  quizQuestionsSummary(id: $id) {
+    averagePoint
+    questionId
+  }
+}
+
+
+query QuizParticipantsSummary($id: ID!){
+  quizParticipantsSummary(id: $id) {
+    numberOfPoints
+    fullName
+  }
+}
