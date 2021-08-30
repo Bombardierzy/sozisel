@@ -35,6 +35,7 @@
     right: 40px;
     .endSessionButton {
       @include poppins-text;
+      background-color: $error-color;
     }
   }
 }
