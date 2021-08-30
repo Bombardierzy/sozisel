@@ -20,6 +20,9 @@ query SessionDetails($id: ID!){
             id
             insertedAt
         }
+        sessionRecording {
+           id 
+        }
         sessionTemplate {
             id
             estimatedTime
@@ -46,6 +49,32 @@ query SessionDetails($id: ID!){
                     ... pollFields
                 }
             }
+        }
+    }
+}
+
+query GetRecordingBySession($id: ID!) {
+    session(id: $id) {
+        id
+        sessionRecording {
+            id
+            annotations {
+                id
+                timestamp
+                label
+            }
+        }
+    }
+}
+
+query SessionRecording($id: ID!) {
+    sessionRecording(id: $id) {
+        id
+        path
+        annotations {
+            id
+            timestamp
+            label
         }
     }
 }

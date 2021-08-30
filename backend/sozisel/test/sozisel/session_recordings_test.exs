@@ -2,13 +2,30 @@ defmodule Sozisel.SessionRecordingsTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.{SessionRecordings, SessionRecordings.SessionRecording}
+  alias Sozisel.Model.SessionRecordings.Annotation
 
   import Sozisel.Factory
 
   describe "session_recordings" do
-    @valid_attrs %{metadata: %{}, path: "some path"}
-    @update_attrs %{metadata: %{}, path: "some updated path"}
-    @invalid_attrs %{metadata: nil, path: nil}
+    @valid_annotations [
+      %{id: Ecto.UUID.generate(), timestamp: 10, label: "first label"},
+      %{id: Ecto.UUID.generate(), timestamp: 15, label: "second label"},
+      %{id: Ecto.UUID.generate(), timestamp: 20, label: "third label"}
+    ]
+
+    @update_annotations [
+      %{id: Ecto.UUID.generate(), timestamp: 50, label: "updated label"}
+    ]
+
+    @invalid_annotations [
+      %{id: Ecto.UUID.generate(), timestamp: -1, label: "some label"},
+      %{id: Ecto.UUID.generate(), timestamp: 10, label: ""},
+      %{}
+    ]
+
+    @valid_attrs %{metadata: %{}, path: "some path", annotations: @valid_annotations}
+    @update_attrs %{metadata: %{}, path: "some updated path", annotations: @update_annotations}
+    @invalid_attrs %{metadata: nil, path: nil, annotations: @invalid_annotations}
 
     setup do
       [session: insert(:session)]
@@ -43,6 +60,10 @@ defmodule Sozisel.SessionRecordingsTest do
 
       assert session_recording.metadata == %{}
       assert session_recording.path == "some path"
+
+      valid_annotations = @valid_annotations |> Enum.map(&struct!(Annotation, &1))
+
+      assert session_recording.annotations == valid_annotations
     end
 
     test "create_session_recording/1 with invalid data returns error changeset" do
@@ -58,6 +79,9 @@ defmodule Sozisel.SessionRecordingsTest do
 
       assert session_recording.metadata == %{}
       assert session_recording.path == "some updated path"
+      updated_annotations = @update_annotations |> Enum.map(&struct!(Annotation, &1))
+
+      assert session_recording.annotations == updated_annotations
     end
 
     test "update_session_recording/2 with invalid data returns error changeset", ctx do

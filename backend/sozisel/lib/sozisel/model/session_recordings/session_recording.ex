@@ -2,6 +2,7 @@ defmodule Sozisel.Model.SessionRecordings.SessionRecording do
   use Sozisel.Model.Schema
 
   alias Sozisel.Model.Sessions.Session
+  alias Sozisel.Model.SessionRecordings.Annotation
 
   import Ecto.Changeset
 
@@ -14,10 +15,10 @@ defmodule Sozisel.Model.SessionRecordings.SessionRecording do
         }
 
   schema "session_recordings" do
-    # TODO: leave it for now, may be useful
     field :metadata, :map
     field :path, :string
 
+    embeds_many :annotations, Annotation, on_replace: :delete
     belongs_to :session, Session
 
     timestamps()
@@ -27,7 +28,14 @@ defmodule Sozisel.Model.SessionRecordings.SessionRecording do
   def changeset(session_recording, attrs) do
     session_recording
     |> cast(attrs, [:path, :metadata, :session_id])
+    |> cast_embed(:annotations)
     |> validate_required([:path, :metadata, :session_id])
+    |> unique_constraint(:session_id, message: "a recording for given session already exists")
     |> foreign_key_constraint(:session_id)
+  end
+
+  @spec generate_filename(session_id :: Ecto.UUID.t(), extension :: String.t()) :: String.t()
+  def generate_filename(session_id, extension) do
+    "session_#{session_id}#{extension}" |> String.replace(" ", "_")
   end
 end

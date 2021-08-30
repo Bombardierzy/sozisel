@@ -24,6 +24,32 @@ mutation UploadSessionRecording($sessionId: ID!, $recording: Upload!) {
   uploadRecordingMessage: uploadSessionRecording(id: $sessionId, recording: $recording)
 }
 
+mutation DeleteSessionRecording($sessionId: ID!) {
+  deleteRecordingMessage: deleteSessionRecording(id: $sessionId)
+}
+
+mutation UpdateSessionRecordingAnnotations($sessionRecordingId: ID!, $annotations: [RecordingAnnotationInput!]!) {
+  updateSessionRecordingAnnotations(id: $sessionRecordingId, annotations: $annotations) {
+    id
+    annotations {
+      id
+      timestamp
+      label
+    }
+  }
+}
+
+mutation ResetSessionRecordingAnnotations($sessionRecordingId: ID!) {
+  resetSessionRecordingAnnotations(id: $sessionRecordingId) {
+    id
+    annotations {
+      id
+      timestamp
+      label
+    }
+  }
+}
+
 mutation StartSession($id: ID!) {
   startSession(id: $id) {
     id

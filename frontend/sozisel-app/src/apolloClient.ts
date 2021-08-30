@@ -14,6 +14,7 @@ import {
 import { Socket as PhoenixSocket } from "phoenix";
 import { USER_TOKEN } from "./common/consts";
 import { create as createAbsintheSocket } from "@absinthe/socket";
+import { customFetch } from "./customUploadFetch";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
 
@@ -22,9 +23,13 @@ const createAbsintheUploadLink = require("apollo-absinthe-upload-link")
   .createLink as (linkOptions: HttpOptions) => ApolloLink;
 
 const HOST = window.location.hostname;
+const PROTOCOL = window.location.protocol;
 
 function createApolloHttpLink(): ApolloLink {
-  return createAbsintheUploadLink({ uri: `http://${HOST}:4000/api` });
+  return createAbsintheUploadLink({
+    uri: `${PROTOCOL}//${HOST}:4000/api`,
+    fetch: customFetch,
+  });
 }
 
 function createApolloSocketLink(phoenixSocket: PhoenixSocket): ApolloLink {
@@ -64,6 +69,20 @@ export function createApolloClient(
 
   return new ApolloClient({
     link: authLink.concat(splitLink),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        SessionRecording: {
+          fields: {
+            annotations: {
+              // annotations require custom merging policy as the updated annotations should always be replaced as they
+              // does not get partially updated, so on conflict just replace annotations with the incoming ones
+              merge(_, incoming) {
+                return incoming;
+              },
+            },
+          },
+        },
+      },
+    }),
   });
 }
