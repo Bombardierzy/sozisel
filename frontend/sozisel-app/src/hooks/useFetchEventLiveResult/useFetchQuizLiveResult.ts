@@ -55,7 +55,7 @@ const addNewScore = (
 // function will return sum of all participants score including score of current completed trial
 const calculateNewPointSum = (
   eventResults: QuizResult,
-  eventResult: EventResultSubmittedSubscription,
+  eventResult: EventResultSubmittedSubscription
 ): number => {
   const resultData = eventResult.eventResultSubmitted?.resultData;
   if (resultData?.__typename === "QuizSimpleResult") {
@@ -101,7 +101,8 @@ const useFetchQuizLiveResult = ({
   useEffect(() => {
     if (
       eventResult &&
-      eventResult?.eventResultSubmitted?.resultData.__typename === "QuizSimpleResult"
+      eventResult?.eventResultSubmitted?.resultData.__typename ===
+        "QuizSimpleResult"
     ) {
       setQuziResults((quizResults) => ({
         pointSum: calculateNewPointSum(quizResults, eventResult),

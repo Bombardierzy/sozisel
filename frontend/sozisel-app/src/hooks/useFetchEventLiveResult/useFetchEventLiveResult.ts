@@ -9,14 +9,17 @@ const useFetchEventLiveResult = (
   eventId: string,
   typename: Typename
 ): EventResult => {
-  const { data: eventResult } =
-    useEventResultSubmittedSubscription({
-      variables: {
-        sessionId,
-      },
-    });
+  const { data: eventResult } = useEventResultSubmittedSubscription({
+    variables: {
+      sessionId,
+    },
+  });
 
-  const quizResult = useFetchQuizLiveResult({ skip: typename !== "QuizSimpleResult", eventResult, eventId });
+  const quizResult = useFetchQuizLiveResult({
+    skip: typename !== "QuizSimpleResult",
+    eventResult,
+    eventId,
+  });
 
   switch (typename) {
     case "QuizSimpleResult":
