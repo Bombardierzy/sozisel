@@ -45,7 +45,10 @@ defmodule SoziselWeb.Schema.Middleware.ResourceAuthorization do
       resolution |> Map.put(:__resource__, {resource_type, resource})
     else
       result ->
-        Logger.warn("[#{inspect __MODULE__}] Failed to authroize resource, received result: #{inspect result}")
+        Logger.warn(
+          "[#{inspect(__MODULE__)}] Failed to authroize resource, received result: #{inspect(result)}"
+        )
+
         unauthorized_resolution(resolution)
     end
   end
