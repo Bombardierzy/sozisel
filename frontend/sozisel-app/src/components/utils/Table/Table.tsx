@@ -142,7 +142,9 @@ export default function EnhancedTable<T extends { [key: string]: unknown }>({
                       .map((value, index) => {
                         return (
                           <TableCell key={index} className="tableCell">
-                            {value as string | number}
+                            {typeof value === "number"
+                              ? value.toFixed(2)
+                              : (value as string)}
                           </TableCell>
                         );
                       })}

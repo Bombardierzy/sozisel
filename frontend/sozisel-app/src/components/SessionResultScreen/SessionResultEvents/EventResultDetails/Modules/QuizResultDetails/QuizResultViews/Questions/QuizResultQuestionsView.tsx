@@ -29,11 +29,11 @@ export default function QuizResultQuestionView({
     return [
       {
         label: t("components.SessionEventResults.Quiz.averagePoints"),
-        value: `${currentQuestion?.averagePoint}`,
+        value: `${currentQuestion?.averagePoint.toFixed(2)}`,
       },
       {
         label: t("components.SessionEventResults.Quiz.averageAnswerTime"),
-        value: `${currentQuestion?.averageAnswerTime}`,
+        value: `${currentQuestion?.averageAnswerTime.toFixed(2)}`,
       },
     ];
   };

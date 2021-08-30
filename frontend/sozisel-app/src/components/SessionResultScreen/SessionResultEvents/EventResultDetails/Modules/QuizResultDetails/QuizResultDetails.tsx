@@ -7,7 +7,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import ErrorAlert from "../../../../../utils/Alerts/ErrorAlert";
 import EventIcon from "@material-ui/icons/Event";
 import PeopleIcon from "@material-ui/icons/People";
-import QuizResultChartsView from "./QuizResultViews/Charts/QuizResultCharsView";
+import QuizResultChartsView from "./QuizResultViews/Charts/QuizResultChartsView";
 import QuizResultParticipantsView from "./QuizResultViews/Participants/QuizResultParticipantsView";
 import QuizResultQuestionsView from "./QuizResultViews/Questions/QuizResultQuestionsView";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
@@ -69,11 +69,11 @@ export default function QuizResultDetails({
           </div>
           {statsRow(
             t("components.SessionEventResults.Quiz.averagePoints"),
-            `${data.quizSummary.averagePoints}`
+            `${data.quizSummary.averagePoints.toFixed(2)}`
           )}
           {statsRow(
             t("components.SessionEventResults.Quiz.averageAnswerTime"),
-            `${data.quizSummary.averageQuizAnswerTime}`
+            `${data.quizSummary.averageQuizAnswerTime.toFixed(2)}`
           )}
           {statsRow(
             t("components.SessionEventResults.Quiz.participantsNumber"),
@@ -129,7 +129,9 @@ export default function QuizResultDetails({
           {activeView === QuizResultView.QUESTIONS && (
             <QuizResultQuestionsView id={id} />
           )}
-          {activeView === QuizResultView.CHARTS && <QuizResultChartsView />}
+          {activeView === QuizResultView.CHARTS && (
+            <QuizResultChartsView id={id} />
+          )}
         </Paper>
       </div>
     );

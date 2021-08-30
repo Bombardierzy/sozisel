@@ -35,11 +35,11 @@ export default function QuizResultParticipantsView({
     return [
       {
         label: t("components.SessionEventResults.Quiz.points"),
-        value: `${currentParticipant?.numberOfPoints}`,
+        value: `${currentParticipant?.numberOfPoints.toFixed(2)}`,
       },
       {
         label: t("components.SessionEventResults.Quiz.answerTime"),
-        value: `${currentParticipant?.quizAnswerTime}`,
+        value: `${currentParticipant?.quizAnswerTime.toFixed(2)}`,
       },
     ];
   };
