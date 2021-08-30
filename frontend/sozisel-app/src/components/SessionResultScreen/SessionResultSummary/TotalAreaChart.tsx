@@ -9,12 +9,12 @@ import {
 
 import { ReactElement } from "react";
 
-type TotalAreaChartData = {
+export type TotalAreaChartData = {
   xLabel: string;
   value: number;
 }[];
 
-interface TotalAreaChartProps {
+export interface TotalAreaChartProps {
   data: TotalAreaChartData;
   valueLabel: string;
 }
@@ -23,6 +23,8 @@ export default function TotalAreaChart({
   data,
   valueLabel,
 }: TotalAreaChartProps): ReactElement {
+  console.log(data);
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart data={data} margin={{ top: 20, left: 0, right: 0, bottom: 0 }}>

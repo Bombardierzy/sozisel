@@ -196,6 +196,8 @@
         "resultForQuestions": "Wyniki dla poszczególnych pytań",
         "questionDetails": "Szegóły pytania",
         "resultForParticipants": "Wyniki dla poszczególnych uczestników",
+        "forQuestions": "Dla poszczególnych pytań",
+        "forParticipants": "Dla poszczególnych uczestników",
         "dialog": {
           "answer": "Odpowiedź",
           "time": "Czas",

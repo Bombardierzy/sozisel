@@ -120,4 +120,28 @@
         flex-direction: row;
     }
 
+    .chartContainer {
+        display: grid;
+        grid-template-rows: 1fr 3fr;
+        padding: $spacing-05;
+        
+        h2 {
+            color: $text-02; 
+            @include poppins-text;
+        }
+
+        h3 {
+            color: $text-01;
+            @include poppins-text;
+        }
+    }
+    
+    .chart {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        border-radius: $spacing-05;
+        overflow: hidden;
+    }
+
 }

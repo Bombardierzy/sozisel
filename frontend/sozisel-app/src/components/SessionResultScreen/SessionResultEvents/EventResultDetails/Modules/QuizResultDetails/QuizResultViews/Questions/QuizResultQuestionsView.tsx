@@ -88,6 +88,17 @@ export default function QuizResultQuestionView({
           detailsViewTitle={t(
             "components.SessionEventResults.Quiz.resultForParticipants"
           )}
+          chartData={(currentQuestion?.participantsAnswers ?? []).map(
+            (answer) => {
+              return {
+                xLabel: answer.fullName,
+                value: answer.points,
+              };
+            }
+          )}
+          chartSubtitle={t(
+            "components.SessionEventResults.Quiz.forParticipants"
+          )}
           details={(currentQuestion?.participantsAnswers ?? []).map(
             (answer) => {
               return {

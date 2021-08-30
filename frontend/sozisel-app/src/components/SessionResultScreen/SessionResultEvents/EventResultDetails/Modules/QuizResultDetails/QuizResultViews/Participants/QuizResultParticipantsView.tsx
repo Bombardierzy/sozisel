@@ -97,6 +97,20 @@ export default function QuizResultParticipantsView({
           detailsViewTitle={t(
             "components.SessionEventResults.Quiz.resultForQuestions"
           )}
+          chartData={(currentParticipant?.participantAnswers ?? []).map(
+            (answer) => {
+              const question = ensure(
+                questionsAndAnswers.quizQuestionsSummary.find(
+                  (element) => element.questionId === answer.questionId
+                )
+              );
+              return {
+                xLabel: question.question,
+                value: answer.points,
+              };
+            }
+          )}
+          chartSubtitle={t("components.SessionEventResults.Quiz.forQuestions")}
           details={(currentParticipant?.participantAnswers ?? []).map(
             (answer) => {
               const question = ensure(

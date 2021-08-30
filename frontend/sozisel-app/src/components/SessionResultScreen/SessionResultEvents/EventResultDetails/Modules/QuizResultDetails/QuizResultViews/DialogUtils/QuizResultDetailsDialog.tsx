@@ -6,6 +6,9 @@ import {
   AccordionSummary,
   Paper,
 } from "@material-ui/core";
+import TotalAreaChart, {
+  TotalAreaChartData,
+} from "../../../../../../SessionResultSummary/TotalAreaChart";
 
 import AppBar from "@material-ui/core/AppBar";
 import CloseIcon from "@material-ui/icons/Close";
@@ -42,6 +45,8 @@ export interface QuizResultDetailsDialogProps {
     }[];
     finalAnswers: string[];
   }[];
+  chartData: TotalAreaChartData;
+  chartSubtitle: string;
 }
 
 const Transition = React.forwardRef(function Transition(
@@ -60,6 +65,8 @@ export default function QuizResultDetailsDialog({
   stats,
   detailsViewTitle,
   details,
+  chartData,
+  chartSubtitle,
 }: QuizResultDetailsDialogProps): React.ReactElement {
   const { t } = useTranslation("common");
 
@@ -104,6 +111,19 @@ export default function QuizResultDetailsDialog({
             </Typography>
           </div>
           {stats.map((element) => statsRow(element.label, element.value))}
+          <div className="chartContainer">
+            <div>
+              <h2>{t("components.SessionEventResults.Quiz.points")}</h2>
+              <h3>{chartSubtitle}</h3>
+            </div>
+
+            <div className="chart">
+              <TotalAreaChart
+                data={chartData}
+                valueLabel={t("components.SessionEventResults.Quiz.points")}
+              />
+            </div>
+          </div>
         </Paper>
         <Paper className="detailsView" elevation={2}>
           <Typography gutterBottom color="primary" className="detailName">
