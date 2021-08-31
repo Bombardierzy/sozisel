@@ -7,11 +7,12 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import ErrorAlert from "../../../../../utils/Alerts/ErrorAlert";
 import EventIcon from "@material-ui/icons/Event";
 import PeopleIcon from "@material-ui/icons/People";
-import QuizResultChartsView from "./QuizResultViews/Charts/QuizResultCharsView";
+import QuizResultChartsView from "./QuizResultViews/Charts/QuizResultChartsView";
 import QuizResultParticipantsView from "./QuizResultViews/Participants/QuizResultParticipantsView";
 import QuizResultQuestionsView from "./QuizResultViews/Questions/QuizResultQuestionsView";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { useQuizSummaryQuery } from "../../../../../../graphql";
+import { useTranslation } from "react-i18next";
 
 export interface QuizResultDetailsProps {
   id: string;
@@ -28,6 +29,7 @@ export default function QuizResultDetails({
   id,
   eventName,
 }: QuizResultDetailsProps): React.ReactElement {
+  const { t } = useTranslation("common");
   const { data, loading } = useQuizSummaryQuery({ variables: { id } });
   const [activeView, setActiveView] = useState<QuizResultView>(
     QuizResultView.PARTICIPANTS
@@ -66,18 +68,20 @@ export default function QuizResultDetails({
             </Typography>
           </div>
           {statsRow(
-            "Średnia liczba punktów",
-            `${data.quizSummary.averagePoints}`
+            t("components.SessionEventResults.Quiz.averagePoints"),
+            `${data.quizSummary.averagePoints.toFixed(2)}`
           )}
           {statsRow(
-            "Średni czas odpowiedzi",
-            `${data.quizSummary.averageQuizAnswerTime}`
+            t("components.SessionEventResults.Quiz.averageAnswerTime"),
+            `${data.quizSummary.averageQuizAnswerTime.toFixed(2)}`
           )}
           {statsRow(
-            "Liczba uczestników",
+            t("components.SessionEventResults.Quiz.participantsNumber"),
             `${data.quizSummary.numberOfParticipants}`
           )}
-          <Typography className="chooseViewLabel">Wybierz widok</Typography>
+          <Typography className="chooseViewLabel">
+            {t("components.SessionEventResults.Quiz.chooseView")}
+          </Typography>
           <Card
             raised={raisedCard === QuizResultView.PARTICIPANTS}
             onMouseOver={(_e) => onMouseOverChange(QuizResultView.PARTICIPANTS)}
@@ -89,7 +93,7 @@ export default function QuizResultDetails({
             }
           >
             <PeopleIcon />
-            Uczestnicy
+            {t("components.SessionEventResults.Quiz.participants")}
           </Card>
           <Card
             raised={raisedCard === QuizResultView.QUESTIONS}
@@ -102,7 +106,7 @@ export default function QuizResultDetails({
             }
           >
             <AssignmentIcon />
-            Pytania
+            {t("components.SessionEventResults.Quiz.questions")}
           </Card>
           <Card
             raised={raisedCard === QuizResultView.CHARTS}
@@ -115,17 +119,19 @@ export default function QuizResultDetails({
             }
           >
             <TrendingUpIcon />
-            Wykresy
+            {t("components.SessionEventResults.Quiz.charts")}
           </Card>
         </Paper>
         <Paper className="quizResultView" elevation={2}>
           {activeView === QuizResultView.PARTICIPANTS && (
-            <QuizResultParticipantsView />
+            <QuizResultParticipantsView id={id} />
           )}
           {activeView === QuizResultView.QUESTIONS && (
-            <QuizResultQuestionsView />
+            <QuizResultQuestionsView id={id} />
           )}
-          {activeView === QuizResultView.CHARTS && <QuizResultChartsView />}
+          {activeView === QuizResultView.CHARTS && (
+            <QuizResultChartsView id={id} />
+          )}
         </Paper>
       </div>
     );

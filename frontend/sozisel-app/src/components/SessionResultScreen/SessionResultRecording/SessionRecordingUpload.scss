@@ -1,0 +1,67 @@
+@import "../../../styles/styles";
+
+.SessionRecordingUpload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: $bg-03;
+    
+    .placeholder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        .text {
+            color: $text-07;
+            @include poppins-text; 
+        }
+
+        border-radius: $spacing-08;
+        min-height: 60%;
+        width: 100%;
+        max-width: 100 * $spacing-unit;
+
+        background: $bg-01; 
+        border: 2px dashed rgba(0, 0, 0, 0.21);
+        
+        svg {
+            width: 10 * $spacing-unit;
+            height: 10 * $spacing-unit;
+            color: $text-07;
+            margin-bottom: 2 * $spacing-unit;
+        }
+        
+        cursor: pointer;
+        &:hover {
+            background-color: $bg-04;
+        }
+    }
+
+}
+
+.SessionRecordingPopup {
+    .textContainer {
+        padding: $spacing-03;
+    }
+    
+    .poppinsBoldText {
+        @include poppins-text;
+        font-weight: 600;
+        color: $text-05;
+        padding: $spacing-04;
+    }
+    
+    .previewContainer {
+        align-items: center;
+        justify-content: center;
+        width: unset;
+        height: unset;
+        margin: unset;
+    }
+    
+    .dropzoneIcon {
+        color: $text-05;
+    }
+}

@@ -12,10 +12,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
+import { pollSchema, quizSchema } from "./Schemas";
 
+import { Poll } from "../Modules/Poll/Poll";
 import Quiz from "../Modules/Quiz/Quiz";
 import { QuizContextProvider } from "../../../contexts/Quiz/QuizContext";
-import { quizSchema } from "./Schemas";
 import { useEventContext } from "../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -24,6 +25,8 @@ const createSchema = (moduleType: string): yup.AnyObjectSchema => {
   switch (moduleType) {
     case "Quiz":
       return quizSchema;
+    case "Poll":
+      return pollSchema;
     default:
       throw Error(`Encountered unknown module type: ${moduleType}`);
   }
@@ -32,17 +35,41 @@ const createSchema = (moduleType: string): yup.AnyObjectSchema => {
 export default function EventCreation(): ReactElement {
   const { t } = useTranslation("common");
   const [moduleType, setModuleType] = useState<string>("Quiz");
-  const [{ startMinute, name, id }] = useEventContext();
-  const { handleSubmit, errors, control, setValue } = useForm({
+  const [{ id, name, startMinute, durationTimeSec, eventData }, dispatchEvent] =
+    useEventContext();
+  const { handleSubmit, errors, control, setValue, reset } = useForm({
     resolver: yupResolver(createSchema(moduleType)),
   });
 
   useEffect(() => {
     if (id) {
+      if (eventData && eventData.__typename) {
+        setModuleType(eventData.__typename);
+      }
       setValue("eventName", name);
       setValue("startMinute", startMinute);
+      setValue("durationTime", durationTimeSec);
     }
-  }, [id, name, setValue, startMinute]);
+  }, [
+    id,
+    eventData,
+    name,
+    setValue,
+    setModuleType,
+    startMinute,
+    durationTimeSec,
+    reset,
+  ]);
+
+  const selectReset = (moduleType: string) => {
+    setModuleType(moduleType);
+
+    setValue("eventName", "");
+    setValue("startMinute", "");
+    setValue("durationTime", "");
+
+    dispatchEvent({ type: "RESET" });
+  };
 
   return (
     <Paper className="EventCreation" elevation={2}>
@@ -51,11 +78,13 @@ export default function EventCreation(): ReactElement {
           <Controller
             name="eventName"
             control={control}
-            defaultValue={t(
+            defaultValue=""
+            placeholder={t(
               "components.TemplateCreation.EventCreation.moduleName"
             )}
             as={
               <TextField
+                autoComplete="no"
                 name="eventName"
                 variant="outlined"
                 size="small"
@@ -70,14 +99,14 @@ export default function EventCreation(): ReactElement {
             <Select
               variant="outlined"
               value={moduleType}
-              onChange={(e) => setModuleType(e.target.value as string)}
+              onChange={(e) => selectReset(e.target.value as string)}
               inputProps={{
                 id: "moduleType",
               }}
             >
               <MenuItem value="" disabled />
               <MenuItem value="Quiz">Quiz</MenuItem>
-              <MenuItem value="Ankieta">Ankieta</MenuItem>
+              <MenuItem value="Poll">Ankieta</MenuItem>
               <MenuItem value="Geogebra">Geogebra</MenuItem>
               <MenuItem value="Tablica">Tablica</MenuItem>
             </Select>
@@ -103,6 +132,25 @@ export default function EventCreation(): ReactElement {
                 />
               }
             />
+            <Typography className="label">
+              {t("components.TemplateCreation.EventCreation.durationTime")}
+            </Typography>
+            <Controller
+              name="durationTime"
+              control={control}
+              defaultValue={""}
+              as={
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  className="durationTime"
+                  error={!!errors.durationTime}
+                  helperText={
+                    errors.durationTime && t(errors.durationTime.message)
+                  }
+                />
+              }
+            />
           </FormControl>
         </div>
         {moduleType === "Quiz" && (
@@ -114,6 +162,14 @@ export default function EventCreation(): ReactElement {
               setValue={setValue}
             />
           </QuizContextProvider>
+        )}
+        {moduleType === "Poll" && (
+          <Poll
+            handleSubmit={handleSubmit}
+            errors={errors}
+            control={control}
+            setValue={setValue}
+          />
         )}
       </form>
     </Paper>

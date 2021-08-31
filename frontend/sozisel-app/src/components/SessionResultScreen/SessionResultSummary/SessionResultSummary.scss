@@ -3,9 +3,10 @@
 .SessionResultSummary {
     box-sizing: border-box;
     padding: $spacing-04;
+    background-color: $bg-03;
 
     .MuiPaper-rounded {
-        border-radius: 0 0 $spacing-04 $spacing-04;
+        border-radius: $spacing-04;
     }
     border-top: $spacing-10;
     width: 100%;

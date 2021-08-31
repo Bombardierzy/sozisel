@@ -1,0 +1,18 @@
+@import "../../../../styles/styles";
+
+.PollContainer {
+    padding: $spacing-04 3 * $spacing-02;
+    border: 0;
+    margin-top: $spacing-05;
+    .header {
+        @include header-01;
+        font-size: 16px;
+    }
+    .withIcon {
+        display: flex;
+        align-items: center;
+        svg {
+            margin-left: $spacing-02;
+        }
+    }
+}

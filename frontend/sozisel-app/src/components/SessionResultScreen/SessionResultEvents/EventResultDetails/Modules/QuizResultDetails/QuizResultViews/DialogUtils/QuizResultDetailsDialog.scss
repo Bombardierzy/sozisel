@@ -1,0 +1,147 @@
+@import "../../../../../../../../styles/styles";
+
+
+.QuizResultDetailsDialog {
+
+    .appBar {
+        position: fixed;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: 600;
+        padding: 0 $spacing-05;
+    }
+
+    .container {
+        height: calc(100% - 3*#{$spacing-09});
+        width: calc(100% - 2*#{$spacing-09});
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: $spacing-09;
+        padding-top: 2*$spacing-09;
+        @include poppins-text;
+    }
+
+    .detailsSummary {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 2*#{$spacing-06});
+        margin-right: $spacing-07;
+        padding: $spacing-06;
+    }
+
+    .headerWithIcon {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: $spacing-07;
+    }
+
+    .header{
+        color: $text-04;
+        font-size: 32px;
+        font-weight: 600;
+        padding: 0 $spacing-05;
+    }
+
+    .statsRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-04;
+    }
+
+    .statsRowLabel {
+        font-size: 24px;
+        font-weight: 600;
+        color: $text-02;
+    }
+
+    .statsRowValue {
+        font-size: 20px;
+        font-weight: 300;
+        color: $text-01;
+    }
+
+    .detailsView {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 2*#{$spacing-06});
+        padding: $spacing-06;
+        overflow: auto;
+    }
+
+    .detailName{
+        text-align: center;
+        font-size: x-large;
+        font-weight: 600;
+    }
+
+    .accordion{
+        background-color: $bg-04;
+        margin: $spacing-03;
+    }
+
+    .accordionSummary{
+        font-size: large;
+        font-weight: 400;
+    }
+
+    .accordionDetails {
+        display: flex;
+        flex-direction: column;
+        padding: $spacing-04;
+    }
+
+    .accordionSubtitle {
+        color: $text-01;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .finalAnswersTitle {
+        color: $text-04;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .finalAnswers {
+        color: $primary-accent;
+        font-size: 16px;
+        font-weight: 500;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .chartContainer {
+        display: grid;
+        grid-template-rows: 1fr 3fr;
+        padding: $spacing-05;
+        
+        h2 {
+            color: $text-02; 
+            @include poppins-text;
+        }
+
+        h3 {
+            color: $text-01;
+            @include poppins-text;
+        }
+    }
+    
+    .chart {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        border-radius: $spacing-05;
+        overflow: hidden;
+    }
+
+}

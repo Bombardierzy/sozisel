@@ -1,0 +1,36 @@
+@import "../../../styles/styles";
+
+
+
+.TableContainer {
+    width: 100%;
+
+    .tableSortLabel {
+        color: $text-04;
+        font-size: 20px;
+        font-weight: 500;
+        @include poppins-text;
+    }
+
+    .tableRow {
+        @include poppins-text;
+        color: $text-04;
+        font-size: 16px;
+        font-weight: 400;
+        cursor: pointer;
+    }
+
+    .tableRow:hover {
+        color: $primary-accent;
+    }
+
+    .tableCell {
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        font-family: inherit;
+        font-style: inherit;
+        max-width: 200px;
+        overflow: auto;
+    }
+}

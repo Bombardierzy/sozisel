@@ -49,7 +49,8 @@ defmodule Sozisel.MixProject do
       {:ex_machina, "~> 2.7.0"},
       {:crudry, "~> 2.3.1"},
       {:polymorphic_embed, "~> 1.3.4"},
-      {:bodyguard, "~> 2.4"}
+      {:bodyguard, "~> 2.4"},
+      {:ffmpex, "~> 0.7.3"}
     ]
   end
 

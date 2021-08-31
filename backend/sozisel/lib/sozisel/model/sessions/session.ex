@@ -5,6 +5,7 @@ defmodule Sozisel.Model.Sessions.Session do
   alias Sozisel.Model.Sessions.Template
   alias Sozisel.Model.Users.User
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
+  alias Sozisel.Model.SessionRecordings.SessionRecording
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -33,6 +34,7 @@ defmodule Sozisel.Model.Sessions.Session do
     belongs_to :user, User
 
     has_many :launched_events, LaunchedEvent
+    has_one :session_recording, SessionRecording
 
     timestamps()
   end

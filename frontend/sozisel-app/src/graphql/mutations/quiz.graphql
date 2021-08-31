@@ -7,6 +7,12 @@ mutation CreateQuiz($input: CreateQuizInput!) {
 mutation UpdateQuiz($input: UpdateQuizInput!) {
   updateQuiz(input: $input) {
     id
+    name
+    startMinute
+    durationTimeSec
+    eventData {
+      ...quizFields
+    }
   }
 }
 

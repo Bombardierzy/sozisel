@@ -6,8 +6,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Dialog,
-  DialogContent,
   IconButton,
   Snackbar,
   Typography,
@@ -20,12 +18,11 @@ import React, {
 } from "react";
 
 import { Alert } from "@material-ui/lab";
-import CloseIcon from "@material-ui/icons/Close";
 import CustomAvatar from "../../utils/Avatar/CustomAvatar";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { Session } from "../../../model/Session";
 import ShareIcon from "@material-ui/icons/Share";
+import { ShareLinkPopup } from "../../utils/Popups/ShareLinkPopup";
 import { useHistory } from "react-router-dom";
 import useSessionStatus from "../../../hooks/useSessionStatus";
 import { useStartSessionMutation } from "../../../graphql";
@@ -142,43 +139,13 @@ export default function SessionCard({
           </CardActions>
         </div>
       </Card>
-      <Dialog
-        onClose={() => setDialogOpen(false)}
+      <ShareLinkPopup
+        link={sessionLink}
         open={dialogOpen}
-        maxWidth="sm"
-        fullWidth
-      >
-        <div className="ShareSessionDialog">
-          <div className="dialogTitle">
-            <Typography className="dialogTitleText">
-              {t("components.SessionsList.shareSession")}
-            </Typography>
-            <IconButton onClick={() => setDialogOpen(false)}>
-              <CloseIcon></CloseIcon>
-            </IconButton>
-          </div>
-          <DialogContent className="dialogContent">
-            <Typography className="subTitleDialogText">
-              {t("components.SessionsList.shareSessionInfo")}
-            </Typography>
-            <Typography variant="button" className="shareLabel">
-              {t("components.SessionsList.shareLabel")}
-            </Typography>
-            <div className="linkInput">
-              <input className="linkText" value={sessionLink} readOnly />
-              <div className="copyIconContainer">
-                <IconButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(`${sessionLink}`);
-                  }}
-                >
-                  <FileCopyIcon className="copyIcon"></FileCopyIcon>
-                </IconButton>
-              </div>
-            </div>
-          </DialogContent>
-        </div>
-      </Dialog>
+        onClose={() => setDialogOpen(false)}
+        title={t("components.SessionsList.shareSession")}
+        subtitle={t("components.SessionsList.shareSessionInfo")}
+      />
       <Snackbar open={!!error} autoHideDuration={AUTO_HIDE_DURATION}>
         <Alert severity="error">
           {t("components.SessionsList.startSessionErrorMessage")}
