@@ -1,0 +1,59 @@
+@import "../../../../styles/styles";
+
+.ParticipantPollEvent {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 2*#{$spacing-04});
+  height: calc(100% - 2*#{$spacing-04});
+  padding: $spacing-04;
+  .header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .headerText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+  }
+
+  .pollIcon{
+    background-color: $main-color;
+    border-radius: $spacing-05;
+    padding: $spacing-03;
+    margin-right: $spacing-04;
+  }
+
+  .submitRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-03 0;
+  }
+
+  .participantPollQuestion {
+    height: 100%;
+    .pollQuestion{
+      padding: $spacing-03 0;
+      align-items: center;
+      display: flex;
+      font-weight: 400;
+    }
+
+    .answerList{
+      height: 100%;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      padding: $spacing-03 0;
+    }
+
+    .pollAnswer{
+      padding: $spacing-03 0;
+    }
+  }
+}

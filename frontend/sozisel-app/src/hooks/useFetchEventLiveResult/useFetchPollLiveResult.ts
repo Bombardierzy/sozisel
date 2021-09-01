@@ -12,8 +12,9 @@ const useFetchPollLiveResult = (skip: boolean, eventId: string): PollResult => {
     mostCommonAnswer: "",
     completedTrialsNumber: 0,
   });
-  const { token } = useSessionParticipantType()
+  const { token, type } = useSessionParticipantType();
 
+  console.log(`presenter ${eventId}`);
   const { data, loading } = useLivePollSummarySubscription({
     skip,
     variables: {
@@ -24,7 +25,7 @@ const useFetchPollLiveResult = (skip: boolean, eventId: string): PollResult => {
 
   useEffect(() => {
     console.log(data);
-  }, [data, loading])
+  }, [data, loading]);
 
   return pollResults;
 };

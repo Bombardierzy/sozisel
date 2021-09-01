@@ -4,7 +4,7 @@ import React, { ReactElement, createContext } from "react";
 
 import { ActiveEvent } from "../EventsTimeline";
 import { Event } from "../../../../model/Template";
-import PollLiveEventDetails from './PollLiveEventDetails/PollLiveEventDetails';
+import PollLiveEventDetails from "./PollLiveEventDetails/PollLiveEventDetails";
 import QuziLiveEventDetails from "./QuizLiveEventDetails/QuizLiveEventDetails";
 
 interface LiveEventDetailsProps {
@@ -26,7 +26,6 @@ export default function LiveEventDetails({
   event,
   participantsNumber,
 }: LiveEventDetailsProps): ReactElement {
-  console.log(event.eventData.__typename);
   return (
     <LiveEventContext.Provider
       value={{

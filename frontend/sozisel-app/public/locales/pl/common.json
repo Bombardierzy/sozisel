@@ -212,7 +212,8 @@
     },
     "ParticipantActiveSession": {
       "exitSession": "Wyjdź",
-      "next": "Dalej"
+      "next": "Dalej",
+      "submit": "Zatwierdź"
     },
     "SessionEventResults": {
       "eventType": "Typ",
