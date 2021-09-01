@@ -42,3 +42,13 @@ fragment participantQuizFields on ParticipantQuiz {
         }
     }
 }
+
+subscription LivePollSummary($eventId: String!, $token: String!) {
+    livePollSummary(launchedEventId: $eventId, participantToken: $token) {
+        totalVoters
+        optionSummaries {
+            votes
+            text
+        }
+    }
+}

@@ -52,7 +52,7 @@ const QuziLiveEventDetails = (): ReactElement => {
             "components.PresenterSession.EventsTimeline.LiveEventDetails.averagePoint",
             {
               value: completedTrialsNumber
-                ? (pointSum / completedTrialsNumber).toPrecision(2)
+                ? pointSum && (pointSum / completedTrialsNumber).toPrecision(2)
                 : 0,
               totalPoint: event.eventData.quizQuestions.length,
             }
@@ -65,7 +65,7 @@ const QuziLiveEventDetails = (): ReactElement => {
           )}
         />
       </div>
-      {scoresDistribution.length > 0 && (
+      {scoresDistribution && scoresDistribution.length > 0 && (
         <ScoreChart data={scoresDistribution} />
       )}
     </div>
