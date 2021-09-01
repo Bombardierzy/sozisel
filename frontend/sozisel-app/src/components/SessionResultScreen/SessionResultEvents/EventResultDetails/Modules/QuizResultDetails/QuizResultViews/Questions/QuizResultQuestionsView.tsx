@@ -2,15 +2,18 @@ import "./QuizResultQuestionView.scss";
 
 import { CircularProgress, Typography } from "@material-ui/core";
 import {
+  ParticipantAnswer,
   QuizQuestionSummary,
   useQuizQuestionsSummaryQuery,
 } from "../../../../../../../../graphql";
+import QuizResultDetailsDialog, {
+  QuizResultDialogDetails,
+} from "../DialogUtils/QuizResultDetailsDialog";
 import React, { useState } from "react";
 
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EnhancedTable from "../../../../../../../utils/Table/Table";
 import ErrorAlert from "../../../../../../../utils/Alerts/ErrorAlert";
-import QuizResultDetailsDialog from "../DialogUtils/QuizResultDetailsDialog";
 import { ensure } from "../../../../../../../utils/Typescript/ensure";
 import { useTranslation } from "react-i18next";
 
@@ -53,6 +56,35 @@ export default function QuizResultQuestionView({
       label: t("components.SessionEventResults.Quiz.averageAnswerTime"),
     },
   ];
+
+  const getDialogDetails = (
+    answer: ParticipantAnswer
+  ): QuizResultDialogDetails => {
+    return {
+      name: answer.fullName,
+      points: answer.points,
+      answerTime: answer.answerTime,
+      finalAnswers: answer.finalAnswerIds.map(
+        (answerId) =>
+          ensure(
+            currentQuestion?.answers.find((element) => element.id === answerId)
+          ).text
+      ),
+      trackNodes: answer.trackNodes.map((trackNode) => {
+        return {
+          answer: ensure(
+            currentQuestion?.answers.find(
+              (element) => element.id === trackNode.answerId
+            )
+          ).text,
+          time: trackNode.reactionTime,
+          action: trackNode.selected
+            ? t("components.SessionEventResults.Quiz.dialog.selection")
+            : t("components.SessionEventResults.Quiz.dialog.unSelection"),
+        };
+      }),
+    };
+  };
 
   if (loading) {
     return (
@@ -100,39 +132,8 @@ export default function QuizResultQuestionView({
           chartSubtitle={t(
             "components.SessionEventResults.Quiz.forParticipants"
           )}
-          details={(currentQuestion?.participantsAnswers ?? []).map(
-            (answer) => {
-              return {
-                name: answer.fullName,
-                points: answer.points,
-                answerTime: answer.answerTime,
-                finalAnswers: answer.finalAnswerIds.map(
-                  (answerId) =>
-                    ensure(
-                      currentQuestion?.answers.find(
-                        (element) => element.id === answerId
-                      )
-                    ).text
-                ),
-                trackNodes: answer.trackNodes.map((trackNode) => {
-                  return {
-                    answer: ensure(
-                      currentQuestion?.answers.find(
-                        (element) => element.id === trackNode.answerId
-                      )
-                    ).text,
-                    time: trackNode.reactionTime,
-                    action: trackNode.selected
-                      ? t(
-                          "components.SessionEventResults.Quiz.dialog.selection"
-                        )
-                      : t(
-                          "components.SessionEventResults.Quiz.dialog.unSelection"
-                        ),
-                  };
-                }),
-              };
-            }
+          details={(currentQuestion?.participantsAnswers ?? []).map((answer) =>
+            getDialogDetails(answer)
           )}
         />
       </>

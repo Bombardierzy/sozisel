@@ -2,17 +2,20 @@ import "./QuizResultParticipantsView.scss";
 
 import { CircularProgress, Typography } from "@material-ui/core";
 import {
+  ParticipantQuizAnswer,
   QuizParticipantSummary,
   useQuizParticipantsSummaryQuery,
   useQuizQuestionsAndAnswersQuery,
 } from "../../../../../../../../graphql";
-import React, { useState } from "react";
+import QuizResultDetailsDialog, {
+  QuizResultDialogDetails,
+} from "../DialogUtils/QuizResultDetailsDialog";
+import React, { useMemo, useState } from "react";
 
 import EnhancedTable from "../../../../../../../utils/Table/Table";
 import ErrorAlert from "../../../../../../../utils/Alerts/ErrorAlert";
 import PeopleIcon from "@material-ui/icons/People";
 import PersonIcon from "@material-ui/icons/Person";
-import QuizResultDetailsDialog from "../DialogUtils/QuizResultDetailsDialog";
 import { ensure } from "../../../../../../../utils/Typescript/ensure";
 import { useTranslation } from "react-i18next";
 
@@ -60,6 +63,48 @@ export default function QuizResultParticipantsView({
     },
   ];
 
+  const getQuestionById = useMemo(() => {
+    return (id: string) => {
+      if (!questionsAndAnswers?.quizQuestionsSummary) {
+        throw Error("Nie udało się pobrać pytań z bazy");
+      }
+      return ensure(
+        questionsAndAnswers.quizQuestionsSummary.find(
+          (element) => element.questionId === id
+        )
+      );
+    };
+  }, [questionsAndAnswers]);
+
+  const getDialogDetails = (
+    answer: ParticipantQuizAnswer
+  ): QuizResultDialogDetails => {
+    const question = getQuestionById(answer.questionId);
+    return {
+      name: question.question,
+      points: answer.points,
+      answerTime: answer.answerTime,
+      finalAnswers: answer.finalAnswerIds.map(
+        (answerId) =>
+          ensure(question.answers.find((element) => element.id === answerId))
+            .text
+      ),
+      trackNodes: answer.trackNodes.map((trackNode) => {
+        return {
+          answer: ensure(
+            question.answers.find(
+              (element) => element.id === trackNode.answerId
+            )
+          ).text,
+          time: trackNode.reactionTime,
+          action: trackNode.selected
+            ? t("components.SessionEventResults.Quiz.dialog.selection")
+            : t("components.SessionEventResults.Quiz.dialog.unSelection"),
+        };
+      }),
+    };
+  };
+
   if (loading || questionsAndAnswersLoading) {
     return (
       <div className="QuizResultParticipantsView">
@@ -102,56 +147,15 @@ export default function QuizResultParticipantsView({
           )}
           chartData={(currentParticipant?.participantAnswers ?? []).map(
             (answer) => {
-              const question = ensure(
-                questionsAndAnswers.quizQuestionsSummary.find(
-                  (element) => element.questionId === answer.questionId
-                )
-              );
               return {
-                xLabel: question.question,
+                xLabel: getQuestionById(answer.questionId).question,
                 value: answer.points,
               };
             }
           )}
           chartSubtitle={t("components.SessionEventResults.Quiz.forQuestions")}
           details={(currentParticipant?.participantAnswers ?? []).map(
-            (answer) => {
-              const question = ensure(
-                questionsAndAnswers.quizQuestionsSummary.find(
-                  (element) => element.questionId === answer.questionId
-                )
-              );
-              return {
-                name: question.question,
-                points: answer.points,
-                answerTime: answer.answerTime,
-                finalAnswers: answer.finalAnswerIds.map(
-                  (answerId) =>
-                    ensure(
-                      question.answers.find(
-                        (element) => element.id === answerId
-                      )
-                    ).text
-                ),
-                trackNodes: answer.trackNodes.map((trackNode) => {
-                  return {
-                    answer: ensure(
-                      question.answers.find(
-                        (element) => element.id === trackNode.answerId
-                      )
-                    ).text,
-                    time: trackNode.reactionTime,
-                    action: trackNode.selected
-                      ? t(
-                          "components.SessionEventResults.Quiz.dialog.selection"
-                        )
-                      : t(
-                          "components.SessionEventResults.Quiz.dialog.unSelection"
-                        ),
-                  };
-                }),
-              };
-            }
+            (answer) => getDialogDetails(answer)
           )}
         />
       </>
