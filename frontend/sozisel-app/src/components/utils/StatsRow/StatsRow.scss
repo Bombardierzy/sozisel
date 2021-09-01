@@ -1,0 +1,22 @@
+@import "../../../styles/styles";
+
+.StatsRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-04;
+    @include poppins-text;
+
+    .statsRowLabel {
+        font-size: $spacing-06;
+        font-weight: 600;
+        color: $text-02;
+    }
+    
+    .statsRowValue {
+        font-size: $spacing-05;
+        font-weight: 300;
+        color: $text-01;
+    }
+}

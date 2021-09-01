@@ -31,18 +31,34 @@ export default function QuizResultParticipantsView({
   const { loading: questionsAndAnswersLoading, data: questionsAndAnswers } =
     useQuizQuestionsAndAnswersQuery({ variables: { id } });
 
-  const getParticipantStats = () => {
-    return [
-      {
-        label: t("components.SessionEventResults.Quiz.points"),
-        value: `${currentParticipant?.numberOfPoints.toFixed(2)}`,
-      },
-      {
-        label: t("components.SessionEventResults.Quiz.answerTime"),
-        value: `${currentParticipant?.quizAnswerTime.toFixed(2)}`,
-      },
-    ];
-  };
+  const participantsStats = [
+    {
+      label: t("components.SessionEventResults.Quiz.points"),
+      value: `${currentParticipant?.numberOfPoints.toFixed(2)}`,
+    },
+    {
+      label: t("components.SessionEventResults.Quiz.answerTime"),
+      value: `${currentParticipant?.quizAnswerTime.toFixed(2)}`,
+    },
+  ];
+
+  const headCells: {
+    id: keyof QuizParticipantSummary;
+    label: string;
+  }[] = [
+    {
+      id: "fullName",
+      label: t("components.SessionEventResults.Quiz.name"),
+    },
+    {
+      id: "numberOfPoints",
+      label: t("components.SessionEventResults.Quiz.points"),
+    },
+    {
+      id: "quizAnswerTime",
+      label: t("components.SessionEventResults.Quiz.answerTime"),
+    },
+  ];
 
   if (loading || questionsAndAnswersLoading) {
     return (
@@ -67,20 +83,7 @@ export default function QuizResultParticipantsView({
           </div>
           <EnhancedTable
             data={data.quizParticipantsSummary}
-            headCells={[
-              {
-                id: "fullName",
-                label: t("components.SessionEventResults.Quiz.name"),
-              },
-              {
-                id: "numberOfPoints",
-                label: t("components.SessionEventResults.Quiz.points"),
-              },
-              {
-                id: "quizAnswerTime",
-                label: t("components.SessionEventResults.Quiz.answerTime"),
-              },
-            ]}
+            headCells={headCells}
             onClick={(participant) => {
               setCurrentParticipant(participant);
             }}
@@ -93,7 +96,7 @@ export default function QuizResultParticipantsView({
           title={t("components.SessionEventResults.Quiz.participantDetails")}
           detailName={currentParticipant?.fullName ?? ""}
           detailIcon={<PersonIcon color="primary" fontSize="large" />}
-          stats={getParticipantStats()}
+          stats={participantsStats}
           detailsViewTitle={t(
             "components.SessionEventResults.Quiz.resultForQuestions"
           )}

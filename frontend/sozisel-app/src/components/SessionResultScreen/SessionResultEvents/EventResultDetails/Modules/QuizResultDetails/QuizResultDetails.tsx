@@ -10,6 +10,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import QuizResultChartsView from "./QuizResultViews/Charts/QuizResultChartsView";
 import QuizResultParticipantsView from "./QuizResultViews/Participants/QuizResultParticipantsView";
 import QuizResultQuestionsView from "./QuizResultViews/Questions/QuizResultQuestionsView";
+import StatsRow from "../../../../../utils/StatsRow/StatsRow";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { useQuizSummaryQuery } from "../../../../../../graphql";
 import { useTranslation } from "react-i18next";
@@ -40,15 +41,6 @@ export default function QuizResultDetails({
     setRaisedCard((prev) => (prev === viewType ? null : viewType));
   };
 
-  const statsRow = (label: string, value: string) => {
-    return (
-      <div className="statsRow">
-        <div className="statsRowLabel">{label}</div>
-        <div className="statsRowValue">{value}</div>
-      </div>
-    );
-  };
-
   if (loading) {
     return (
       <div className="QuizResultDetails">
@@ -67,18 +59,26 @@ export default function QuizResultDetails({
               {eventName}
             </Typography>
           </div>
-          {statsRow(
-            t("components.SessionEventResults.Quiz.averagePoints"),
-            `${data.quizSummary.averagePoints.toFixed(2)}`
-          )}
-          {statsRow(
-            t("components.SessionEventResults.Quiz.averageAnswerTime"),
-            `${data.quizSummary.averageQuizAnswerTime.toFixed(2)}`
-          )}
-          {statsRow(
-            t("components.SessionEventResults.Quiz.participantsNumber"),
-            `${data.quizSummary.numberOfParticipants}`
-          )}
+          {
+            <StatsRow
+              label={t("components.SessionEventResults.Quiz.averagePoints")}
+              value={`${data.quizSummary.averagePoints.toFixed(2)}`}
+            />
+          }
+          {
+            <StatsRow
+              label={t("components.SessionEventResults.Quiz.averageAnswerTime")}
+              value={`${data.quizSummary.averageQuizAnswerTime.toFixed(2)}`}
+            />
+          }
+          {
+            <StatsRow
+              label={t(
+                "components.SessionEventResults.Quiz.participantsNumber"
+              )}
+              value={`${data.quizSummary.numberOfParticipants}`}
+            />
+          }
           <Typography className="chooseViewLabel">
             {t("components.SessionEventResults.Quiz.chooseView")}
           </Typography>

@@ -1,7 +1,8 @@
 @import "../../../../styles/styles";
 
 .EventResultDetails {
-    height: 100%;
+    height: calc(100% - #{$navbar-height} - #{$result-header-height});
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,7 +12,6 @@
         width: 100%;
         height: $spacing-09;
         background-color: $primary-accent-opacity;
-        margin-bottom: $spacing-08;
     }
 
     .eventBannerContent {
@@ -24,7 +24,7 @@
     .eventBannerItem {
         margin-right: $spacing-04;
         color: $text-04; 
-        font-size: 20px;
+        font-size: $spacing-05;
         font-weight: bold;
         @include poppins-text;
     }

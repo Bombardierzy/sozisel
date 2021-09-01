@@ -25,18 +25,34 @@ export default function QuizResultQuestionView({
   const [currentQuestion, setCurrentQuestion] =
     useState<QuizQuestionSummary | null>(null);
 
-  const getQuestionStats = () => {
-    return [
-      {
-        label: t("components.SessionEventResults.Quiz.averagePoints"),
-        value: `${currentQuestion?.averagePoint.toFixed(2)}`,
-      },
-      {
-        label: t("components.SessionEventResults.Quiz.averageAnswerTime"),
-        value: `${currentQuestion?.averageAnswerTime.toFixed(2)}`,
-      },
-    ];
-  };
+  const questionStats = [
+    {
+      label: t("components.SessionEventResults.Quiz.averagePoints"),
+      value: `${currentQuestion?.averagePoint.toFixed(2)}`,
+    },
+    {
+      label: t("components.SessionEventResults.Quiz.averageAnswerTime"),
+      value: `${currentQuestion?.averageAnswerTime.toFixed(2)}`,
+    },
+  ];
+
+  const headCells: {
+    id: keyof QuizQuestionSummary;
+    label: string;
+  }[] = [
+    {
+      id: "question",
+      label: t("components.SessionEventResults.Quiz.question"),
+    },
+    {
+      id: "averagePoint",
+      label: t("components.SessionEventResults.Quiz.averagePoints"),
+    },
+    {
+      id: "averageAnswerTime",
+      label: t("components.SessionEventResults.Quiz.averageAnswerTime"),
+    },
+  ];
 
   if (loading) {
     return (
@@ -58,22 +74,7 @@ export default function QuizResultQuestionView({
           </div>
           <EnhancedTable
             data={data.quizQuestionsSummary}
-            headCells={[
-              {
-                id: "question",
-                label: t("components.SessionEventResults.Quiz.question"),
-              },
-              {
-                id: "averagePoint",
-                label: t("components.SessionEventResults.Quiz.averagePoints"),
-              },
-              {
-                id: "averageAnswerTime",
-                label: t(
-                  "components.SessionEventResults.Quiz.averageAnswerTime"
-                ),
-              },
-            ]}
+            headCells={headCells}
             onClick={(question) => setCurrentQuestion(question)}
           />
         </div>
@@ -84,7 +85,7 @@ export default function QuizResultQuestionView({
           title={t("components.SessionEventResults.Quiz.questionDetails")}
           detailName={currentQuestion?.question ?? ""}
           detailIcon={<AssignmentIcon color="primary" fontSize="large" />}
-          stats={getQuestionStats()}
+          stats={questionStats}
           detailsViewTitle={t(
             "components.SessionEventResults.Quiz.resultForParticipants"
           )}

@@ -1,7 +1,7 @@
 import {
   EventResultSubmittedSubscription,
   QuizParticipantSummary,
-  useQuizParticipantsSummaryQuery,
+  useQuizParticipantsLiveSummaryQuery,
 } from "../../graphql";
 import { useEffect, useState } from "react";
 
@@ -91,7 +91,7 @@ const useFetchQuizLiveResult = ({
   });
 
   const { data: participantsSummary, loading: participantsSummaryLoading } =
-    useQuizParticipantsSummaryQuery({
+    useQuizParticipantsLiveSummaryQuery({
       skip,
       variables: {
         id: eventId,

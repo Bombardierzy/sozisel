@@ -6,6 +6,9 @@ import {
   AccordionSummary,
   Paper,
 } from "@material-ui/core";
+import StatsRow, {
+  StatsRowProps,
+} from "../../../../../../../utils/StatsRow/StatsRow";
 import TotalAreaChart, {
   TotalAreaChartData,
 } from "../../../../../../SessionResultSummary/TotalAreaChart";
@@ -29,24 +32,25 @@ export interface QuizResultDetailsDialogProps {
   title: string;
   detailName: string;
   detailIcon: React.ReactElement;
-  stats: {
-    label: string;
-    value: string;
-  }[];
+  stats: StatsRowProps[];
   detailsViewTitle: string;
-  details: {
-    name: string;
-    points: number;
-    answerTime: number;
-    trackNodes: {
-      answer: string;
-      time: number;
-      action: string;
-    }[];
-    finalAnswers: string[];
-  }[];
+  details: QuizResultDialogDetails[];
   chartData: TotalAreaChartData;
   chartSubtitle: string;
+}
+
+export interface QuizResultDialogDetails {
+  name: string;
+  points: number;
+  answerTime: number;
+  trackNodes: QuizResultDialogTrackNodes[];
+  finalAnswers: string[];
+}
+export interface QuizResultDialogTrackNodes {
+  [key: string]: string | number;
+  answer: string;
+  time: number;
+  action: string;
 }
 
 const Transition = React.forwardRef(function Transition(
@@ -55,6 +59,57 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+interface QuizResultDialogAccordionProps {
+  key: string | number;
+  detail: QuizResultDialogDetails;
+}
+
+function QuizResultDialogAccordion({
+  detail,
+  key,
+}: QuizResultDialogAccordionProps): React.ReactElement {
+  const { t } = useTranslation("common");
+  const headCells = [
+    {
+      id: "answer",
+      label: t("components.SessionEventResults.Quiz.dialog.answer"),
+    },
+    {
+      id: "time",
+      label: t("components.SessionEventResults.Quiz.dialog.time"),
+    },
+    {
+      id: "action",
+      label: t("components.SessionEventResults.Quiz.dialog.action"),
+    },
+  ];
+  return (
+    <Accordion key={key} className="accordion">
+      <AccordionSummary expandIcon={<ExpandMoreIcon color="primary" />}>
+        <Typography color="primary" className="accordionSummary">
+          {detail.name}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails className="accordionDetails">
+        <Typography className="accordionSubtitle">
+          {detail.points} {t("components.SessionEventResults.Quiz.points")} /{" "}
+          {detail.answerTime}{" "}
+          {t("components.SessionEventResults.Quiz.dialog.seconds")}
+        </Typography>
+        <EnhancedTable headCells={headCells} data={detail.trackNodes} />
+        <Typography className="finalAnswersTitle">
+          {t("components.SessionEventResults.Quiz.dialog.finalAnswers")}
+        </Typography>
+        <div className="finalAnswers">
+          {detail.finalAnswers.map((answer, index) => {
+            return <span key={index}>{answer}</span>;
+          })}
+        </div>
+      </AccordionDetails>
+    </Accordion>
+  );
+}
 
 export default function QuizResultDetailsDialog({
   isOpen,
@@ -69,15 +124,6 @@ export default function QuizResultDetailsDialog({
   chartSubtitle,
 }: QuizResultDetailsDialogProps): React.ReactElement {
   const { t } = useTranslation("common");
-
-  const statsRow = (label: string, value: string) => {
-    return (
-      <div className="statsRow">
-        <div className="statsRowLabel">{label}</div>
-        <div className="statsRowValue">{value}</div>
-      </div>
-    );
-  };
 
   return (
     <Dialog
@@ -110,7 +156,15 @@ export default function QuizResultDetailsDialog({
               {detailName}
             </Typography>
           </div>
-          {stats.map((element) => statsRow(element.label, element.value))}
+          {stats.map((element) => {
+            return (
+              <StatsRow
+                key={element.label}
+                label={element.label}
+                value={element.value}
+              />
+            );
+          })}
           <div className="chartContainer">
             <div>
               <h2>{t("components.SessionEventResults.Quiz.points")}</h2>
@@ -130,58 +184,7 @@ export default function QuizResultDetailsDialog({
             {detailsViewTitle}
           </Typography>
           {details.map((detail, index) => {
-            return (
-              <Accordion key={index} className="accordion">
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon color="primary" />}
-                >
-                  <Typography color="primary" className="accordionSummary">
-                    {detail.name}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails className="accordionDetails">
-                  <Typography className="accordionSubtitle">
-                    {detail.points}{" "}
-                    {t("components.SessionEventResults.Quiz.points")} /{" "}
-                    {detail.answerTime}{" "}
-                    {t("components.SessionEventResults.Quiz.dialog.seconds")}
-                  </Typography>
-                  <EnhancedTable
-                    headCells={[
-                      {
-                        id: "answer",
-                        label: t(
-                          "components.SessionEventResults.Quiz.dialog.answer"
-                        ),
-                      },
-                      {
-                        id: "time",
-                        label: t(
-                          "components.SessionEventResults.Quiz.dialog.time"
-                        ),
-                      },
-                      {
-                        id: "action",
-                        label: t(
-                          "components.SessionEventResults.Quiz.dialog.action"
-                        ),
-                      },
-                    ]}
-                    data={detail.trackNodes}
-                  />
-                  <Typography className="finalAnswersTitle">
-                    {t(
-                      "components.SessionEventResults.Quiz.dialog.finalAnswers"
-                    )}
-                  </Typography>
-                  <div className="finalAnswers">
-                    {detail.finalAnswers.map((answer, index) => {
-                      return <span key={index}>{answer}</span>;
-                    })}
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-            );
+            return <QuizResultDialogAccordion detail={detail} key={index} />;
           })}
         </Paper>
       </div>

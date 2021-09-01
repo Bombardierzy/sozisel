@@ -1,9 +1,9 @@
 import "./QuizResultChartsView.scss";
 
 import { CircularProgress, Typography } from "@material-ui/core";
+import React, { useMemo } from "react";
 
 import ErrorAlert from "../../../../../../../utils/Alerts/ErrorAlert";
-import React from "react";
 import TotalAreaChart from "../../../../../../SessionResultSummary/TotalAreaChart";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { useQuizQuestionsSummaryQuery } from "../../../../../../../../graphql";
@@ -18,6 +18,26 @@ export default function QuizResultChartsView({
   const { t } = useTranslation("common");
   const { loading, data } = useQuizQuestionsSummaryQuery({ variables: { id } });
 
+  const pointsChartData = useMemo(() => {
+    if (!data?.quizQuestionsSummary) return [];
+    return data.quizQuestionsSummary.map((question) => {
+      return {
+        xLabel: question.question,
+        value: question.averagePoint,
+      };
+    });
+  }, [data]);
+
+  const timesChartData = useMemo(() => {
+    if (!data?.quizQuestionsSummary) return [];
+    return data.quizQuestionsSummary.map((question) => {
+      return {
+        xLabel: question.question,
+        value: question.averageAnswerTime,
+      };
+    });
+  }, [data]);
+
   if (loading) {
     return (
       <div className="QuizResultChartsView">
@@ -27,18 +47,6 @@ export default function QuizResultChartsView({
   }
 
   if (data?.quizQuestionsSummary) {
-    const pointsChartData = data.quizQuestionsSummary.map((question) => {
-      return {
-        xLabel: question.question,
-        value: question.averagePoint,
-      };
-    });
-    const timesChartData = data.quizQuestionsSummary.map((question) => {
-      return {
-        xLabel: question.question,
-        value: question.averageAnswerTime,
-      };
-    });
     return (
       <div className="QuizResultChartsView">
         <div className="headerWithIcon">

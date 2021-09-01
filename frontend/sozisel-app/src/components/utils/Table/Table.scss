@@ -1,13 +1,11 @@
 @import "../../../styles/styles";
 
-
-
 .TableContainer {
     width: 100%;
 
     .tableSortLabel {
         color: $text-04;
-        font-size: 20px;
+        font-size: $spacing-05;
         font-weight: 500;
         @include poppins-text;
     }
@@ -15,7 +13,7 @@
     .tableRow {
         @include poppins-text;
         color: $text-04;
-        font-size: 16px;
+        font-size: $spacing-04;
         font-weight: 400;
         cursor: pointer;
     }

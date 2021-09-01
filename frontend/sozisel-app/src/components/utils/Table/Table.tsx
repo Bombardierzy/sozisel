@@ -1,3 +1,5 @@
+// copied from: https://material-ui.com/components/tables/#sorting-amp-selecting
+// customized for our use case
 import "./Table.scss";
 
 import React, { useState } from "react";

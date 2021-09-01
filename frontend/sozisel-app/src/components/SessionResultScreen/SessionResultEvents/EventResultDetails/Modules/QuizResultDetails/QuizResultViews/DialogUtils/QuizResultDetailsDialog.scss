@@ -8,14 +8,15 @@
     }
 
     .title {
-        font-size: 24px;
+        font-size: $spacing-06;
         font-weight: 600;
         padding: 0 $spacing-05;
     }
 
     .container {
-        height: calc(100% - 3*#{$spacing-09});
-        width: calc(100% - 2*#{$spacing-09});
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -44,36 +45,17 @@
 
     .header{
         color: $text-04;
-        font-size: 32px;
+        font-size: $spacing-07;
         font-weight: 600;
         padding: 0 $spacing-05;
-    }
-
-    .statsRow {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: $spacing-04;
-    }
-
-    .statsRowLabel {
-        font-size: 24px;
-        font-weight: 600;
-        color: $text-02;
-    }
-
-    .statsRowValue {
-        font-size: 20px;
-        font-weight: 300;
-        color: $text-01;
     }
 
     .detailsView {
         flex: 3;
         display: flex;
         flex-direction: column;
-        height: calc(100% - 2*#{$spacing-06});
+        height: 100%;
+        box-sizing: border-box;
         padding: $spacing-06;
         overflow: auto;
     }
@@ -102,19 +84,19 @@
 
     .accordionSubtitle {
         color: $text-01;
-        font-size: 16px;
+        font-size: $spacing-04;
         font-weight: 400;
     }
 
     .finalAnswersTitle {
         color: $text-04;
-        font-size: 18px;
+        font-size: $spacing-04;
         font-weight: 600;
     }
 
     .finalAnswers {
         color: $primary-accent;
-        font-size: 16px;
+        font-size: $spacing-04;
         font-weight: 500;
         display: flex;
         flex-direction: row;
