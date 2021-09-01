@@ -1,0 +1,10 @@
+@import "../../../../../styles/styles.scss";
+
+.QuizDetails {
+    width: fit-content;
+    padding: 0 $spacing-05;
+    @include text-02;
+    p {
+        margin: $spacing-02 0;
+    }
+}

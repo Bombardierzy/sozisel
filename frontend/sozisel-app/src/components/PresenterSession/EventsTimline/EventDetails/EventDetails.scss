@@ -6,4 +6,9 @@
     @include header-01;
     color: $text-03;
   }
+  .durationTime {
+    margin: $spacing-02 0;
+    padding: 0 $spacing-05;
+    @include text-02;
+  }
 }

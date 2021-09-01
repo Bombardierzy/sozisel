@@ -1,9 +1,9 @@
 import "./EventDetails.scss";
-
+import { Event, Quiz } from "../../../../model/Template";
 import React, { ReactElement } from "react";
-
-import { Event } from "../../../../model/Template";
-import QuizDetails from "../QuizDetails/QuizDetails";
+import { Poll } from "../../../../graphql";
+import PollDetails from "./PollDetails/PollDetails";
+import QuizDetails from "./QuizDetails/QuizDetails";
 import { Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
@@ -20,16 +20,20 @@ export default function EventDetails({
 
   return (
     <div className="eventDetails">
+      <Typography className="eventDetailsHeader">
+        {t("components.PresenterSession.EventsTimeline.eventDetailsHeader")}
+      </Typography>
+      <p className="durationTime">
+        {t(
+          "components.PresenterSession.EventsTimeline.QuizDetails.durationTime",
+          { value: activeEvent.durationTimeSec }
+        )}
+      </p>
       {!activeEventId && activeEvent.eventData.__typename === "Quiz" && (
-        <>
-          <Typography className="eventDetailsHeader">
-            {t("components.PresenterSession.EventsTimeline.eventDetailsHeader")}
-          </Typography>
-          <QuizDetails
-            durationTime={activeEvent.durationTimeSec}
-            quiz={activeEvent.eventData}
-          />
-        </>
+        <QuizDetails quiz={activeEvent.eventData as Quiz} />
+      )}
+      {!activeEventId && activeEvent.eventData.__typename === "Poll" && (
+        <PollDetails poll={activeEvent.eventData as Poll} />
       )}
     </div>
   );

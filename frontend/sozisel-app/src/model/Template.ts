@@ -21,13 +21,6 @@ export interface Event {
 
 export type EventData = Quiz | Poll;
 
-// export interface Poll {
-//   __typename?: string;
-//   question: string;
-//   isMultiChoice: boolean;
-//   options: PollOption
-// }
-
 export interface Quiz {
   __typename?: string;
   quizQuestions: QuizQuestion[];
