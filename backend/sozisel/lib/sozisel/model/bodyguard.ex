@@ -78,6 +78,12 @@ defmodule Sozisel.Model.Bodyguard do
     |> handle_result()
   end
 
+  def authorize(:query_poll_summary, %User{id: user_id}, %LaunchedEvent{session_id: session_id}) do
+    session_id
+    |> Sessions.is_session_owner(user_id)
+    |> handle_result()
+  end
+
   def authorize(_, _, _), do: @unauthorized
 
   defp handle_result(true), do: :ok

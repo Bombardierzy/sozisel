@@ -105,7 +105,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     {:ok, session |> Sessions.session_summary()}
   end
 
-  def poll_summary(_parent, %{launched_event_id: launched_event_id}, _ctx) do
+  def poll_summary(_parent, %{id: launched_event_id}, _ctx) do
     {:ok, Poll.poll_summary(launched_event_id)}
   end
 
