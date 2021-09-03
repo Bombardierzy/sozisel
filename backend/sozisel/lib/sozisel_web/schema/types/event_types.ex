@@ -52,7 +52,7 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   end
 
   union :event_data do
-    types [:quiz, :poll]
+    types [:quiz, :poll, :whiteboard]
 
     resolve_type fn
       %Quiz{}, _ -> :quiz
@@ -63,7 +63,7 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   end
 
   union :participant_event_data do
-    types [:participant_quiz, :poll]
+    types [:participant_quiz, :poll, :whiteboard]
 
     resolve_type fn
       %Quiz{}, _ -> :participant_quiz

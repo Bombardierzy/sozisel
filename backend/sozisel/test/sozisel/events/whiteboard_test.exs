@@ -49,27 +49,45 @@ defmodule Sozise.Events.WhiteboardTest do
 
       valid_attrs = Map.put(@valid_attrs, :session_template_id, template.id)
 
-      assert {:ok, %Event{event_data: %Whiteboard{task: "Draw a bomb"}}} =
-               Events.create_event(valid_attrs)
+      assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
+              
+      assert event = %Event{
+        name: "some whiteboard",
+        duration_time_sec: 180,
+        start_minute: 26,
+        event_data: %Whiteboard{
+          task: "Draw a bomb."
+        }
+      }
     end
 
-    # test "update_event/1 with valid poll data updates the event" do
-    #   template = insert(:template)
-    #   event = poll_fixture(template)
+    test "create_event/1 with invalid whiteboard data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Events.create_event(@invalid_attrs)
+    end
 
-    #   assert {:ok,
-    #           %Event{
-    #             event_data: %Poll{question: question, options: options, is_multi_choice: true}
-    #           }} = Events.update_event(event, @update_attrs)
+    test "update_event/2 with valid whiteboard data updates the event" do
+      template = insert(:template)
+      event = whiteboard_fixture(template)
 
-    #   assert question == "Do you like being at all?"
+      assert {:ok, %Event{} = event} = Events.update_event(event, @update_attrs)
 
-    #   assert options == [
-    #            %PollOption{id: "1", text: "yes"},
-    #            %PollOption{id: "2", text: "no"},
-    #            %PollOption{id: "3", text: "Please, more questions like that!"}
-    #          ]
-    # end
+      assert event = %Event{
+        name: "some updated whiteboard name",
+        duration_time_sec: 205,
+        event_data: %{
+          task: "Draw two bombs."
+        }
+      }
+    end
+
+    test "update_event/2 with invalid whiteboard data returns error changeset" do
+      template = insert(:template)
+      event = whiteboard_fixture(template)
+
+      assert {:error, %Ecto.Changeset{}} = Events.update_event(event, @invalid_attrs)
+
+      assert event == Events.get_event!(event.id)
+    end
 
     # test "creating event result with valid data should success" do
     #   template = insert(:template)
