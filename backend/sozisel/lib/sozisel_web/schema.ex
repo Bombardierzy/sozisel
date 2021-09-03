@@ -15,6 +15,7 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Types.EventResultTypes)
   import_types(SoziselWeb.Schema.Types.ParticipantTypes)
   import_types(SoziselWeb.Schema.Types.PollTypes)
+  import_types(SoziselWeb.Schema.Types.WhiteboardTypes)
 
   # Queries
   import_types(SoziselWeb.Schema.Queries.UserQueries)
@@ -32,6 +33,7 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Mutations.ParticipantMutations)
   import_types(SoziselWeb.Schema.Mutations.PresenterMutations)
   import_types(SoziselWeb.Schema.Mutations.PollMutations)
+  import_types(SoziselWeb.Schema.Mutations.WhiteboardMutations)
 
   # Subscriptions
   import_types(SoziselWeb.Schema.Subscriptions.EventSubscriptions)
@@ -54,6 +56,7 @@ defmodule SoziselWeb.Schema do
     import_fields(:participant_mutations)
     import_fields(:presenter_mutations)
     import_fields(:poll_mutations)
+    import_fields(:whiteboard_mutations)
   end
 
   subscription do

@@ -3,6 +3,7 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
 
   alias Sozisel.Model.Quizzes.Quiz
   alias Sozisel.Model.Polls.Poll
+  alias Sozisel.Model.Whiteboards.Whiteboard
 
   object :event do
     field :id, non_null(:id)
@@ -56,6 +57,7 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
     resolve_type fn
       %Quiz{}, _ -> :quiz
       %Poll{}, _ -> :poll
+      %Whiteboard{}, _ -> :whiteboard
       _, _ -> nil
     end
   end
@@ -66,6 +68,7 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
     resolve_type fn
       %Quiz{}, _ -> :participant_quiz
       %Poll{}, _ -> :poll
+      %Whiteboard{}, _ -> :whiteboard
       _, _ -> nil
     end
   end
@@ -81,5 +84,6 @@ defmodule SoziselWeb.Schema.Types.EventTypes do
   enum :event_type do
     value(:quiz)
     value(:poll)
+    value(:whiteboard)
   end
 end
