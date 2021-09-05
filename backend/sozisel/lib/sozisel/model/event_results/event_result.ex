@@ -25,7 +25,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
       types: [
         quiz_result: [module: QuizResult, identify_by_fields: [:participant_answers]],
         poll_result: [module: PollResult, identify_by_fields: [:option_ids]],
-        poll_result: [
+        whiteboard_result: [
           module: WhiteboardResult,
           identify_by_fields: [:metadata, :path, :text, :used_time]
         ]
