@@ -77,7 +77,7 @@ defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
                    "startMinute" => 24,
                    "durationTimeSec" => 180,
                    "eventData" => %{
-                     "task" => "Draw a bomb.",
+                     "task" => "Draw a bomb."
                    },
                    "sessionTemplate" => %{
                      "id" => _

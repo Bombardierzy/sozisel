@@ -57,6 +57,20 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
   }
   """
 
+  @submit_whiteboard_result_mutation """
+  mutation SubmitWhiteboardResult($input: WhiteboardResultInput!, $token: String!) {
+    submitWhiteboardResult(input: $input, token: $token) {
+      id
+      resultData {
+        ... on WhiteboardResult {
+          text
+          used_time
+        }
+      }
+    }
+  }
+  """
+
   describe "Participant mutations should" do
     setup do
       [conn: test_conn()]
@@ -426,6 +440,91 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                  }
                }
              } = run_query(ctx.conn, @submit_poll_result_mutation, variables)
+    end
+
+    test "submit whiteboard result", ctx do
+      template = insert(:template)
+      event = insert(:whiteboard_event, session_template_id: template.id)
+      session = insert(:session, session_template_id: template.id)
+      launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
+      participant = insert(:participant, session_id: session.id)
+
+      File.mkdir("/tmp/images")
+      File.copy!("test/assets/test_image.png", "/tmp/images/test_image.png")
+
+      upload = %Plug.Upload{
+        content_type: "image/png",
+        path: "/tmp/images/test_image.png",
+        filename: "whiteboard_image.png"
+      }
+
+      variables = %{
+        input: %{
+          launched_event_id: launched_event.id,
+          image: "image",
+          path: "some path",
+          text: "some text",
+          used_time: 145
+        },
+        token: participant.token
+      }
+
+      assert %{
+               "data" => %{
+                 "submitWhiteboardResult" => %{
+                   "id" => _,
+                   "resultData" => %{
+                     "used_time" => 145.0,
+                     "text" => "some text"
+                   }
+                 }
+               }
+             } =
+               ctx.conn
+               |> post("/api/",
+                 query: @submit_whiteboard_result_mutation,
+                 variables: variables,
+                 image: upload
+               )
+               |> json_response(200)
+    end
+
+    test "forbid end whiteboard with wrong launched_event_id", ctx do
+      participant = insert(:participant)
+
+      File.mkdir("/tmp/images")
+      File.copy!("test/assets/test_image.png", "/tmp/images/test_image.png")
+
+      upload = %Plug.Upload{
+        content_type: "image/png",
+        path: "/tmp/images/test_image.png",
+        filename: "whiteboard_image.png"
+      }
+
+      variables = %{
+        input: %{
+          launched_event_id: Ecto.UUID.generate(),
+          image: "image",
+          path: "some path",
+          text: "some text",
+          used_time: 145
+        },
+        token: participant.token
+      }
+
+      assert %{
+               "data" => %{
+                 "submitWhiteboardResult" => nil
+               },
+               "errors" => [%{"message" => "unauthorized"}]
+             } =
+               ctx.conn
+               |> post("/api/",
+                 query: @submit_whiteboard_result_mutation,
+                 variables: variables,
+                 image: upload
+               )
+               |> json_response(200)
     end
   end
 end

@@ -34,11 +34,12 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
       template = insert(:template, user_id: user.id)
       session = insert(:session, session_template_id: template.id, user_id: user.id)
 
-      File.copy!("test/assets/test_recording.mp4", "/tmp/test_recording.mp4")
+      File.mkdir("/tmp/recordings")
+      File.copy!("test/assets/test_recording.mp4", "/tmp/recordings/test_recording.mp4")
 
       upload = %Plug.Upload{
         content_type: "video/mp4",
-        path: "/tmp/test_recording.mp4",
+        path: "/tmp/recordings/test_recording.mp4",
         filename: "session_recording.mp4"
       }
 
@@ -94,11 +95,11 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
     end
 
     test "delete session's recording", ctx do
-      File.copy!("test/assets/test_recording.mp4", "/tmp/test_recording.mp4")
+      File.copy!("test/assets/test_recording.mp4", "/tmp/recordings/test_recording.mp4")
 
       upload = %Plug.Upload{
         content_type: "video/mp4",
-        path: "/tmp/test_recording.mp4",
+        path: "/tmp/recordings/test_recording.mp4",
         filename: "session_recording.mp4"
       }
 

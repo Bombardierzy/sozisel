@@ -5,6 +5,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
 
   alias Sozisel.Model.Quizzes.QuizResult
   alias Sozisel.Model.Polls.PollResult
+  alias Sozisel.Model.Whiteboards.WhiteboardResult
   alias Sozisel.Model.Participants.Participant
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
 
@@ -23,7 +24,11 @@ defmodule Sozisel.Model.EventResults.EventResult do
     field :result_data, PolymorphicEmbed,
       types: [
         quiz_result: [module: QuizResult, identify_by_fields: [:participant_answers]],
-        poll_result: [module: PollResult, identify_by_fields: [:option_ids]]
+        poll_result: [module: PollResult, identify_by_fields: [:option_ids]],
+        poll_result: [
+          module: WhiteboardResult,
+          identify_by_fields: [:metadata, :path, :text, :used_time]
+        ]
       ],
       on_type_not_found: :raise,
       on_replace: :update
