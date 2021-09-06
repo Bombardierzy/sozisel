@@ -239,19 +239,6 @@ export class CanvasManager extends EventEmitter {
     canvas.renderAll();
   };
 
-  insertImage = (url: string, id: string): void => {
-    fabric.Image.fromURL(url, async (o) => {
-      (o as any).id = id;
-      o.set("top", 100);
-      o.set("left", 200);
-      o.set("backgroundColor", "#fff");
-      o.scale(0.7);
-
-      this.setMode(CANVAS_MODE.PICKER);
-      this.addObject(o, true);
-    });
-  };
-
   initializeCanvas = (canvasJSON: Record<string, any>): void => {
     this.canvas = new fabric.Canvas(CANVAS_ELEMENT_ID);
     (window as any).canvas = this.canvas;
@@ -429,12 +416,12 @@ export class CanvasManager extends EventEmitter {
   };
 
   private commitObject(obj: FabricObject) {
-    console.log("commiting object");
+    console.debug("commiting object");
     this.emit(CANVAS_TOPICS.OBJECT_ADDED, obj);
   }
 
   private addObject(obj: FabricObject, commit?: boolean) {
-    console.log({ commit: commit }, "adding object but not commiting? ");
+    console.debug({ commit: commit }, "adding object but not commiting? ");
 
     const canvas = this.getCanvas();
     if (!canvas) {
@@ -581,26 +568,26 @@ export class CanvasManager extends EventEmitter {
   };
 
   private onMouseOut = (_e: IEvent): void => {
-    // if (this.mouse.isDown) {
-    //   this.mouse = {
-    //     isDown: false,
-    //   };
-    // }
+    if (this.mouse.isDown) {
+      this.mouse = {
+        isDown: false,
+      };
+    }
   };
 
   private onSelectionCreated = (e: IEvent): void => {
-    console.log("onSelectionCreated: " + e);
+    console.debug("onSelectionCreated: " + e);
     if (e.target === this.toolbar.selectedObject) return;
     this.setSelectedObject(e.target);
   };
 
   private onSelectionCleared = (e: IEvent): void => {
-    console.log("onSelectionCleared: " + e);
+    console.debug("onSelectionCleared: " + e);
     this.setSelectedObject(undefined);
   };
 
   private onSelectionUpdated = (e: IEvent): void => {
-    console.log("onSelectionUpdated: " + e);
+    console.debug("onSelectionUpdated: " + e);
     if (e.target === this.toolbar.selectedObject) return;
     this.setSelectedObject(e.target);
   };
@@ -643,7 +630,7 @@ export class CanvasManager extends EventEmitter {
   // external events from other users
   onExternalObjectCreated = async (oProps: any): Promise<void> => {
     let o: FabricObject;
-    console.log("type of o: " + oProps.type);
+    console.debug("type of o: " + oProps.type);
     switch (oProps.type) {
       case "path": {
         o = new fabric.Path(

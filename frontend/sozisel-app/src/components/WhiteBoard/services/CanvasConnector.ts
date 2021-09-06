@@ -1,5 +1,6 @@
 import { CANVAS_TOPICS, canvasManager } from "./CanvasManager";
 
+import { Channel } from "phoenix";
 import { Object as FabricObject } from "fabric/fabric-impl";
 
 // import { Socket } from "socket.io-client";
@@ -22,98 +23,115 @@ export interface EmitCanvasUpdateEvent {
 }
 
 export interface OnCanvasUpdateEvent {
-  meetingId: string;
-  canvasId: string;
-  event: {
-    action: CanvasAction;
-    actionData: string;
-  };
+  action: CanvasAction;
+  actionData: string;
 }
 
-export const onCanvasUpdate = (_e: EmitCanvasUpdateEvent): void => {
-  // const { meeting } = meetingState.getState();
-  // if (!meeting || !meeting.activeCanvasId) return;
-  // signalingChannel.emit("canvas-update", meeting.activeCanvasId, e);
-};
+export class CanvasConnector {
+  private channel: Channel;
+  private handler: number;
 
-canvasManager.on(CANVAS_TOPICS.OBJECT_ADDED, (o: FabricObject) => {
-  onCanvasUpdate({
-    action: "create",
-    actionData: JSON.stringify(o.toJSON(["id"])),
-    canvasJSON: canvasManager.getCanvasJSON(),
-  });
-});
+  constructor(channel: Channel) {
+    this.channel = channel;
+    this.handler = this.setupChannel(channel);
 
-canvasManager.on(CANVAS_TOPICS.OBJECT_REMOVED, (o: FabricObject) => {
-  onCanvasUpdate({
-    action: "remove",
-    actionData: JSON.stringify({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      id: (o as any).id,
-    }),
-    canvasJSON: canvasManager.getCanvasJSON(),
-  });
-});
+    canvasManager.on(CANVAS_TOPICS.OBJECT_ADDED, this.onObjectAdded);
+    canvasManager.on(CANVAS_TOPICS.OBJECT_REMOVED, this.onObjectRemoved);
+    canvasManager.on(CANVAS_TOPICS.OBJECT_MODIFIED, this.onObjectModified);
+    canvasManager.on(CANVAS_TOPICS.CANVAS_CLEARED, this.onCanvasCleared);
+    canvasManager.on(CANVAS_TOPICS.CANVAS_UNDO, this.onCanvasUndo);
+    canvasManager.on(CANVAS_TOPICS.CANVAS_REDO, this.onCanvasRedo);
+  }
 
-canvasManager.on(CANVAS_TOPICS.OBJECT_MODIFIED, (o: FabricObject) => {
-  onCanvasUpdate({
-    action: "modified",
-    actionData: JSON.stringify(o.toJSON(["id"])),
-    canvasJSON: canvasManager.getCanvasJSON(),
-  });
-});
+  clear = (): void => {
+    this.channel.off("board_update", this.handler);
+    canvasManager.off(CANVAS_TOPICS.OBJECT_ADDED, this.onObjectAdded);
+    canvasManager.off(CANVAS_TOPICS.OBJECT_REMOVED, this.onObjectRemoved);
+    canvasManager.off(CANVAS_TOPICS.OBJECT_MODIFIED, this.onObjectModified);
+    canvasManager.off(CANVAS_TOPICS.CANVAS_CLEARED, this.onCanvasCleared);
+    canvasManager.off(CANVAS_TOPICS.CANVAS_UNDO, this.onCanvasUndo);
+    canvasManager.off(CANVAS_TOPICS.CANVAS_REDO, this.onCanvasRedo);
+  };
 
-canvasManager.on(CANVAS_TOPICS.CANVAS_CLEARED, () => {
-  onCanvasUpdate({
-    action: "clear",
-    actionData: JSON.stringify({}),
-    canvasJSON: canvasManager.getCanvasJSON(),
-  });
-});
+  private setupChannel = (channel: Channel): number => {
+    return channel.on("board_update", ({ value }: { value: string }) => {
+      const event = JSON.parse(value) as OnCanvasUpdateEvent;
 
-canvasManager.on(CANVAS_TOPICS.CANVAS_UNDO, () => {
-  const canvasJSON = canvasManager.getCanvasJSON();
-  onCanvasUpdate({
-    action: "undo",
-    actionData: canvasJSON,
-    canvasJSON,
-  });
-});
+      if (event.action === "create") {
+        const oProps = JSON.parse(event.actionData);
+        canvasManager.onExternalObjectCreated(oProps);
+      } else if (event.action === "remove") {
+        const { id } = JSON.parse(event.actionData);
+        canvasManager.onExternalObjectRemove(id);
+      } else if (event.action === "modified") {
+        const oProps = JSON.parse(event.actionData);
+        canvasManager.onExternalObjectModified(oProps);
+      } else if (event.action === "clear") {
+        canvasManager.onExternalCanvasClear();
+      } else if (event.action === "undo") {
+        const canvasJSON = JSON.parse(event.actionData);
+        canvasManager.onExternalCanvasUndo(canvasJSON);
+      } else if (event.action === "redo") {
+        const canvasJSON = JSON.parse(event.actionData);
+        canvasManager.onExternalCanvasRedo(canvasJSON);
+      }
+    });
+  };
 
-canvasManager.on(CANVAS_TOPICS.CANVAS_REDO, () => {
-  const canvasJSON = canvasManager.getCanvasJSON();
-  onCanvasUpdate({
-    action: "redo",
-    actionData: canvasJSON,
-    canvasJSON,
-  });
-});
+  onCanvasUpdate = (_e: EmitCanvasUpdateEvent): void => {
+    this.channel.push("board_update", { value: JSON.stringify(_e) });
+  };
 
-// export const setupSocketListeners = (socket: Socket) => {
-//   socket.on("canvas-update", (e: OnCanvasUpdateEvent) => {
-//     if (e.event.action === "create") {
-//       const oProps = JSON.parse(e.event.actionData);
-//       canvasManager.onExternalObjectCreated(oProps);
-//     } else if (e.event.action === "remove") {
-//       const { id } = JSON.parse(e.event.actionData);
-//       canvasManager.onExternalObjectRemove(id);
-//     } else if (e.event.action === "modified") {
-//       const oProps = JSON.parse(e.event.actionData);
-//       canvasManager.onExternalObjectModified(oProps);
-//     } else if (e.event.action === "clear") {
-//       canvasManager.onExternalCanvasClear();
-//     } else if (e.event.action === "undo") {
-//       const canvasJSON = JSON.parse(e.event.actionData);
-//       canvasManager.onExternalCanvasUndo(canvasJSON);
-//     } else if (e.event.action === "redo") {
-//       const canvasJSON = JSON.parse(e.event.actionData);
-//       canvasManager.onExternalCanvasRedo(canvasJSON);
-//     }
+  onObjectAdded = (o: FabricObject): void => {
+    this.onCanvasUpdate({
+      action: "create",
+      actionData: JSON.stringify(o.toJSON(["id"])),
+      canvasJSON: canvasManager.getCanvasJSON(),
+    });
+  };
 
-//     // parse event and call canvasManager with action to update canvas
-//     console.log({event : e},"received canvas event");
-//     console.log("received canvas event done");
-//   });
-// };
+  onObjectRemoved = (o: FabricObject): void => {
+    this.onCanvasUpdate({
+      action: "remove",
+      actionData: JSON.stringify({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        id: (o as any).id,
+      }),
+      canvasJSON: canvasManager.getCanvasJSON(),
+    });
+  };
 
-// setupSocketListeners(signalingChannel);
+  onObjectModified = (o: FabricObject): void => {
+    this.onCanvasUpdate({
+      action: "modified",
+      actionData: JSON.stringify(o.toJSON(["id"])),
+      canvasJSON: canvasManager.getCanvasJSON(),
+    });
+  };
+
+  onCanvasCleared = (): void => {
+    this.onCanvasUpdate({
+      action: "clear",
+      actionData: JSON.stringify({}),
+      canvasJSON: canvasManager.getCanvasJSON(),
+    });
+  };
+
+  onCanvasUndo = (): void => {
+    const canvasJSON = canvasManager.getCanvasJSON();
+    this.onCanvasUpdate({
+      action: "undo",
+      actionData: canvasJSON,
+      canvasJSON,
+    });
+  };
+
+  onCanvasRedo = (): void => {
+    const canvasJSON = canvasManager.getCanvasJSON();
+    this.onCanvasUpdate({
+      action: "redo",
+      actionData: canvasJSON,
+      canvasJSON,
+    });
+  };
+}

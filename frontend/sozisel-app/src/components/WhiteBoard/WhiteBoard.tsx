@@ -8,7 +8,7 @@ export function WhiteBoard(): ReactElement {
     <>
       <Navbar />
       <CanvasToolbar />
-      <Canvas width={1200} height={900} />
+      <Canvas width={1200} height={900} sessionId="lobby" />
     </>
   );
 }

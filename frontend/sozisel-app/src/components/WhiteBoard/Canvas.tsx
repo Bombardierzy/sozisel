@@ -1,9 +1,12 @@
 import { CANVAS_ELEMENT_ID, canvasManager } from "./services/CanvasManager";
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { createStyles, makeStyles } from "@material-ui/core";
+import {
+  ensureConnected,
+  usePhoenixSocket,
+} from "../../contexts/PhoenixSocketContext";
 
-// import { meetingInteractor } from "../../meeting/interactors";
-// import { meetingState } from "../../meeting/state/meeting";
+import { CanvasConnector } from "./services/CanvasConnector";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -17,32 +20,57 @@ const useStyles = makeStyles(() =>
 interface Props {
   width: number;
   height: number;
+
+  // if sessionId is undefined that means we are in offline mode
+  sessionId: string | undefined;
 }
 
-export const Canvas = ({ width, height }: Props): ReactElement => {
+export const Canvas = ({ width, height, sessionId }: Props): ReactElement => {
   const classes = useStyles();
 
-  // const { meeting } = meetingState();
+  const socket = usePhoenixSocket();
+  const canvasConnector = useRef<CanvasConnector | null>(null);
+  const [online, setOnline] = useState<boolean>(false);
+
+  const [initialValue, setInitialValue] = useState<string | null>(null);
 
   useEffect(() => {
-    // if (!meeting) {
-    //   return;
-    // }
+    if (!sessionId) return;
 
-    const getCanvasJSON = async () => {
-      // maybe also show some loading effect or disbale canvas or something wile changing canvas?
-      // const res = await meetingInteractor.getCanvas(meeting.activeCanvasId);
-      // const canvasJSON = JSON.parse();
-      const canvasJSON = {};
+    ensureConnected(socket);
 
-      if (canvasManager.isInitialized) {
-        canvasManager.clearHistoryAndSetCanvas(canvasJSON);
-      } else {
-        canvasManager.initializeCanvas(canvasJSON);
-      }
+    // After tests replace with a proper sessionId
+    const channel = socket.channel(`shared:whiteboard:lobby`, {});
+
+    channel
+      .join()
+      .receive("ok", (value: string) => {
+        setInitialValue(value || null);
+        setOnline(true);
+      })
+      .receive("error", (error) =>
+        console.error("Some error while connecting with whiteboard", error)
+      );
+
+    canvasConnector.current = new CanvasConnector(channel);
+
+    return () => {
+      console.log("Clearing canvas connector and phoenix channel");
+      canvasConnector.current?.clear();
+      channel.leave();
     };
-    getCanvasJSON();
-  }, []);
+  }, [sessionId, socket]);
+
+  useEffect(() => {
+    if (!online) return;
+    const canvasJSON = JSON.parse(initialValue || "{}");
+
+    if (canvasManager.isInitialized) {
+      canvasManager.clearHistoryAndSetCanvas(canvasJSON);
+    } else {
+      canvasManager.initializeCanvas(canvasJSON);
+    }
+  }, [online, initialValue]);
 
   return (
     <div

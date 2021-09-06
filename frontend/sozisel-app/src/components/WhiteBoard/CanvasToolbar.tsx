@@ -13,16 +13,6 @@ import UndoIcon from "@material-ui/icons/UndoRounded";
 import { useToolbarState } from "./services/ToolbarInteractor";
 import { useTranslation } from "react-i18next";
 
-const colorOptions = [
-  "#000",
-  "#95a5a6",
-  "#e74c3c",
-  "#00bd9d",
-  "#2c97df",
-  "#9c56b8",
-  "#e9c81d",
-];
-
 const styles = {
   toolbarIcon: {
     fontSize: "1.2rem",
@@ -185,7 +175,6 @@ export const CanvasToolbar = (): ReactElement => {
           { tool: CANVAS_MODE.LINE },
           { tool: CANVAS_MODE.RECT },
           { tool: CANVAS_MODE.CIRCLE },
-          // { tool: "text" },
           { tool: "clear" },
         ].map((tool) => (
           <div
@@ -212,7 +201,6 @@ export const CanvasToolbar = (): ReactElement => {
               defaultValue="#000"
               onChange={(c) => canvasManager.setColor("#" + c.hex)}
               value={color}
-              palette={colorOptions}
             />
           </BoxCenter>
           <BoxCenter style={{ margin: "0 10px" }}>

@@ -31,7 +31,7 @@ export class CanvasStateManager {
       //Reset the redo stack.
       //We can only redo things that were just undone.
       this.redoStack.length = 0;
-      console.log("saved state");
+      console.debug("saved state");
     }
   };
 
@@ -53,7 +53,7 @@ export class CanvasStateManager {
     newState: any,
     callBack?: () => void
   ): void => {
-    console.log({ newState: newState }, "applying state");
+    console.debug({ newState: newState }, "applying state");
     //Push the current state
     stack.push(this.currentState);
 
