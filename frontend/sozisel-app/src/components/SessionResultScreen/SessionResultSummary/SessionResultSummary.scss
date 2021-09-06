@@ -33,12 +33,12 @@
         padding: $spacing-05;
         
         h2 {
-            color: $gray-2; 
+            color: $text-02; 
             @include poppins-text;
         }
 
         h3 {
-            color: $gray-3;
+            color: $text-01;
             @include poppins-text;
         }
     }
@@ -64,11 +64,11 @@
             padding-left: $spacing-05;
 
             .title {
-                color: $gray-2; 
+                color: $text-02; 
                 margin-right: $spacing-08;
             }
             .value {
-                color: $gray-3;
+                color: $text-01;
             }
         }
         

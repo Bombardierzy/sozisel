@@ -14,7 +14,7 @@
         align-items: center;
         
         .text {
-            color: $text-04;
+            color: $text-07;
             @include poppins-text; 
         }
 
@@ -29,7 +29,7 @@
         svg {
             width: 10 * $spacing-unit;
             height: 10 * $spacing-unit;
-            color: $text-04;
+            color: $text-07;
             margin-bottom: 2 * $spacing-unit;
         }
         

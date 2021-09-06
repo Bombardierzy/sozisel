@@ -382,6 +382,7 @@ defmodule Sozisel.SessionsTest do
                event_participations: [
                  %{
                    event_id: event1.id,
+                   launched_event_id: launched_event1.id,
                    event_name: event1.name,
                    start_minute: DateTime.diff(event1.inserted_at, session.start_time),
                    event_type: :quiz,
@@ -389,6 +390,7 @@ defmodule Sozisel.SessionsTest do
                  },
                  %{
                    event_id: event2.id,
+                   launched_event_id: launched_event2.id,
                    event_name: event2.name,
                    start_minute: DateTime.diff(event2.inserted_at, session.start_time),
                    event_type: :quiz,

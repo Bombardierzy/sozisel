@@ -9,12 +9,12 @@ import {
 
 import { ReactElement } from "react";
 
-type TotalAreaChartData = {
+export type TotalAreaChartData = {
   xLabel: string;
   value: number;
 }[];
 
-interface TotalAreaChartProps {
+export interface TotalAreaChartProps {
   data: TotalAreaChartData;
   valueLabel: string;
 }
