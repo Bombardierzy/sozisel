@@ -14,8 +14,10 @@
     "apollo-absinthe-upload-link": "^1.7.0",
     "apollo-link-http": "^1.5.17",
     "debounce": "^1.2.1",
+    "fabric": "^4.6.0",
     "graphql": "^15.5.0",
     "i18next": "^20.1.0",
+    "material-ui-color": "^1.2.0",
     "material-ui-dropzone": "^3.5.0",
     "omit-deep-lodash": "^1.1.5",
     "phoenix": "^1.5.8",
@@ -28,7 +30,8 @@
     "react-spinners": "^0.10.6",
     "recharts": "^2.0.9",
     "uuid": "^8.3.2",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "zustand": "^3.5.10"
   },
   "scripts": {
     "watch": "webpack serve --mode development --config ./webpack.config.js",
@@ -49,6 +52,7 @@
     "@types/absinthe__socket": "^0.2.1",
     "@types/absinthe__socket-apollo-link": "^0.2.1",
     "@types/debounce": "^1.2.0",
+    "@types/fabric": "^4.5.3",
     "@types/history": "^4.7.8",
     "@types/omit-deep-lodash": "^1.1.1",
     "@types/react": "^17.0.3",
