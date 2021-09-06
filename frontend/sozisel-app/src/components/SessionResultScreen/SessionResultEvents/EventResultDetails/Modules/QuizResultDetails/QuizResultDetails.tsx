@@ -138,10 +138,8 @@ export default function QuizResultDetails({
   }
 
   return (
-    <>
-      <div className="QuizResultDetails">
-        <ErrorAlert />
-      </div>
-    </>
+    <div className="QuizResultDetails">
+      <ErrorAlert />
+    </div>
   );
 }

@@ -10,7 +10,7 @@ import {
 import QuizResultDetailsDialog, {
   QuizResultDialogDetails,
 } from "../DialogUtils/QuizResultDetailsDialog";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 import EnhancedTable from "../../../../../../../utils/Table/Table";
 import ErrorAlert from "../../../../../../../utils/Alerts/ErrorAlert";
@@ -26,11 +26,14 @@ export default function QuizResultParticipantsView({
   id,
 }: QuizResultParticpantsViewProps): React.ReactElement {
   const { t } = useTranslation("common");
+
   const [currentParticipant, setCurrentParticipant] =
     useState<QuizParticipantSummary | null>(null);
+
   const { loading, data } = useQuizParticipantsSummaryQuery({
     variables: { id },
   });
+
   const { loading: questionsAndAnswersLoading, data: questionsAndAnswers } =
     useQuizQuestionsAndAnswersQuery({ variables: { id } });
 
@@ -63,8 +66,8 @@ export default function QuizResultParticipantsView({
     },
   ];
 
-  const getQuestionById = useMemo(() => {
-    return (id: string) => {
+  const getQuestionById = useCallback(
+    (id: string) => {
       if (!questionsAndAnswers?.quizQuestionsSummary) {
         throw Error("Nie udało się pobrać pytań z bazy");
       }
@@ -73,37 +76,54 @@ export default function QuizResultParticipantsView({
           (element) => element.questionId === id
         )
       );
-    };
-  }, [questionsAndAnswers]);
+    },
+    [questionsAndAnswers]
+  );
 
-  const getDialogDetails = (
-    answer: ParticipantQuizAnswer
-  ): QuizResultDialogDetails => {
-    const question = getQuestionById(answer.questionId);
-    return {
-      name: question.question,
-      points: answer.points,
-      answerTime: answer.answerTime,
-      finalAnswers: answer.finalAnswerIds.map(
-        (answerId) =>
-          ensure(question.answers.find((element) => element.id === answerId))
-            .text
-      ),
-      trackNodes: answer.trackNodes.map((trackNode) => {
-        return {
-          answer: ensure(
-            question.answers.find(
-              (element) => element.id === trackNode.answerId
-            )
-          ).text,
-          time: trackNode.reactionTime,
-          action: trackNode.selected
-            ? t("components.SessionEventResults.Quiz.dialog.selection")
-            : t("components.SessionEventResults.Quiz.dialog.unSelection"),
-        };
-      }),
-    };
-  };
+  const getDialogDetails = useCallback(
+    (answer: ParticipantQuizAnswer): QuizResultDialogDetails => {
+      const question = getQuestionById(answer.questionId);
+      return {
+        name: question.question,
+        points: answer.points,
+        answerTime: answer.answerTime,
+        finalAnswers: answer.finalAnswerIds.map(
+          (answerId) =>
+            ensure(question.answers.find((element) => element.id === answerId))
+              .text
+        ),
+        trackNodes: answer.trackNodes.map((trackNode) => {
+          return {
+            answer: ensure(
+              question.answers.find(
+                (element) => element.id === trackNode.answerId
+              )
+            ).text,
+            time: trackNode.reactionTime,
+            action: trackNode.selected
+              ? t("components.SessionEventResults.Quiz.dialog.selection")
+              : t("components.SessionEventResults.Quiz.dialog.unSelection"),
+          };
+        }),
+      };
+    },
+    [getQuestionById, t]
+  );
+
+  const chartData = useMemo(() => {
+    return (currentParticipant?.participantAnswers ?? []).map((answer) => {
+      return {
+        xLabel: getQuestionById(answer.questionId).question,
+        value: answer.points,
+      };
+    });
+  }, [currentParticipant, getQuestionById]);
+
+  const dialogDetails = useMemo(() => {
+    return (currentParticipant?.participantAnswers ?? []).map((answer) =>
+      getDialogDetails(answer)
+    );
+  }, [currentParticipant, getDialogDetails]);
 
   if (loading || questionsAndAnswersLoading) {
     return (
@@ -129,9 +149,7 @@ export default function QuizResultParticipantsView({
           <EnhancedTable
             data={data.quizParticipantsSummary}
             headCells={headCells}
-            onClick={(participant) => {
-              setCurrentParticipant(participant);
-            }}
+            onClick={setCurrentParticipant}
           />
         </div>
 
@@ -145,28 +163,17 @@ export default function QuizResultParticipantsView({
           detailsViewTitle={t(
             "components.SessionEventResults.Quiz.resultForQuestions"
           )}
-          chartData={(currentParticipant?.participantAnswers ?? []).map(
-            (answer) => {
-              return {
-                xLabel: getQuestionById(answer.questionId).question,
-                value: answer.points,
-              };
-            }
-          )}
+          chartData={chartData}
           chartSubtitle={t("components.SessionEventResults.Quiz.forQuestions")}
-          details={(currentParticipant?.participantAnswers ?? []).map(
-            (answer) => getDialogDetails(answer)
-          )}
+          details={dialogDetails}
         />
       </>
     );
   }
 
   return (
-    <>
-      <div className="QuizResultParticipantsView">
-        <ErrorAlert />
-      </div>
-    </>
+    <div className="QuizResultParticipantsView">
+      <ErrorAlert />
+    </div>
   );
 }

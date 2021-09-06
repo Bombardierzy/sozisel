@@ -94,7 +94,7 @@ export interface EnhancedTableProps<T> {
 }
 
 const ROWS_PER_PAGE = 5;
-export default function EnhancedTable<T extends { [key: string]: unknown }>({
+export default function EnhancedTable<T>({
   headCells,
   data,
   onClick,
@@ -146,7 +146,7 @@ export default function EnhancedTable<T extends { [key: string]: unknown }>({
                           <TableCell key={index} className="tableCell">
                             {typeof value === "number"
                               ? value.toFixed(2)
-                              : (value as string)}
+                              : value}
                           </TableCell>
                         );
                       })}

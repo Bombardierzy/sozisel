@@ -47,7 +47,6 @@ export interface QuizResultDialogDetails {
   finalAnswers: string[];
 }
 export interface QuizResultDialogTrackNodes {
-  [key: string]: string | number;
   answer: string;
   time: number;
   action: string;
@@ -70,7 +69,10 @@ function QuizResultDialogAccordion({
   key,
 }: QuizResultDialogAccordionProps): React.ReactElement {
   const { t } = useTranslation("common");
-  const headCells = [
+  const headCells: {
+    id: keyof QuizResultDialogTrackNodes;
+    label: string;
+  }[] = [
     {
       id: "answer",
       label: t("components.SessionEventResults.Quiz.dialog.answer"),
@@ -102,9 +104,9 @@ function QuizResultDialogAccordion({
           {t("components.SessionEventResults.Quiz.dialog.finalAnswers")}
         </Typography>
         <div className="finalAnswers">
-          {detail.finalAnswers.map((answer, index) => {
-            return <span key={index}>{answer}</span>;
-          })}
+          {detail.finalAnswers.map((answer, index) => (
+            <span key={index}>{answer}</span>
+          ))}
         </div>
       </AccordionDetails>
     </Accordion>
@@ -156,15 +158,13 @@ export default function QuizResultDetailsDialog({
               {detailName}
             </Typography>
           </div>
-          {stats.map((element) => {
-            return (
-              <StatsRow
-                key={element.label}
-                label={element.label}
-                value={element.value}
-              />
-            );
-          })}
+          {stats.map((element) => (
+            <StatsRow
+              key={element.label}
+              label={element.label}
+              value={element.value}
+            />
+          ))}
           <div className="chartContainer">
             <div>
               <h2>{t("components.SessionEventResults.Quiz.points")}</h2>

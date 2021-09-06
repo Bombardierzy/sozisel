@@ -92,10 +92,8 @@ export default function EventResultDetails({
   }
 
   return (
-    <>
-      <div className="EventResultDetails">
-        <ErrorAlert />
-      </div>
-    </>
+    <div className="EventResultDetails">
+      <ErrorAlert />
+    </div>
   );
 }

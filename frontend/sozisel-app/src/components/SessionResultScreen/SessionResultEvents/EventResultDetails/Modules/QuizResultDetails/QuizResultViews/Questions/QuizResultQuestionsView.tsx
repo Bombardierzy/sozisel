@@ -9,7 +9,7 @@ import {
 import QuizResultDetailsDialog, {
   QuizResultDialogDetails,
 } from "../DialogUtils/QuizResultDetailsDialog";
-import React, { useState } from "react";
+import { ReactElement, useCallback, useMemo, useState } from "react";
 
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EnhancedTable from "../../../../../../../utils/Table/Table";
@@ -22,7 +22,7 @@ export interface QuizResultQuestionViewProps {
 }
 export default function QuizResultQuestionView({
   id,
-}: QuizResultQuestionViewProps): React.ReactElement {
+}: QuizResultQuestionViewProps): ReactElement {
   const { t } = useTranslation("common");
   const { loading, data } = useQuizQuestionsSummaryQuery({ variables: { id } });
   const [currentQuestion, setCurrentQuestion] =
@@ -57,34 +57,52 @@ export default function QuizResultQuestionView({
     },
   ];
 
-  const getDialogDetails = (
-    answer: ParticipantAnswer
-  ): QuizResultDialogDetails => {
-    return {
-      name: answer.fullName,
-      points: answer.points,
-      answerTime: answer.answerTime,
-      finalAnswers: answer.finalAnswerIds.map(
-        (answerId) =>
-          ensure(
-            currentQuestion?.answers.find((element) => element.id === answerId)
-          ).text
-      ),
-      trackNodes: answer.trackNodes.map((trackNode) => {
-        return {
-          answer: ensure(
-            currentQuestion?.answers.find(
-              (element) => element.id === trackNode.answerId
-            )
-          ).text,
-          time: trackNode.reactionTime,
-          action: trackNode.selected
-            ? t("components.SessionEventResults.Quiz.dialog.selection")
-            : t("components.SessionEventResults.Quiz.dialog.unSelection"),
-        };
-      }),
-    };
-  };
+  const getDialogDetails = useCallback(
+    (answer: ParticipantAnswer): QuizResultDialogDetails => {
+      return {
+        name: answer.fullName,
+        points: answer.points,
+        answerTime: answer.answerTime,
+        finalAnswers: answer.finalAnswerIds.map(
+          (answerId) =>
+            ensure(
+              currentQuestion?.answers.find(
+                (element) => element.id === answerId
+              )
+            ).text
+        ),
+        trackNodes: answer.trackNodes.map((trackNode) => {
+          return {
+            answer: ensure(
+              currentQuestion?.answers.find(
+                (element) => element.id === trackNode.answerId
+              )
+            ).text,
+            time: trackNode.reactionTime,
+            action: trackNode.selected
+              ? t("components.SessionEventResults.Quiz.dialog.selection")
+              : t("components.SessionEventResults.Quiz.dialog.unSelection"),
+          };
+        }),
+      };
+    },
+    [currentQuestion, t]
+  );
+
+  const chartData = useMemo(() => {
+    return (currentQuestion?.participantsAnswers ?? []).map((answer) => {
+      return {
+        xLabel: answer.fullName,
+        value: answer.points,
+      };
+    });
+  }, [currentQuestion]);
+
+  const dialogDetails = useMemo(() => {
+    return (currentQuestion?.participantsAnswers ?? []).map((answer) =>
+      getDialogDetails(answer)
+    );
+  }, [currentQuestion, getDialogDetails]);
 
   if (loading) {
     return (
@@ -107,7 +125,7 @@ export default function QuizResultQuestionView({
           <EnhancedTable
             data={data.quizQuestionsSummary}
             headCells={headCells}
-            onClick={(question) => setCurrentQuestion(question)}
+            onClick={setCurrentQuestion}
           />
         </div>
 
@@ -121,30 +139,19 @@ export default function QuizResultQuestionView({
           detailsViewTitle={t(
             "components.SessionEventResults.Quiz.resultForParticipants"
           )}
-          chartData={(currentQuestion?.participantsAnswers ?? []).map(
-            (answer) => {
-              return {
-                xLabel: answer.fullName,
-                value: answer.points,
-              };
-            }
-          )}
+          chartData={chartData}
           chartSubtitle={t(
             "components.SessionEventResults.Quiz.forParticipants"
           )}
-          details={(currentQuestion?.participantsAnswers ?? []).map((answer) =>
-            getDialogDetails(answer)
-          )}
+          details={dialogDetails}
         />
       </>
     );
   }
 
   return (
-    <>
-      <div className="QuizResultQuestionView">
-        <ErrorAlert />
-      </div>
-    </>
+    <div className="QuizResultQuestionView">
+      <ErrorAlert />
+    </div>
   );
 }
