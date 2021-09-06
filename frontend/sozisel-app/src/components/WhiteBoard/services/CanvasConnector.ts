@@ -3,11 +3,6 @@ import { CANVAS_TOPICS, canvasManager } from "./CanvasManager";
 import { Channel } from "phoenix";
 import { Object as FabricObject } from "fabric/fabric-impl";
 
-// import { Socket } from "socket.io-client";
-// import { meetingState } from "../meeting/state/meeting";
-
-// import { signalingChannel } from "../../../shared/services/theme/signalling";
-
 export type CanvasAction =
   | "redo"
   | "undo"

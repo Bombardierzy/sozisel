@@ -52,7 +52,6 @@ const getToolIcon = (tool: string) => {
           style={{ ...styles.toolbarIcon, width: "16px", height: "16px" }}
         />
       );
-    // return <SelectIcon style={styles.toolbarIcon} />;
     case CANVAS_MODE.LINE:
       return (
         <img
@@ -223,24 +222,6 @@ export const CanvasToolbar = (): ReactElement => {
           </BoxCenter>
         </Fragment>
       )}
-      {/* TODO: decide if we want to give an opportunity to change element's zindex in canvas */}
-      {/* {selectedObject && (
-        <div className="flex-center">
-          <button onClick={() => canvasManager.setSelectedObjectZPos(0)}>
-            Back
-          </button>
-          <button onClick={() => canvasManager.setSelectedObjectZPos(1)}>
-            Backwards
-          </button>
-          <button onClick={() => canvasManager.setSelectedObjectZPos(2)}>
-            Forwards
-          </button>
-          <button onClick={() => canvasManager.setSelectedObjectZPos(3)}>
-            Front
-          </button>
-        </div>
-      )} */}
-
       <Button
         onClick={() => canvasManager.downloadCanvas()}
         style={{ marginLeft: "15px", color: "#323e49" }}
