@@ -3,6 +3,8 @@ defmodule SoziselWeb.Channels.SharedWhiteboard do
 
   alias Sozisel.SharedWhiteboard, as: SharedWhiteboardHandler
 
+  require Logger
+
   # TODO: maybe one time add authorization, for now it does not matter
   @impl true
   def join("shared:whiteboard:" <> session_id, _params, socket) do
@@ -11,8 +13,8 @@ defmodule SoziselWeb.Channels.SharedWhiteboard do
       {:ok, value, assign(socket, :session_id, session_id)}
     else
       {:error, reason} ->
-        IO.inspect(reason)
-        {:error, %{reason: "inspect reason"}}
+        Logger.error("Failed to create a shared whiteboard's channel: #{inspect reason}")
+        {:error, %{reason: "#{inspect reason}"}}
     end
   end
 
