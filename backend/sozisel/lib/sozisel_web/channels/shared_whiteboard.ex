@@ -13,8 +13,8 @@ defmodule SoziselWeb.Channels.SharedWhiteboard do
       {:ok, value, assign(socket, :session_id, session_id)}
     else
       {:error, reason} ->
-        Logger.error("Failed to create a shared whiteboard's channel: #{inspect reason}")
-        {:error, %{reason: "#{inspect reason}"}}
+        Logger.error("Failed to create a shared whiteboard's channel: #{inspect(reason)}")
+        {:error, %{reason: "#{inspect(reason)}"}}
     end
   end
 
