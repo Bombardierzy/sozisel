@@ -16,6 +16,7 @@ defmodule Sozisel.Application do
       SoziselWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Sozisel.PubSub},
+      {Registry, name: Sozisel.SharedWhiteboard.registry(), keys: :unique},
       # Start Presence
       SoziselWeb.Presence,
       # Start the Endpoint (http/https)

@@ -288,6 +288,10 @@
       "warning": "Ta czynność jest nieodrwacalna, wraz z usunięciem trwalne znikną dane dotyczące danego zasobu. Czy jesteś pewnien, że chcesz usunąć dany zasób?",
       "cancel": "Anuluj",
       "delete": "Usuń"
+    },
+    "WhiteBoard": {
+      "brushSize": "Grubość lini",
+      "download": "Pobierz"
     }
   },
   "inputErrors": {
