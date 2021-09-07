@@ -32,22 +32,9 @@ defmodule Sozisel.MediaStorage.Disk do
   end
 
   defp full_file_path(filename) do
-    filename
-    |> String.split(".")
-    |> List.last()
-    |> case do
-      "png" ->
-        Path.join([
-          Application.fetch_env!(:sozisel, SoziselWeb.WhiteboardImages)
-          |> Keyword.fetch!(:upload_path),
-          filename
-        ])
-
-      "mp4" ->
-        Path.join([
-          Application.fetch_env!(:sozisel, SoziselWeb.Recordings) |> Keyword.fetch!(:upload_path),
-          filename
-        ])
-    end
+    Path.join([
+      Application.fetch_env!(:sozisel, SoziselWeb.Upload) |> Keyword.fetch!(:upload_path),
+      filename
+    ])
   end
 end

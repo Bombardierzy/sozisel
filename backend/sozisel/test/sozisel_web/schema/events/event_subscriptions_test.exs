@@ -279,12 +279,11 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
       sub = run_subscription(ctx.user_socket, @presenter_event_result_submitted, variables)
 
-      File.mkdir("/tmp/images")
-      File.copy!("test/assets/test_image.png", "/tmp/images/test_image.png")
+      File.copy!("test/assets/test_image.png", "/tmp/test_image.png")
 
       upload = %Plug.Upload{
         content_type: "image/png",
-        path: "/tmp/images/test_image.png",
+        path: "/tmp/test_image.png",
         filename: "whiteboard_image.png"
       }
 
@@ -292,7 +291,6 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
         input: %{
           launched_event_id: launched_event.id,
           image: "image",
-          path: "some path",
           text: "some text",
           used_time: 145
         },

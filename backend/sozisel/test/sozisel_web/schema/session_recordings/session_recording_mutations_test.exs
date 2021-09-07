@@ -2,6 +2,8 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
+  
+  alias Sozisel.MediaStorage.Disk
 
   @upload_recording_mutation """
   mutation UploadRecording($id: ID!, $recording: Upload!) {
@@ -34,12 +36,11 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
       template = insert(:template, user_id: user.id)
       session = insert(:session, session_template_id: template.id, user_id: user.id)
 
-      File.mkdir("/tmp/recordings")
-      File.copy!("test/assets/test_recording.mp4", "/tmp/recordings/test_recording.mp4")
+      File.copy!("test/assets/test_recording.mp4", "/tmp/test_recording.mp4")
 
       upload = %Plug.Upload{
         content_type: "video/mp4",
-        path: "/tmp/recordings/test_recording.mp4",
+        path: "/tmp/test_recording.mp4",
         filename: "session_recording.mp4"
       }
 
@@ -59,7 +60,11 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
                  recording: ctx.upload
                )
                |> json_response(200)
+
+      assert Disk.file_exists?("session_#{ctx.session.id}.mp4")
     end
+    #      session_9c624b4f-9592-4f3b-8b5e-65441da299cf.mp4
+    # /tmp/session_9c624b4f-9592-4f3b-8b5e-65441da299cf.mp4
 
     test "forbid from uploading a session recording twice for the same session", ctx do
       assert %{
@@ -95,11 +100,11 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
     end
 
     test "delete session's recording", ctx do
-      File.copy!("test/assets/test_recording.mp4", "/tmp/recordings/test_recording.mp4")
+      File.copy!("test/assets/test_recording.mp4", "/tmp/test_recording.mp4")
 
       upload = %Plug.Upload{
         content_type: "video/mp4",
-        path: "/tmp/recordings/test_recording.mp4",
+        path: "/tmp/test_recording.mp4",
         filename: "session_recording.mp4"
       }
 
@@ -154,8 +159,7 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
       {:ok, %{id: recording_id}} =
         SessionRecordings.create_session_recording(%{
           session_id: ctx.session.id,
-          path: "/",
-          metadata: %{}
+          path: "/"
         })
 
       annotations = [

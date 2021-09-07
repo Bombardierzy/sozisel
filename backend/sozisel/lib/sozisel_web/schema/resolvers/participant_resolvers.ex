@@ -192,19 +192,42 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     verify_launched_event(ctx, launched_event_id, on_verify)
   end
 
-  def submit_whiteboard_result(
-        _parent,
-        %{
-          input: %{
-            launched_event_id: launched_event_id,
-            image: %Plug.Upload{} = image,
-            path: path,
-            text: text,
-            used_time: used_time
-          }
-        },
-        ctx
-      ) do
+  def insert_result_in_transaction(event_result_attrs, image, filename, extension) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :whiteboard_event_result,
+      EventResult.create_changeset(%EventResult{}, event_result_attrs)
+    )
+    |> Ecto.Multi.run(:file_rename, fn _repo, event_result ->
+      %{
+        whiteboard_event_result: %{
+          result_data: %{path: path}
+        }
+      } = event_result
+
+      processed_image_path = Path.rootname(path) <> "_processed" <> extension
+
+      with :ok <- File.touch(processed_image_path),
+           :ok <- File.rename(image.path, processed_image_path),
+           :ok <- @media_storage_module.store_file(filename, processed_image_path) do
+        {:ok, %{}}
+      else
+        error -> error
+      end
+    end)
+    |> Repo.transaction()
+  end
+
+  def submit_whiteboard_result(_parent, data, ctx) do
+    %{
+      input: %{
+        launched_event_id: launched_event_id,
+        image: %Plug.Upload{} = image,
+        text: text,
+        used_time: used_time
+      }
+    } = data
+
     on_verified = fn %{
                        launched_event: launched_event,
                        session: session,
@@ -217,7 +240,6 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
         participant_id: participant.id,
         launched_event_id: launched_event.id,
         result_data: %{
-          metadata: %{},
           path: filename,
           text: text,
           used_time: used_time
@@ -227,36 +249,16 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
       with %LaunchedEvent{event_id: event_id} <- Repo.get(LaunchedEvent, launched_event_id),
            %Event{event_data: %event_data_module{} = event_data} <- Repo.get(Event, event_id),
            :ok <- event_data_module.validate_result(event_data, event_result_attrs) do
-        Ecto.Multi.new()
-        |> Ecto.Multi.insert(
-          :whiteboard_event_result,
-          EventResult.create_changeset(%EventResult{}, event_result_attrs)
-        )
-        |> Ecto.Multi.run(:file_rename, fn _repo,
-                                           %{
-                                             whiteboard_event_result: %{
-                                               result_data: %{path: path}
-                                             }
-                                           } ->
-          processed_image_path = Path.rootname(path) <> "_processed" <> extension
 
-          with :ok <- File.touch(processed_image_path),
-               :ok <- File.rename(image.path, processed_image_path),
-               :ok <- @media_storage_module.store_file(filename, processed_image_path) do
-            {:ok, %{}}
-          else
-            error -> error
-          end
-        end)
-        |> Repo.transaction()
+        insert_result_in_transaction(event_result_attrs, image, filename, extension)
         |> case do
           {:ok, %{whiteboard_event_result: event_result}} ->
             Helpers.subscription_publish(
               :event_result_submitted,
-              Topics.session_presenter(launched_event.session.id, launched_event.session.user_id),
+              Topics.session_presenter(session.id, session.user_id),
               %{
                 id: event_result.id,
-                result_data: %{
+                result_data: %WhiteboardResult{
                   path: filename,
                   text: text,
                   used_time: used_time

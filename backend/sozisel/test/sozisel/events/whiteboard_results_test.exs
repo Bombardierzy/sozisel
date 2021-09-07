@@ -10,7 +10,6 @@ defmodule Sozisel.Events.WhiteboardResultsTest do
   describe "whiteboard_results" do
     @valid_attrs %{
       result_data: %{
-        metadata: %{},
         path: "some path",
         text: "some text",
         used_time: 143.2
@@ -19,7 +18,6 @@ defmodule Sozisel.Events.WhiteboardResultsTest do
 
     @update_attrs %{
       result_data: %{
-        metadata: %{},
         path: "some other path",
         text: "some other text",
         used_time: 121.1
@@ -69,7 +67,6 @@ defmodule Sozisel.Events.WhiteboardResultsTest do
         })
 
       assert event_result.result_data == %WhiteboardResult{
-               metadata: %{},
                path: "some path",
                text: "some text",
                used_time: 143.2
@@ -104,7 +101,6 @@ defmodule Sozisel.Events.WhiteboardResultsTest do
                EventResults.update_event_result(event_result, @update_attrs)
 
       assert event_result.result_data == %WhiteboardResult{
-               metadata: %{},
                path: "some other path",
                text: "some other text",
                used_time: 121.1

@@ -31,7 +31,6 @@ defmodule SoziselWeb.Schema.Types.WhiteboardTypes do
     field :launched_event_id, non_null(:id)
 
     field :image, non_null(:upload)
-    field :path, non_null(:string)
     @desc "Here, the user can write a short note explaining the meaning or something else"
     field :text, :string
     field :used_time, non_null(:float)

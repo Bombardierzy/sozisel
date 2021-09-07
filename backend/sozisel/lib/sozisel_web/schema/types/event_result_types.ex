@@ -64,7 +64,7 @@ defmodule SoziselWeb.Schema.Types.EventResultTypes do
     resolve_type fn
       %{total_points: _}, _ -> :quiz_simple_result
       %PollResult{}, _ -> :poll_result
-      %{path: _, text: _}, _ -> :whiteboard_result
+      %WhiteboardResult{}, _ -> :whiteboard_result
       _, _ -> nil
     end
   end

@@ -4,6 +4,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
   import Sozisel.Factory
 
   alias Sozisel.Model.Sessions
+  alias Sozisel.MediaStorage.Disk
 
   @create_participant """
   mutation JoinSession($input: JoinSessionInput!) {
@@ -449,12 +450,11 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
       participant = insert(:participant, session_id: session.id)
 
-      File.mkdir("/tmp/images")
-      File.copy!("test/assets/test_image.png", "/tmp/images/test_image.png")
+      File.copy!("test/assets/test_image.png", "/tmp/test_image.png")
 
       upload = %Plug.Upload{
         content_type: "image/png",
-        path: "/tmp/images/test_image.png",
+        path: "/tmp/test_image.png",
         filename: "whiteboard_image.png"
       }
 
@@ -462,7 +462,6 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
         input: %{
           launched_event_id: launched_event.id,
           image: "image",
-          path: "some path",
           text: "some text",
           used_time: 145
         },
@@ -487,17 +486,18 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                  image: upload
                )
                |> json_response(200)
+
+      assert Disk.file_exists?("whiteboard_#{launched_event.id}_#{participant.id}.png")
     end
 
     test "forbid end whiteboard with wrong launched_event_id", ctx do
       participant = insert(:participant)
 
-      File.mkdir("/tmp/images")
-      File.copy!("test/assets/test_image.png", "/tmp/images/test_image.png")
+      File.copy!("test/assets/test_image.png", "/tmp/test_image.png")
 
       upload = %Plug.Upload{
         content_type: "image/png",
-        path: "/tmp/images/test_image.png",
+        path: "/tmp/test_image.png",
         filename: "whiteboard_image.png"
       }
 
@@ -505,7 +505,6 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
         input: %{
           launched_event_id: Ecto.UUID.generate(),
           image: "image",
-          path: "some path",
           text: "some text",
           used_time: 145
         },

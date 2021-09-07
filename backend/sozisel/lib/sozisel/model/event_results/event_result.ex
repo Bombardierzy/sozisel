@@ -27,7 +27,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
         poll_result: [module: PollResult, identify_by_fields: [:option_ids]],
         whiteboard_result: [
           module: WhiteboardResult,
-          identify_by_fields: [:metadata, :path, :text, :used_time]
+          identify_by_fields: [:path, :text, :used_time]
         ]
       ],
       on_type_not_found: :raise,

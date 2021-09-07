@@ -31,9 +31,7 @@ config :sozisel, Sozisel.JitsiTokenGenerator,
   issuer: "sozisel_app",
   secret_key: "9mrcPkvUfoqzuHrfQfP/ExOynZgpL7w"
 
-config :sozisel, SoziselWeb.Recordings, upload_path: "/tmp/recordings/"
-
-config :sozisel, SoziselWeb.WhiteboardImages, upload_path: "/tmp/images/"
+config :sozisel, SoziselWeb.Upload, upload_path: "/tmp/"
 
 # Configures Elixir's Logger
 config :logger, :console,
