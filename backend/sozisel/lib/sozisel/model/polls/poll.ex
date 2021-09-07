@@ -106,7 +106,13 @@ defmodule Sozisel.Model.Polls.Poll do
 
     with %LaunchedEvent{} = launched_event <- Repo.get(LaunchedEvent, launched_event_id),
          %LaunchedEvent{
-           event: %Event{event_data: %__MODULE__{is_multi_choice: is_multi_choice, question: question, options: options}},
+           event: %Event{
+             event_data: %__MODULE__{
+               is_multi_choice: is_multi_choice,
+               question: question,
+               options: options
+             }
+           },
            event_results: event_results
          } <- Repo.preload(launched_event, [:event, :event_results]) do
       mapped_options =

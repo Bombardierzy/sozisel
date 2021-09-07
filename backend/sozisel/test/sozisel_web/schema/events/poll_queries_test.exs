@@ -36,13 +36,14 @@ defmodule SoziselWeb.Schema.Polls.PollQueriesTest do
     id = launched_event.id
     question = event.event_data.question
 
-    assert %{data: %{
-      "pollSummary" => %{
-        "id" => ^id,
-        "question" => ^question,
-        "totalVoters" => 1,
-      }
-    }} = run_query(test_conn(user), @poll_summary_query, %{id: launched_event.id})
+    assert %{
+             data: %{
+               "pollSummary" => %{
+                 "id" => ^id,
+                 "question" => ^question,
+                 "totalVoters" => 1
+               }
+             }
+           } = run_query(test_conn(user), @poll_summary_query, %{id: launched_event.id})
   end
-
 end
