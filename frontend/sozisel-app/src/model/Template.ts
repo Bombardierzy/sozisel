@@ -1,5 +1,6 @@
+import { Poll, Whiteboard } from "../graphql";
+
 import { AgendaPoint } from "./Agenda";
-import { Poll } from "../graphql";
 
 export interface SessionTemplate {
   id: string;
@@ -19,15 +20,7 @@ export interface Event {
   startMinute: number;
 }
 
-export type EventData = Quiz | Poll;
-
-// export interface Poll {
-//   __typename?: string;
-//   question: string;
-//   isMultiChoice: boolean;
-//   options: PollOption
-// }
-
+export type EventData = Quiz | Poll | Whiteboard;
 export interface Quiz {
   __typename?: string;
   quizQuestions: QuizQuestion[];
