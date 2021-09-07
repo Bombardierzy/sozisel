@@ -10,7 +10,7 @@ export default function PollPieChart({
   data,
 }: PollPieChartProps): ReactElement {
   return (
-    <ResponsiveContainer width="70%" height={250}>
+    <ResponsiveContainer width="60%" height={250}>
       <PieChart>
         <Pie
           dataKey="votes"
