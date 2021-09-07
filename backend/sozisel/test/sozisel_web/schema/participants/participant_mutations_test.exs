@@ -5,6 +5,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
   alias Sozisel.Model.Sessions
   alias Sozisel.MediaStorage.Disk
+  alias Sozisel.Model.Whiteboards.WhiteboardResult
 
   @create_participant """
   mutation JoinSession($input: JoinSessionInput!) {
@@ -449,6 +450,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
       session = insert(:session, session_template_id: template.id)
       launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
       participant = insert(:participant, session_id: session.id)
+      extension = ".png"
 
       File.copy!("test/assets/test_image.png", "/tmp/test_image.png")
 
@@ -487,10 +489,11 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
                )
                |> json_response(200)
 
-      assert Disk.file_exists?("whiteboard_#{launched_event.id}_#{participant.id}.png")
+      assert WhiteboardResult.generate_filename(launched_event.id, participant.id, extension)
+             |> Disk.file_exists?()
     end
 
-    test "forbid end whiteboard with wrong launched_event_id", ctx do
+    test "forbid whiteboard event submit for invalid launched_event_id", ctx do
       participant = insert(:participant)
 
       File.copy!("test/assets/test_image.png", "/tmp/test_image.png")

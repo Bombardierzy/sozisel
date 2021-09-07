@@ -26,14 +26,12 @@ defmodule Sozisel.Model.Whiteboards.Whiteboard do
   def validate_result(%__MODULE__{}, %{
         result_data: %{used_time: used_time}
       }) do
-    cond do
-      used_time < 0.0 ->
-        Logger.error("#{@validation_prefix} used time must be positive but is #{used_time}")
+    if used_time < 0.0 do
+      Logger.error("#{@validation_prefix} used time must be positive but is #{used_time}")
 
-        {:error, :unmatched_event_result}
-
-      true ->
-        :ok
+      {:error, :unmatched_event_result}
+    else
+      :ok
     end
   end
 

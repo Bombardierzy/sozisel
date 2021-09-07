@@ -192,7 +192,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     verify_launched_event(ctx, launched_event_id, on_verify)
   end
 
-  def insert_result_in_transaction(event_result_attrs, image, filename, extension) do
+  def insert_whiteboard_result_in_transaction(event_result_attrs, image, filename, extension) do
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
       :whiteboard_event_result,
@@ -211,8 +211,6 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
            :ok <- File.rename(image.path, processed_image_path),
            :ok <- @media_storage_module.store_file(filename, processed_image_path) do
         {:ok, %{}}
-      else
-        error -> error
       end
     end)
     |> Repo.transaction()
@@ -249,8 +247,7 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
       with %LaunchedEvent{event_id: event_id} <- Repo.get(LaunchedEvent, launched_event_id),
            %Event{event_data: %event_data_module{} = event_data} <- Repo.get(Event, event_id),
            :ok <- event_data_module.validate_result(event_data, event_result_attrs) do
-
-        insert_result_in_transaction(event_result_attrs, image, filename, extension)
+        insert_whiteboard_result_in_transaction(event_result_attrs, image, filename, extension)
         |> case do
           {:ok, %{whiteboard_event_result: event_result}} ->
             Helpers.subscription_publish(

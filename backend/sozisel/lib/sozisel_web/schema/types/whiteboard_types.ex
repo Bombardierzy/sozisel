@@ -22,6 +22,7 @@ defmodule SoziselWeb.Schema.Types.WhiteboardTypes do
   end
 
   object :whiteboard_result do
+    @desc "Relative path under which the media object should be accessed."
     field :path, non_null(:string)
     field :text, :string
     field :used_time, non_null(:float)
@@ -31,7 +32,7 @@ defmodule SoziselWeb.Schema.Types.WhiteboardTypes do
     field :launched_event_id, non_null(:id)
 
     field :image, non_null(:upload)
-    @desc "Here, the user can write a short note explaining the meaning or something else"
+    @desc "An optional note that user can add to explain meaning of the uploaded result"
     field :text, :string
     field :used_time, non_null(:float)
   end

@@ -43,6 +43,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
 
   object :session_recording do
     field :id, non_null(:id)
+    @desc "Relative path under which the media object should be accessed."
     field :path, non_null(:string)
     field :annotations, strong_list_of(:recording_annotation)
   end

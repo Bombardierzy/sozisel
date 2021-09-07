@@ -33,7 +33,7 @@ defmodule Sozisel.MediaStorage.Disk do
 
   defp full_file_path(filename) do
     Path.join([
-      Application.fetch_env!(:sozisel, SoziselWeb.Upload) |> Keyword.fetch!(:upload_path),
+      Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload) |> Keyword.fetch!(:upload_path),
       filename
     ])
   end
