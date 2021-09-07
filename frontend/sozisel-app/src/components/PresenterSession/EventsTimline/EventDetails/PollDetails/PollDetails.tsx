@@ -10,7 +10,6 @@ interface PollDetailsProps {
 
 const PollDetails = ({ poll }: PollDetailsProps): ReactElement => {
   const { t } = useTranslation("common");
-  console.log(poll);
   return (
     <div className="PollDetails">
       <div>

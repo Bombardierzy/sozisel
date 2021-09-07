@@ -67,7 +67,6 @@ export default function ParticipantActiveSession({
   useEffect(() => {
     if (eventData?.eventLaunched) {
       setActiveEvent(eventData.eventLaunched);
-      console.log(eventData.eventLaunched);
     }
   }, [eventData]);
 

@@ -27,8 +27,6 @@ const ParticipantPollEvent = ({
   const pollData: Poll = event.eventData as Poll;
   const [choosenOptionsIds, setChoosenOptionsIds] = useState<string[]>([]);
   const [submitPollResultsMutation] = useSubmitPollResultsMutation();
-  console.log(pollData);
-  console.log(`participan ${event.id}`);
   const selectOption = (option: PollOption): void => {
     if (!pollData.isMultiChoice) {
       setChoosenOptionsIds([option.id]);

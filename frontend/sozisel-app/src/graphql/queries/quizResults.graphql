@@ -5,7 +5,6 @@ query QuizQuestionsSummary($id: ID!){
   }
 }
 
-
 query QuizParticipantsSummary($id: ID!){
   quizParticipantsSummary(id: $id) {
     numberOfPoints

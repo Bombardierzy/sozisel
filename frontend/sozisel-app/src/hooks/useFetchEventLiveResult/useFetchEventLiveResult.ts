@@ -1,12 +1,14 @@
-import useFetchPollLiveResult, { PollResult } from "./useFetchPollLiveResult";
+import useFetchPollLiveResult, { PollSummary } from "./useFetchPollLiveResult";
 import useFetchQuizLiveResult, { QuizResult } from "./useFetchQuizLiveResult";
+import { Event } from "../../model/Template";
 import { useEventResultSubmittedSubscription } from "../../graphql";
 
-type EventResult = Partial<PollResult> & Partial<QuizResult>;
+type EventResult = Partial<PollSummary> & Partial<QuizResult>;
 export type Typename = "QuizSimpleResult" | "PollResult";
 
 const useFetchEventLiveResult = (
   sessionId: string,
+  event: Event,
   eventId: string,
   typename: Typename
 ): EventResult => {
@@ -22,10 +24,12 @@ const useFetchEventLiveResult = (
     eventId,
   });
 
-  const pollResult = useFetchPollLiveResult(
-    typename !== "QuizSimpleResult",
-    eventId
-  );
+  const pollResult = useFetchPollLiveResult({
+    skip: typename !== "PollResult",
+    eventResult,
+    event,
+    eventId,
+  });
 
   switch (typename) {
     case "QuizSimpleResult":

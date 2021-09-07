@@ -20,20 +20,24 @@ export default function EventDetails({
 
   return (
     <div className="eventDetails">
-      <Typography className="eventDetailsHeader">
-        {t("components.PresenterSession.EventsTimeline.eventDetailsHeader")}
-      </Typography>
-      <p className="durationTime">
-        {t(
-          "components.PresenterSession.EventsTimeline.QuizDetails.durationTime",
-          { value: activeEvent.durationTimeSec }
-        )}
-      </p>
-      {!activeEventId && activeEvent.eventData.__typename === "Quiz" && (
-        <QuizDetails quiz={activeEvent.eventData as Quiz} />
-      )}
-      {!activeEventId && activeEvent.eventData.__typename === "Poll" && (
-        <PollDetails poll={activeEvent.eventData as Poll} />
+      {!activeEventId && (
+        <>
+          <Typography className="eventDetailsHeader">
+            {t("components.PresenterSession.EventsTimeline.eventDetailsHeader")}
+          </Typography>
+          <p className="durationTime">
+            {t(
+              "components.PresenterSession.EventsTimeline.QuizDetails.durationTime",
+              { value: activeEvent.durationTimeSec }
+            )}
+          </p>
+          {activeEvent.eventData.__typename === "Quiz" && (
+            <QuizDetails quiz={activeEvent.eventData as Quiz} />
+          )}
+          {activeEvent.eventData.__typename === "Poll" && (
+            <PollDetails poll={activeEvent.eventData as Poll} />
+          )}
+        </>
       )}
     </div>
   );

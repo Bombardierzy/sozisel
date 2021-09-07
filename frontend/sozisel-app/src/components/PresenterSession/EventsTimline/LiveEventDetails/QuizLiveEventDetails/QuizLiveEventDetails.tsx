@@ -17,7 +17,12 @@ const QuziLiveEventDetails = (): ReactElement => {
   } = useContext(LiveEventContext);
 
   const { pointSum, completedTrialsNumber, scoresDistribution } =
-    useFetchEventLiveResult(sessionId, activeEvent.id, "QuizSimpleResult");
+    useFetchEventLiveResult(
+      sessionId,
+      event,
+      activeEvent.id,
+      "QuizSimpleResult"
+    );
 
   if (event.eventData.__typename !== "Quiz") {
     return <></>;

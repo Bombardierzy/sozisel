@@ -22,7 +22,7 @@ export interface Event {
 export type EventData = Quiz | Poll;
 
 export interface Quiz {
-  __typename?: string;
+  __typename?: "Quiz";
   quizQuestions: QuizQuestion[];
   targetPercentageOfParticipants: number;
 }
