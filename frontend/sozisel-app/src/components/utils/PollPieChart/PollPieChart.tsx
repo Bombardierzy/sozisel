@@ -23,12 +23,6 @@ export default function PollPieChart({
         <Tooltip
           formatter={(value: string, name: number) => [value, data[name].text]}
         />
-        {/* {
-        data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index]}/>
-        ))
-      }
-      </Pie> */}
       </PieChart>
     </ResponsiveContainer>
   );

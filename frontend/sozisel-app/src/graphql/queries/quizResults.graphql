@@ -1,13 +1,78 @@
-query QuizQuestionsSummary($id: ID!){
-  quizQuestionsSummary(id: $id) {
-    averagePoint
-    questionId
-  }
-}
-
-query QuizParticipantsSummary($id: ID!){
+query QuizParticipantsLiveSummary($id: ID!){
   quizParticipantsSummary(id: $id) {
     numberOfPoints
     fullName
   }
+}
+
+query QuizSummary($id: ID!) {
+    quizSummary(id: $id) {
+        averagePoints
+        averageQuizAnswerTime
+        numberOfParticipants
+    }
+}
+
+query QuizParticipantsSummary($id: ID!){
+    quizParticipantsSummary(id: $id){
+        email
+        fullName
+        numberOfPoints
+        quizAnswerTime
+        participantAnswers {
+            answerTime
+            finalAnswerIds
+            points
+            questionId
+            trackNodes {
+                answerId
+                reactionTime
+                selected
+            }
+        }
+    }
+}
+
+query QuizQuestionsSummary($id: ID!){
+    quizQuestionsSummary(id: $id){
+        answers {
+            id
+            text
+        }
+        averageAnswerTime
+        averagePoint
+        correctAnswers {
+            id
+            text
+        }
+        questionId
+        question
+        participantsAnswers {
+            email
+            fullName
+            answerTime
+            finalAnswerIds
+            points
+            trackNodes {
+                answerId
+                reactionTime
+                selected
+            }
+        }
+    }
+}
+
+query QuizQuestionsAndAnswers($id: ID!){
+    quizQuestionsSummary(id: $id){
+        answers {
+            id
+            text
+        }
+        correctAnswers {
+            id
+            text
+        }
+        questionId
+        question
+    }
 }

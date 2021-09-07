@@ -1,0 +1,49 @@
+@import "../../../../../../../../styles/styles";
+
+.QuizResultChartsView {
+    .headerWithIcon {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: $spacing-07;
+    }
+
+    .header{
+        color: $text-04;
+        font-size: $spacing-07;
+        font-weight: 600;
+        padding: 0 $spacing-05;
+    }
+
+    .chartsContainer {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .chartContainer {
+        flex: 1;
+        margin: 0 $spacing-03;
+        display: grid;
+        grid-template-rows: 1fr 3fr;
+        padding: $spacing-05;
+        
+        h2 {
+            color: $text-02; 
+            @include poppins-text;
+        }
+
+        h3 {
+            color: $text-01;
+            @include poppins-text;
+        }
+    }
+    
+    .chart {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        border-radius: $spacing-05;
+        overflow: hidden;
+    }
+}

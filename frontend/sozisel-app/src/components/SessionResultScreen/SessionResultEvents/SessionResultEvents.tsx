@@ -1,6 +1,7 @@
 import "./SessionResultEvents.scss";
 
 import { CircularProgress, List } from "@material-ui/core";
+import { useHistory, useRouteMatch } from "react-router";
 
 import ErrorAlert from "../../utils/Alerts/ErrorAlert";
 import EventCard from "./EventCard/EventCard";
@@ -17,6 +18,12 @@ export default function SessionResultEvents({
   const { data, loading } = useSessionSummaryQuery({
     variables: { id: sessionId },
   });
+  const history = useHistory();
+  const { url } = useRouteMatch();
+
+  const onCardClick = (launchedEventId: string) => {
+    history.push(url + `/${launchedEventId}`);
+  };
 
   if (loading) {
     return (
@@ -32,7 +39,11 @@ export default function SessionResultEvents({
         <div className="SessionResultEvents">
           <List>
             {data.sessionSummary.eventParticipations.map((element) => (
-              <EventCard key={element.eventId} event={element} />
+              <EventCard
+                key={element.eventId}
+                event={element}
+                onClick={() => onCardClick(element.launchedEventId)}
+              />
             ))}
           </List>
         </div>

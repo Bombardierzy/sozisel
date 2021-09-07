@@ -33,9 +33,13 @@ export default function MainNavbar(): ReactElement {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/jitsi" activeClassName="activeLink" className="link">
+          <NavLink
+            to="/whiteboard"
+            activeClassName="activeLink"
+            className="link"
+          >
             <FolderOpenIcon />
-            <p>Jitsi Demo</p>
+            <p>Whiteboard Demo</p>
           </NavLink>
         </li>
         <li>

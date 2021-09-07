@@ -76,8 +76,8 @@ defmodule Sozisel.Model.EventResults do
 
     %{
       number_of_participants: length(quiz_results),
-      average_points: total_points / length(participant_answers),
-      average_quiz_answer_time: total_quiz_answer_time / length(quiz_results)
+      average_points: total_points / max(length(participant_answers), 1),
+      average_quiz_answer_time: total_quiz_answer_time / max(length(quiz_results), 1)
     }
   end
 

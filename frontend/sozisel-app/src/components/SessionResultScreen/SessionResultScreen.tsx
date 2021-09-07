@@ -8,6 +8,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 
+import EventResultDetails from "./SessionResultEvents/EventResultDetails/EventResultDetails";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import { ReactElement } from "react";
 import SessionResultEvents from "./SessionResultEvents/SessionResultEvents";
@@ -34,6 +35,11 @@ export function SessionResultScreen(): ReactElement {
           exact
           path={url + "/events"}
           render={() => <SessionResultEvents sessionId={sessionId} />}
+        />
+        <Route
+          exact
+          path={url + "/events/:id"}
+          render={() => <EventResultDetails sessionId={sessionId} />}
         />
         <Route
           exact

@@ -219,7 +219,39 @@
       "eventType": "Typ",
       "startTime": "Czas rozpoczęcia",
       "participantNumber": "Liczba uczestników",
-      "details": "Szczegóły"
+      "details": "Szczegóły",
+      "Banner": {
+        "previous": "POPRZEDNI",
+        "next": "NASTĘPNY"
+      },
+      "Quiz": {
+        "averagePoints": "Średnia liczba punktów",
+        "averageAnswerTime": "Średni czas odpowiedzi",
+        "participantsNumber": "Liczba uczestników",
+        "chooseView": "Wybierz widok",
+        "participants": "Uczestnicy",
+        "questions": "Pytania",
+        "charts": "Wykresy",
+        "question": "Pytanie",
+        "name": "Imię",
+        "points": "Punkty",
+        "answerTime": "Czas odpowiedzi",
+        "participantDetails": "Szczegóły uczestnika",
+        "resultForQuestions": "Wyniki dla poszczególnych pytań",
+        "questionDetails": "Szegóły pytania",
+        "resultForParticipants": "Wyniki dla poszczególnych uczestników",
+        "forQuestions": "Dla poszczególnych pytań",
+        "forParticipants": "Dla poszczególnych uczestników",
+        "dialog": {
+          "answer": "Odpowiedź",
+          "time": "Czas",
+          "action": "Akcja",
+          "finalAnswers": "Ostateczne odpowiedzi",
+          "seconds": "s",
+          "selection": "Zaznaczenie",
+          "unSelection": "Odznaczenie"
+        }
+      }
     },
     "PresenterSession": {
       "fetchingError": "Błąd ładowania danych. Spróbuj ponownie później.",
@@ -263,6 +295,10 @@
       "warning": "Ta czynność jest nieodrwacalna, wraz z usunięciem trwalne znikną dane dotyczące danego zasobu. Czy jesteś pewnien, że chcesz usunąć dany zasób?",
       "cancel": "Anuluj",
       "delete": "Usuń"
+    },
+    "WhiteBoard": {
+      "brushSize": "Grubość lini",
+      "download": "Pobierz"
     }
   },
   "inputErrors": {

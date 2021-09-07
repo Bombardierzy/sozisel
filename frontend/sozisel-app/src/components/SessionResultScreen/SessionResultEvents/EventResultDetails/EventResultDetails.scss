@@ -1,0 +1,39 @@
+@import "../../../../styles/styles";
+
+.EventResultDetails {
+    height: calc(100% - #{$navbar-height} - #{$result-header-height});
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include poppins-text;
+
+    .eventBanner {
+        width: 100%;
+        height: $spacing-09;
+        background-color: $primary-accent-opacity;
+    }
+
+    .eventBannerContent {
+        margin-left: 15%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .eventBannerItem {
+        margin-right: $spacing-04;
+        color: $text-04; 
+        font-size: $spacing-05;
+        font-weight: bold;
+        @include poppins-text;
+    }
+
+    .errorAlert{
+        padding: $spacing-05;
+        margin: $spacing-09;
+        height: fit-content;
+        width: 100%;
+    }
+}
+
