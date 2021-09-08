@@ -142,6 +142,7 @@ export default function ParticipantActiveSession({
         <Fab
           variant="extended"
           className="ParticipantSessionFab"
+          classes={{ primary: "ParticipantSessionFab" }}
           color="primary"
           style={{ position: "fixed" }}
           onClick={() => {

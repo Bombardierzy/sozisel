@@ -8,14 +8,15 @@ import {
   TextField,
 } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import SessionFilters, {
-  SessionFiltersSchema,
-} from "./SessionFilters/SessionFilters";
 import {
+  Session,
   SessionStatus,
   useDeleteSessionMutation,
   useSearchSessionsQuery,
 } from "../../graphql";
+import SessionFilters, {
+  SessionFiltersSchema,
+} from "./SessionFilters/SessionFilters";
 
 import { AUTO_HIDE_DURATION } from "../../common/consts";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -31,6 +32,11 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+type SearchedSession = Pick<
+  Session,
+  "endTime" | "id" | "name" | "scheduledStartTime" | "startTime"
+>;
+
 export default function SessionsList(): ReactElement {
   const { t } = useTranslation("common");
   const [filters, setFilters] = useState<SessionFiltersSchema>({
@@ -44,6 +50,41 @@ export default function SessionsList(): ReactElement {
   });
   const [deleteMutation, { error: deleteError, loading: deleteLoading }] =
     useDeleteSessionMutation();
+
+  const sortedSearchedSessions = useMemo(() => {
+    if (!data?.searchSessions) return [];
+
+    const sessions = [...data.searchSessions];
+
+    sessions.sort((a: SearchedSession, b: SearchedSession) => {
+      if (a.endTime && b.endTime) {
+        // if both sessions have endTime then sort in descending order
+        return (b.endTime as string).localeCompare(a.endTime as string);
+      }
+
+      if (a.endTime || b.endTime) {
+        // if 'a' has endTime then 'b' does not have one so 'a' should appear later
+        return a.endTime ? 1 : -1;
+      }
+
+      if (a.startTime && b.startTime) {
+        // if both sessions have startTime (are running) then sort in descending order
+        return (b.startTime as string).localeCompare(a.startTime as string);
+      }
+
+      if (a.startTime || b.startTime) {
+        // if 'a' has startTime then 'b' does not have one so 'a' should appear earlier
+        return a.startTime ? -1 : 1;
+      }
+
+      // both sessions do not have either endTime or startTime so compare scheduled times (the closer the more important)
+      return (b.scheduledStartTime as string).localeCompare(
+        a.scheduledStartTime as string
+      );
+    });
+
+    return sessions;
+  }, [data]);
 
   const debounceFetch = useMemo(
     () =>
@@ -138,7 +179,7 @@ export default function SessionsList(): ReactElement {
               />
             </div>
             <List>
-              {data.searchSessions.map((element, _) => (
+              {sortedSearchedSessions.map((element, _) => (
                 <SessionCard
                   key={element.id}
                   session={element}
