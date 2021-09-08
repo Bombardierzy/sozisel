@@ -16,6 +16,7 @@ import ActiveSessionAgenda from "../PresenterSession/ActiveSessionAgenda/ActiveS
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
 import ErrorAlert from "../utils/Alerts/ErrorAlert";
 import JitsiFrame from "../Jitsi/JitsiFrame";
+import ParticipantPollEvent from "./Modules/PollEvent/ParticipantPollEvent";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
@@ -126,9 +127,9 @@ export default function ParticipantActiveSession({
               />
             </div>
           )}
-          {activeEvent &&
-            activeEvent.eventData.__typename === "ParticipantQuiz" && (
-              <div className="moduleComponent">
+          {activeEvent && (
+            <div className="moduleComponent">
+              {activeEvent.eventData.__typename === "ParticipantQuiz" && (
                 <ParticipantQuizContextProvider>
                   <ParticipantQuizEvent
                     onQuizFinished={() => setActiveEvent(null)}
@@ -136,8 +137,16 @@ export default function ParticipantActiveSession({
                     event={activeEvent}
                   />
                 </ParticipantQuizContextProvider>
-              </div>
-            )}
+              )}
+              {activeEvent.eventData.__typename === "Poll" && (
+                <ParticipantPollEvent
+                  token={token}
+                  event={activeEvent}
+                  onPollFinished={() => setActiveEvent(null)}
+                />
+              )}
+            </div>
+          )}
         </div>
         <Fab
           variant="extended"

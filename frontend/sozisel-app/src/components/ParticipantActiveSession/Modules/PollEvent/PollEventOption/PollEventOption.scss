@@ -1,0 +1,18 @@
+@import "../../../../../styles/styles";
+
+.PollEventOption {
+    display: flex;
+    align-items: center;
+
+    .optionText {
+        @include text-03;
+    }
+
+    .pollCheckbox {
+        color: $primary-accent;
+        padding-left: 0;
+        svg {
+            color: $primary-accent;
+        }
+    }
+}

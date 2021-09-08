@@ -24,8 +24,11 @@ subscription EventResultSubmitted($sessionId: ID!){
             fullName
         }
         resultData {
-            ... on QuizSimpleResult{
+            ... on QuizSimpleResult {
                 totalPoints
+            }
+            ... on PollResult {
+                optionIds
             }
         }
     }
@@ -40,6 +43,16 @@ fragment participantQuizFields on ParticipantQuiz {
         answers {
             text
             id
+        }
+    }
+}
+
+subscription LivePollSummary($eventId: String!, $token: String!) {
+    livePollSummary(launchedEventId: $eventId, participantToken: $token) {
+        totalVoters
+        optionSummaries {
+            votes
+            text
         }
     }
 }

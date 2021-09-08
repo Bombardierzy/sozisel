@@ -4,6 +4,7 @@ import React, { ReactElement, createContext } from "react";
 
 import { ActiveEvent } from "../EventsTimeline";
 import { Event } from "../../../../model/Template";
+import PollLiveEventDetails from "./PollLiveEventDetails/PollLiveEventDetails";
 import QuziLiveEventDetails from "./QuizLiveEventDetails/QuizLiveEventDetails";
 
 interface LiveEventDetailsProps {
@@ -36,6 +37,7 @@ export default function LiveEventDetails({
       }}
     >
       {event.eventData.__typename === "Quiz" && <QuziLiveEventDetails />}
+      {event.eventData.__typename === "Poll" && <PollLiveEventDetails />}
     </LiveEventContext.Provider>
   );
 }

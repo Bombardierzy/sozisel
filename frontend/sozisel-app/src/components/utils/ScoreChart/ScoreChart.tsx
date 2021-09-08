@@ -37,6 +37,7 @@ const ScoreChart = ({ data }: BarChartProps): ReactElement => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
+          interval={0}
           dataKey="score"
           label={{
             value: t("components.ScoreChart.score"),
