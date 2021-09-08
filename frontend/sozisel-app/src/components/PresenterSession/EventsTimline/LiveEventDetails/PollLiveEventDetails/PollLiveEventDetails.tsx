@@ -19,10 +19,6 @@ const PollLiveEventDetails = (): ReactElement => {
   const { mostAnsweredOption, totalVoters, optionsSummary } =
     useFetchEventLiveResult(sessionId, event, activeEvent.id, "PollResult");
 
-  if (event.eventData.__typename !== "Poll") {
-    return <></>;
-  }
-
   return (
     <div className="LiveEventsDetails">
       <div>

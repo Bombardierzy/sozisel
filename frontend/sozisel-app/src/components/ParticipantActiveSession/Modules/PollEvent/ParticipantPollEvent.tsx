@@ -33,7 +33,7 @@ const ParticipantPollEvent = ({
       return;
     }
     if (choosenOptionsIds.some((id) => option.id === id)) {
-      setChoosenOptionsIds(choosenOptionsIds.filter((id) => option.id !== id));
+      setChoosenOptionsIds((prev) => prev.filter(id => option.id !== id));
     } else {
       setChoosenOptionsIds([...choosenOptionsIds, option.id]);
     }

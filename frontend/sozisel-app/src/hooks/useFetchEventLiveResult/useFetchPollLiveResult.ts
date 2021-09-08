@@ -14,7 +14,7 @@ export interface PollSummary {
   mostAnsweredOption: string;
 }
 
-interface UseFetchPollLiveResultProps {
+interface FetchPollLiveResultProps {
   eventResult?: EventResultSubmittedSubscription;
   skip: boolean;
   event: Event;
@@ -28,7 +28,7 @@ const sortOptions = (options: PollOption[]): PollOption[] =>
 //if there are more than one option with the same number of votes concant options text of these options e.g. Nie, Tak
 const getMostAnsweredOptionsText = (sortedOptions: PollOption[]): string =>
   sortedOptions
-    ?.filter((option) => option.votes === sortedOptions[0].votes)
+    .filter((option) => option.votes === sortedOptions[0].votes)
     .map((option) => option.text)
     .join(", ") || "";
 
@@ -37,7 +37,7 @@ const useFetchPollLiveResult = ({
   skip,
   eventId,
   event,
-}: UseFetchPollLiveResultProps): PollSummary => {
+}: FetchPollLiveResultProps): PollSummary => {
   const [pollSummary, setPollSummary] = useState<PollSummary>({
     optionsSummary:
       event.eventData.__typename === "Poll"
