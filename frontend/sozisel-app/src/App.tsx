@@ -16,6 +16,7 @@ import { SessionResultScreen } from "./components/SessionResultScreen/SessionRes
 import SessionsList from "./components/SessionsList/SessionsList";
 import TemplateCreation from "./components/TemplateCreation/TemplateCreation";
 import TemplateList from "./components/TemplatesList/TemplateList";
+import { WhiteBoard } from "./components/WhiteBoard/WhiteBoard";
 
 export default function App(): ReactElement {
   return (
@@ -28,6 +29,7 @@ export default function App(): ReactElement {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/about" component={AboutScreen} />
+          <Route path="/whiteboard" component={WhiteBoard} />
           <Route exact path="/home">
             <Redirect to="/templates" />
           </Route>

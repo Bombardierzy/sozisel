@@ -85,6 +85,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
   end
 
   object :event_participation do
+    field :launched_event_id, non_null(:id)
     field :event_id, non_null(:id)
     field :event_name, non_null(:string)
     field :submissions, non_null(:integer)

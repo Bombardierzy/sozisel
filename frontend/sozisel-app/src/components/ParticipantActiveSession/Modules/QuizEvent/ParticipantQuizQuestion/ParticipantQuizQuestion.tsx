@@ -35,17 +35,13 @@ export default function ParticipantQuizQuestion(): ReactElement {
     );
   };
   return (
-    <>
-      <div className="ParticipantQuizQuestion">
-        <Typography variant="h6" className="quizQuestion">
-          {currentQuestion.question}
-        </Typography>
-        <div className="answerList">
-          <List>
-            {currentQuestion.answers.map((value) => quizAnswer(value))}
-          </List>
-        </div>
+    <div className="ParticipantQuizQuestion">
+      <Typography variant="h6" className="quizQuestion">
+        {currentQuestion.question}
+      </Typography>
+      <div className="answerList">
+        <List>{currentQuestion.answers.map((value) => quizAnswer(value))}</List>
       </div>
-    </>
+    </div>
   );
 }

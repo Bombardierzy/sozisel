@@ -2,6 +2,7 @@ defmodule SoziselWeb.UserSocket do
   use Phoenix.Socket
 
   channel "session:participation:*", SoziselWeb.Channels.SessionParticipantsPresence
+  channel "shared:whiteboard:*", SoziselWeb.Channels.SharedWhiteboard
 
   use Absinthe.Phoenix.Socket,
     schema: SoziselWeb.Schema

@@ -1,0 +1,72 @@
+@import "../../../../../../styles/styles";
+
+
+.QuizResultDetails {
+    height: calc(100% - #{$event-banner-height});
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-09;
+    @include poppins-text;
+
+    .quizSummary {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-sizing: border-box;
+        margin-right: $spacing-07;
+        padding: $spacing-06;
+    }
+
+    .quizResultView {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-sizing: border-box;
+        padding: $spacing-06;
+    }
+
+    .headerWithIcon {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: $spacing-07;
+    }
+
+    .header{
+        color: $text-04;
+        font-size: $spacing-07;
+        font-weight: 600;
+        padding: 0 $spacing-05;
+    }
+
+    .chooseViewLabel {
+        padding: 0 $spacing-07;
+        font-size: $spacing-06;
+        font-weight: 700;
+        color: $primary-accent;
+        text-align: center;
+    }
+
+    .viewCard {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: $spacing-04;
+        margin-bottom: $spacing-05;
+        cursor: pointer;
+        color: $text-01;
+    }
+
+    .activeCard {
+        background-color: $bg-04;
+        color: $primary-accent;
+    }
+}
