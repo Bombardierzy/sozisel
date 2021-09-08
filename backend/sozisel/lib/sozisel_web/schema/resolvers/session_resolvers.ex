@@ -122,8 +122,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
       :recording,
       SessionRecording.changeset(%SessionRecording{}, %{
         path: filename,
-        session_id: session_id,
-        metadata: %{}
+        session_id: session_id
       })
     )
     |> Ecto.Multi.update(:default_annotations, fn %{recording: recording} ->

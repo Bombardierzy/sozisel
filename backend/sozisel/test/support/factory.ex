@@ -8,6 +8,7 @@ defmodule Sozisel.Factory do
     EventResults,
     Quizzes,
     Polls,
+    Whiteboards,
     Participants,
     LaunchedEvents
   }
@@ -20,6 +21,7 @@ defmodule Sozisel.Factory do
   alias Polls.{Poll, PollResult, Poll.PollOption}
   alias Events.Event
   alias Quizzes.{Answer, Quiz, QuizQuestion, QuizResult, ParticipantAnswer}
+  alias Whiteboards.Whiteboard
 
   def user_factory(attrs) do
     %User{
@@ -93,12 +95,29 @@ defmodule Sozisel.Factory do
     }
   end
 
+  def whiteboard_event_factory(attrs) do
+    event_data =
+      case attrs[:event_data] do
+        nil -> build(:whiteboard_event_data)
+        %Whiteboard{} = whiteboard -> whiteboard
+      end
+
+    %Event{
+      name: attrs[:event_name] || sequence(:event_name, &"some-whiteboard-event-#{&1}"),
+      session_template_id: attrs[:session_template_id],
+      duration_time_sec: attrs[:duration_time_sec] || 120,
+      start_minute: attrs[:start_minute] || 2137,
+      event_data: event_data
+    }
+  end
+
   def random_event_factory(attrs) do
-    [:quiz, :poll]
+    [:quiz, :poll, :whiteboard]
     |> Enum.random()
     |> case do
       :quiz -> build(:quiz_event, attrs)
       :poll -> build(:poll_event, attrs)
+      :whiteboard -> build(:whiteboard_event, attrs)
     end
   end
 
@@ -158,6 +177,12 @@ defmodule Sozisel.Factory do
         %PollOption{id: "1", text: "Everyone"},
         %PollOption{id: "2", text: "No one"}
       ]
+    }
+  end
+
+  def whiteboard_event_data_factory(_attrs) do
+    %Whiteboard{
+      task: "Draw a fortuna export"
     }
   end
 

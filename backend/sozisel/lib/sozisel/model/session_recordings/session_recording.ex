@@ -8,14 +8,12 @@ defmodule Sozisel.Model.SessionRecordings.SessionRecording do
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
-          metadata: map(),
           path: String.t(),
           session_id: Ecto.UUID.t(),
           session: Session.t() | Ecto.Association.NotLoaded.t()
         }
 
   schema "session_recordings" do
-    field :metadata, :map
     field :path, :string
 
     embeds_many :annotations, Annotation, on_replace: :delete
@@ -27,9 +25,9 @@ defmodule Sozisel.Model.SessionRecordings.SessionRecording do
   @doc false
   def changeset(session_recording, attrs) do
     session_recording
-    |> cast(attrs, [:path, :metadata, :session_id])
+    |> cast(attrs, [:path, :session_id])
     |> cast_embed(:annotations)
-    |> validate_required([:path, :metadata, :session_id])
+    |> validate_required([:path, :session_id])
     |> unique_constraint(:session_id, message: "a recording for given session already exists")
     |> foreign_key_constraint(:session_id)
   end
