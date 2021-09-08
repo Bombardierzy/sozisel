@@ -23,9 +23,9 @@ defmodule Sozisel.SessionRecordingsTest do
       %{}
     ]
 
-    @valid_attrs %{metadata: %{}, path: "some path", annotations: @valid_annotations}
-    @update_attrs %{metadata: %{}, path: "some updated path", annotations: @update_annotations}
-    @invalid_attrs %{metadata: nil, path: nil, annotations: @invalid_annotations}
+    @valid_attrs %{path: "some path", annotations: @valid_annotations}
+    @update_attrs %{path: "some updated path", annotations: @update_annotations}
+    @invalid_attrs %{path: nil, annotations: @invalid_annotations}
 
     setup do
       [session: insert(:session)]
@@ -58,7 +58,6 @@ defmodule Sozisel.SessionRecordingsTest do
                  |> Map.put(:session_id, ctx.session.id)
                )
 
-      assert session_recording.metadata == %{}
       assert session_recording.path == "some path"
 
       valid_annotations = @valid_annotations |> Enum.map(&struct!(Annotation, &1))
@@ -77,7 +76,6 @@ defmodule Sozisel.SessionRecordingsTest do
       assert {:ok, %SessionRecording{} = session_recording} =
                SessionRecordings.update_session_recording(session_recording, @update_attrs)
 
-      assert session_recording.metadata == %{}
       assert session_recording.path == "some updated path"
       updated_annotations = @update_annotations |> Enum.map(&struct!(Annotation, &1))
 

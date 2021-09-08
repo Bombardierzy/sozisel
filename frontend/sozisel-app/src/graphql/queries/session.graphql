@@ -47,6 +47,7 @@ query SessionDetails($id: ID!){
                 eventData {
                     ... quizFields
                     ... pollFields
+                    ... whiteboardFields
                 }
             }
         }
@@ -157,4 +158,9 @@ fragment pollFields on Poll {
         id
         text
     }
+}
+
+fragment whiteboardFields on Whiteboard {
+    __typename
+    task
 }

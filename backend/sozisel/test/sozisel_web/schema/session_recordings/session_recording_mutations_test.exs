@@ -3,6 +3,9 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
 
   import Sozisel.Factory
 
+  alias Sozisel.MediaStorage.Disk
+  alias Sozisel.Model.SessionRecordings.SessionRecording
+
   @upload_recording_mutation """
   mutation UploadRecording($id: ID!, $recording: Upload!) {
     uploadMessage: uploadSessionRecording(id: $id, recording: $recording)
@@ -42,7 +45,9 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
         filename: "session_recording.mp4"
       }
 
-      [conn: test_conn(user), session: session, user: user, upload: upload]
+      extension = ".mp4"
+
+      [conn: test_conn(user), session: session, user: user, upload: upload, extension: extension]
     end
 
     test "upload a session recording", ctx do
@@ -58,6 +63,9 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
                  recording: ctx.upload
                )
                |> json_response(200)
+
+      assert SessionRecording.generate_filename(ctx.session.id, ctx.extension)
+             |> Disk.file_exists?()
     end
 
     test "forbid from uploading a session recording twice for the same session", ctx do
@@ -153,8 +161,7 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
       {:ok, %{id: recording_id}} =
         SessionRecordings.create_session_recording(%{
           session_id: ctx.session.id,
-          path: "/",
-          metadata: %{}
+          path: "/"
         })
 
       annotations = [

@@ -27,6 +27,14 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
   }
   """
 
+  @submit_whiteboard_result """
+  mutation SubmitWhiteboardResult($token: String!, $input: WhiteboardResultInput!) {
+    submitWhiteboardResult(token: $token, input: $input) {
+      id
+    }
+  }
+  """
+
   @participant_event_launched """
   subscription EventLaunched($participantToken: String!) {
     eventLaunched(participantToken: $participantToken) {
@@ -47,6 +55,9 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
               text
             }
           }
+        }
+        ... on Whiteboard {
+          task
         }
       }
     }
@@ -72,6 +83,11 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
         ... on QuizSimpleResult {
           totalPoints
         }
+        ... on WhiteboardResult {
+          path
+          text
+          used_time
+        }
       }
     }
   }
@@ -94,8 +110,9 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
   def mock_participant_event(session_template, type) do
     case type do
-      :poll -> insert(:poll_event, session_template_id: session_template.id)
       :quiz -> insert(:quiz_event, session_template_id: session_template.id)
+      :poll -> insert(:poll_event, session_template_id: session_template.id)
+      :whiteboard -> insert(:whiteboard_event, session_template_id: session_template.id)
     end
   end
 
@@ -116,7 +133,8 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
         participant: participant,
         user: user,
         user_socket: user_socket,
-        user_conn: user_conn
+        user_conn: user_conn,
+        conn: test_conn()
       ]
     end
 
@@ -245,6 +263,57 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                    "resultData" => %{
                      "__typename" => "PollResult",
                      "optionIds" => ["1"]
+                   }
+                 }
+               }
+             } = receive_subscription(sub)
+    end
+
+    test "broadcast whiteboard event result back to presenter", ctx do
+      event = insert(:whiteboard_event, session_template_id: ctx.session_template.id)
+      launched_event = insert(:launched_event, event_id: event.id, session_id: ctx.session.id)
+
+      variables = %{
+        sessionId: ctx.session.id
+      }
+
+      sub = run_subscription(ctx.user_socket, @presenter_event_result_submitted, variables)
+
+      File.copy!("test/assets/test_image.png", "/tmp/test_image.png")
+
+      upload = %Plug.Upload{
+        content_type: "image/png",
+        path: "/tmp/test_image.png",
+        filename: "whiteboard_image.png"
+      }
+
+      variables = %{
+        input: %{
+          launched_event_id: launched_event.id,
+          image: "image",
+          text: "some text",
+          used_time: 145
+        },
+        token: ctx.participant.token
+      }
+
+      assert %{"data" => %{"submitWhiteboardResult" => %{"id" => launched_event_id}}} =
+               ctx.conn
+               |> post("/api/",
+                 query: @submit_whiteboard_result,
+                 variables: variables,
+                 image: upload
+               )
+               |> json_response(200)
+
+      assert %{
+               data: %{
+                 "eventResultSubmitted" => %{
+                   "resultData" => %{
+                     "__typename" => "WhiteboardResult",
+                     "path" => _,
+                     "text" => "some text",
+                     "used_time" => 145.0
                    }
                  }
                }
@@ -382,6 +451,28 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                      "__typename" => "Poll",
                      "question" => _,
                      "options" => _
+                   }
+                 }
+               }
+             } = receive_subscription(ctx.subscription)
+    end
+
+    test "whiteboard", ctx do
+      whiteboard = mock_participant_event(ctx.session_template, :whiteboard)
+
+      assert %{data: %{}} =
+               run_query(ctx.user_conn, @launch_event_mutation, %{
+                 sessionId: ctx.session.id,
+                 eventId: whiteboard.id,
+                 broadcast: true
+               })
+
+      assert %{
+               data: %{
+                 "eventLaunched" => %{
+                   "eventData" => %{
+                     "__typename" => "Whiteboard",
+                     "task" => "Draw a fortuna export"
                    }
                  }
                }

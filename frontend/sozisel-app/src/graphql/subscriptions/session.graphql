@@ -12,6 +12,7 @@ subscription EventLaunched($token: String!){
         eventData {
             ... participantQuizFields
             ... pollFields
+            ... whiteboardFields
         }
     }
 }
