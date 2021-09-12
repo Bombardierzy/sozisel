@@ -22,6 +22,7 @@ query SearchSessionTemplates($name: String, $includePublic: Boolean){
             eventData {
                 ...quizFields
                 ...pollFields
+                ...whiteboardFields
             }
         }
     }
@@ -51,6 +52,7 @@ query SessionTemplate($id: ID!) {
             eventData {
                 ...quizFields
                 ...pollFields
+                ...whiteboardFields
             }
         }
     }

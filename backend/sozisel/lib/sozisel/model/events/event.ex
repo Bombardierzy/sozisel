@@ -6,6 +6,7 @@ defmodule Sozisel.Model.Events.Event do
   alias Sozisel.Model.Sessions.Template
   alias Sozisel.Model.Quizzes.Quiz
   alias Sozisel.Model.Polls.Poll
+  alias Sozisel.Model.Whiteboards.Whiteboard
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
 
   @type t :: %__MODULE__{
@@ -26,7 +27,8 @@ defmodule Sozisel.Model.Events.Event do
     field :event_data, PolymorphicEmbed,
       types: [
         quiz: [module: Quiz, identify_by_fields: [:quiz_questions]],
-        poll: [module: Poll, identify_by_fields: [:options]]
+        poll: [module: Poll, identify_by_fields: [:options]],
+        whiteboard: [module: Whiteboard, identify_by_fields: [:task]]
       ],
       on_type_not_found: :raise,
       on_replace: :update

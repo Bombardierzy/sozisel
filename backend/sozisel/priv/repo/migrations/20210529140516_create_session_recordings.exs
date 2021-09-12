@@ -4,7 +4,6 @@ defmodule Sozisel.Repo.Migrations.CreateSessionRecordings do
   def change do
     create table(:session_recordings) do
       add :path, :string, null: false
-      add :metadata, :map, null: false
       add :session_id, references(:sessions, on_delete: :delete_all)
 
       timestamps()

@@ -27,5 +27,13 @@ defmodule SoziselWeb.Schema.Mutations.ParticipantMutations do
       middleware Middleware.Participant
       resolve &ParticipantResolvers.submit_poll_result/3
     end
+
+    field :submit_whiteboard_result, :event_result do
+      arg :input, non_null(:whiteboard_result_input)
+      arg :token, non_null(:string)
+
+      middleware Middleware.Participant
+      resolve &ParticipantResolvers.submit_whiteboard_result/3
+    end
   end
 end

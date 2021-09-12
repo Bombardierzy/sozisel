@@ -2,6 +2,7 @@ defmodule SoziselWeb.Schema.Queries.SessionQueries do
   use SoziselWeb.Schema.Notation
 
   alias Sozisel.Model.Sessions.Session
+  alias Sozisel.Model.LaunchedEvents.LaunchedEvent
   alias SoziselWeb.Schema.{Middleware, Resolvers.SessionResolvers}
 
   object :session_queries do
@@ -27,9 +28,10 @@ defmodule SoziselWeb.Schema.Queries.SessionQueries do
     end
 
     field :poll_summary, :poll_summary do
-      arg :launched_event_id, non_null(:id)
+      @desc "Poll's launched event id"
+      arg :id, non_null(:id)
 
-      middleware Middleware.ResourceAuthorization, {:query_session_summary, Session}
+      middleware Middleware.ResourceAuthorization, {:query_poll_summary, LaunchedEvent}
 
       resolve &SessionResolvers.poll_summary/3
     end

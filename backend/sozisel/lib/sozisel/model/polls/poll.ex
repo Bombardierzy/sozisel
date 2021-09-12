@@ -106,7 +106,13 @@ defmodule Sozisel.Model.Polls.Poll do
 
     with %LaunchedEvent{} = launched_event <- Repo.get(LaunchedEvent, launched_event_id),
          %LaunchedEvent{
-           event: %Event{event_data: %__MODULE__{question: question, options: options}},
+           event: %Event{
+             event_data: %__MODULE__{
+               is_multi_choice: is_multi_choice,
+               question: question,
+               options: options
+             }
+           },
            event_results: event_results
          } <- Repo.preload(launched_event, [:event, :event_results]) do
       mapped_options =
@@ -140,7 +146,8 @@ defmodule Sozisel.Model.Polls.Poll do
         id: launched_event_id,
         question: question,
         option_summaries: summaries,
-        total_voters: length(event_results)
+        total_voters: length(event_results),
+        is_multi_choice: is_multi_choice
       }
     end
   end

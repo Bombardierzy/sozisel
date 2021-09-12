@@ -1,0 +1,10 @@
+query PollSummary($id: ID!){
+  pollSummary(id: $id) {
+    totalVoters
+    optionSummaries {
+        id
+        text
+        votes
+    }
+  }
+}

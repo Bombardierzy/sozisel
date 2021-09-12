@@ -1,12 +1,12 @@
 import React, { ReactElement, useContext } from "react";
 import { LiveEventContext } from "../LiveEventDetails";
-import ScoreChart from "../../../../utils/ScoreChart/ScoreChart";
+import PollPieChart from "../../../../utils/PollPieChart/PollPieChart";
 import TextSection from "../TextSection";
 import Timer from "../Timer";
 import useFetchEventLiveResult from "../../../../../hooks/useFetchEventLiveResult/useFetchEventLiveResult";
 import { useTranslation } from "react-i18next";
 
-const QuziLiveEventDetails = (): ReactElement => {
+const PollLiveEventDetails = (): ReactElement => {
   const { t } = useTranslation("common");
   const {
     activeEvent,
@@ -16,17 +16,8 @@ const QuziLiveEventDetails = (): ReactElement => {
     participantsNumber,
   } = useContext(LiveEventContext);
 
-  const { pointSum, completedTrialsNumber, scoresDistribution } =
-    useFetchEventLiveResult(
-      sessionId,
-      event,
-      activeEvent.id,
-      "QuizSimpleResult"
-    );
-
-  if (event.eventData.__typename !== "Quiz") {
-    return <></>;
-  }
+  const { mostAnsweredOption, totalVoters, optionsSummary } =
+    useFetchEventLiveResult(sessionId, event, activeEvent.id, "PollResult");
 
   return (
     <div className="LiveEventsDetails">
@@ -46,35 +37,32 @@ const QuziLiveEventDetails = (): ReactElement => {
           text={t(
             "components.PresenterSession.EventsTimeline.LiveEventDetails.numberOfParticipants",
             {
-              value:
-                (event.eventData.targetPercentageOfParticipants / 100) *
-                participantsNumber,
-            }
-          )}
-        />
-        <TextSection
-          text={t(
-            "components.PresenterSession.EventsTimeline.LiveEventDetails.averagePoint",
-            {
-              value: completedTrialsNumber
-                ? pointSum && (pointSum / completedTrialsNumber).toPrecision(2)
-                : 0,
-              totalPoint: event.eventData.quizQuestions.length,
+              value: participantsNumber,
             }
           )}
         />
         <TextSection
           text={t(
             "components.PresenterSession.EventsTimeline.LiveEventDetails.completedTrialsNumber",
-            { value: completedTrialsNumber }
+            { value: totalVoters }
           )}
         />
+        {!!mostAnsweredOption && (
+          <TextSection
+            text={t(
+              "components.PresenterSession.EventsTimeline.LiveEventDetails.mostCommonAnswer",
+              { text: mostAnsweredOption }
+            )}
+          />
+        )}
       </div>
-      {scoresDistribution && scoresDistribution.length > 0 && (
-        <ScoreChart data={scoresDistribution} />
+      {optionsSummary && (
+        <PollPieChart
+          data={optionsSummary.filter((option) => option.votes > 0)}
+        />
       )}
     </div>
   );
 };
 
-export default QuziLiveEventDetails;
+export default PollLiveEventDetails;

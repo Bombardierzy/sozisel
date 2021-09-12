@@ -105,7 +105,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
     {:ok, session |> Sessions.session_summary()}
   end
 
-  def poll_summary(_parent, %{launched_event_id: launched_event_id}, _ctx) do
+  def poll_summary(_parent, %{id: launched_event_id}, _ctx) do
     {:ok, Poll.poll_summary(launched_event_id)}
   end
 
@@ -122,8 +122,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
       :recording,
       SessionRecording.changeset(%SessionRecording{}, %{
         path: filename,
-        session_id: session_id,
-        metadata: %{}
+        session_id: session_id
       })
     )
     |> Ecto.Multi.update(:default_annotations, fn %{recording: recording} ->

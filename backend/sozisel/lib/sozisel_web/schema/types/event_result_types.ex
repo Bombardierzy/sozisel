@@ -5,6 +5,7 @@ defmodule SoziselWeb.Schema.Types.EventResultTypes do
   alias Sozisel.Model.EventResults.EventResult
   alias Sozisel.Model.Quizzes.QuizResult
   alias Sozisel.Model.Polls.PollResult
+  alias Sozisel.Model.Whiteboards.WhiteboardResult
 
   object :event_result do
     field :id, non_null(:id)
@@ -21,11 +22,12 @@ defmodule SoziselWeb.Schema.Types.EventResultTypes do
   end
 
   union :event_result_data do
-    types [:quiz_result, :poll_result]
+    types [:quiz_result, :poll_result, :whiteboard_result]
 
     resolve_type fn
       %QuizResult{}, _ -> :quiz_result
       %PollResult{}, _ -> :poll_result
+      %WhiteboardResult{}, _ -> :whiteboard_result
       _, _ -> nil
     end
   end
@@ -57,11 +59,12 @@ defmodule SoziselWeb.Schema.Types.EventResultTypes do
   end
 
   union :presenter_event_result_data do
-    types [:quiz_simple_result, :poll_result]
+    types [:quiz_simple_result, :poll_result, :whiteboard_result]
 
     resolve_type fn
       %{total_points: _}, _ -> :quiz_simple_result
       %PollResult{}, _ -> :poll_result
+      %WhiteboardResult{}, _ -> :whiteboard_result
       _, _ -> nil
     end
   end

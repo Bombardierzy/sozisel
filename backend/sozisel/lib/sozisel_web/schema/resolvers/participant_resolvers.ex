@@ -10,16 +10,21 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     Participants,
     Quizzes,
     EventResults,
-    Utils
+    Utils,
+    Whiteboards
   }
 
   alias Events.Event
+  alias EventResults.EventResult
+  alias Whiteboards.WhiteboardResult
   alias LaunchedEvents.LaunchedEvent
   alias Sessions.Session
   alias Participants.Participant
   alias Quizzes.{QuizResult, ParticipantAnswer, TrackNode}
 
   require Logger
+
+  @media_storage_module Sozisel.MediaStorage.Disk
 
   # password is optional so we can't always pattern match on all arguments
   def join_session(
@@ -185,5 +190,88 @@ defmodule SoziselWeb.Schema.Resolvers.ParticipantResolvers do
     end
 
     verify_launched_event(ctx, launched_event_id, on_verify)
+  end
+
+  def insert_whiteboard_result_in_transaction(event_result_attrs, image, filename, extension) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :whiteboard_event_result,
+      EventResult.create_changeset(%EventResult{}, event_result_attrs)
+    )
+    |> Ecto.Multi.run(:file_rename, fn _repo, event_result ->
+      %{
+        whiteboard_event_result: %{
+          result_data: %{path: path}
+        }
+      } = event_result
+
+      processed_image_path = Path.rootname(path) <> "_processed" <> extension
+
+      with :ok <- File.touch(processed_image_path),
+           :ok <- File.rename(image.path, processed_image_path),
+           :ok <- @media_storage_module.store_file(filename, processed_image_path) do
+        {:ok, %{}}
+      end
+    end)
+    |> Repo.transaction()
+  end
+
+  def submit_whiteboard_result(_parent, data, ctx) do
+    %{
+      input: %{
+        launched_event_id: launched_event_id,
+        image: %Plug.Upload{} = image,
+        text: text,
+        used_time: used_time
+      }
+    } = data
+
+    on_verified = fn %{
+                       launched_event: launched_event,
+                       session: session,
+                       participant: participant
+                     } ->
+      extension = Path.extname(image.filename)
+      filename = WhiteboardResult.generate_filename(launched_event.id, participant.id, extension)
+
+      event_result_attrs = %{
+        participant_id: participant.id,
+        launched_event_id: launched_event.id,
+        result_data: %{
+          path: filename,
+          text: text,
+          used_time: used_time
+        }
+      }
+
+      with %LaunchedEvent{event_id: event_id} <- Repo.get(LaunchedEvent, launched_event_id),
+           %Event{event_data: %event_data_module{} = event_data} <- Repo.get(Event, event_id),
+           :ok <- event_data_module.validate_result(event_data, event_result_attrs) do
+        insert_whiteboard_result_in_transaction(event_result_attrs, image, filename, extension)
+        |> case do
+          {:ok, %{whiteboard_event_result: event_result}} ->
+            Helpers.subscription_publish(
+              :event_result_submitted,
+              Topics.session_presenter(session.id, session.user_id),
+              %{
+                id: event_result.id,
+                result_data: %WhiteboardResult{
+                  path: filename,
+                  text: text,
+                  used_time: used_time
+                }
+              }
+            )
+
+            {:ok, event_result}
+
+          {:error, operation, value, _others} ->
+            Logger.error("Failed to upload image: #{inspect(operation)}, #{inspect(value)}")
+            {:error, "failed to upload image"}
+        end
+      end
+    end
+
+    verify_launched_event(ctx, launched_event_id, on_verified)
   end
 end

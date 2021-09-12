@@ -212,7 +212,8 @@
     },
     "ParticipantActiveSession": {
       "exitSession": "Wyjdź",
-      "next": "Dalej"
+      "next": "Dalej",
+      "submit": "Zatwierdź"
     },
     "SessionEventResults": {
       "eventType": "Typ",
@@ -273,11 +274,17 @@
           "percentageOfParticipants": "Uczestnicy: {{value}}%",
           "questionsNumber": "Ilość pytań: "
         },
+        "PollDetails": {
+          "multiChoice": "Odpowiedzi wielokrotnego wyboru",
+        "singleChoice": "Odpowiedzi jednokrotnego wyboru",
+          "questionText": "Treść pytania: {{text}}"
+        },
         "LiveEventDetails": {
           "reamaingTime": "Pozostały czas: ",
           "averagePoint": "Średnia ilość punktów: {{value}}/{{totalPoint}}",
           "completedTrialsNumber": "Ilość zakończonych prób: {{value}}",
-          "numberOfParticipants": "Ilość uczestników: {{value}}"
+          "numberOfParticipants": "Ilość uczestników: {{value}}",
+          "mostCommonAnswer": "Najczęsciej wybierana odpowiedź: {{text}}"
         }
       }
     },
