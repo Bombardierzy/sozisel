@@ -7,7 +7,7 @@ import { fabric } from "fabric";
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const CANVAS_ELEMENT_ID = "conference_canvas";
+export const CANVAS_ELEMENT_ID = "room_canvas_container";
 
 export enum CANVAS_MODE {
   PICKER = "PICKER",
@@ -45,7 +45,7 @@ export const CANVAS_TOPICS = {
 
 export class CanvasManager extends EventEmitter {
   private canvas: Canvas | undefined;
-  private canvasStataManger: CanvasStateManager | undefined;
+  private canvasStateManager: CanvasStateManager | undefined;
   public isInitialized: boolean;
 
   private toolbar: CanvasToolbar;
@@ -77,6 +77,17 @@ export class CanvasManager extends EventEmitter {
     return Object.freeze({ ...this.toolbar });
   };
 
+  adjustDimensions = (width: number, height: number) => {
+    const canvas = this.canvas;
+    if (!canvas) return;
+
+    canvas.setWidth(width);
+    canvas.setHeight(height);
+
+    canvas.calcOffset();
+    canvas.renderAll();
+  };
+
   private setupInternalListeners = () => {
     this.on(CANVAS_TOPICS.TOOLBAR_CHANGED, () => this.onToolbarChanged());
 
@@ -84,35 +95,19 @@ export class CanvasManager extends EventEmitter {
     this.on(CANVAS_TOPICS.OBJECT_MODIFIED, () => this.onStateChange());
     this.on(CANVAS_TOPICS.OBJECT_ADDED, () => this.onStateChange());
     this.on(CANVAS_TOPICS.OBJECT_REMOVED, () => this.onStateChange());
-
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    setInterval(() => {
-      if (width !== window.innerWidth || height !== window.innerHeight) {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        const canvas = this.canvas;
-        if (canvas) {
-          canvas.setWidth(window.innerWidth - 400);
-          canvas.setHeight(window.innerHeight - 96);
-          canvas.calcOffset();
-          canvas.renderAll();
-        }
-      }
-    }, 2000);
   };
 
   private onStateChange = (): void => {
-    this.canvasStataManger?.saveState();
+    this.canvasStateManager?.saveState();
   };
 
   public redo = (): void => {
-    this.canvasStataManger?.redo();
+    this.canvasStateManager?.redo();
     this.emit(CANVAS_TOPICS.CANVAS_REDO);
   };
 
   public undo = (): void => {
-    this.canvasStataManger?.undo();
+    this.canvasStateManager?.undo();
     this.emit(CANVAS_TOPICS.CANVAS_UNDO);
   };
 
@@ -240,7 +235,11 @@ export class CanvasManager extends EventEmitter {
   };
 
   initializeCanvas = (canvasJSON: Record<string, any>): void => {
+    if (this.canvas) {
+      this.canvas.dispose();
+    }
     this.canvas = new fabric.Canvas(CANVAS_ELEMENT_ID);
+
     (window as any).canvas = this.canvas;
     this.canvas.freeDrawingBrush.color = this.toolbar.color;
     this.canvas.freeDrawingBrush.width = this.toolbar.brushWidth;
@@ -250,7 +249,7 @@ export class CanvasManager extends EventEmitter {
     this.canvas.loadFromJSON(canvasJSON, () => null);
     this.setupLocalListeners();
 
-    this.canvasStataManger = new CanvasStateManager(this.canvas);
+    this.canvasStateManager = new CanvasStateManager(this.canvas);
     this.isInitialized = true;
     this.setMode(this.canvasToolbar().mode);
   };
@@ -732,9 +731,16 @@ export class CanvasManager extends EventEmitter {
       return;
     }
 
-    this.canvasStataManger = new CanvasStateManager(canvas);
+    canvas.clear();
+
+    this.canvasStateManager = new CanvasStateManager(canvas);
 
     canvas.loadFromJSON(canvasJSON, () => null);
+  };
+
+  public removeCanvas = () => {
+    if (!this.canvas) return;
+    this.canvas.dispose();
   };
 }
 

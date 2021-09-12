@@ -19,6 +19,7 @@ import JitsiFrame from "../Jitsi/JitsiFrame";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
+import { SharedBoard } from "../SharedBoard/SharedBoard";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useTranslation } from "react-i18next";
 
@@ -151,6 +152,7 @@ export default function ParticipantActiveSession({
         >
           {t("components.ParticipantActiveSession.exitSession") ?? ""}
         </Fab>
+        <SharedBoard sessionId={id} />
       </>
     );
   }

@@ -292,6 +292,9 @@
     "WhiteBoard": {
       "brushSize": "Grubość lini",
       "download": "Pobierz"
+    },
+    "SharedBoard": {
+      "switch": "Współdzielona tablica"
     }
   },
   "inputErrors": {
