@@ -1,0 +1,47 @@
+@import "../../styles/styles.scss";
+
+
+.SharedBoard {
+    .switch {
+        position: fixed;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        top: $navbar-height;
+        right: 0;
+        height: 75px;
+        width: 75px;
+        border-radius: 0 0 0 100%;
+        background-color: $main-color;
+        
+        svg {
+            color: white;
+            font-size: 60px;
+        }
+        
+        &:hover {
+            background-color: darken($color: $main-color, $amount: 10%);
+            svg {
+                color: darken($color: white, $amount: 15%);
+            font-size: 60px;
+            }
+        }
+    }
+    
+}
+.BoardCanvas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    left: 50%;
+    right: 50%;
+    
+    .toolbar {
+        background-color: white;
+    }
+}

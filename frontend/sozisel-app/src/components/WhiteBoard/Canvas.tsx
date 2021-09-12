@@ -39,8 +39,9 @@ export const Canvas = ({ width, height, sessionId }: Props): ReactElement => {
 
     ensureConnected(socket);
 
-    // After tests replace with a proper sessionId
-    const channel = socket.channel(`shared:whiteboard:lobby`, {});
+    canvasManager.initializeCanvas({});
+
+    const channel = socket.channel(`shared:whiteboard:${sessionId}`, {});
 
     channel
       .join()
@@ -55,11 +56,15 @@ export const Canvas = ({ width, height, sessionId }: Props): ReactElement => {
     canvasConnector.current = new CanvasConnector(channel);
 
     return () => {
-      console.log("Clearing canvas connector and phoenix channel");
+      console.debug("Clearing canvas connector and phoenix channel");
       canvasConnector.current?.clear();
       channel.leave();
     };
   }, [sessionId, socket]);
+
+  useEffect(() => {
+    canvasManager.adjustDimensions(width, height);
+  }, [width, height]);
 
   useEffect(() => {
     if (!online) return;
