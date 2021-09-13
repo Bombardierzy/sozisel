@@ -75,7 +75,7 @@ export default function ParticipantActiveSession({
     if (sessionNotifications?.sessionNotifications) {
       switch (sessionNotifications.sessionNotifications.info) {
         case SessionInfo.SessionEnd:
-          history.push(`/`);
+          history.push(`/goodbye`);
           break;
         default:
           break;
