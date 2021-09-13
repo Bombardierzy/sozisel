@@ -11,8 +11,11 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { ReactElement, useEffect } from "react";
 
-import { ReactElement } from "react";
+import DateFnsUtils from "@date-io/date-fns";
+import pl from "date-fns/locale/pl";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -60,9 +63,16 @@ export default function SessionDetails({
     currentPassword !== undefined
   );
   const { t } = useTranslation("common");
-  const { handleSubmit, errors, control } = useForm({
-    resolver: yupResolver(sessionDetailsSchema),
-  });
+  const { handleSubmit, errors, control, getValues, setValue, register } =
+    useForm({
+      resolver: yupResolver(sessionDetailsSchema),
+    });
+
+  const scheduledDateTimeForm = getValues("scheduledDateTime") as Date;
+
+  const [scheduledDateTime, setScheduledDateTime] = useState<Date>(
+    scheduledDateTimeForm
+  );
 
   const onSubmit = (sessionDetails: SessionDetailsFormSchema) => {
     onValidSubmit({
@@ -72,6 +82,29 @@ export default function SessionDetails({
       entryPassword: authorization ? sessionDetails.entryPassword : "",
     });
   };
+
+  useEffect(() => {
+    register("scheduledDateTime");
+  }, [register]);
+
+  useEffect(() => {
+    if (!currentScheduledDateTime) return;
+
+    setScheduledDateTime(
+      currentScheduledDateTime != null
+        ? new Date(currentScheduledDateTime)
+        : new Date()
+    );
+  }, [currentScheduledDateTime]);
+
+  useEffect(() => {
+    if (!scheduledDateTime) return;
+
+    setValue("scheduledDateTime", scheduledDateTime, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  }, [scheduledDateTime, setValue]);
 
   return (
     <>
@@ -153,32 +186,20 @@ export default function SessionDetails({
             <InputLabel className="label">
               {t("components.SessionDetails.datetime")}
             </InputLabel>
-            <Controller
-              name="scheduledDateTime"
-              control={control}
-              defaultValue={
-                currentScheduledDateTime != null
-                  ? new Date(currentScheduledDateTime)
-                      .toISOString()
-                      .slice(0, 16)
-                  : ""
-              }
-              as={
-                <TextField
-                  name="scheduledDateTime"
-                  variant="outlined"
-                  size="small"
-                  className="input"
-                  type="datetime-local"
-                  color="primary"
-                  error={!!errors.scheduledDateTime}
-                  helperText={
-                    errors.scheduledDateTime &&
-                    t(errors.scheduledDateTime.message)
-                  }
-                />
-              }
-            />
+
+            <MuiPickersUtilsProvider locale={pl} utils={DateFnsUtils}>
+              <DateTimePicker
+                inputVariant="outlined"
+                disablePast
+                ampm={false}
+                variant="inline"
+                value={scheduledDateTime}
+                format="d MMM yyyy HH:mm"
+                onChange={(date) => {
+                  setScheduledDateTime(date as Date);
+                }}
+              />
+            </MuiPickersUtilsProvider>
           </div>
 
           <Button color="primary" type="submit" variant="contained">
