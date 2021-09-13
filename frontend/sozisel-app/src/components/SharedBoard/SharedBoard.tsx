@@ -2,27 +2,18 @@ import "./SharedBoard.scss";
 
 import { Modal, Tooltip } from "@material-ui/core";
 import { ReactElement, useEffect, useState } from "react";
+import { Size, useWindowSize } from "../../hooks/useWindowSize";
 
 import { Canvas } from "../WhiteBoard/Canvas";
 import { CanvasToolbar } from "../WhiteBoard/CanvasToolbar";
 import { ColorLens } from "@material-ui/icons";
 import { useTranslation } from "react-i18next";
 
-const getWidth = () =>
-  window.innerWidth ||
-  document.documentElement.clientWidth ||
-  document.body.clientWidth;
+const calculateDimensions = (width: number, height: number) => {
+  const newWidth = Math.max(1200, 0.9 * width);
+  const newHeight = Math.max(900, 0.9 * height);
 
-const getHeight = () =>
-  window.innerHeight ||
-  document.documentElement.clientHeight ||
-  document.body.clientHeight;
-
-const calculateDimensions = () => {
-  const width = Math.max(1200, 0.9 * getWidth());
-  const height = Math.max(900, 0.9 * getHeight());
-
-  return { height, width };
+  return { height: newHeight, width: newWidth };
 };
 
 interface SharedBoardProps {
@@ -34,21 +25,15 @@ export function SharedBoard({ sessionId }: SharedBoardProps): ReactElement {
 
   const [open, setOpen] = useState<boolean>(false);
 
-  const [{ height, width }, setSizes] = useState<{
-    height: number;
-    width: number;
-  }>(calculateDimensions());
+  const windowSize = useWindowSize();
+
+  const [{ width, height }, setSizes] = useState<Size>({ height: 0, width: 0 });
 
   useEffect(() => {
-    const listener = function () {
-      setSizes(calculateDimensions());
-    };
+    const { width, height } = windowSize;
 
-    window.addEventListener("resize", listener);
-    return () => {
-      window.removeEventListener("resize", listener);
-    };
-  }, []);
+    setSizes(calculateDimensions(width, height));
+  }, [windowSize]);
 
   return (
     <div className="SharedBoard">

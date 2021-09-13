@@ -11,6 +11,7 @@ import ParticipantGuard from "./components/Guards/ParticipantGuard";
 import { PhoenixSocketProvider } from "./contexts/PhoenixSocketContext";
 import { ReactElement } from "react";
 import Register from "./components/RegisterScreen/RegisterScreen";
+import { SessionGoodbye } from "./components/SessionGoodbye/SessionGoodbye";
 import { SessionRecordingPublicPlayer } from "./components/SessionResultScreen/SessionResultRecording/SessionRecordingAnnotatedPlayer/SessionRecordingPublicPlayer";
 import { SessionResultScreen } from "./components/SessionResultScreen/SessionResultScreen";
 import SessionsList from "./components/SessionsList/SessionsList";
@@ -26,6 +27,7 @@ export default function App(): ReactElement {
           <Route exact path="/">
             <Redirect to="/templates" />
           </Route>
+          <Route path="/goodbye" component={SessionGoodbye} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/about" component={AboutScreen} />

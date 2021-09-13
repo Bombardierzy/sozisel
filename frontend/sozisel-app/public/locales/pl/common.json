@@ -302,6 +302,10 @@
     },
     "SharedBoard": {
       "switch": "Współdzielona tablica"
+    },
+    "SessionGoodbye": {
+      "end": "Sesja została zakończona!",
+      "bye": "Dziękujemy za skorzystanie z serwisu, mamy nadzieję że odbyta sesja przyniesie efekty."
     }
   },
   "inputErrors": {
