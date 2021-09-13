@@ -24,7 +24,7 @@ export const mainTheme = createMuiTheme({
   palette: {
     primary: {
       main: "#ff9800",
-      contrastText: "white",
+      contrastText: "#fff",
     },
     secondary: {
       main: "#ffd18b",
