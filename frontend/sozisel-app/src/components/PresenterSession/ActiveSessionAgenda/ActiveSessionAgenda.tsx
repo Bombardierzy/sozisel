@@ -4,6 +4,7 @@ import { Paper, Typography } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 
 import { AgendaPoint } from "../../../model/Agenda";
+import { SessionTimer } from "./SessionTimer";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import { useTranslation } from "react-i18next";
 
@@ -113,6 +114,7 @@ export default function ActiveSessionAgenda({
           {renderAgendaEntry(idx, agendaEntry)}
         </div>
       ))}
+      <SessionTimer startTime={sessionStartDate.toISOString()} />
     </Paper>
   );
 }

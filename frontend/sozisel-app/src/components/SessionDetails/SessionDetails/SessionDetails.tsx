@@ -63,15 +63,12 @@ export default function SessionDetails({
     currentPassword !== undefined
   );
   const { t } = useTranslation("common");
-  const { handleSubmit, errors, control, getValues, setValue, register } =
-    useForm({
-      resolver: yupResolver(sessionDetailsSchema),
-    });
-
-  const scheduledDateTimeForm = getValues("scheduledDateTime") as Date;
+  const { handleSubmit, errors, control, setValue, register } = useForm({
+    resolver: yupResolver(sessionDetailsSchema),
+  });
 
   const [scheduledDateTime, setScheduledDateTime] = useState<Date>(
-    scheduledDateTimeForm
+    currentScheduledDateTime ?? new Date()
   );
 
   const onSubmit = (sessionDetails: SessionDetailsFormSchema) => {
