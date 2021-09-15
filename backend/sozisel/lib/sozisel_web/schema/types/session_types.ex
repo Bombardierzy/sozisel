@@ -9,6 +9,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :start_time, :datetime
     field :end_time, :datetime
     field :use_jitsi, non_null(:boolean)
+    field :summary_note, :string
 
     field :owner, non_null(:user) do
       resolve(dataloader(:db, :user))
@@ -137,5 +138,6 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :scheduled_start_time, :datetime
     field :use_jitsi, :boolean
     field :entry_password, :string
+    field :summary_note, :string
   end
 end
