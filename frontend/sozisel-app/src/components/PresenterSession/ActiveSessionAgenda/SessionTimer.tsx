@@ -1,6 +1,6 @@
 import "./SessionTimer.scss";
 
-import { ReactElement, useEffect, useMemo, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 import { formatTimestamp } from "../../../common/utils";
 
@@ -10,10 +10,6 @@ interface SessionTimerProps {
 
 export function SessionTimer({ startTime }: SessionTimerProps): ReactElement {
   const [seconds, setSeconds] = useState<number>(0);
-
-  const formatted = useMemo(() => {
-    return formatTimestamp(seconds);
-  }, [seconds]);
 
   useEffect(() => {
     const start = new Date(startTime);
@@ -32,5 +28,5 @@ export function SessionTimer({ startTime }: SessionTimerProps): ReactElement {
     };
   }, [startTime]);
 
-  return <div className="SessionTimer">{formatted}</div>;
+  return <div className="SessionTimer">{formatTimestamp(seconds)}</div>;
 }
