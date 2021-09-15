@@ -54,6 +54,13 @@ query SessionDetails($id: ID!){
     }
 }
 
+query GetSessionSummaryNote($id: ID!) {
+    session(id: $id) {
+        id
+        summaryNote
+    }
+}
+
 query GetRecordingBySession($id: ID!) {
     session(id: $id) {
         id

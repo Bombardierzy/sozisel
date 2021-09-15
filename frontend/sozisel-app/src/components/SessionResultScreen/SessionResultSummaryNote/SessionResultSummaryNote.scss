@@ -1,0 +1,28 @@
+@import "../../../styles/styles";
+
+.SessionResultSummaryNote {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    
+    .actionButtons {
+        position: absolute;
+        right: $spacing-05;
+        bottom: $spacing-05;
+    }
+    .actionButton {
+        border-radius: $spacing-06;
+        background-color: $primary-accent;
+        margin-left: $spacing-04;
+
+        &:hover {
+            background-color: darken($primary-accent, 10%);
+        }
+    }
+
+    .actionButtonLabel {
+        @include poppins-text;
+        color: white; 
+        padding: $spacing-02;
+    }
+}

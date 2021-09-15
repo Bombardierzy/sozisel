@@ -155,7 +155,8 @@
     "SessionResultHeader": {
       "summary": "Podsumowanie",
       "events": "Wydarzenia",
-      "recording": "Nagranie"
+      "recording": "Nagranie",
+      "note": "Notatka ze spotkania"
     },
     "SummaryDetails": {
       "date": "Data",
@@ -169,6 +170,15 @@
         "subtitle": "Dla kolejnych wydarzeń",
         "valueLabel": "Uczestnicy"
       }
+    },
+    "SessionResultSummaryNote": {
+      "save": "Zapisz notatkę",
+      "saved": "Zapisano notatkę!",
+      "download": "Pobierz",
+      "filename": "notatka"
+    },
+    "MarkdownEditor": {
+      "placeholder": "Wprowadź tekst w formacie MarkDown..."
     },
     "SessionRecordingUpload": {
       "dialogTitle": "Prześlij nagranie sesji",

@@ -8,6 +8,7 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const DEV = process.env.NODE_ENV !== "production";
 
@@ -47,6 +48,10 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
@@ -100,6 +105,7 @@ module.exports = {
           algorithm: "brotliCompress",
         })
       : false,
+    new NodePolyfillPlugin(),
   ].filter(Boolean),
   devServer: {
     port: 3000,

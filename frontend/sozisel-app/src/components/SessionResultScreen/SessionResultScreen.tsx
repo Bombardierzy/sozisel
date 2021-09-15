@@ -15,6 +15,7 @@ import SessionResultEvents from "./SessionResultEvents/SessionResultEvents";
 import SessionResultHeader from "./SessionResultHeader";
 import { SessionResultRecording } from "./SessionResultRecording/SessionResultRecording";
 import SessionResultSummary from "./SessionResultSummary/SessionResultSummary";
+import { SessionResultSummaryNote } from "./SessionResultSummaryNote/SessionResultSummaryNote";
 
 export function SessionResultScreen(): ReactElement {
   const { id: sessionId } = useParams<{ id: string }>();
@@ -45,6 +46,11 @@ export function SessionResultScreen(): ReactElement {
           exact
           path={url + "/recording"}
           render={() => <SessionResultRecording sessionId={sessionId} />}
+        />
+        <Route
+          exact
+          path={url + "/note"}
+          render={() => <SessionResultSummaryNote sessionId={sessionId} />}
         />
         <Route>
           <Redirect to={url + "/summary"} />
