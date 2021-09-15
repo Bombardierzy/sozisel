@@ -32,7 +32,7 @@ defmodule Sozise.Events.WhiteboardTest do
     }
   }
 
-  defp whiteboard_fixture(attrs \\ %{}) do
+  defp whiteboard_fixture(attrs) do
     {:ok, whiteboard} =
       attrs
       |> Enum.into(@valid_attrs)
@@ -67,13 +67,9 @@ defmodule Sozise.Events.WhiteboardTest do
 
       assert {:ok, %Event{} = event} = Events.update_event(whiteboard, @update_attrs)
 
-      assert event = %Event{
-               name: "some updated whiteboard name",
-               duration_time_sec: 205,
-               event_data: %{
-                 task: "Draw two bombs."
-               }
-             }
+      assert event.name == "some updated whiteboard name"
+      assert event.duration_time_sec == 205
+      assert event.event_data.task == "Draw two bombs."
     end
 
     test "update_event/2 with invalid whiteboard data returns error changeset" do

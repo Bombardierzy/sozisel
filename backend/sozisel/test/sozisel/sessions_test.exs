@@ -234,7 +234,8 @@ defmodule Sozisel.SessionsTest do
       entry_password: "some updated entry_password",
       name: "some updated name",
       scheduled_start_time: "2011-05-18T15:01:01.000000Z",
-      use_jitsi: false
+      use_jitsi: false,
+      summary_note: "some summary note"
     }
     @invalid_attrs %{entry_password: nil, name: nil, scheduled_start_time: nil, use_jitsi: nil}
 
@@ -280,6 +281,7 @@ defmodule Sozisel.SessionsTest do
       assert {:ok, %Session{} = session} = Sessions.update_session(session, @update_attrs)
       assert session.entry_password == "some updated entry_password"
       assert session.name == "some updated name"
+      assert session.summary_note == "some summary note"
 
       assert session.scheduled_start_time ==
                DateTime.from_naive!(~N[2011-05-18T15:01:01.000000Z], "Etc/UTC")

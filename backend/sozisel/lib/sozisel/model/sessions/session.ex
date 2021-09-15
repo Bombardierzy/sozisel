@@ -19,6 +19,7 @@ defmodule Sozisel.Model.Sessions.Session do
           user: User.t() | Ecto.Association.NotLoaded.t(),
           session_template_id: Ecto.UUID.t(),
           session_template: Template.t() | Ecto.Association.NotLoaded.t(),
+          summary_note: String.t() | nil,
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
         }
@@ -30,6 +31,8 @@ defmodule Sozisel.Model.Sessions.Session do
     field :start_time, :utc_datetime_usec
     field :end_time, :utc_datetime_usec
     field :use_jitsi, :boolean, default: false
+    field :summary_note, :string, default: nil
+
     belongs_to :session_template, Template
     belongs_to :user, User
 
@@ -49,7 +52,8 @@ defmodule Sozisel.Model.Sessions.Session do
       :scheduled_start_time,
       :start_time,
       :end_time,
-      :session_template_id
+      :session_template_id,
+      :summary_note
     ])
     |> validate_required([:name, :scheduled_start_time, :session_template_id, :user_id])
     |> foreign_key_constraint(:session_template_id)
@@ -65,7 +69,8 @@ defmodule Sozisel.Model.Sessions.Session do
       :start_time,
       :end_time,
       :entry_password,
-      :use_jitsi
+      :use_jitsi,
+      :summary_note
     ])
     |> validate_required([:name, :scheduled_start_time, :use_jitsi])
     |> validate_start_and_end_times()
