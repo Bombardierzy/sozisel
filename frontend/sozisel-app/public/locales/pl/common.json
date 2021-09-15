@@ -142,6 +142,8 @@
       "fetchingErrorMessage": "Błąd ładowania danych. Spróbuj ponownie później.",
       "scheduledDate": "Planowana data",
       "startSession": "Rozpocznij",
+      "stoppedSession": "Sesja zakończona",
+      "activeSession": "Sesja trwa",
       "startSessionErrorMessage": "Błąd podczas startowania sesji. Spróbuj ponownie później.",
       "sessionDeleted": "Usunięto sesje.",
       "errorMessage": "Błąd podczas wykonywania operacji.",

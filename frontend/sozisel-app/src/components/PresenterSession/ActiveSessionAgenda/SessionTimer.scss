@@ -1,0 +1,16 @@
+@import "../../../styles/styles";
+
+.SessionTimer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    
+    background-color: white;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: $spacing-unit;
+    font-family: Poppins, monospace;
+    font-size: x-large;
+}
