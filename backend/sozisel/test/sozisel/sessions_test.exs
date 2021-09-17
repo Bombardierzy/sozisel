@@ -2,12 +2,11 @@ defmodule Sozisel.SessionsTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.Sessions
+  alias Sozisel.Model.Sessions.Session
 
   import Sozisel.Factory
 
   describe "sessions" do
-    alias Sozisel.Model.Sessions.Session
-
     @valid_attrs %{
       entry_password: "some entry_password",
       name: "some name",

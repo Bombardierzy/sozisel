@@ -2,12 +2,11 @@ defmodule Sozisel.SessionTemplatesTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.Sessions
+  alias Sozisel.Model.Sessions.Template
 
   import Sozisel.Factory
 
   describe "session_templates" do
-    alias Sozisel.Model.Sessions.Template
-
     @valid_attrs %{
       deleted_at: nil,
       estimated_time: 42,

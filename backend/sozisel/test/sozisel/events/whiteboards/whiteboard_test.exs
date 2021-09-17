@@ -1,4 +1,4 @@
-defmodule Sozise.Events.WhiteboardTest do
+defmodule Sozise.Events.Whiteboards.WhiteboardTest do
   use Sozisel.DataCase
 
   import Sozisel.Factory

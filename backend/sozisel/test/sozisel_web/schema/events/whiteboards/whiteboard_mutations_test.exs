@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
+defmodule SoziselWeb.Schema.Events.Whiteboards.WhiteboardMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory

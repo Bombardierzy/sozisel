@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.QuizMutationsTest do
+defmodule SoziselWeb.Schema.Events.Quizzes.QuizMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory

@@ -2,12 +2,11 @@ defmodule Sozisel.AgendaEntriesTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.Sessions
+  alias Sozisel.Model.Sessions.AgendaEntry
 
   import Sozisel.Factory
 
   describe "agenda_entries" do
-    alias Sozisel.Model.Sessions.AgendaEntry
-
     @valid_attrs %{name: "some name", start_minute: 42}
     @update_attrs %{name: "some updated name", start_minute: 43}
     @invalid_attrs %{name: nil, start_minute: nil}

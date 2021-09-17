@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.SessionTemplateQueriesTest do
+defmodule SoziselWeb.Schema.SessionTemplates.SessionTemplateQueriesTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory

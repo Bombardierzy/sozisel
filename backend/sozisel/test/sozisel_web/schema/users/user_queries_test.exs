@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.UserQueriesTest do
+defmodule SoziselWeb.Schema.Users.UserQueriesTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory

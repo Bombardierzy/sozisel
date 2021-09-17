@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.PresenterMutationsTest do
+defmodule SoziselWeb.Schema.Presenters.PresenterMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory

@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.Polls.PollQueriesTest do
+defmodule SoziselWeb.Schema.Events.Polls.PollQueriesTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory

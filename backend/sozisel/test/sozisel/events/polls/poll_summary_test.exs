@@ -1,4 +1,4 @@
-defmodule Sozisel.Events.PollSummaryTest do
+defmodule Sozisel.Events.Polls.PollSummaryTest do
   use Sozisel.DataCase
 
   import Sozisel.Factory

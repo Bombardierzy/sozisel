@@ -1,4 +1,4 @@
-defmodule Sozisel.Events.QuizTest do
+defmodule Sozisel.Events.Quizzes.QuizTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.Events

@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
+defmodule SoziselWeb.Schema.SessionRecordings.SessionRecordingMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory

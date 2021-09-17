@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
+defmodule SoziselWeb.Schema.SessionTemplates.SessionTemplateMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory

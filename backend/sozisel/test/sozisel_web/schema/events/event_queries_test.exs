@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.EventQueriesTest do
+defmodule SoziselWeb.Schema.Events.EventQueriesTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
