@@ -18,10 +18,10 @@ defmodule Sozisel.Factory do
   alias Sessions.{Template, AgendaEntry, Session}
   alias LaunchedEvents.LaunchedEvent
   alias Participants.Participant
-  alias Polls.{Poll, PollResult, Poll.PollOption}
+  alias Polls.{Poll, PollResult, PollOption}
   alias Events.Event
   alias Quizzes.{Answer, Quiz, QuizQuestion, QuizResult, ParticipantAnswer}
-  alias Whiteboards.Whiteboard
+  alias Whiteboards.{Whiteboard, WhiteboardResult}
 
   def user_factory(attrs) do
     %User{
@@ -173,6 +173,7 @@ defmodule Sozisel.Factory do
   def poll_event_data_factory(_attrs) do
     %Poll{
       question: "Who do you like?",
+      is_multi_choice: false,
       options: [
         %PollOption{id: "1", text: "Everyone"},
         %PollOption{id: "2", text: "No one"}
@@ -217,6 +218,14 @@ defmodule Sozisel.Factory do
       end
 
     %PollResult{option_ids: option_ids}
+  end
+
+  def random_event_result(%Whiteboard{task: task}) do
+    %WhiteboardResult{
+      path: "/tmp/test_image.png",
+      text: "This is a bomb",
+      used_time: 13.21
+    }
   end
 
   def launched_event_factory(attrs) do

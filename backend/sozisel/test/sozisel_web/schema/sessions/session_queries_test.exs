@@ -3,6 +3,8 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
 
   import Sozisel.Factory
 
+  alias Sozisel.Model.Sessions
+
   @get_session """
   query GetSession($id: ID!) {
     session(id: $id) {
@@ -42,8 +44,6 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
   """
 
   describe "Sessions' search query should" do
-    alias Sozisel.Model.Sessions
-
     setup do
       user = insert(:user)
       [conn: test_conn(user), user: user]
@@ -89,7 +89,7 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
 
     test "search by name", ctx do
       session_a = insert(:session, user_id: ctx.user.id, name: "a")
-      _session_b = insert(:session, user_id: ctx.user.id, name: "b")
+      insert(:session, user_id: ctx.user.id, name: "b")
       session_ab = insert(:session, user_id: ctx.user.id, name: "ab")
 
       assert %{
@@ -254,7 +254,7 @@ defmodule SoziselWeb.Schema.SessionQueriesTest do
     test "filters combined", ctx do
       template = insert(:template)
       session_a = insert(:session, user_id: ctx.user.id, name: "a")
-      _ = insert(:session, user_id: ctx.user.id, name: "b")
+      insert(:session, user_id: ctx.user.id, name: "b")
 
       session_ab =
         insert(:session,

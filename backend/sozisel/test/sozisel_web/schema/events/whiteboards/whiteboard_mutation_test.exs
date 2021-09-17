@@ -48,26 +48,38 @@ defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
     }
   }
   """
+
+  @valid_attrs_for_whiteboard_event %{
+    name: "some whiteboard",
+    duration_time_sec: 180,
+    startMinute: 24,
+    eventData: %{
+      task: "Draw a bomb."
+    }
+  }
+
+  @valid_attrs_for_update_whiteboard_event %{
+    eventData: %{
+      task: "Draw two bombs."
+    }
+  }
+
   describe "Whiteboard mutations should" do
     setup do
       user = insert(:user)
       template = insert(:template, user_id: user.id)
-      session = insert(:session, session_template_id: template.id, user_id: user.id)
-      [conn: test_conn(user), user: user, template: template, session: session]
+      [conn: test_conn(user), user: user, template: template]
     end
 
     test "create a new whiteboard", ctx do
+      valid_attrs =
+        Map.put(@valid_attrs_for_whiteboard_event, :session_template_id, ctx.template.id)
+
       variables = %{
-        input: %{
-          name: "some whiteboard",
-          duration_time_sec: 180,
-          startMinute: 24,
-          eventData: %{
-            task: "Draw a bomb."
-          },
-          sessionTemplateId: ctx.template.id
-        }
+        input: valid_attrs
       }
+
+      session_template_id = ctx.template.id
 
       assert %{
                data: %{
@@ -80,7 +92,7 @@ defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
                      "task" => "Draw a bomb."
                    },
                    "sessionTemplate" => %{
-                     "id" => _
+                     "id" => ^session_template_id
                    }
                  }
                }
@@ -90,13 +102,10 @@ defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
     test "update an existing whiteboard", ctx do
       whiteboard = insert(:whiteboard_event, session_template_id: ctx.template.id)
 
+      valid_attrs = Map.put(@valid_attrs_for_update_whiteboard_event, :id, whiteboard.id)
+
       variables = %{
-        input: %{
-          id: whiteboard.id,
-          eventData: %{
-            task: "Draw two bombs."
-          }
-        }
+        input: valid_attrs
       }
 
       assert %{
@@ -112,8 +121,11 @@ defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
              } = run_query(ctx.conn, @update_whiteboard, variables)
     end
 
-    test "delete whiteboard", ctx do
-      %{id: whiteboard_id} = insert(:whiteboard_event, session_template_id: ctx.template.id)
+    test "soft delete an existing poll event", ctx do
+      %{
+        id: whiteboard_id,
+        name: whiteboard_name
+      } = insert(:whiteboard_event, session_template_id: ctx.template.id)
 
       variables = %{
         id: whiteboard_id
@@ -122,7 +134,8 @@ defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
       assert %{
                data: %{
                  "deleteWhiteboard" => %{
-                   "id" => ^whiteboard_id
+                   "id" => ^whiteboard_id,
+                   "name" => ^whiteboard_name
                  }
                }
              } = run_query(ctx.conn, @delete_whiteboard, variables)
@@ -130,19 +143,12 @@ defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
       assert Repo.get(Event, whiteboard_id) == nil
     end
 
-    test "forbid create by unauthorized user", ctx do
-      template = insert(:template, user_id: ctx.user.id)
+    test "forbid create whiteboard event by unauthorized user", ctx do
+      valid_attrs =
+        Map.put(@valid_attrs_for_whiteboard_event, :session_template_id, ctx.template.id)
 
       variables = %{
-        input: %{
-          name: "some whiteboard",
-          durationTimeSec: 180,
-          startMinute: 27,
-          eventData: %{
-            task: "Draw a bomb."
-          },
-          sessionTemplateId: template.id
-        }
+        input: valid_attrs
       }
 
       assert %{
@@ -159,16 +165,10 @@ defmodule SoziselWeb.Schema.Events.WhiteboardMutationsTest do
       other_user = insert(:user)
       other_conn = test_conn(other_user)
 
+      valid_attrs = Map.put(@valid_attrs_for_update_whiteboard_event, :id, whiteboard.id)
+
       variables = %{
-        input: %{
-          id: whiteboard.id,
-          name: "updated whiteboard",
-          durationTimeSec: 205,
-          startMinute: 12,
-          eventData: %{
-            task: "Draw two bombs."
-          }
-        }
+        input: valid_attrs
       }
 
       assert %{errors: [%{"message" => "unauthorized"}]} =

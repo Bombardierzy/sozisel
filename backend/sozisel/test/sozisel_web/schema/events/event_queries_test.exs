@@ -87,7 +87,8 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
   describe "Event queries should" do
     setup do
       user = insert(:user)
-      [conn: test_conn(user), user: user]
+      template = insert(:template, user_id: user.id)
+      [conn: test_conn(user), user: user, template: template]
     end
 
     def event_fixture(attrs \\ %{}) do
@@ -100,8 +101,7 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
     end
 
     test "return event with given id", ctx do
-      template = insert(:template, user_id: ctx.user.id)
-      event_id = event_fixture(%{session_template_id: template.id}).id
+      event_id = event_fixture(%{session_template_id: ctx.template.id}).id
 
       assert %{
                data: %{
@@ -145,9 +145,8 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
     end
 
     test "get event details after summary session", ctx do
-      template = insert(:template)
-      event = insert(:quiz_event, session_template_id: template.id)
-      session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
+      event = insert(:quiz_event, session_template_id: ctx.template.id)
+      session = insert(:session, session_template_id: ctx.template.id, user_id: ctx.user.id)
       launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
       participant1 = insert(:participant, session_id: session.id)
       participant2 = insert(:participant, session_id: session.id)
@@ -201,9 +200,8 @@ defmodule SoziselWeb.Schema.EventQueriesTest do
     end
 
     test "get empty list of event details after summary session", ctx do
-      template = insert(:template)
-      event = insert(:quiz_event, session_template_id: template.id)
-      session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
+      event = insert(:quiz_event, session_template_id: ctx.template.id)
+      session = insert(:session, session_template_id: ctx.template.id, user_id: ctx.user.id)
       launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
 
       variables = %{

@@ -11,7 +11,6 @@ defmodule Sozisel.Model.Quizzes.Quiz do
 
   @primary_key false
 
-  ### As we resign from tracking_mode property all quizzes are tracked by default
   embedded_schema do
     field :target_percentage_of_participants, :integer
     embeds_many :quiz_questions, QuizQuestion, on_replace: :delete

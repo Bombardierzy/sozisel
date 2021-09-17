@@ -1,12 +1,12 @@
-defmodule Sozisel.Events.PollResultsTest do
+defmodule Sozisel.Events.PollSummaryTest do
   use Sozisel.DataCase
 
   import Sozisel.Factory
 
   alias Sozisel.Model.EventResults
-  alias Sozisel.Model.Polls.{Poll, Poll.PollOption}
+  alias Sozisel.Model.Polls.{Poll, PollOption, PollResult}
 
-  describe "poll results" do
+  describe "poll summary" do
     setup do
       template = insert(:template)
       session = insert(:session, session_template_id: template.id)
@@ -69,7 +69,7 @@ defmodule Sozisel.Events.PollResultsTest do
                    votes: 0
                  }
                ]
-             } = Poll.poll_summary(ctx.launched_event.id)
+             } = PollResult.poll_summary(ctx.launched_event.id)
     end
   end
 end

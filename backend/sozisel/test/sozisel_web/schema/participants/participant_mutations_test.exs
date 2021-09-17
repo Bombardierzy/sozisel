@@ -103,6 +103,7 @@ defmodule SoziselWeb.Schema.ParticipantMutationsTest do
 
     test "create a new participant to session with password", ctx do
       session = insert(:session, entry_password: "password123@")
+
       Sessions.update_session(session, %{start_time: DateTime.utc_now()})
 
       variables = %{
