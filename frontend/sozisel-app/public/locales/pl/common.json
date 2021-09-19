@@ -93,6 +93,7 @@
       },
       "Whiteboard": {
         "taskTitle": "Zadanie",
+        "taskHeader": "Treść zadania: ",
         "taskExplanation": "Poniższy formularz posiada obsługę markdown, aby zobaczyć jak twój tekst będzie wyglądał dla uczestnika użyj przycisku podgląd",
         "taskPlaceholder": "Treść zadania...",
         "previewButton": "Podgląd"
