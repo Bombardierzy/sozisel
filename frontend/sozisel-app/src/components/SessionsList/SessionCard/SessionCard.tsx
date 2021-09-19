@@ -14,6 +14,7 @@ import React, {
   BaseSyntheticEvent,
   MouseEvent,
   ReactElement,
+  useMemo,
   useState,
 } from "react";
 
@@ -44,6 +45,12 @@ export default function SessionCard({
   const sessionLink = `${window.location.protocol}//${window.location.hostname}/sessions/${session.id}/join`;
   const [raised, setRaised] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const sessionStatus = useMemo(() => {
+    if (isScheduled) return "start";
+    if (isEnded) return "stopped";
+    return "active";
+  }, [isScheduled, isEnded]);
 
   const [startSessionMutation, { error, loading }] = useStartSessionMutation({
     variables: {
@@ -134,7 +141,7 @@ export default function SessionCard({
               className="actionButton"
               disabled={!isScheduled}
             >
-              {t("components.SessionsList.startSession")}
+              {t(`components.SessionsList.${sessionStatus}Session`)}
             </Button>
           </CardActions>
         </div>

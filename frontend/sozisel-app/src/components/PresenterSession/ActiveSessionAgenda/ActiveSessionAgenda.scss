@@ -1,6 +1,7 @@
 @import "../../../styles/styles.scss";
 
 .ActiveSessionAgenda {
+    position: relative;
     padding: $spacing-05;
     height: calc(100% - 2*#{$spacing-05});
    .header {

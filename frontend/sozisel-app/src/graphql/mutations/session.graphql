@@ -11,6 +11,7 @@ mutation UpdateSession($input: UpdateSessionInput!){
     entryPassword
     name
     scheduledStartTime
+    summaryNote
   }
 }
 

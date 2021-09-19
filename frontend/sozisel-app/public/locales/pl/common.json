@@ -150,6 +150,8 @@
       "fetchingErrorMessage": "Błąd ładowania danych. Spróbuj ponownie później.",
       "scheduledDate": "Planowana data",
       "startSession": "Rozpocznij",
+      "stoppedSession": "Sesja zakończona",
+      "activeSession": "Sesja trwa",
       "startSessionErrorMessage": "Błąd podczas startowania sesji. Spróbuj ponownie później.",
       "sessionDeleted": "Usunięto sesje.",
       "errorMessage": "Błąd podczas wykonywania operacji.",
@@ -163,7 +165,8 @@
     "SessionResultHeader": {
       "summary": "Podsumowanie",
       "events": "Wydarzenia",
-      "recording": "Nagranie"
+      "recording": "Nagranie",
+      "note": "Notatka ze spotkania"
     },
     "SummaryDetails": {
       "date": "Data",
@@ -177,6 +180,15 @@
         "subtitle": "Dla kolejnych wydarzeń",
         "valueLabel": "Uczestnicy"
       }
+    },
+    "SessionResultSummaryNote": {
+      "save": "Zapisz notatkę",
+      "saved": "Zapisano notatkę!",
+      "download": "Pobierz",
+      "filename": "notatka"
+    },
+    "MarkdownEditor": {
+      "placeholder": "Wprowadź tekst w formacie MarkDown..."
     },
     "SessionRecordingUpload": {
       "dialogTitle": "Prześlij nagranie sesji",
@@ -307,6 +319,13 @@
     "WhiteBoard": {
       "brushSize": "Grubość lini",
       "download": "Pobierz"
+    },
+    "SharedBoard": {
+      "switch": "Współdzielona tablica"
+    },
+    "SessionGoodbye": {
+      "end": "Sesja została zakończona!",
+      "bye": "Dziękujemy za skorzystanie z serwisu, mamy nadzieję że odbyta sesja przyniesie efekty."
     }
   },
   "inputErrors": {

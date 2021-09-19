@@ -2,6 +2,8 @@
 
 .EventsTimeline {
   height: 90%;
+  position: relative;
+
   .header {
     display: flex;
     align-items: center;
@@ -29,13 +31,15 @@
       @include text-02;
     }
   }
-  .endSessionContainer {
-    position: fixed;
-    bottom: 50px;
-    right: 40px;
+  .actionButtons {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
     .endSessionButton {
       @include poppins-text;
       background-color: $error-color;
+      border-radius: $spacing-05;
+      padding: $spacing-03 $spacing-04;
     }
   }
 }

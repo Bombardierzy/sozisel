@@ -20,6 +20,7 @@ import ParticipantPollEvent from "./Modules/PollEvent/ParticipantPollEvent";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
+import { SharedBoard } from "../SharedBoard/SharedBoard";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useTranslation } from "react-i18next";
 
@@ -74,7 +75,7 @@ export default function ParticipantActiveSession({
     if (sessionNotifications?.sessionNotifications) {
       switch (sessionNotifications.sessionNotifications.info) {
         case SessionInfo.SessionEnd:
-          history.push(`/`);
+          history.push(`/goodbye`);
           break;
         default:
           break;
@@ -151,6 +152,7 @@ export default function ParticipantActiveSession({
         <Fab
           variant="extended"
           className="ParticipantSessionFab"
+          classes={{ primary: "ParticipantSessionFab" }}
           color="primary"
           style={{ position: "fixed" }}
           onClick={() => {
@@ -159,6 +161,7 @@ export default function ParticipantActiveSession({
         >
           {t("components.ParticipantActiveSession.exitSession") ?? ""}
         </Fab>
+        <SharedBoard sessionId={id} />
       </>
     );
   }

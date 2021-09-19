@@ -5,6 +5,8 @@ defmodule Sozisel.SharedWhiteboard do
 
   @registry __MODULE__.Registry
   @empty_value "{}"
+  # timeout unused board after 3 hours
+  @timeout 3 * 60 * 60 * 1000
 
   @spec registry() :: module()
   def registry(), do: @registry
@@ -27,7 +29,7 @@ defmodule Sozisel.SharedWhiteboard do
   def init([session_id, creator]) do
     Process.monitor(creator)
 
-    {:ok, %{session_id: session_id, value: @empty_value, listeners: 1}}
+    {:ok, %{session_id: session_id, value: @empty_value, listeners: 1, timer_ref: nil}}
   end
 
   @spec lookup(String.t()) :: {:ok, pid() | nil} | {:error, reason :: any()}
@@ -112,7 +114,11 @@ defmodule Sozisel.SharedWhiteboard do
   def handle_call({:register_listener, listener}, _from, state) do
     Process.monitor(listener)
 
-    {:reply, :ok, Map.update!(state, :listeners, &(&1 + 1))}
+    unless is_nil(state[:timer_ref]) do
+      Process.cancel_timer(state.timer_ref)
+    end
+
+    {:reply, :ok, Map.update!(state, :listeners, &(&1 + 1)) |> Map.put(:timer_ref, nil)}
   end
 
   @impl true
@@ -136,13 +142,29 @@ defmodule Sozisel.SharedWhiteboard do
   @impl true
   def handle_info({:DOWN, _ref, :process, _pid, _reason}, state) do
     if state.listeners - 1 <= 0 do
+      timer_ref = set_inactive_timeout()
+
       Logger.info(
-        "Stopping shared whiteboard for session #{state.session_id}, no active listeners..."
+        "Setting inactive timeout for shared whiteboard for session #{state.session_id}, no active listeners..."
       )
 
-      {:stop, :normal, state}
+      Map.put(state, :timer_ref, timer_ref)
     else
-      {:noreply, Map.update!(state, :listeners, &(&1 - 1))}
+      Map.update!(state, :listeners, &(&1 - 1))
     end
+    |> then(&{:noreply, Map.update!(&1, :listeners, fn listeners -> listeners - 1 end)})
+  end
+
+  @impl true
+  def handle_info(:inactive_check, state) do
+    Logger.info(
+      "Shared whiteboard for session #{state.session_id} is no longer active, stopping..."
+    )
+
+    {:stop, :normal, state}
+  end
+
+  defp set_inactive_timeout() do
+    Process.send_after(self(), :inactive_check, @timeout)
   end
 end

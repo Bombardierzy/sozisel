@@ -32,10 +32,14 @@
     }
 }
 
+// this class has !important on purpose to bypass material-ui styling
 .ParticipantSessionFab{
-    color: $error-color;
+    background-color: $error-color !important;
     top: auto;
     right: $spacing-09;
     bottom: $spacing-09;
     left: auto;
+    font-family: "Poppins", sans-serif !important;
+    font-style: normal !important;
+    font-weight: bold !important;
 }

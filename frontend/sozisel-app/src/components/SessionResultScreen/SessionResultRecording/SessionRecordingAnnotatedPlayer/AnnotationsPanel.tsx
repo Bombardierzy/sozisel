@@ -4,6 +4,7 @@ import { DeleteOutlined, Edit, Timer } from "@material-ui/icons";
 import { IconButton, Paper, TextField, Tooltip } from "@material-ui/core";
 import { ReactElement, useCallback, useMemo, useState } from "react";
 
+import { formatTimestamp } from "../../../../common/utils";
 import { useTranslation } from "react-i18next";
 
 interface AnnotationRowProps {
@@ -17,18 +18,6 @@ interface AnnotationRowProps {
   onCreate?: (time: number, label: string) => void;
   onTimestampPress?: (timestamp: number) => void;
   currentPlayerTimestamp: () => number;
-}
-
-function formatTimestamp(timestamp: number) {
-  const seconds = Math.floor(timestamp % 60);
-  const minutes = Math.floor((timestamp % 3600) / 60);
-  const hours = Math.floor(timestamp / 3600);
-
-  const hoursStr = hours > 0 ? `${hours}:` : "";
-  const minutesStr = hoursStr && minutes < 10 ? `0${minutes}:` : `${minutes}:`;
-  const secondsStr = seconds < 10 ? `0${seconds}` : `${seconds}`;
-
-  return hoursStr + minutesStr + secondsStr;
 }
 
 export interface Annotation {

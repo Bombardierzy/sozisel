@@ -67,6 +67,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
   @presenter_event_result_submitted """
   subscription EventResultSubmitted($sessionId: ID!) {
     eventResultSubmitted(sessionId: $sessionId) {
+      id
       participant {
         id
       }
@@ -297,7 +298,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
         token: ctx.participant.token
       }
 
-      assert %{"data" => %{"submitWhiteboardResult" => %{"id" => launched_event_id}}} =
+      assert %{"data" => %{"submitWhiteboardResult" => %{"id" => id}}} =
                ctx.conn
                |> post("/api/",
                  query: @submit_whiteboard_result,
@@ -309,6 +310,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
       assert %{
                data: %{
                  "eventResultSubmitted" => %{
+                   "id" => ^id,
                    "resultData" => %{
                      "__typename" => "WhiteboardResult",
                      "path" => _,

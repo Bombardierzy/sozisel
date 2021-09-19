@@ -14,6 +14,7 @@ import EventsTimeline from "./EventsTimline/EventsTimeline";
 import JitsiFrame from "../Jitsi/JitsiFrame";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import ParticipantsList from "./ParticipantsList/ParticipantsList";
+import { SharedBoard } from "../SharedBoard/SharedBoard";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useParams } from "react-router";
 import useSessionParticipantType from "../../hooks/useSessionParticipantType";
@@ -123,6 +124,7 @@ export default function PresenterSession(): ReactElement {
           )}
         </Grid>
       </Grid>
+      <SharedBoard sessionId={id} />
     </div>
   );
 }

@@ -196,7 +196,7 @@ export default function EventsTimeline({
           activeEventId={activeEvent.id}
         />
       )}
-      <div className="endSessionContainer">
+      <div className="actionButtons">
         <Button
           color="primary"
           variant="contained"

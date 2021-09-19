@@ -24,7 +24,7 @@ export default function SessionResultHeader({
   const { t } = useTranslation("common");
 
   const links = useMemo(() => {
-    return ["summary", "events", "recording"].map((name) => ({
+    return ["summary", "events", "recording", "note"].map((name) => ({
       to: `${url}/${name}`,
       label: t(`components.SessionResultHeader.${name}`),
       isActive: location.pathname.includes(name),

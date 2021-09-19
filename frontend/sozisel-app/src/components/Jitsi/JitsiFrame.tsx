@@ -70,8 +70,6 @@ export default function JitsiFrame({
 
   useEffect(() => {
     if (api) {
-      console.log("GOT API");
-
       (api as EventTarget).addEventListener("readyToClose", () => {
         window.location.href = "/";
       });
