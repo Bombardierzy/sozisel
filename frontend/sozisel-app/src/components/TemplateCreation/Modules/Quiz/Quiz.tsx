@@ -137,7 +137,7 @@ export default function Quiz({
 
   return (
     <div className="Quiz">
-      <div className="quizForm">
+      <div>
         <Typography className="labelWithIcon">
           {t("components.TemplateCreation.Quiz.percentageOfParticipants")}
           <Tooltip

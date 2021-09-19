@@ -168,7 +168,7 @@ export function Poll({
 
   return (
     <div className="Poll">
-      <div className="pollForm">
+      <div>
         <Typography className="label">
           {t("components.TemplateCreation.Poll.question")}
         </Typography>

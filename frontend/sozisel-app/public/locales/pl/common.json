@@ -91,6 +91,12 @@
         "options": "Opcje",
         "addOption": "Dodaj kolejną opcję"
       },
+      "Whiteboard": {
+        "taskTitle": "Zadanie",
+        "taskExplanation": "Poniższy formularz posiada obsługę latexa, aby zobaczyć jak twój tekst będzie wyglądał dla uczestnika użyj przycisku podgląd",
+        "taskPlaceholder": "Treść zadania...",
+        "previewButton": "Podgląd"
+      },
       "EventList": {
         "type": {
           "Quiz": "Typ: quiz",
