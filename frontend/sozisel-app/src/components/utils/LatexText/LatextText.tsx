@@ -1,6 +1,7 @@
-import "./MarkdownText.scss";
-import MDEditor from "@uiw/react-md-editor";
+import "./LatexText.scss";
+import "katex/dist/katex.min.css";
 import { ReactElement } from "react";
+import TeX from "@matejmazur/react-katex";
 
 interface MarkdownTextProps {
   text: string;
@@ -9,5 +10,5 @@ interface MarkdownTextProps {
 export default function MarkdownText({
   text,
 }: MarkdownTextProps): ReactElement {
-  return <MDEditor.Markdown source={text} className="MarkdownText" />;
+  return <TeX className="MarkdownText">{text}</TeX>;
 }

@@ -1,6 +1,6 @@
 import "./Whiteboard.scss";
 import { Paper, Typography } from "@material-ui/core";
-import MarkdownText from "../../../../utils/MarkdownText/MarkdownText";
+import LatextText from "../../../../utils/LatexText/LatextText";
 import { ReactElement } from "react";
 import { Whiteboard as WhiteboardType } from "../../../../../graphql";
 import { useTranslation } from "react-i18next";
@@ -14,9 +14,9 @@ export default function Whiteboard({ data }: WhiteboardProps): ReactElement {
   return (
     <Paper className="WhiteboardContainer">
       <Typography variant="h4" className="header">
-        {t("components.TemplateCreation.Whiteboard.taskHeader")}
+        {t("components.TemplateCreation.Whiteboard.taskTitle")}
       </Typography>
-      <MarkdownText text={data.task} />
+      <LatextText text={data.task} />
     </Paper>
   );
 }

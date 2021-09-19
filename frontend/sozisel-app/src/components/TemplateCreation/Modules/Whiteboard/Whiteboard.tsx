@@ -24,7 +24,7 @@ import { Controller } from "react-hook-form";
 import { EventModuleProps } from "../EventModuleProps";
 import { EventProperties } from "../../EventCreation/EventProperties";
 import { InfoOutlined } from "@material-ui/icons";
-import MarkdownText from "../../../utils/MarkdownText/MarkdownText";
+import LatextText from "../../../utils/LatexText/LatextText";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
@@ -61,12 +61,11 @@ export default function Whiteboard({
 
   useEffect(() => {
     const eventData = event.eventData as Whiteboard;
-
     if (event.id !== "") {
       setText(eventData.task);
       setValue("task", eventData.task);
     }
-  }, [event.id, event.eventData, onReset, setValue, showMarkdown]);
+  }, [event.id, event.eventData, onReset, setValue]);
 
   const onUpdate = useCallback(
     async (data: WhiteboardData) => {
@@ -138,7 +137,7 @@ export default function Whiteboard({
       </Typography>
 
       {showMarkdown ? (
-        <MarkdownText text={text} />
+        <LatextText text={text} />
       ) : (
         <Controller
           name="task"
@@ -153,7 +152,7 @@ export default function Whiteboard({
               )}
               value={text}
               onChange={(e) => {
-                props.onChange(e.target.value);
+                setValue("task", e.target.value);
                 setText(e.target.value);
               }}
               className={`taskText ${errors.task && "errorBorder"}`}
