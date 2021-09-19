@@ -41,14 +41,15 @@ export default function Whiteboard({
 }: EventModuleProps): ReactElement {
   const [text, setText] = useState<string>("");
   const [showMarkdown, setShowMarkdown] = useState<boolean>(false);
-  const { t } = useTranslation("common");
-  const [event, eventDispatch] = useEventContext();
   const [message, setMessage] = useState<string>("");
+
+  const { t } = useTranslation("common");
+  const { id } = useContext(TemplateContext);
+  const [event, eventDispatch] = useEventContext();
   const [createWhiteboard, { error: createWhiteboardError }] =
     useCreateWhiteboardMutation({ refetchQueries: ["SessionTemplate"] });
   const [updateWhiteboard, { error: updateWhitboardError }] =
     useUpdateWhiteboardMutation();
-  const { id } = useContext(TemplateContext);
 
   const onReset = useCallback((): void => {
     setValue("eventName", "");
@@ -58,14 +59,6 @@ export default function Whiteboard({
     setText("");
     eventDispatch({ type: "RESET" });
   }, [eventDispatch, setValue]);
-
-  useEffect(() => {
-    const eventData = event.eventData as Whiteboard;
-    if (event.id !== "") {
-      setText(eventData.task);
-      setValue("task", eventData.task);
-    }
-  }, [event.id, event.eventData, onReset, setValue]);
 
   const onUpdate = useCallback(
     async (data: WhiteboardData) => {
@@ -114,6 +107,14 @@ export default function Whiteboard({
     },
     [createWhiteboard, createWhiteboardError, id, onReset, t]
   );
+
+  useEffect(() => {
+    const eventData = event.eventData as Whiteboard;
+    if (event.id !== "") {
+      setText(eventData.task);
+      setValue("task", eventData.task);
+    }
+  }, [event.id, event.eventData, onReset, setValue]);
 
   return (
     <div className="whiteboard">
