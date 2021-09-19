@@ -7,7 +7,7 @@ import {
 import { Paper, Typography } from "@material-ui/core";
 import React, { ReactElement } from "react";
 
-import { Poll as PollData } from "../../../../graphql";
+import { Poll as PollData } from "../../../../../graphql";
 import { useTranslation } from "react-i18next";
 
 interface PollProps {
