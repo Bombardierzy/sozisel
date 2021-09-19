@@ -174,7 +174,14 @@ export default function EventCreation(): ReactElement {
             setValue={setValue}
           />
         )}
-        {moduleType === "Whiteboard" && <Whiteboard />}
+        {moduleType === "Whiteboard" && (
+          <Whiteboard
+            handleSubmit={handleSubmit}
+            errors={errors}
+            control={control}
+            setValue={setValue}
+          />
+        )}
       </form>
     </Paper>
   );

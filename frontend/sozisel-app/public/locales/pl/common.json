@@ -93,14 +93,15 @@
       },
       "Whiteboard": {
         "taskTitle": "Zadanie",
-        "taskExplanation": "Poniższy formularz posiada obsługę latexa, aby zobaczyć jak twój tekst będzie wyglądał dla uczestnika użyj przycisku podgląd",
+        "taskExplanation": "Poniższy formularz posiada obsługę markdown, aby zobaczyć jak twój tekst będzie wyglądał dla uczestnika użyj przycisku podgląd",
         "taskPlaceholder": "Treść zadania...",
         "previewButton": "Podgląd"
       },
       "EventList": {
         "type": {
-          "Quiz": "Typ: quiz",
-          "Poll": "Typ: ankieta"
+          "Quiz": "Typ: Quiz",
+          "Poll": "Typ: Ankieta",
+          "Whiteboard": "Typ: Tablica"
         },
         "startMinute": "Czas rozpoczęcia: {{value}} minuta",
         "durationTime": "Czas trwania: {{value}} sekund",

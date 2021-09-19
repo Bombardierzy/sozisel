@@ -29,5 +29,5 @@ export const pollSchema = eventSchema.clone().shape({
 });
 
 export const whiteboardSchema = eventSchema.clone().shape({
-  question: yup.string().required("inputErrors.fieldRequired"),
+  task: yup.string().required("inputErrors.fieldRequired"),
 });
