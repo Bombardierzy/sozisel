@@ -93,7 +93,7 @@
       },
       "Whiteboard": {
         "taskTitle": "Zadanie",
-        "taskExplanation": "Poniższy formularz posiada obsługę markdown, aby zobaczyć jak twój tekst będzie wyglądał dla uczestnika użyj przycisku podgląd",
+        "taskExplanation": "Poniższy formularz posiada obsługę latexa, aby zobaczyć jak twój tekst będzie wyglądał dla uczestnika użyj przycisku podgląd",
         "taskPlaceholder": "Treść zadania...",
         "previewButton": "Podgląd"
       },
