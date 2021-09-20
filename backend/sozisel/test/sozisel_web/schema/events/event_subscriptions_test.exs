@@ -3,6 +3,8 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
   import Sozisel.Factory
 
+  alias Sozisel.Model.LaunchedEvents.LaunchedEvent
+
   @launch_event_mutation """
   mutation LaunchEvent($eventId: ID!, $sessionId: ID!, $broadcast: Boolean, $targetParticipants: [ID]) {
     launchEvent(eventId: $eventId, sessionId: $sessionId, broadcast: $broadcast, targetParticipants: $targetParticipants) {
@@ -167,7 +169,6 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
                }
              } = receive_subscription(sub)
 
-      alias Sozisel.Model.LaunchedEvents.LaunchedEvent
       Repo.delete_all(LaunchedEvent)
 
       # broadcast to a single participant

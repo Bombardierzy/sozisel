@@ -1,4 +1,4 @@
-defmodule Sozise.Events.WhiteboardTest do
+defmodule Sozise.Events.Whiteboards.WhiteboardTest do
   use Sozisel.DataCase
 
   import Sozisel.Factory
@@ -32,17 +32,17 @@ defmodule Sozise.Events.WhiteboardTest do
     }
   }
 
-  defp whiteboard_fixture(attrs) do
+  defp whiteboard_fixture(template) do
     {:ok, whiteboard} =
-      attrs
-      |> Enum.into(@valid_attrs)
+      @valid_attrs
+      |> Map.put(:session_template_id, template.id)
       |> Events.create_event()
 
     whiteboard
   end
 
   describe "whiteboard events" do
-    test "create_event/1 with valid data creates a event" do
+    test "create_event/1 with valid whiteboard data creates an event" do
       template = insert(:template)
 
       valid_attrs = Map.put(@valid_attrs, :session_template_id, template.id)
@@ -63,7 +63,7 @@ defmodule Sozise.Events.WhiteboardTest do
 
     test "update_event/2 with valid whiteboard data updates the event" do
       template = insert(:template)
-      whiteboard = whiteboard_fixture(%{session_template_id: template.id})
+      whiteboard = whiteboard_fixture(template)
 
       assert {:ok, %Event{} = event} = Events.update_event(whiteboard, @update_attrs)
 
@@ -74,11 +74,19 @@ defmodule Sozise.Events.WhiteboardTest do
 
     test "update_event/2 with invalid whiteboard data returns error changeset" do
       template = insert(:template)
-      whiteboard = whiteboard_fixture(%{session_template_id: template.id})
+      whiteboard = whiteboard_fixture(template)
 
       assert {:error, %Ecto.Changeset{}} = Events.update_event(whiteboard, @invalid_attrs)
 
       assert whiteboard == Events.get_event!(whiteboard.id)
+    end
+
+    test "delete_event/1 deletes the event" do
+      template = insert(:template)
+      event = whiteboard_fixture(template)
+
+      assert {:ok, %Event{}} = Events.delete_event(event)
+      assert_raise Ecto.NoResultsError, fn -> Events.get_event!(event.id) end
     end
   end
 end

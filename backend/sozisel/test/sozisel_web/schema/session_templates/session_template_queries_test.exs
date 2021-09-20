@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.SessionTemplateQueriesTest do
+defmodule SoziselWeb.Schema.SessionTemplates.SessionTemplateQueriesTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
@@ -84,9 +84,9 @@ defmodule SoziselWeb.Schema.SessionTemplateQueriesTest do
     end
 
     test "search templates with no params", ctx do
-      _ = insert(:template, user_id: ctx.user.id)
-      _ = insert(:template, user_id: ctx.user.id)
-      _ = insert(:template)
+      insert(:template, user_id: ctx.user.id)
+      insert(:template, user_id: ctx.user.id)
+      insert(:template)
 
       assert %{
                data: %{
@@ -98,10 +98,9 @@ defmodule SoziselWeb.Schema.SessionTemplateQueriesTest do
     end
 
     test "search user's Templates", ctx do
-      _ = insert(:template, is_public: false, name: "Sozisel", user_id: ctx.user.id)
-      _id = ctx.user.id
-      _ = insert(:template, is_public: true, name: "other", user_id: ctx.user.id)
-      _ = insert(:template, name: "Sozisel")
+      insert(:template, is_public: false, name: "Sozisel", user_id: ctx.user.id)
+      insert(:template, is_public: true, name: "other", user_id: ctx.user.id)
+      insert(:template, name: "Sozisel")
 
       variables = %{
         includePublic: false,
@@ -125,8 +124,8 @@ defmodule SoziselWeb.Schema.SessionTemplateQueriesTest do
     end
 
     test "search public Templates", ctx do
-      _ = insert(:template, is_public: true, name: "other")
-      _ = insert(:template, is_public: false, name: "other2")
+      insert(:template, is_public: true, name: "other")
+      insert(:template, is_public: false, name: "other2")
 
       variables = %{
         includePublic: true,
@@ -148,7 +147,7 @@ defmodule SoziselWeb.Schema.SessionTemplateQueriesTest do
 
     test "search for non-deleted templates", ctx do
       deleted_template = insert(:template, name: "other", user_id: ctx.user.id)
-      _ = insert(:template, name: "Sozisel", user_id: ctx.user.id)
+      insert(:template, name: "Sozisel", user_id: ctx.user.id)
 
       variables = %{
         id: deleted_template.id

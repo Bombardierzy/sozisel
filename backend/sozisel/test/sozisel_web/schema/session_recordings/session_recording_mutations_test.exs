@@ -1,10 +1,11 @@
-defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
+defmodule SoziselWeb.Schema.SessionRecordings.SessionRecordingMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
 
   alias Sozisel.MediaStorage.Disk
-  alias Sozisel.Model.SessionRecordings.SessionRecording
+  alias Sozisel.Model.SessionRecordings
+  alias SessionRecordings.SessionRecording
 
   @upload_recording_mutation """
   mutation UploadRecording($id: ID!, $recording: Upload!) {
@@ -156,8 +157,6 @@ defmodule SoziselWeb.Schema.SessionRecordingMutationsTest do
     end
 
     test "update recording's annotations", ctx do
-      alias Sozisel.Model.SessionRecordings
-
       {:ok, %{id: recording_id}} =
         SessionRecordings.create_session_recording(%{
           session_id: ctx.session.id,

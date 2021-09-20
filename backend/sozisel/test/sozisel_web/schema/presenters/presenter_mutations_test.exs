@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.PresenterMutationsTest do
+defmodule SoziselWeb.Schema.Presenters.PresenterMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
@@ -62,8 +62,8 @@ defmodule SoziselWeb.Schema.PresenterMutationsTest do
 
     test "send an event to listed participants when presenter start event", ctx do
       %{session: session, event: event} = ctx
-      participant_1 = insert(:participant, session_id: session.id, token: "First")
-      participant_2 = insert(:participant, session_id: session.id, token: "Second")
+      participant_1 = insert(:participant, session_id: session.id)
+      participant_2 = insert(:participant, session_id: session.id)
 
       variables = %{
         eventId: event.id,

@@ -1,4 +1,4 @@
-defmodule Sozisel.Model.Users.TokenTest do
+defmodule Sozisel.UserTokenTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.Users.Token

@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
+defmodule SoziselWeb.Schema.Events.Quizzes.QuizQueriesTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
@@ -68,14 +68,11 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
   describe "Quiz queries should" do
     setup do
       user = insert(:user)
-      [conn: test_conn(user), user: user]
-    end
-
-    def data_fixture(ctx) do
       template = insert(:template)
       event = insert(:quiz_event, session_template_id: template.id)
-      session = insert(:session, session_template_id: template.id, user_id: ctx.user.id)
+      session = insert(:session, session_template_id: template.id, user_id: user.id)
       launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
+
       participant1 = insert(:participant, session_id: session.id)
       participant2 = insert(:participant, session_id: session.id)
 
@@ -91,14 +88,12 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
         result_data: random_event_result(event.event_data)
       )
 
-      launched_event
+      [conn: test_conn(user), launched_event: launched_event]
     end
 
     test "get quiz summary after summary session", ctx do
-      launched_event = data_fixture(ctx)
-
       variables = %{
-        id: launched_event.id
+        id: ctx.launched_event.id
       }
 
       assert %{
@@ -113,10 +108,8 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
     end
 
     test "get quiz participants summary after summary session", ctx do
-      launched_event = data_fixture(ctx)
-
       variables = %{
-        id: launched_event.id
+        id: ctx.launched_event.id
       }
 
       assert %{
@@ -142,10 +135,8 @@ defmodule SoziselWeb.Schema.Quizzes.QuizQueriesTest do
     end
 
     test "get quiz questions summary after summary session", ctx do
-      launched_event = data_fixture(ctx)
-
       variables = %{
-        id: launched_event.id
+        id: ctx.launched_event.id
       }
 
       assert %{

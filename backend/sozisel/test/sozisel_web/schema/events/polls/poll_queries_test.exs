@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.Polls.PollQueriesTest do
+defmodule SoziselWeb.Schema.Events.Polls.PollQueriesTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
@@ -25,7 +25,9 @@ defmodule SoziselWeb.Schema.Polls.PollQueriesTest do
     event = insert(:poll_event, session_template_id: template.id, user_id: user.id)
     session = insert(:session, session_template_id: template.id, user_id: user.id)
     launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
+
     participant1 = insert(:participant, session_id: session.id)
+    participant2 = insert(:participant, session_id: session.id)
 
     insert(:event_result,
       launched_event: launched_event,
@@ -33,15 +35,21 @@ defmodule SoziselWeb.Schema.Polls.PollQueriesTest do
       result_data: random_event_result(event.event_data)
     )
 
-    id = launched_event.id
+    insert(:event_result,
+      launched_event: launched_event,
+      participant: participant2,
+      result_data: random_event_result(event.event_data)
+    )
+
+    launched_event_id = launched_event.id
     question = event.event_data.question
 
     assert %{
              data: %{
                "pollSummary" => %{
-                 "id" => ^id,
+                 "id" => ^launched_event_id,
                  "question" => ^question,
-                 "totalVoters" => 1
+                 "totalVoters" => 2
                }
              }
            } = run_query(test_conn(user), @poll_summary_query, %{id: launched_event.id})

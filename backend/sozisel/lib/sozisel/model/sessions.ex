@@ -5,11 +5,19 @@ defmodule Sozisel.Model.Sessions do
 
   import Ecto.Query, warn: false
   alias Sozisel.Repo
-  alias Sozisel.Model.{Utils, Events}
-  alias Events.Event
 
+  alias Sozisel.Model.{
+    EventResults.EventResult,
+    Participants.Participant,
+    LaunchedEvents.LaunchedEvent,
+    Sessions.Session,
+    Users.User,
+    Utils,
+    Events
+  }
+
+  alias Events.Event
   alias Sozisel.Model.Sessions.{AgendaEntry, Session, Template}
-  alias Sozisel.Model.Users.User
 
   @doc """
   Checks if user is an owner of given template
@@ -298,13 +306,6 @@ defmodule Sozisel.Model.Sessions do
   Returns a sessions summary. Please go see `:session_summary` graphql type for more details.
   """
   def session_summary(%Session{id: session_id, start_time: start_time, end_time: end_time}) do
-    alias Sozisel.Model.{
-      EventResults.EventResult,
-      Participants.Participant,
-      LaunchedEvents.LaunchedEvent,
-      Sessions.Session
-    }
-
     participations =
       """
       select le.id, le.event_id, e.name, le.inserted_at, e.event_data->>'__type__', count(er.id) from sessions s
@@ -382,8 +383,6 @@ defmodule Sozisel.Model.Sessions do
   def delete_agenda_entry(%AgendaEntry{} = agenda_entry) do
     Repo.delete(agenda_entry)
   end
-
-  alias Sozisel.Model.Sessions.Session
 
   @doc """
   Returns the list of sessions.
