@@ -38,3 +38,7 @@
   font-style: normal;
   font-weight: bold;
 }
+
+@mixin rubik-text {
+  font-family: "Rubik", sans-serif !important
+}

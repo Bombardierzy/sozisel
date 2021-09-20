@@ -7,6 +7,10 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
+import {
+  Poll as PollData,
+  Whiteboard as WhiteboardData,
+} from "../../../../graphql";
 import React, { FC, ReactElement, useState } from "react";
 
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -14,9 +18,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import { Event } from "../../../../model/Template";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import Poll from "./Poll";
-import { Poll as PollData } from "../../../../graphql";
+import Poll from "./Poll/Poll";
 import QuizQuestion from "./Quiz/Question";
+import Whiteboard from "./Whiteboard/Whiteboard";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 
@@ -59,6 +63,9 @@ const EventElementDetails: FC<{ event: Event }> = ({ event }) => {
     }
     case "Poll": {
       return <Poll data={event.eventData as PollData} />;
+    }
+    case "Whiteboard": {
+      return <Whiteboard data={event.eventData as WhiteboardData} />;
     }
     default: {
       return <></>;

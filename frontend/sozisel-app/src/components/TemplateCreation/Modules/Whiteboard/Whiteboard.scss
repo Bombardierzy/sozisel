@@ -1,0 +1,35 @@
+@import "../../../../styles/styles";
+
+.whiteboard {
+    margin-top: $spacing-05;
+    .taskTitle {
+        @include header-01;
+        display: flex;
+        align-items: center;
+        margin-bottom: $spacing-03;
+        .infoIcon {
+            margin-left: $spacing-03;
+        }
+        .previewButton {
+            padding: $spacing-02 $spacing-05;
+            margin-left: auto;
+        }
+    }
+    .taskText {
+        border-radius: $spacing-03;
+        width: calc(100% - 2*#{$spacing-03});
+        background-color: $bg-02;
+        @include text-03;
+        @include rubik-text;
+        padding: $spacing-03;
+    }
+    .errorBorder {
+        border: $error-border;
+    }
+    .error {
+        color: $error-color;
+        margin-left: $spacing-03 + $spacing-02;
+        margin-right: $spacing-03 + $spacing-02;;
+        @include text-01;
+    }
+}

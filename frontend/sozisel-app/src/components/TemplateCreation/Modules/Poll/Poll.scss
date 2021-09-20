@@ -1,10 +1,6 @@
 @import "../../../../styles/styles";
 
 .Poll {
-  .pollForm {
-    padding: 0 $spacing-03;
-  }
-
   .multichoice {
     margin-top: 3 * $spacing-02;
     display: flex;
@@ -14,9 +10,9 @@
       margin: 0;
     }
   }
-  
+
   .options {
-    margin-top: $spacing-02; 
+    margin-top: $spacing-02;
   }
 
   .clearOption {
@@ -27,7 +23,7 @@
     margin: $spacing-03 0;
     width: 100%;
   }
-  
+
   .pollOption {
     margin-bottom: $spacing-03;
 
