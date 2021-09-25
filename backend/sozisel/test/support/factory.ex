@@ -220,7 +220,7 @@ defmodule Sozisel.Factory do
     %PollResult{option_ids: option_ids}
   end
 
-  def random_event_result(%Whiteboard{task: task}) do
+  def random_event_result(%Whiteboard{}) do
     %WhiteboardResult{
       path: "/tmp/test_image.png",
       text: "This is a bomb",

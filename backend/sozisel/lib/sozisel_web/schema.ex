@@ -26,7 +26,8 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Queries.SessionRecordingQueries)
   import_types(SoziselWeb.Schema.Queries.ParticipantQueries)
   import_types(SoziselWeb.Schema.Queries.QuizQueries)
-  import_types(SoziselWeb.Schema.Polls.PollQueries)
+  import_types(SoziselWeb.Schema.Queries.PollQueries)
+  import_types(SoziselWeb.Schema.Queries.WhiteboardQueries)
 
   # Mutations
   import_types(SoziselWeb.Schema.Mutations.UserMutations)
@@ -52,6 +53,7 @@ defmodule SoziselWeb.Schema do
     import_fields(:participant_queries)
     import_fields(:quiz_queries)
     import_fields(:poll_queries)
+    import_fields(:whiteboard_queries)
   end
 
   mutation do
