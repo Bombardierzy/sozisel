@@ -44,7 +44,6 @@ defmodule Sozisel.Model.Whiteboards.WhiteboardResult do
            },
            event_results: event_results
          } <- Repo.preload(launched_event, [:event, :event_results, event_results: :participant]) do
-
       answers =
         event_results
         |> Enum.map(fn participant_result ->
@@ -56,7 +55,7 @@ defmodule Sozisel.Model.Whiteboards.WhiteboardResult do
             additional_text: participant_result.result_data.text
           }
         end)
-    
+
       total_used_time =
         event_results
         |> Enum.map(& &1.result_data.used_time)

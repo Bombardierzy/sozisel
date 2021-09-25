@@ -1,5 +1,11 @@
 defmodule SoziselWeb.Schema.Resolvers.LaunchedEventResolvers do
-  alias Sozisel.Model.{LaunchedEvents, Quizzes.QuizResult, Polls.PollResult, Whiteboards.WhiteboardResult}
+  alias Sozisel.Model.{
+    LaunchedEvents,
+    Quizzes.QuizResult,
+    Polls.PollResult,
+    Whiteboards.WhiteboardResult
+  }
+
   alias LaunchedEvents.LaunchedEvent
 
   import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
