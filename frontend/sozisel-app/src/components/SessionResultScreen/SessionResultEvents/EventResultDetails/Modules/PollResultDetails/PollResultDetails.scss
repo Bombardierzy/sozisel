@@ -1,0 +1,64 @@
+@import "../../../../../../styles/styles";
+
+
+.PollResultDetails {
+    height: calc(100% - #{$event-banner-height});
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-09;
+    @include poppins-text;
+
+    .pollSummary {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-sizing: border-box;
+        margin-right: $spacing-07;
+        padding: $spacing-06;
+    }
+
+    .pollResultView {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-sizing: border-box;
+        padding: $spacing-06;
+    }
+
+    .headerWithIcon {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: $spacing-03;
+    }
+
+    .header{
+        color: $text-04;
+        font-size: $spacing-07;
+        font-weight: 600;
+        padding: 0 $spacing-05;
+    }
+
+    .question {
+        color: $text-01;
+        font-size: $spacing-05;
+        font-weight: 400;
+        text-align: center;
+        margin-bottom: $spacing-06;
+    }
+
+    .answersLabel {
+        padding: 0 $spacing-07;
+        font-size: $spacing-06;
+        font-weight: 700;
+        color: $primary-accent;
+        text-align: center;
+    }
+}
