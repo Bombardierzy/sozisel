@@ -274,7 +274,9 @@
       "Poll": {
         "participantsNumber": "Liczba uczestników",
         "multichoice": "Wielokrotny wybór",
-        "answersNumber": "Liczba odpowiedzi"
+        "answersNumber": "Liczba odpowiedzi",
+        "yes": "Tak",
+        "no": "Nie"
       }
     },
     "PresenterSession": {

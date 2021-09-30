@@ -1,11 +1,11 @@
 import "./PollResultDetails.scss";
 
 import { CircularProgress, List, Paper, Typography } from "@material-ui/core";
+import React, { useMemo } from "react";
 
 import ErrorAlert from "../../../../../utils/Alerts/ErrorAlert";
 import EventIcon from "@material-ui/icons/Event";
 import PollPieChart from "../../../../../utils/PollPieChart/PollPieChart";
-import React from "react";
 import StatsRow from "../../../../../utils/StatsRow/StatsRow";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { usePollResultQuery } from "../../../../../../graphql";
@@ -22,6 +22,15 @@ export default function PollResultDetails({
 }: PollResultDetailsProps): React.ReactElement {
   const { t } = useTranslation("common");
   const { data, loading } = usePollResultQuery({ variables: { id } });
+
+  const pollChartData = useMemo(() => {
+    if (data?.pollSummary) {
+      return data.pollSummary.optionSummaries.filter(
+        (option) => option.votes > 0
+      );
+    }
+    return [];
+  }, [data]);
 
   if (loading) {
     return (
@@ -55,7 +64,11 @@ export default function PollResultDetails({
           {
             <StatsRow
               label={t("components.SessionEventResults.Poll.multichoice")}
-              value={`${data.pollSummary.isMultiChoice ? "Tak" : "Nie"}`}
+              value={`${
+                data.pollSummary.isMultiChoice
+                  ? t("components.SessionEventResults.Poll.yes")
+                  : t("components.SessionEventResults.Poll.no")
+              }`}
             />
           }
           <Typography className="answersLabel">
@@ -79,12 +92,7 @@ export default function PollResultDetails({
             </Typography>
           </div>
           <div className="pollPieChart">
-            <PollPieChart
-              outerRadius={150}
-              data={data.pollSummary.optionSummaries.filter(
-                (option) => option.votes > 0
-              )}
-            />
+            <PollPieChart outerRadius={150} data={pollChartData} />
           </div>
         </Paper>
       </div>
