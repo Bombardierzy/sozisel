@@ -57,7 +57,7 @@ defmodule Sozisel.Events.Whiteboards.WhiteboardSummaryTest do
       assert %{
                average_used_time: 46.43,
                id: _,
-               participants_tasks: [
+               participants_whiteboard_tasks: [
                  %{
                    additional_text: "some text",
                    email: _,

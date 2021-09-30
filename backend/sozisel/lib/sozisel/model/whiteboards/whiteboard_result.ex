@@ -65,7 +65,7 @@ defmodule Sozisel.Model.Whiteboards.WhiteboardResult do
         id: launched_event_id,
         task: task,
         average_used_time: (total_used_time / length(event_results)) |> Float.round(2),
-        participants_tasks: answers
+        participants_whiteboard_tasks: answers
       }
     end
   end

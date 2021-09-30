@@ -8,7 +8,7 @@ defmodule SoziselWeb.Schema.Events.Whiteboards.WhiteboardQueriesTest do
     whiteboardSummary(id: $id) {
       id
       task
-      participants_tasks {
+      participants_whiteboard_tasks {
         full_name
         email
         image_path

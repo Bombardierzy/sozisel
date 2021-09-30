@@ -37,7 +37,7 @@ defmodule SoziselWeb.Schema.Types.WhiteboardTypes do
     field :used_time, non_null(:float)
   end
 
-  object :participants_task_summary do
+  object :participants_whiteboard_task_summary do
     field :full_name, non_null(:string)
     field :email, non_null(:string)
     field :image_path, non_null(:string)
@@ -50,7 +50,7 @@ defmodule SoziselWeb.Schema.Types.WhiteboardTypes do
     field :id, non_null(:id)
 
     field :task, non_null(:string)
-    field :participants_tasks, strong_list_of(:participants_task_summary)
+    field :participants_whiteboard_tasks, strong_list_of(:participants_whiteboard_task_summary)
     field :average_used_time, non_null(:float)
   end
 end
