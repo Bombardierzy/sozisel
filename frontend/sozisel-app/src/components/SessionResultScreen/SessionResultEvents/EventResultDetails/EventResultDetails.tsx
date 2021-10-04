@@ -7,6 +7,7 @@ import { useHistory, useParams, useRouteMatch } from "react-router";
 
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ErrorAlert from "../../../utils/Alerts/ErrorAlert";
+import PollResultDetails from "./Modules/PollResultDetails/PollResultDetails";
 import QuizResultDetails from "./Modules/QuizResultDetails/QuizResultDetails";
 import { useTranslation } from "react-i18next";
 
@@ -86,6 +87,9 @@ export default function EventResultDetails({
         </div>
         {eventType === EventType.Quiz && (
           <QuizResultDetails id={id} eventName={eventName} />
+        )}
+        {eventType === EventType.Poll && (
+          <PollResultDetails id={id} eventName={eventName} />
         )}
       </div>
     );
