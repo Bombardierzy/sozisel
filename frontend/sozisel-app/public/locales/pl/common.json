@@ -295,7 +295,7 @@
         },
         "PollDetails": {
           "multiChoice": "Odpowiedzi wielokrotnego wyboru",
-        "singleChoice": "Odpowiedzi jednokrotnego wyboru",
+          "singleChoice": "Odpowiedzi jednokrotnego wyboru",
           "questionText": "Treść pytania: {{text}}"
         },
         "LiveEventDetails": {
@@ -304,6 +304,9 @@
           "completedTrialsNumber": "Ilość zakończonych prób: {{value}}",
           "numberOfParticipants": "Ilość uczestników: {{value}}",
           "mostCommonAnswer": "Najczęsciej wybierana odpowiedź: {{text}}"
+        },
+        "WhiteboardDetails": {
+          "task": "Treść zadania: "
         }
       }
     },
