@@ -7,6 +7,7 @@ defmodule Sozisel.Model.Sessions.Session do
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
   alias Sozisel.Model.SessionRecordings.SessionRecording
   alias Sozisel.Model.SessionResources.SessionResource
+  alias Sozisel.Model.SessionResourceLinks.SessionResourceLink
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -18,7 +19,7 @@ defmodule Sozisel.Model.Sessions.Session do
           use_jitsi: Boolean.t(),
           user_id: Ecto.UUID.t(),
           user: User.t() | Ecto.Association.NotLoaded.t(),
-          session_resources: [SessionResource.t()] | Ecto.Association.NotLoaded.t(),
+          session_resource_links: [SessionResourceLink.t()] | Ecto.Association.NotLoaded.t(),
           session_template_id: Ecto.UUID.t(),
           session_template: Template.t() | Ecto.Association.NotLoaded.t(),
           summary_note: String.t() | nil,
@@ -40,9 +41,7 @@ defmodule Sozisel.Model.Sessions.Session do
 
     has_many :launched_events, LaunchedEvent
     has_one :session_recording, SessionRecording
-    # has_many :session_resources, SessionResource, foreign_key: :session_id
-    many_to_many :session_resources, SessionResource, join_through: "session_resources_sessios"
-
+    has_many :session_resource_links, SessionResourceLink
 
     timestamps()
   end
