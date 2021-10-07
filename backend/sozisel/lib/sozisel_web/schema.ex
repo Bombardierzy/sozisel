@@ -11,6 +11,7 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Types.EventTypes)
   import_types(SoziselWeb.Schema.Types.QuizTypes)
   import_types(SoziselWeb.Schema.Types.SessionTypes)
+  import_types(SoziselWeb.Schema.Types.SessionRecordingTypes)
   import_types(SoziselWeb.Schema.Types.ParticipantTypes)
   import_types(SoziselWeb.Schema.Types.EventResultTypes)
   import_types(SoziselWeb.Schema.Types.ParticipantTypes)
@@ -22,14 +23,18 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Queries.SessionTemplateQueries)
   import_types(SoziselWeb.Schema.Queries.EventQueries)
   import_types(SoziselWeb.Schema.Queries.SessionQueries)
+  import_types(SoziselWeb.Schema.Queries.SessionRecordingQueries)
   import_types(SoziselWeb.Schema.Queries.ParticipantQueries)
   import_types(SoziselWeb.Schema.Queries.QuizQueries)
+  import_types(SoziselWeb.Schema.Queries.PollQueries)
+  import_types(SoziselWeb.Schema.Queries.WhiteboardQueries)
 
   # Mutations
   import_types(SoziselWeb.Schema.Mutations.UserMutations)
   import_types(SoziselWeb.Schema.Mutations.SessionTemplateMutations)
   import_types(SoziselWeb.Schema.Mutations.QuizMutations)
   import_types(SoziselWeb.Schema.Mutations.SessionMutations)
+  import_types(SoziselWeb.Schema.Mutations.SessionRecordingMutations)
   import_types(SoziselWeb.Schema.Mutations.ParticipantMutations)
   import_types(SoziselWeb.Schema.Mutations.PresenterMutations)
   import_types(SoziselWeb.Schema.Mutations.PollMutations)
@@ -44,8 +49,11 @@ defmodule SoziselWeb.Schema do
     import_fields(:session_template_queries)
     import_fields(:event_queries)
     import_fields(:session_queries)
+    import_fields(:session_recording_queries)
     import_fields(:participant_queries)
     import_fields(:quiz_queries)
+    import_fields(:poll_queries)
+    import_fields(:whiteboard_queries)
   end
 
   mutation do
@@ -53,6 +61,7 @@ defmodule SoziselWeb.Schema do
     import_fields(:session_template_mutations)
     import_fields(:quiz_mutations)
     import_fields(:session_mutations)
+    import_fields(:session_recording_mutations)
     import_fields(:participant_mutations)
     import_fields(:presenter_mutations)
     import_fields(:poll_mutations)

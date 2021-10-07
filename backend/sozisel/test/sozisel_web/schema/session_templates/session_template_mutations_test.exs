@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
+defmodule SoziselWeb.Schema.SessionTemplates.SessionTemplateMutationsTest do
   use SoziselWeb.AbsintheCase
 
   import Sozisel.Factory
@@ -65,7 +65,7 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
   }
   """
 
-  @event_valid_attrs %{
+  @quiz_event_valid_attrs %{
     name: "some name",
     duration_time_sec: 12,
     start_minute: 42,
@@ -97,7 +97,7 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
     def event_fixture(attrs \\ %{}) do
       {:ok, event} =
         attrs
-        |> Enum.into(@event_valid_attrs)
+        |> Enum.into(@quiz_event_valid_attrs)
         |> Events.create_event()
 
       event
@@ -129,7 +129,7 @@ defmodule SoziselWeb.Schema.SessionTemplateMutationsTest do
 
     test "update an existing template", ctx do
       template = insert(:template, user_id: ctx.user.id)
-      _ = insert(:agenda_entry, session_template_id: template.id)
+      insert(:agenda_entry, session_template_id: template.id)
 
       variables = %{
         input: %{

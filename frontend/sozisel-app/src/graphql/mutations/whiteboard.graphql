@@ -1,0 +1,17 @@
+mutation CreateWhiteboard($input: CreateWhiteboardInput!) {
+  createWhiteboard(input: $input) {
+    id
+  }
+}
+
+mutation UpdateWhiteboard($input: UpdateWhiteboardInput!) {
+  updateWhiteboard(input: $input) {
+    id
+    name
+    startMinute
+    durationTimeSec
+    eventData {
+      ...whiteboardFields
+    }
+  }
+}

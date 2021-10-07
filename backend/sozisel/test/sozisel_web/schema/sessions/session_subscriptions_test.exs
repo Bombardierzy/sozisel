@@ -1,4 +1,4 @@
-defmodule SoziselWeb.Schema.Events.SessionSubscriptionsTest do
+defmodule SoziselWeb.Schema.Sessions.SessionSubscriptionsTest do
   use SoziselWeb.AbsintheCase
 
   alias SoziselWeb.Schema.Helpers

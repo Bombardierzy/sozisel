@@ -1,13 +1,12 @@
-defmodule Sozisel.Events.QuizResultsTest do
+defmodule Sozisel.Events.Quizzes.QuizResultsTest do
   use Sozisel.DataCase
 
   import Sozisel.Factory
 
-  alias Sozisel.Model.Events
   alias Sozisel.Model.EventResults
   alias EventResults.EventResult
 
-  describe "event_results" do
+  describe "quiz results" do
     @valid_attrs %{
       result_data: %{
         participant_answers: [
@@ -54,109 +53,32 @@ defmodule Sozisel.Events.QuizResultsTest do
         ]
       }
     }
-    @invalid_attrs %{participant_token: nil, result_data: nil}
-    @valid_attrs_for_event %{
-      name: "some name",
-      duration_time_sec: 12,
-      start_minute: 42,
-      event_data: %{
-        target_percentage_of_participants: 2,
-        quiz_questions: [
-          %{
-            question: "What is the capital of Poland?",
-            id: "1",
-            answers: [
-              %{text: "Cracow", id: "1"},
-              %{text: "Warsaw", id: "2"},
-              %{text: "Podlasie", id: "3"}
-            ],
-            correct_answers: [
-              %{text: "Warsaw", id: "2"}
-            ]
-          },
-          %{
-            question: "What color is the banana?",
-            id: "2",
-            answers: [
-              %{text: "Red", id: "1"},
-              %{text: "Black", id: "2"},
-              %{text: "Yellow", id: "3"},
-              %{text: "Green", id: "4"}
-            ],
-            correct_answers: [
-              %{text: "Yellow", id: "3"},
-              %{text: "Green", id: "4"}
-            ]
-          }
-        ]
-      }
-    }
 
-    def event_fixture(attrs \\ %{}) do
-      {:ok, event} =
-        attrs
-        |> Enum.into(@valid_attrs_for_event)
-        |> Events.create_event()
-
-      event
-    end
-
-    def event_result_fixture(attrs \\ %{}) do
-      {:ok, event_result} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> EventResults.create_event_result()
-
-      event_result
-    end
-
-    def prepare_fixtures() do
+    setup do
       template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-
+      event = insert(:quiz_event, session_template_id: template.id)
       session = insert(:session, session_template_id: template.id)
-      launched_event = insert(:launched_event, event_id: event.id, session_id: session.id)
-      participant = insert(:participant)
+      launched_event = insert(:launched_event, session_id: session.id, event_id: event.id)
+      participant = insert(:participant, session_id: session.id)
 
       event_result =
-        event_result_fixture(%{
-          launched_event_id: launched_event.id,
-          participant_id: participant.id
-        })
+        insert(:event_result,
+          launched_event: launched_event,
+          participant: participant,
+          result_data: random_event_result(event.event_data)
+        )
 
-      %{
-        event_result: event_result,
-        template: template,
-        event: event,
-        session: session,
-        launched_event: launched_event,
-        participant: participant
-      }
+      [event_result: event_result, launched_event: launched_event, participant: participant]
     end
 
-    test "list_event_results/0 returns all event_results" do
-      %{event_result: event_result} = prepare_fixtures()
-
-      assert EventResults.list_event_results() == [event_result]
-    end
-
-    test "get_event_result!/1 returns the event_result with given id" do
-      %{event_result: event_result} = prepare_fixtures()
-
-      assert EventResults.get_event_result!(event_result.id) == event_result
-    end
-
-    test "create_event_result/1 with valid data creates a event_result" do
-      %{event_result: event_result, launched_event: launched_event, participant: participant} =
-        prepare_fixtures()
-
-      # just delete it as it is created in fixtures
-      Repo.delete(event_result)
+    test "create_event_result/1 with valid quiz data creates a event_result", ctx do
+      # just delete it as it is created in fixture
+      Repo.delete(ctx.event_result)
 
       valid_attrs =
         @valid_attrs
-        |> Map.put(:launched_event_id, launched_event.id)
-        |> Map.put(:participant_id, participant.id)
+        |> Map.put(:launched_event_id, ctx.launched_event.id)
+        |> Map.put(:participant_id, ctx.participant.id)
 
       assert {:ok, %EventResult{} = event_result} = EventResults.create_event_result(valid_attrs)
 
@@ -188,28 +110,13 @@ defmodule Sozisel.Events.QuizResultsTest do
                ]
              }
 
-      assert event_result.launched_event_id == launched_event.id
-      assert event_result.participant_id == participant.id
+      assert ctx.event_result.launched_event_id == ctx.launched_event.id
+      assert ctx.event_result.participant_id == ctx.participant.id
     end
 
-    test "create_event_result/1 with invalid data returns error changeset or unmatched event result error" do
-      %{launched_event: launched_event} = prepare_fixtures()
-      participant = insert(:participant)
-
-      assert {:error, :unmatched_event_result} =
-               EventResults.create_event_result(%{
-                 launched_event_id: launched_event.id,
-                 participant_id: participant.id,
-                 event_data: %{}
-               })
-    end
-
-    test "update_event_result/2 with valid data updates the event_result" do
-      %{event_result: event_result, launched_event: launched_event, participant: participant} =
-        prepare_fixtures()
-
+    test "update_event_result/2 with valid quiz data updates the event_result", ctx do
       assert {:ok, %EventResult{} = event_result} =
-               EventResults.update_event_result(event_result, @update_attrs)
+               EventResults.update_event_result(ctx.event_result, @update_attrs)
 
       assert event_result.result_data == %Sozisel.Model.Quizzes.QuizResult{
                participant_answers: [
@@ -267,30 +174,8 @@ defmodule Sozisel.Events.QuizResultsTest do
                ]
              }
 
-      assert event_result.launched_event_id == launched_event.id
-      assert event_result.participant_id == participant.id
-    end
-
-    test "update_event_result/2 with invalid data returns error changeset" do
-      %{event_result: event_result} = prepare_fixtures()
-
-      assert {:error, %Ecto.Changeset{}} =
-               EventResults.update_event_result(event_result, @invalid_attrs)
-
-      assert event_result == EventResults.get_event_result!(event_result.id)
-    end
-
-    test "delete_event_result/1 deletes the event_result" do
-      %{event_result: event_result} = prepare_fixtures()
-
-      assert {:ok, %EventResult{}} = EventResults.delete_event_result(event_result)
-      assert_raise Ecto.NoResultsError, fn -> EventResults.get_event_result!(event_result.id) end
-    end
-
-    test "change_event_result/1 returns a event_result changeset" do
-      %{event_result: event_result} = prepare_fixtures()
-
-      assert %Ecto.Changeset{} = EventResults.change_event_result(event_result)
+      assert event_result.launched_event_id == ctx.launched_event.id
+      assert event_result.participant_id == ctx.participant.id
     end
   end
 end

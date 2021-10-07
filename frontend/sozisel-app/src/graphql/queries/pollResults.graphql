@@ -8,3 +8,16 @@ query PollSummary($id: ID!){
     }
   }
 }
+
+query PollResult($id: ID!){
+  pollSummary(id: $id){
+    isMultiChoice
+    question
+    totalVoters
+    optionSummaries {
+        id
+        text
+        votes
+    }
+  }
+}

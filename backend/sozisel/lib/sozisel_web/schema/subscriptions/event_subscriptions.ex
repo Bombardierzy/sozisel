@@ -3,7 +3,7 @@ defmodule SoziselWeb.Schema.Subscriptions.EventSubscriptions do
 
   alias Sozisel.Repo
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
-  alias Sozisel.Model.Polls.Poll
+  alias Sozisel.Model.Polls.PollResult
   alias Sozisel.Model.Users.User
   alias SoziselWeb.Schema.Middleware.Subscriptions.{Participant, Presenter}
   alias SoziselWeb.Schema.Subscriptions.Topics
@@ -28,7 +28,7 @@ defmodule SoziselWeb.Schema.Subscriptions.EventSubscriptions do
 
       # This resolver will run for each participant (executing N queries) but we should not care really
       resolve fn %{launched_event_id: id}, _, _ ->
-        {:ok, Poll.poll_summary(id)}
+        {:ok, PollResult.poll_summary(id)}
       end
 
       config subscription_middleware(Participant, [], &handle_participant_poll_topic/2)

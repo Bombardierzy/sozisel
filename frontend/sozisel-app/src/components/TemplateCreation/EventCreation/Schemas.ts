@@ -27,3 +27,7 @@ export const pollSchema = eventSchema.clone().shape({
   isMultiChoice: yup.boolean().required("inputErrors.fieldRequired"),
   question: yup.string().required("inputErrors.fieldRequired"),
 });
+
+export const whiteboardSchema = eventSchema.clone().shape({
+  task: yup.string().required("inputErrors.fieldRequired"),
+});

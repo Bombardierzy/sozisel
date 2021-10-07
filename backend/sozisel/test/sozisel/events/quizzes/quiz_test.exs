@@ -1,4 +1,4 @@
-defmodule Sozisel.Events.QuizTest do
+defmodule Sozisel.Events.Quizzes.QuizTest do
   use Sozisel.DataCase
 
   alias Sozisel.Model.Events
@@ -6,127 +6,113 @@ defmodule Sozisel.Events.QuizTest do
 
   import Sozisel.Factory
 
+  @valid_attrs %{
+    name: "some name",
+    duration_time_sec: 120,
+    start_minute: 42,
+    event_data: %{
+      target_percentage_of_participants: 2,
+      quiz_questions: [
+        %{
+          question: "What is the capital of Poland?",
+          id: "1",
+          answers: [
+            %{text: "Cracow", id: "1"},
+            %{text: "Warsaw", id: "2"},
+            %{text: "Podlasie", id: "3"}
+          ],
+          correct_answers: [
+            %{text: "Warsaw", id: "2"}
+          ]
+        },
+        %{
+          question: "First question?",
+          id: "2",
+          answers: [
+            %{text: "Answer 1", id: "1"},
+            %{text: "Answer 2", id: "2"}
+          ],
+          correct_answers: [
+            %{text: "Answer 1", id: "1"}
+          ]
+        }
+      ]
+    }
+  }
+
+  @update_attrs %{
+    name: "some updated name",
+    duration_time_sec: 60,
+    start_minute: 43,
+    event_data: %{
+      target_percentage_of_participants: 4,
+      quiz_questions: [
+        %{
+          question: "What color is the banana?",
+          id: "3",
+          answers: [
+            %{text: "Red", id: "1"},
+            %{text: "Black", id: "2"},
+            %{text: "Yellow", id: "3"},
+            %{text: "Green", id: "4"}
+          ],
+          correct_answers: [
+            %{text: "Yellow", id: "3"},
+            %{text: "Green", id: "4"}
+          ]
+        }
+      ]
+    }
+  }
+
+  @invalid_attrs %{
+    event_data: nil,
+    name: nil,
+    start_minute: nil
+  }
+
+  @invalid_attrs_with_no_correct_answers %{
+    name: "some updated name",
+    duration_time_sec: 13,
+    start_minute: 43,
+    event_data: %{
+      target_percentage_of_participants: 4,
+      quiz_questions: [
+        %{
+          question: "What color is the banana?",
+          answers: [
+            %{text: "Red", id: "1"},
+            %{text: "Black", id: "2"},
+            %{text: "Yellow", id: "3"},
+            %{text: "Green", id: "4"}
+          ],
+          correct_answers: []
+        }
+      ]
+    }
+  }
+
+  @invalid_attrs_with_no_quiz_questions %{
+    name: "some updated name",
+    duration_time_sec: 13,
+    start_minute: 43,
+    event_data: %{
+      target_percentage_of_participants: 4,
+      quiz_questions: []
+    }
+  }
+
+  def quiz_fixture(template) do
+    {:ok, event} =
+      @valid_attrs
+      |> Map.put(:session_template_id, template.id)
+      |> Events.create_event()
+
+    event
+  end
+
   describe "quiz events" do
-    @valid_attrs %{
-      name: "some name",
-      duration_time_sec: 120,
-      start_minute: 42,
-      event_data: %{
-        target_percentage_of_participants: 2,
-        quiz_questions: [
-          %{
-            question: "What is the capital of Poland?",
-            id: "1",
-            answers: [
-              %{text: "Cracow", id: "1"},
-              %{text: "Warsaw", id: "2"},
-              %{text: "Podlasie", id: "3"}
-            ],
-            correct_answers: [
-              %{text: "Warsaw", id: "2"}
-            ]
-          },
-          %{
-            question: "First question?",
-            id: "2",
-            answers: [
-              %{text: "Answer 1", id: "1"},
-              %{text: "Answer 2", id: "2"}
-            ],
-            correct_answers: [
-              %{text: "Answer 1", id: "1"}
-            ]
-          }
-        ]
-      }
-    }
-    @update_attrs %{
-      name: "some updated name",
-      duration_time_sec: 60,
-      start_minute: 43,
-      event_data: %{
-        target_percentage_of_participants: 4,
-        quiz_questions: [
-          %{
-            question: "What color is the banana?",
-            id: "3",
-            answers: [
-              %{text: "Red", id: "1"},
-              %{text: "Black", id: "2"},
-              %{text: "Yellow", id: "3"},
-              %{text: "Green", id: "4"}
-            ],
-            correct_answers: [
-              %{text: "Yellow", id: "3"},
-              %{text: "Green", id: "4"}
-            ]
-          }
-        ]
-      }
-    }
-    @invalid_attrs %{
-      event_data: nil,
-      name: nil,
-      start_minute: nil
-    }
-    @invalid_attrs_with_no_correct_answers %{
-      name: "some updated name",
-      duration_time_sec: 13,
-      start_minute: 43,
-      event_data: %{
-        target_percentage_of_participants: 4,
-        quiz_questions: [
-          %{
-            question: "What color is the banana?",
-            answers: [
-              %{text: "Red", id: "1"},
-              %{text: "Black", id: "2"},
-              %{text: "Yellow", id: "3"},
-              %{text: "Green", id: "4"}
-            ],
-            correct_answers: []
-          }
-        ]
-      }
-    }
-    @invalid_attrs_with_no_quiz_questions %{
-      name: "some updated name",
-      duration_time_sec: 13,
-      start_minute: 43,
-      event_data: %{
-        target_percentage_of_participants: 4,
-        quiz_questions: []
-      }
-    }
-
-    def event_fixture(attrs \\ %{}) do
-      {:ok, event} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Events.create_event()
-
-      event
-    end
-
-    test "list_events/0 returns all events" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      assert Events.list_events() == [event]
-    end
-
-    test "list_template_events/1 returns all template events" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      assert Events.list_template_events(template.id) == [event]
-    end
-
-    test "get_event!/1 returns the event with given id" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      assert Events.get_event!(event.id) == event
-    end
-
-    test "create_event/1 with valid data creates a event" do
+    test "create_event/1 with valid quiz data creates an event" do
       template = insert(:template)
 
       valid_attrs = Map.put(@valid_attrs, :session_template_id, template.id)
@@ -168,16 +154,17 @@ defmodule Sozisel.Events.QuizTest do
       assert event.start_minute == 42
     end
 
-    test "create_event/1 with invalid data returns error changeset" do
+    test "create_event/1 with invalid quiz data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Events.create_event(@invalid_attrs)
 
       assert {:error, %Ecto.Changeset{}} =
                Events.create_event(@invalid_attrs_with_no_correct_answers)
     end
 
-    test "update_event/2 with valid data updates the event" do
+    test "update_event/2 with valid quiz data updates the event" do
       template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
+      event = quiz_fixture(template)
+
       assert {:ok, %Event{} = event} = Events.update_event(event, @update_attrs)
 
       assert Map.fetch(event.event_data, :target_percentage_of_participants) == {:ok, 4}
@@ -208,7 +195,8 @@ defmodule Sozisel.Events.QuizTest do
 
     test "update_event/2 with invalid data returns error changeset" do
       template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
+      event = quiz_fixture(template)
+
       assert {:error, %Ecto.Changeset{}} = Events.update_event(event, @invalid_attrs)
 
       assert {:error, %Ecto.Changeset{}} =
@@ -222,15 +210,10 @@ defmodule Sozisel.Events.QuizTest do
 
     test "delete_event/1 deletes the event" do
       template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
+      event = quiz_fixture(template)
+
       assert {:ok, %Event{}} = Events.delete_event(event)
       assert_raise Ecto.NoResultsError, fn -> Events.get_event!(event.id) end
-    end
-
-    test "change_event/1 returns a event changeset" do
-      template = insert(:template)
-      event = event_fixture(%{session_template_id: template.id})
-      assert %Ecto.Changeset{} = Events.change_event(event)
     end
   end
 end
