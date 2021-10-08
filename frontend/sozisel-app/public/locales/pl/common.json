@@ -33,6 +33,7 @@
     "MainNavbar": {
       "sessionsLinkText": "Sesje",
       "templatesLinkText": "Szablony",
+      "files": "Pliki",
       "logoutText": "Wyloguj się"
     },
     "TemplatesList":{
