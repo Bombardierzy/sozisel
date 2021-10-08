@@ -14,10 +14,11 @@ defmodule Sozisel.SessionResourceLinksTest do
 
     def session_resource_link_fixture(%{session_resource: session_resource, session: session}) do
       {:ok, session_resource_link} =
-        %{}
-        |> Enum.into(%{is_public: true})
-        |> Map.put(:session_resource_id, session_resource.id)
-        |> Map.put(:session_id, session.id)
+        %{
+          is_public: true,
+          session_resource_id: session_resource.id,
+          session_id: session.id
+        }
         |> SessionResourceLinks.create_session_resource_link()
 
       session_resource_link

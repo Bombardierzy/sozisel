@@ -32,12 +32,12 @@ defmodule Sozisel.Model.SessionResources.SessionResource do
     session_resource
     |> cast(attrs, [:path, :filename, :user_id])
     |> validate_required([:path, :filename, :user_id])
-    |> unique_constraint(:path, message: "a resource for given name already exists")
+    |> unique_constraint(:path, message: "resource with given path already exists")
     |> foreign_key_constraint(:user_id)
   end
 
   @spec generate_filename(user_id :: Ecto.UUID.t(), filename :: String.t()) :: String.t()
   def generate_filename(user_id, filename) do
-    "resource_#{user_id}#{filename}" |> String.replace(" ", "_")
+    "resource_#{user_id}_#{filename}" |> String.replace(" ", "_")
   end
 end

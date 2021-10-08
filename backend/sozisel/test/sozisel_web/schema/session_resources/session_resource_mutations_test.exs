@@ -9,13 +9,21 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
 
   @upload_session_resource_mutation """
   mutation UploadSessionResource($resource: Upload!) {
-    uploadMessage: uploadSessionResource(resource: $resource)
+    uploadSessionResource(resource: $resource) {
+        id
+        path
+        filename
+    }
   }
   """
 
   @delete_session_resource_mutation """
   mutation DeleteSessionResource($id: ID!) {
-    deleteMessage: deleteSessionResource(id: $id)
+    deleteSessionResource(id: $id) {
+        id
+        path
+        filename
+    }
   }
   """
 
@@ -24,19 +32,40 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
     attachResourceToSession(input: $input) {
       id
       is_public
+      session_resource {
+          id
+          path
+          filename
+      }
     }
   }
   """
 
   @change_access_session_resource_link_mutation """
-  mutation ChangeAccessSessionResourceLink($id: ID!) {
-    changeAccessMessage: changeAccessSessionResourceLink(id: $id)
+  mutation ChangeAccessSessionResourceLink($id: ID!, $is_public: Boolean) {
+    changeAccessSessionResourceLink(id: $id, is_public: $is_public) {
+      id
+      is_public
+      session_resource {
+          id
+          path
+          filename
+      }
+    }
   }
   """
 
   @detach_resource_from_session_mutation """
-  mutation DetachResourceFromSession($id: ID!) {
-    detachMessage: detachResourceFromSession(id: $id)
+  mutation DetachResourceSessionLink($id: ID!) {
+    detachResourceSessionLink(id: $id) {
+      id
+      is_public
+      session_resource {
+          id
+          path
+          filename
+      }
+    }
   }
   """
 
@@ -61,7 +90,11 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
     test "upload a session resource", ctx do
       assert %{
                "data" => %{
-                 "uploadMessage" => "Session resource has been uploaded successfully"
+                 "uploadSessionResource" => %{
+                   "filename" => "session_resource.pdf",
+                   "id" => _,
+                   "path" => _
+                 }
                }
              } =
                ctx.conn
@@ -79,7 +112,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
     test "forbid from uploading a session resource with the same name", ctx do
       assert %{
                "data" => %{
-                 "uploadMessage" => "Session resource has been uploaded successfully"
+                 "uploadSessionResource" => _
                }
              } =
                ctx.conn
@@ -92,11 +125,11 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
 
       assert %{
                "data" => %{
-                 "uploadMessage" => nil
+                 "uploadSessionResource" => nil
                },
                "errors" => [
                  %{
-                   "message" => "path a resource for given name already exists"
+                   "message" => "path resource with given path already exists"
                  }
                ]
              } =
@@ -110,7 +143,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
     end
 
     test "delete session's recording", ctx do
-      assert {:ok, %SessionResource{} = session_resource} =
+      assert {:ok, %SessionResource{id: session_resource_id} = session_resource} =
                SessionResources.create_session_resource(
                  %{
                    path: "some path",
@@ -121,7 +154,11 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
 
       assert %{
                "data" => %{
-                 "deleteMessage" => "Session resource has been deleted successfully"
+                 "deleteSessionResource" => %{
+                   "filename" => "some filename",
+                   "id" => ^session_resource_id,
+                   "path" => "some path"
+                 }
                }
              } =
                ctx.conn
@@ -144,7 +181,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
 
       assert %{
                "data" => %{
-                 "deleteMessage" => "Session resource has been deleted successfully"
+                 "deleteSessionResource" => _
                }
              } =
                ctx.conn
@@ -156,7 +193,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
 
       assert %{
                "data" => %{
-                 "deleteMessage" => nil
+                 "deleteSessionResource" => nil
                },
                "errors" => [
                  %{
@@ -173,7 +210,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
     end
 
     test "attach a session resources to session", ctx do
-      assert {:ok, %SessionResource{} = session_resource} =
+      assert {:ok, %SessionResource{id: session_resource_id} = session_resource} =
                SessionResources.create_session_resource(
                  %{
                    path: "some path",
@@ -186,7 +223,12 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                "data" => %{
                  "attachResourceToSession" => %{
                    "id" => _,
-                   "is_public" => true
+                   "is_public" => true,
+                   "session_resource" => %{
+                     "filename" => "some filename",
+                     "id" => ^session_resource_id,
+                     "path" => "some path"
+                   }
                  }
                }
              } =
@@ -215,8 +257,8 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
       assert length(session_resource.session_resource_links) == 1
     end
 
-    test "change session resource access", ctx do
-      assert {:ok, %SessionResource{} = session_resource} =
+    test "detach a session resources from session", ctx do
+      assert {:ok, %SessionResource{id: session_resource_id} = session_resource} =
                SessionResources.create_session_resource(
                  %{
                    path: "some path",
@@ -228,7 +270,69 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
       assert %{
                "data" => %{
                  "attachResourceToSession" => %{
-                   "id" => id,
+                   "id" => session_resource_link_id
+                 }
+               }
+             } =
+               ctx.conn
+               |> post("/api/",
+                 query: @attach_resource_to_session_mutation,
+                 variables: %{
+                   input: %{
+                     resourceId: session_resource.id,
+                     sessionId: ctx.session.id,
+                     is_public: true
+                   }
+                 }
+               )
+               |> json_response(200)
+
+      assert %{
+               "data" => %{
+                 "detachResourceSessionLink" => %{
+                   "id" => ^session_resource_link_id,
+                   "is_public" => true,
+                   "session_resource" => %{
+                     "filename" => "some filename",
+                     "id" => ^session_resource_id,
+                     "path" => "some path"
+                   }
+                 }
+               }
+             } =
+               ctx.conn
+               |> post("/api/",
+                 query: @detach_resource_from_session_mutation,
+                 variables: %{id: session_resource_link_id}
+               )
+               |> json_response(200)
+
+      session =
+        ctx.session
+        |> Repo.preload(:session_resource_links)
+
+      session_resource =
+        session_resource
+        |> Repo.preload(:session_resource_links)
+
+      assert length(session.session_resource_links) == 0
+      assert length(session_resource.session_resource_links) == 0
+    end
+
+    test "change session resource access", ctx do
+      assert {:ok, %SessionResource{id: session_resource_id} = session_resource} =
+               SessionResources.create_session_resource(
+                 %{
+                   path: "some path",
+                   filename: "some filename"
+                 }
+                 |> Map.put(:user_id, ctx.user.id)
+               )
+
+      assert %{
+               "data" => %{
+                 "attachResourceToSession" => %{
+                   "id" => session_resource_link_id,
                    "is_public" => true
                  }
                }
@@ -248,74 +352,28 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
 
       assert %{
                "data" => %{
-                 "changeAccessMessage" => "Access has been successfully changed"
+                 "changeAccessSessionResourceLink" => %{
+                   "id" => ^session_resource_link_id,
+                   "is_public" => false,
+                   "session_resource" => %{
+                     "filename" => "some filename",
+                     "id" => ^session_resource_id,
+                     "path" => "some path"
+                   }
+                 }
                }
              } =
                ctx.conn
                |> post("/api/",
                  query: @change_access_session_resource_link_mutation,
-                 variables: %{id: id}
+                 variables: %{id: session_resource_link_id, is_public: false}
                )
                |> json_response(200)
 
-      session_resource_link = SessionResourceLinks.get_session_resource_link!(id)
+      session_resource_link =
+        SessionResourceLinks.get_session_resource_link!(session_resource_link_id)
 
       assert session_resource_link.is_public == false
-    end
-
-    test "detach a session resources from session", ctx do
-      assert {:ok, %SessionResource{} = session_resource} =
-               SessionResources.create_session_resource(
-                 %{
-                   path: "some path",
-                   filename: "some filename"
-                 }
-                 |> Map.put(:user_id, ctx.user.id)
-               )
-
-      assert %{
-               "data" => %{
-                 "attachResourceToSession" => %{
-                   "id" => id
-                 }
-               }
-             } =
-               ctx.conn
-               |> post("/api/",
-                 query: @attach_resource_to_session_mutation,
-                 variables: %{
-                   input: %{
-                     resourceId: session_resource.id,
-                     sessionId: ctx.session.id,
-                     is_public: true
-                   }
-                 }
-               )
-               |> json_response(200)
-
-      assert %{
-               "data" => %{
-                 "detachMessage" =>
-                   "Session resource link has been saccessfully deleted from session"
-               }
-             } =
-               ctx.conn
-               |> post("/api/",
-                 query: @detach_resource_from_session_mutation,
-                 variables: %{id: id}
-               )
-               |> json_response(200)
-
-      session =
-        ctx.session
-        |> Repo.preload(:session_resource_links)
-
-      session_resource =
-        session_resource
-        |> Repo.preload(:session_resource_links)
-
-      assert length(session.session_resource_links) == 0
-      assert length(session_resource.session_resource_links) == 0
     end
   end
 end

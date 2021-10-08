@@ -2,14 +2,11 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
   use Sozisel.Model.Schema
 
   alias Sozisel.Repo
-  # alias Sozisel.Model.SessionResources
   alias SoziselWeb.Context
   alias Sozisel.Model.{SessionResources, SessionResourceLinks, Sessions}
   alias SessionResources.SessionResource
   alias SessionResourceLinks.SessionResourceLink
   alias Sessions.Session
-
-  import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
 
   require Logger
 
@@ -20,14 +17,17 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
     extension = Path.extname(resource.filename)
     path = SessionResource.generate_filename(user.id, resource.filename)
 
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(
-      :resource,
+    session_resource_changeset =
       SessionResource.changeset(%SessionResource{}, %{
         path: path,
         filename: resource.filename,
         user_id: user.id
       })
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :resource,
+      session_resource_changeset
     )
     |> Ecto.Multi.run(:file_rename, fn _repo, %{resource: session_resource} ->
       processed_resource_path = Path.rootname(session_resource.path) <> "_processed" <> extension
@@ -40,8 +40,8 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
     end)
     |> Repo.transaction()
     |> case do
-      {:ok, %{resource: _}} ->
-        {:ok, "Session resource has been uploaded successfully"}
+      {:ok, %{resource: session_resource}} ->
+        {:ok, session_resource}
 
       {:error, operation, value, _others} ->
         Logger.error(
@@ -75,8 +75,8 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
       end)
       |> Repo.transaction()
       |> case do
-        {:ok, %{resource: _}} ->
-          {:ok, "Session resource has been deleted successfully"}
+        {:ok, %{resource: session_resource}} ->
+          {:ok, session_resource}
 
         {:error, operation, value, _others} ->
           Logger.error(
@@ -97,15 +97,14 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
         _ctx
       ) do
     with %SessionResource{} = resource <- Repo.get_by(SessionResource, id: resource_id),
-         %Session{} = session <- Repo.get_by(Session, id: session_id) do
-      {:ok, %SessionResourceLink{} = session_resource_link} =
-        SessionResourceLinks.create_session_resource_link(%{
-          is_public: is_public,
-          session_id: session.id,
-          session_resource_id: resource.id
-        })
-
-      {:ok, %{id: session_resource_link.id, is_public: is_public}}
+         %Session{} = session <- Repo.get_by(Session, id: session_id),
+         {:ok, %SessionResourceLink{} = session_resource_link} =
+           SessionResourceLinks.create_session_resource_link(%{
+             is_public: is_public,
+             session_id: session.id,
+             session_resource_id: resource.id
+           }) do
+      {:ok, %{id: session_resource_link.id, is_public: is_public, session_resource: resource}}
     else
       nil ->
         Logger.error("resource or session do not exist")
@@ -113,100 +112,54 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
     end
   end
 
-  def change_access_resource(_parent, %{id: id}, _ctx) do
-    with %SessionResourceLink{} = session_resource_link <-
-           Repo.get_by(SessionResourceLink, id: id) do
-      SessionResourceLinks.update_session_resource_link(session_resource_link, %{
-        is_public: !session_resource_link.is_public
-      })
-
-      {:ok, "Access has been successfully changed"}
-    else
-      nil ->
-        {:error, "session resource does not exist"}
-    end
-  end
-
-  def detach_resource_from_session(
+  def detach_resource_session_link(
         _parent,
         %{id: id},
         _ctx
       ) do
     with %SessionResourceLink{} = session_resource_link <-
-           Repo.get_by(SessionResourceLink, id: id) do
+           Repo.get(SessionResourceLink, id)
+           |> Repo.preload(:session_resource) do
       {:ok, %SessionResourceLink{}} =
         SessionResourceLinks.delete_session_resource_link(session_resource_link)
 
-      {:ok, "Session resource link has been saccessfully deleted from session"}
+      {:ok, session_resource_link}
     else
       nil ->
         {:error, "session resource link does not exist"}
     end
   end
 
-  def get_files(_parent, _, ctx) do
-    user = Context.current_user!(ctx)
+  def change_access_resource(_parent, %{id: id, is_public: is_public}, _ctx) do
+    with %SessionResourceLink{} = session_resource_link <-
+           Repo.get(SessionResourceLink, id)
+           |> Repo.preload(:session_resource) do
+      {:ok, %SessionResourceLink{} = session_resource_link} =
+        SessionResourceLinks.update_session_resource_link(session_resource_link, %{
+          is_public: is_public
+        })
 
-    session_resources =
-      %{}
-      |> Map.put(:user_id, user.id)
-      |> SessionResources.list_session_resources()
-
-    {:ok, session_resources}
+      {:ok, session_resource_link}
+    else
+      nil ->
+        {:error, nil}
+    end
   end
 
   def get_presenter_session_resources(_parent, %{id: id}, _ctx) do
     session_resource_links =
-      %{}
-      |> Map.put(:session_id, id)
-      |> SessionResourceLinks.list_session_resource_links()
+      SessionResourceLinks.list_session_resource_links(%{session_id: id})
       |> Repo.preload(:session_resource)
 
-    session_resources =
-      Enum.map(session_resource_links, fn session_resource_link ->
-        %{
-          id: session_resource_link.session_resource.id,
-          is_public: session_resource_link.is_public,
-          filename: session_resource_link.session_resource.filename
-        }
-      end)
-
-    {:ok, session_resources}
+    {:ok, session_resource_links}
   end
 
   def get_participant_session_resources(_parent, %{id: id}, _ctx) do
     session_resource_links =
-      %{}
-      |> Map.put(:session_id, id)
-      |> Map.put(:is_public, true)
+      %{session_id: id, is_public: true}
       |> SessionResourceLinks.list_session_resource_links()
       |> Repo.preload(:session_resource)
 
-    session_resources =
-      Enum.map(session_resource_links, fn session_resource_link ->
-        %{
-          id: session_resource_link.id,
-          filename: session_resource_link.session_resource.filename
-        }
-      end)
-
-    {:ok, session_resources}
-  end
-
-  def download_session_resource_presenter(_parent, _, ctx) do
-    session_resource = fetch_resource!(ctx, SessionResource)
-    {:ok, %{id: session_resource.id, path: session_resource.path}}
-  end
-
-  def download_session_resource_participant(_parent, %{id: id}, _ctx) do
-    with %SessionResourceLink{is_public: true} = session_resource_link <-
-           Repo.get_by(SessionResourceLink, id: id),
-         %SessionResource{} = session_resource <-
-           Repo.get_by(SessionResource, id: session_resource_link.session_resource_id) do
-      {:ok, %{id: session_resource.id, path: session_resource.path}}
-    else
-      _ ->
-        {:error, nil}
-    end
+    {:ok, session_resource_links}
   end
 end

@@ -8,6 +8,13 @@ defmodule Sozisel.Model.SessionResourceLinks do
     Repo.all(SessionResourceLink)
   end
 
+  @doc """
+  Returns list of session_resource_links that match given filters.
+
+  Available filters:
+  * `session_id` - resources from a specific session
+  * `is_public` - the file is available only to the presenter or to everyone
+  """
   def list_session_resource_links(filters) do
     filters
     |> Enum.reduce(SessionResourceLink, fn

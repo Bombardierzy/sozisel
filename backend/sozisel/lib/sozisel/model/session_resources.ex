@@ -8,6 +8,12 @@ defmodule Sozisel.Model.SessionResources do
     Repo.all(SessionResource)
   end
 
+  @doc """
+  Returns list of session_resources that match given filters.
+
+  Available filters:
+  * `user_id` - owner of the session
+  """
   def list_session_resources(filters) do
     filters
     |> Enum.reduce(SessionResource, fn
