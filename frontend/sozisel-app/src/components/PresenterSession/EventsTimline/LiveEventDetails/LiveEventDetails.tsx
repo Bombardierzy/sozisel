@@ -6,6 +6,7 @@ import { ActiveEvent } from "../EventsTimeline";
 import { Event } from "../../../../model/Template";
 import PollLiveEventDetails from "./PollLiveEventDetails/PollLiveEventDetails";
 import QuziLiveEventDetails from "./QuizLiveEventDetails/QuizLiveEventDetails";
+import WhiteboardLiveEventDetails from "./WhiteboardLiveEventDetails/WhiteboardLiveEventDetails";
 
 interface LiveEventDetailsProps {
   activeEvent: ActiveEvent;
@@ -38,6 +39,9 @@ export default function LiveEventDetails({
     >
       {event.eventData.__typename === "Quiz" && <QuziLiveEventDetails />}
       {event.eventData.__typename === "Poll" && <PollLiveEventDetails />}
+      {event.eventData.__typename === "Whiteboard" && (
+        <WhiteboardLiveEventDetails />
+      )}
     </LiveEventContext.Provider>
   );
 }

@@ -1,0 +1,11 @@
+query WhiteboardSummary($id: ID!){
+  whiteboardSummary(id: $id) {
+    id
+    participantsWhiteboardTasks {
+        imagePath
+        fullName
+        email
+        additionalText
+    }
+  }
+}
