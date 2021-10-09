@@ -1,22 +1,25 @@
 import { Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import React, { ReactElement } from "react";
+
 import { PollOptionSummary } from "../../../graphql";
 
 interface PollPieChartProps {
   data: Pick<PollOptionSummary, "votes" | "text">[];
+  outerRadius?: number;
 }
 
 export default function PollPieChart({
   data,
+  outerRadius = 90,
 }: PollPieChartProps): ReactElement {
   return (
-    <ResponsiveContainer width="60%" height={250}>
+    <ResponsiveContainer width="60%" height="80%">
       <PieChart>
         <Pie
           dataKey="votes"
           isAnimationActive={false}
           data={data}
-          outerRadius={90}
+          outerRadius={outerRadius}
           fill="#F2994A"
           label={(entry) => entry.text}
         />

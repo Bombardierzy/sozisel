@@ -1,4 +1,4 @@
-import { getAvatarFromData } from "@fractalsoftware/random-avatar-generator";
+import { getAvatarFromData } from "../common/randomAvatarGenerator";
 
 export default function useAvatarById(id: string): string {
   const asciiSum = id
