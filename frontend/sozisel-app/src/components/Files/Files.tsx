@@ -14,6 +14,7 @@ import { AUTO_HIDE_DURATION } from "../../common/consts";
 import ClearIcon from "@material-ui/icons/Clear";
 import ErrorAlert from "../utils/Alerts/ErrorAlert";
 import FileCard from "./FileCard/FileCard";
+import { FileChooser } from "./FileChooser/FileChooser";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import SearchIcon from "@material-ui/icons/Search";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -29,7 +30,7 @@ export default function Files(): ReactElement {
   const { t } = useTranslation("common");
   const [searchName, setSearchName] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
-
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   // temporary mock
   const [files, setFiles] = useState<string[]>(["aaa", "bbb"]);
 
@@ -56,7 +57,7 @@ export default function Files(): ReactElement {
     console.log("ok");
   };
 
-  const onUploadFile = () => {
+  const onFileUpload = () => {
     // TODO add file upload
     setFiles((prev) => [...prev, "nowe"]);
   };
@@ -121,7 +122,7 @@ export default function Files(): ReactElement {
             variant="contained"
             color="primary"
             className="uploadButton"
-            onClick={onUploadFile}
+            onClick={() => setDialogOpen(true)}
           >
             {"Wgraj nowy plik"}
           </Button>
@@ -133,11 +134,16 @@ export default function Files(): ReactElement {
               key={element}
               filename={element}
               onDelete={onFileDelete}
-              onDownload={onUploadFile}
+              onDownload={onFileDownload}
             />
           ))}
         </List>
       </div>
+      <FileChooser
+        onClose={() => setDialogOpen(false)}
+        onSubmit={onFileUpload}
+        open={dialogOpen}
+      />
       <Snackbar
         open={successMessage !== ""}
         autoHideDuration={AUTO_HIDE_DURATION}
