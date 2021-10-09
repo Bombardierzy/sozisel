@@ -134,7 +134,8 @@
       "errorMessage": "Nie udało się stworzyć sesji",
       "successMessage": "Stworzono sesje",
       "updateSuccessMessage": "Zaktualizowano sesje",
-      "updateErrorMessage": "Nie udało się zaaktualizować sesji"
+      "updateErrorMessage": "Nie udało się zaaktualizować sesji",
+      "sessionFiles": "Edytuj pliki sesji"
     },
     "SessionsList": {
       "filters": "Filtry",

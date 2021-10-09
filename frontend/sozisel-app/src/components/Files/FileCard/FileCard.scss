@@ -12,4 +12,19 @@
         padding: $spacing-05;
         background-color: $bg-02;
     }
+
+    .cardHeader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .label {
+        color: $main-color;
+    }
+
+    .deleteIcon {
+        color: $error-color;
+    }
 }

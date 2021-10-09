@@ -15,6 +15,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ReactElement, useEffect } from "react";
 
 import DateFnsUtils from "@date-io/date-fns";
+import { SessionFilesPresenter } from "../../Files/SessionFilesPresenter/SessionFilesPresenter";
 import pl from "date-fns/locale/pl";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -70,6 +71,8 @@ export default function SessionDetails({
   const [scheduledDateTime, setScheduledDateTime] = useState<Date>(
     currentScheduledDateTime ?? new Date()
   );
+
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const onSubmit = (sessionDetails: SessionDetailsFormSchema) => {
     onValidSubmit({
@@ -198,12 +201,24 @@ export default function SessionDetails({
               />
             </MuiPickersUtilsProvider>
           </div>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => setDialogOpen(true)}
+          >
+            {t("components.SessionDetails.sessionFiles")}
+          </Button>
 
           <Button color="primary" type="submit" variant="contained">
             {t("components.SessionDetails.submitSession")}
           </Button>
         </form>
       </Paper>
+      <SessionFilesPresenter
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        sessionId={"TODO"}
+      />
     </>
   );
 }

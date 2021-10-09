@@ -1,6 +1,12 @@
 import "./FileCard.scss";
 
-import { Card, Typography } from "@material-ui/core";
+import {
+  Card,
+  FormControlLabel,
+  InputLabel,
+  Switch,
+  Typography,
+} from "@material-ui/core";
 import React, { BaseSyntheticEvent, ReactElement, useState } from "react";
 
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -10,14 +16,16 @@ import IconButton from "@material-ui/core/IconButton";
 export interface FileCardProps {
   key: string;
   filename: string;
-  onDelete: () => void;
   onDownload: () => void;
+  onDelete?: () => void;
+  onAccessChange?: (isPublic: boolean) => void;
 }
 
 export default function FileCard({
   filename,
   onDelete,
   onDownload,
+  onAccessChange,
 }: FileCardProps): ReactElement {
   const [raised, setRaised] = useState<boolean>(false);
 
@@ -42,9 +50,27 @@ export default function FileCard({
               {filename}
             </Typography>
           </div>
-          <IconButton onClick={onDelete}>
-            <DeleteIcon className="deleteIcon" />
-          </IconButton>
+          <div className="actionsButton">
+            {onAccessChange && (
+              <FormControlLabel
+                labelPlacement="start"
+                control={
+                  <Switch
+                    defaultChecked={false}
+                    onChange={(e) => onAccessChange(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label={<InputLabel className="label">{"Publiczne"}</InputLabel>}
+                className="label"
+              />
+            )}
+            {onDelete && (
+              <IconButton onClick={onDelete}>
+                <DeleteIcon className="deleteIcon" />
+              </IconButton>
+            )}
+          </div>
         </div>
       </Card>
     </>

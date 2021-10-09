@@ -1,0 +1,34 @@
+@import "../../../styles/styles";
+
+.SessionFilesPresenter {
+    padding: $spacing-05;
+
+    .dialogTitle {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+    }
+
+    .dialogContent {
+        padding: $spacing-05;
+    }
+
+    .topBar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .autocomplete {
+        background-color: $bg-02;
+        margin-right: $spacing-08;
+    }
+
+    .filesList {
+        margin-top: $spacing-08;
+        overflow: auto;
+    }
+}
