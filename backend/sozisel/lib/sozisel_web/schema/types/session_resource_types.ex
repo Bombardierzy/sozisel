@@ -1,8 +1,6 @@
 defmodule SoziselWeb.Schema.Types.SessionResourceTypes do
   use SoziselWeb.Schema.Notation
 
-  alias Sozisel.Model.SessionResources.SessionResource
-
   object :session_resource do
     @desc "Session resource's id"
     field :id, non_null(:id)

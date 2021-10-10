@@ -13,6 +13,6 @@ defmodule Sozisel.Repo.Migrations.CreateSessionResourceLinks do
       timestamps(type: :utc_datetime_usec)
     end
 
-    create index(:session_resource_links, [:session_resource_id, :session_id, :is_public])
+    create unique_index(:session_resource_links, [:session_resource_id, :session_id, :is_public])
   end
 end
