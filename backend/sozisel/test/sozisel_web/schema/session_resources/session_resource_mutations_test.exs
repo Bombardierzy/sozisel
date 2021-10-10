@@ -31,8 +31,8 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
   mutation AttachResourceToSession($input: SessionResourceLinkInput!) {
     attachResourceToSession(input: $input) {
       id
-      is_public
-      session_resource {
+      isPublic
+      sessionResource {
           id
           path
           filename
@@ -45,8 +45,8 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
   mutation ChangeAccessSessionResourceLink($id: ID!, $is_public: Boolean) {
     changeAccessSessionResourceLink(id: $id, is_public: $is_public) {
       id
-      is_public
-      session_resource {
+      isPublic
+      sessionResource {
           id
           path
           filename
@@ -59,8 +59,8 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
   mutation DetachResourceSessionLink($id: ID!) {
     detachResourceSessionLink(id: $id) {
       id
-      is_public
-      session_resource {
+      isPublic
+      sessionResource {
           id
           path
           filename
@@ -197,7 +197,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                },
                "errors" => [
                  %{
-                   "message" => "session resource does not exist"
+                   "message" => "unauthorized"
                  }
                ]
              } =
@@ -223,8 +223,8 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                "data" => %{
                  "attachResourceToSession" => %{
                    "id" => _,
-                   "is_public" => true,
-                   "session_resource" => %{
+                   "isPublic" => true,
+                   "sessionResource" => %{
                      "filename" => "some filename",
                      "id" => ^session_resource_id,
                      "path" => "some path"
@@ -291,8 +291,8 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                "data" => %{
                  "detachResourceSessionLink" => %{
                    "id" => ^session_resource_link_id,
-                   "is_public" => true,
-                   "session_resource" => %{
+                   "isPublic" => true,
+                   "sessionResource" => %{
                      "filename" => "some filename",
                      "id" => ^session_resource_id,
                      "path" => "some path"
@@ -333,7 +333,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                "data" => %{
                  "attachResourceToSession" => %{
                    "id" => session_resource_link_id,
-                   "is_public" => true
+                   "isPublic" => true
                  }
                }
              } =
@@ -354,8 +354,8 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                "data" => %{
                  "changeAccessSessionResourceLink" => %{
                    "id" => ^session_resource_link_id,
-                   "is_public" => false,
-                   "session_resource" => %{
+                   "isPublic" => false,
+                   "sessionResource" => %{
                      "filename" => "some filename",
                      "id" => ^session_resource_id,
                      "path" => "some path"

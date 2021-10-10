@@ -16,7 +16,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceQueriesTest do
     participantSessionResources(id: $id, token: $token) {
       id
       is_public
-      session_resource {
+      sessionResource {
           id
           path
           filename
@@ -105,7 +105,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceQueriesTest do
                    %{
                      "id" => ^session_resource_link_id,
                      "is_public" => true,
-                     "session_resource" => %{
+                     "sessionResource" => %{
                        "filename" => ^session_resource_filename,
                        "id" => ^session_resource_id,
                        "path" => ^session_resource_path

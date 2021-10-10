@@ -6,7 +6,6 @@ defmodule Sozisel.Model.Sessions.Session do
   alias Sozisel.Model.Users.User
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
   alias Sozisel.Model.SessionRecordings.SessionRecording
-  alias Sozisel.Model.SessionResources.SessionResource
   alias Sozisel.Model.SessionResourceLinks.SessionResourceLink
 
   @type t :: %__MODULE__{

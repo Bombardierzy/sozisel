@@ -15,8 +15,11 @@ defmodule Sozisel.Model.Bodyguard do
     SessionRecordings.SessionRecording,
     Users.User,
     SessionResources.SessionResource,
+    SessionResourceLinks.SessionResourceLink,
     LaunchedEvents.LaunchedEvent
   }
+
+  alias Sozisel.Repo
 
   alias Events.Event
 
@@ -56,6 +59,15 @@ defmodule Sozisel.Model.Bodyguard do
         is_public: false
       }),
       do: :ok
+
+  def authorize(:modify_session_resource, %User{id: user_id}, %SessionResource{user_id: user_id}),
+    do: :ok
+
+  def authorize(:modify_session_resource_link, %User{} = user, %SessionResourceLink{
+        session_resource_id: session_resource_id
+      }) do
+    authorize(:modify_session_resource, user, Repo.get(SessionResource, session_resource_id))
+  end
 
   # Events
   def authorize(:create_event, %User{id: user_id}, %Template{user_id: user_id}), do: :ok

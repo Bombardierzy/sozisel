@@ -1,6 +1,8 @@
 defmodule SoziselWeb.Schema.Types.SessionResourceTypes do
   use SoziselWeb.Schema.Notation
 
+  alias Sozisel.Model.SessionResources.SessionResource
+
   object :session_resource do
     @desc "Session resource's id"
     field :id, non_null(:id)
@@ -18,6 +20,9 @@ defmodule SoziselWeb.Schema.Types.SessionResourceTypes do
     @desc "Session resource link's id"
     field :id, non_null(:id)
     field :is_public, non_null(:boolean)
-    field :session_resource, non_null(:session_resource)
+
+    field :session_resource, non_null(:session_resource) do
+      resolve dataloader(:db)
+    end
   end
 end

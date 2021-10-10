@@ -1,7 +1,6 @@
 defmodule Sozisel.Model.SessionResources.SessionResource do
   use Sozisel.Model.Schema
 
-  alias Sozisel.Model.Sessions.Session
   alias Sozisel.Model.Users.User
   alias Sozisel.Model.SessionResourceLinks.SessionResourceLink
 

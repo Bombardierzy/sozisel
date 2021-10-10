@@ -1,6 +1,8 @@
 defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
   use Sozisel.Model.Schema
 
+  import SoziselWeb.Schema.Middleware.ResourceAuthorization, only: [fetch_resource!: 2]
+
   alias Sozisel.Repo
   alias SoziselWeb.Context
   alias Sozisel.Model.{SessionResources, SessionResourceLinks, Sessions}
@@ -57,37 +59,34 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
     end
   end
 
-  def delete_resource(_parent, %{id: id}, _ctx) do
-    with %SessionResource{} = resource <- Repo.get_by(SessionResource, id: id) do
-      Ecto.Multi.new()
-      |> Ecto.Multi.delete(:resource, resource)
-      |> Ecto.Multi.run(:file_storage, fn _repo, %{resource: resource} ->
-        with :ok <- @media_storage_module.remove_file(resource.path) do
+  def delete_resource(_parent, _args, ctx) do
+    resource = fetch_resource!(ctx, SessionResource)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.delete(:resource, resource)
+    |> Ecto.Multi.run(:file_storage, fn _repo, %{resource: resource} ->
+      with :ok <- @media_storage_module.remove_file(resource.path) do
+        {:ok, %{}}
+      else
+        # file does not exist, just delete the database entry
+        {:error, :enoent} ->
           {:ok, %{}}
-        else
-          # file does not exist, just delete the database entry
-          {:error, :enoent} ->
-            {:ok, %{}}
 
-          error ->
-            error
-        end
-      end)
-      |> Repo.transaction()
-      |> case do
-        {:ok, %{resource: session_resource}} ->
-          {:ok, session_resource}
-
-        {:error, operation, value, _others} ->
-          Logger.error(
-            "Failed to delete session resource: #{inspect(operation)}, #{inspect(value)}"
-          )
-
-          {:error, "failed to delete session resource"}
+        error ->
+          error
       end
-    else
-      nil ->
-        {:error, "session resource does not exist"}
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{resource: session_resource}} ->
+        {:ok, session_resource}
+
+      {:error, operation, value, _others} ->
+        Logger.error(
+          "Failed to delete session resource: #{inspect(operation)}, #{inspect(value)}"
+        )
+
+        {:error, "failed to delete session resource"}
     end
   end
 
@@ -96,15 +95,13 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
         %{input: %{resource_id: resource_id, session_id: session_id, is_public: is_public}},
         _ctx
       ) do
-    with %SessionResource{} = resource <- Repo.get_by(SessionResource, id: resource_id),
-         %Session{} = session <- Repo.get_by(Session, id: session_id),
-         {:ok, %SessionResourceLink{} = session_resource_link} =
-           SessionResourceLinks.create_session_resource_link(%{
-             is_public: is_public,
-             session_id: session.id,
-             session_resource_id: resource.id
-           }) do
-      {:ok, %{id: session_resource_link.id, is_public: is_public, session_resource: resource}}
+    with %SessionResource{} = resource <- Repo.get(SessionResource, resource_id),
+         %Session{} = session <- Repo.get(Session, session_id) do
+      SessionResourceLinks.create_session_resource_link(%{
+        is_public: is_public,
+        session_id: session.id,
+        session_resource_id: resource.id
+      })
     else
       nil ->
         Logger.error("resource or session do not exist")
@@ -112,53 +109,29 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResourceResolvers do
     end
   end
 
-  def detach_resource_session_link(
-        _parent,
-        %{id: id},
-        _ctx
-      ) do
-    with %SessionResourceLink{} = session_resource_link <-
-           Repo.get(SessionResourceLink, id)
-           |> Repo.preload(:session_resource) do
-      {:ok, %SessionResourceLink{}} =
-        SessionResourceLinks.delete_session_resource_link(session_resource_link)
+  def detach_resource_session_link(_parent, _args, ctx) do
+    resource = fetch_resource!(ctx, SessionResourceLink)
 
-      {:ok, session_resource_link}
-    else
-      nil ->
-        {:error, "session resource link does not exist"}
-    end
+    SessionResourceLinks.delete_session_resource_link(resource)
   end
 
-  def change_access_resource(_parent, %{id: id, is_public: is_public}, _ctx) do
-    with %SessionResourceLink{} = session_resource_link <-
-           Repo.get(SessionResourceLink, id)
-           |> Repo.preload(:session_resource) do
-      {:ok, %SessionResourceLink{} = session_resource_link} =
-        SessionResourceLinks.update_session_resource_link(session_resource_link, %{
-          is_public: is_public
-        })
+  def change_access_resource(_parent, %{is_public: is_public}, ctx) do
+    resource = fetch_resource!(ctx, SessionResourceLink)
 
-      {:ok, session_resource_link}
-    else
-      nil ->
-        {:error, nil}
-    end
+    SessionResourceLinks.update_session_resource_link(resource, %{
+      is_public: is_public
+    })
   end
 
   def get_presenter_session_resources(_parent, %{id: id}, _ctx) do
-    session_resource_links =
-      SessionResourceLinks.list_session_resource_links(%{session_id: id})
-      |> Repo.preload(:session_resource)
+    session_resource_links = SessionResourceLinks.list_session_resource_links(%{session_id: id})
 
     {:ok, session_resource_links}
   end
 
   def get_participant_session_resources(_parent, %{id: id}, _ctx) do
     session_resource_links =
-      %{session_id: id, is_public: true}
-      |> SessionResourceLinks.list_session_resource_links()
-      |> Repo.preload(:session_resource)
+      SessionResourceLinks.list_session_resource_links(%{session_id: id, is_public: true})
 
     {:ok, session_resource_links}
   end

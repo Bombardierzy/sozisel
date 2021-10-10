@@ -1,6 +1,7 @@
 defmodule SoziselWeb.Schema.Mutations.SessionResourceMutations do
   use SoziselWeb.Schema.Notation
 
+  alias Sozisel.Model.{SessionResources.SessionResource, SessionResourceLinks.SessionResourceLink}
   alias SoziselWeb.Schema.{Middleware, Resolvers.SessionResourceResolvers}
 
   object :session_resource_mutations do
@@ -17,7 +18,7 @@ defmodule SoziselWeb.Schema.Mutations.SessionResourceMutations do
       @desc "Resource's id"
       arg :id, non_null(:id)
 
-      middleware Middleware.Authorization
+      middleware Middleware.ResourceAuthorization, {:modify_session_resource, SessionResource}
       resolve &SessionResourceResolvers.delete_resource/3
     end
 
@@ -34,7 +35,9 @@ defmodule SoziselWeb.Schema.Mutations.SessionResourceMutations do
       @desc "Session resource link's id"
       arg :id, non_null(:id)
 
-      middleware Middleware.Authorization
+      middleware Middleware.ResourceAuthorization,
+                 {:modify_session_resource_link, SessionResourceLink}
+
       resolve &SessionResourceResolvers.detach_resource_session_link/3
     end
 
@@ -44,7 +47,9 @@ defmodule SoziselWeb.Schema.Mutations.SessionResourceMutations do
       arg :id, non_null(:id)
       arg :is_public, non_null(:boolean)
 
-      middleware Middleware.Authorization
+      middleware Middleware.ResourceAuthorization,
+                 {:modify_session_resource_link, SessionResourceLink}
+
       resolve &SessionResourceResolvers.change_access_resource/3
     end
   end
