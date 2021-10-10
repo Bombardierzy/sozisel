@@ -24,6 +24,10 @@ defmodule SoziselWeb.Endpoint do
     at: "/image",
     from:
       Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload)
+      |> Keyword.fetch!(:upload_path),
+    at: "/session_resource",
+    from:
+      Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload)
       |> Keyword.fetch!(:upload_path)
 
   if code_reloading? do

@@ -11,6 +11,10 @@ defmodule SoziselWeb.Schema.Types.UserTypes do
   object :me do
     import_fields(:user)
 
+    field :session_resources, strong_list_of(:session_resource) do
+      resolve dataloader(:db)
+    end
+
     field :session_templates, strong_list_of(:session_template) do
       resolve dataloader(:db)
     end
