@@ -4,6 +4,7 @@ defmodule Sozisel.Model.Users.User do
 
   alias Sozisel.Model.Users.Security
   alias Sozisel.Model.Sessions.Template
+  alias Sozisel.Model.SessionResources.SessionResource
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -24,6 +25,7 @@ defmodule Sozisel.Model.Users.User do
     field :password, :string, virtual: true
 
     has_many :session_templates, Template
+    has_many :session_resources, SessionResource
 
     timestamps()
   end

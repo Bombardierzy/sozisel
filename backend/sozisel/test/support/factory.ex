@@ -10,7 +10,9 @@ defmodule Sozisel.Factory do
     Polls,
     Whiteboards,
     Participants,
-    LaunchedEvents
+    LaunchedEvents,
+    SessionResources,
+    SessionResourceLinks
   }
 
   alias Users.User
@@ -22,6 +24,8 @@ defmodule Sozisel.Factory do
   alias Events.Event
   alias Quizzes.{Answer, Quiz, QuizQuestion, QuizResult, ParticipantAnswer}
   alias Whiteboards.{Whiteboard, WhiteboardResult}
+  alias SessionResources.SessionResource
+  alias SessionResourceLinks.SessionResourceLink
 
   def user_factory(attrs) do
     %User{
@@ -242,6 +246,22 @@ defmodule Sozisel.Factory do
       token:
         attrs[:token] || :crypto.hash(:md5, sequence(:token, &"token #{&1}")) |> Base.encode16(),
       session_id: attrs[:session_id] || insert(:session).id
+    }
+  end
+
+  def session_resource_factory(attrs) do
+    %SessionResource{
+      path: attrs[:path] || sequence(:path, &"Path no. #{&1}"),
+      filename: attrs[:filename] || sequence(:filename, &"Filename no. #{&1}"),
+      user_id: attrs[:user_id] || insert(:user).id
+    }
+  end
+
+  def session_resource_link_factory(attrs) do
+    %SessionResourceLink{
+      session_resource_id: attrs[:session_resource_id] || insert(:session_resource).id,
+      session_id: attrs[:session_id] || insert(:session).id,
+      is_public: Map.get(attrs, :is_public, sequence(:is_public, [false, true]))
     }
   end
 end
