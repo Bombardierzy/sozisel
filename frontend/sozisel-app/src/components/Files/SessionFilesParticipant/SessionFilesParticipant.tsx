@@ -5,6 +5,7 @@ import { ReactElement, useState } from "react";
 
 import CloseIcon from "@material-ui/icons/Close";
 import FileCard from "../FileCard/FileCard";
+import { useTranslation } from "react-i18next";
 
 export interface SessionFilesParticipantProps {
   sessionId: string;
@@ -16,6 +17,7 @@ export function SessionFilesParticipant({
   open,
   onClose,
 }: SessionFilesParticipantProps): ReactElement {
+  const { t } = useTranslation("common");
   const onFileDownload = () => {
     //TODO add file download
   };
@@ -28,7 +30,7 @@ export function SessionFilesParticipant({
       <div className="SessionFilesParticipant">
         <div className="dialogTitle">
           <Typography component="h5" variant="h5">
-            Pliki sesji
+            {t("components.Files.sessionFiles")}
           </Typography>
           <IconButton aria-label="close" onClick={onClose}>
             <CloseIcon />
@@ -40,6 +42,7 @@ export function SessionFilesParticipant({
               <FileCard
                 key={element}
                 filename={element}
+                fileId={element}
                 onDownload={onFileDownload}
               />
             ))}

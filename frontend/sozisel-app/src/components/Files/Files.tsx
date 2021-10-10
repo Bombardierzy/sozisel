@@ -46,15 +46,14 @@ export default function Files(): ReactElement {
   const onFileDelete = useCallback(async () => {
     try {
       //TODO add delete mutation
-      setSuccessMessage(`Usunięto Plik!`);
+      setSuccessMessage(t("components.Files.deletedFileMessage"));
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [t]);
 
   const onFileDownload = () => {
     //TODO add file download
-    console.log("ok");
   };
 
   const onFileUpload = () => {
@@ -124,7 +123,7 @@ export default function Files(): ReactElement {
             className="uploadButton"
             onClick={() => setDialogOpen(true)}
           >
-            {"Wgraj nowy plik"}
+            {t("components.Files.importFile")}
           </Button>
         </div>
 
@@ -133,6 +132,7 @@ export default function Files(): ReactElement {
             <FileCard
               key={element}
               filename={element}
+              fileId={element}
               onDelete={onFileDelete}
               onDownload={onFileDownload}
             />

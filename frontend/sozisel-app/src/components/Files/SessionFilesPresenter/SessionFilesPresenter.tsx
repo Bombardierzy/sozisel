@@ -14,6 +14,7 @@ import { ReactElement, useState } from "react";
 import { Autocomplete } from "@material-ui/lab";
 import CloseIcon from "@material-ui/icons/Close";
 import FileCard from "../FileCard/FileCard";
+import { useTranslation } from "react-i18next";
 
 export interface SessionFilesPresenterProps {
   sessionId: string;
@@ -25,6 +26,7 @@ export function SessionFilesPresenter({
   open,
   onClose,
 }: SessionFilesPresenterProps): ReactElement {
+  const { t } = useTranslation("common");
   const [activeSearch, setActiveSearch] = useState<boolean>(false);
   const [currentOption, setCurrentOption] = useState<string | null>(null);
 
@@ -59,7 +61,7 @@ export function SessionFilesPresenter({
       <div className="SessionFilesPresenter">
         <div className="dialogTitle">
           <Typography component="h5" variant="h5">
-            Pliki sesji
+            {t("components.Files.sessionFiles")}
           </Typography>
           <IconButton aria-label="close" onClick={onClose}>
             <CloseIcon />
@@ -87,7 +89,7 @@ export function SessionFilesPresenter({
                 <TextField
                   {...params}
                   variant="outlined"
-                  label="Dodaj plik do sesji"
+                  label={t("components.Files.autocompleteLabel")}
                   fullWidth
                 />
               )}
@@ -99,7 +101,7 @@ export function SessionFilesPresenter({
               className="submitButton"
               onClick={onAddButtonClicked}
             >
-              {"Dodaj"}
+              {t("components.Files.add")}
             </Button>
           </div>
 
@@ -108,6 +110,7 @@ export function SessionFilesPresenter({
               <FileCard
                 key={element}
                 filename={element}
+                fileId={element}
                 onDelete={onRemoveFileFromSession}
                 onDownload={onFileDownload}
                 onAccessChange={onAccessChange}

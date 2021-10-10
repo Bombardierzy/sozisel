@@ -335,6 +335,17 @@
     "SessionGoodbye": {
       "end": "Sesja została zakończona!",
       "bye": "Dziękujemy za skorzystanie z serwisu, mamy nadzieję że odbyta sesja przyniesie efekty."
+    },
+    "Files": {
+      "public": "Publiczne",
+      "chooseFile": "Wybierz plik",
+      "fileToImport": "Plik do zaimportowania",
+      "availableFormats": "Akceptowane formaty: .pdf",
+      "importFile": "Wgraj nowy plik",
+      "deletedFileMessage": "Usunięto plik!",
+      "sessionFiles": "Pliki sesji",
+      "add": "Dodaj",
+      "autocompleteLabel": "Dodaj plik do sesji"
     }
   },
   "inputErrors": {

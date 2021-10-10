@@ -12,21 +12,25 @@ import React, { BaseSyntheticEvent, ReactElement, useState } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import IconButton from "@material-ui/core/IconButton";
+import { useTranslation } from "react-i18next";
 
 export interface FileCardProps {
   key: string;
   filename: string;
-  onDownload: () => void;
-  onDelete?: () => void;
-  onAccessChange?: (isPublic: boolean) => void;
+  fileId: string;
+  onDownload: (fileId: string) => void;
+  onDelete?: (fileId: string) => void;
+  onAccessChange?: (isPublic: boolean, fileId: string) => void;
 }
 
 export default function FileCard({
   filename,
+  fileId,
   onDelete,
   onDownload,
   onAccessChange,
 }: FileCardProps): ReactElement {
+  const { t } = useTranslation("common");
   const [raised, setRaised] = useState<boolean>(false);
 
   const onMouseOverChange = (_: BaseSyntheticEvent) => {
@@ -43,7 +47,7 @@ export default function FileCard({
       >
         <div className="fileCardContent">
           <div className="cardHeader">
-            <IconButton onClick={onDownload}>
+            <IconButton onClick={() => onDownload(fileId)}>
               <GetAppIcon />
             </IconButton>
             <Typography component="h5" variant="h5">
@@ -57,16 +61,20 @@ export default function FileCard({
                 control={
                   <Switch
                     defaultChecked={false}
-                    onChange={(e) => onAccessChange(e.target.checked)}
+                    onChange={(e) => onAccessChange(e.target.checked, fileId)}
                     color="primary"
                   />
                 }
-                label={<InputLabel className="label">{"Publiczne"}</InputLabel>}
+                label={
+                  <InputLabel className="label">
+                    {t("components.Files.public")}
+                  </InputLabel>
+                }
                 className="label"
               />
             )}
             {onDelete && (
-              <IconButton onClick={onDelete}>
+              <IconButton onClick={() => onDelete(fileId)}>
                 <DeleteIcon className="deleteIcon" />
               </IconButton>
             )}

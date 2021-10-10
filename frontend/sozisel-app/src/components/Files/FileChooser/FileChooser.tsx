@@ -11,6 +11,7 @@ import {
 
 import CloseIcon from "@material-ui/icons/Close";
 import { ReactElement } from "react";
+import { useTranslation } from "react-i18next";
 
 export interface FileChooserProps {
   onSubmit: () => void;
@@ -22,6 +23,7 @@ export function FileChooser({
   onClose,
   open,
 }: FileChooserProps): ReactElement {
+  const { t } = useTranslation("common");
   const handleSubmit = () => {
     onSubmit();
   };
@@ -31,7 +33,7 @@ export function FileChooser({
       <div className="FileChooser">
         <div className="dialogTitle">
           <Typography component="h5" variant="h5">
-            Wybierz plik
+            {t("components.Files.chooseFile")}
           </Typography>
           <IconButton aria-label="close" onClick={onClose}>
             <CloseIcon />
@@ -43,9 +45,13 @@ export function FileChooser({
           className="form"
         >
           <div className="formInput">
-            <FormLabel htmlFor="file">Plik do zaimportowania</FormLabel>
+            <FormLabel htmlFor="file">
+              {t("components.Files.fileToImport")}
+            </FormLabel>
             <input required type="file" name="file" id="file" accept=".pdf" />
-            <FormHelperText>Akceptowane formaty: .pdf</FormHelperText>
+            <FormHelperText>
+              {t("components.Files.availableFormats")}
+            </FormHelperText>
           </div>
 
           <Button

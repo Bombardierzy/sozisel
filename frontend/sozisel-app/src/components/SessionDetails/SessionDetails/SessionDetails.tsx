@@ -44,6 +44,7 @@ export interface OnSessionSubmitProps {
 
 export interface SessionDetailsProps {
   onValidSubmit: (props: OnSessionSubmitProps) => void;
+  sessionId?: string;
   currentName?: string;
   currentPassword?: string;
   currentScheduledDateTime?: Date;
@@ -52,6 +53,7 @@ export interface SessionDetailsProps {
 
 export default function SessionDetails({
   onValidSubmit,
+  sessionId,
   currentName,
   currentPassword,
   currentScheduledDateTime,
@@ -201,24 +203,29 @@ export default function SessionDetails({
               />
             </MuiPickersUtilsProvider>
           </div>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => setDialogOpen(true)}
-          >
-            {t("components.SessionDetails.sessionFiles")}
-          </Button>
+          {/* files can be added only to already created session */}
+          {sessionId && (
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => setDialogOpen(true)}
+            >
+              {t("components.SessionDetails.sessionFiles")}
+            </Button>
+          )}
 
           <Button color="primary" type="submit" variant="contained">
             {t("components.SessionDetails.submitSession")}
           </Button>
         </form>
       </Paper>
-      <SessionFilesPresenter
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        sessionId={"TODO"}
-      />
+      {sessionId && (
+        <SessionFilesPresenter
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+          sessionId={sessionId}
+        />
+      )}
     </>
   );
 }
