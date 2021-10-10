@@ -18,7 +18,7 @@ export interface FileCardProps {
   key: string;
   filename: string;
   fileId: string;
-  onDownload: (fileId: string) => void;
+  path: string;
   onDelete?: (fileId: string) => void;
   onAccessChange?: (isPublic: boolean, fileId: string) => void;
 }
@@ -27,7 +27,7 @@ export default function FileCard({
   filename,
   fileId,
   onDelete,
-  onDownload,
+  path,
   onAccessChange,
 }: FileCardProps): ReactElement {
   const { t } = useTranslation("common");
@@ -47,7 +47,8 @@ export default function FileCard({
       >
         <div className="fileCardContent">
           <div className="cardHeader">
-            <IconButton onClick={() => onDownload(fileId)}>
+            {/* TODO fix download */}
+            <IconButton href={"/tmp/" + path} target="_blank">
               <GetAppIcon />
             </IconButton>
             <Typography component="h5" variant="h5">

@@ -43,7 +43,7 @@ export function SessionFilesParticipant({
                 key={element}
                 filename={element}
                 fileId={element}
-                onDownload={onFileDownload}
+                path={element}
               />
             ))}
           </List>

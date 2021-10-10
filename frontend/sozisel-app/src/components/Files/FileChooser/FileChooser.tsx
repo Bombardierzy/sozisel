@@ -8,13 +8,13 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
+import { ReactElement, useState } from "react";
 
 import CloseIcon from "@material-ui/icons/Close";
-import { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 
 export interface FileChooserProps {
-  onSubmit: () => void;
+  onSubmit: (file: File) => void;
   onClose: () => void;
   open: boolean;
 }
@@ -24,8 +24,16 @@ export function FileChooser({
   open,
 }: FileChooserProps): ReactElement {
   const { t } = useTranslation("common");
+  const [file, setFile] = useState<File | null>(null);
+  const [error, setError] = useState<boolean>(false);
   const handleSubmit = () => {
-    onSubmit();
+    if (file !== null) {
+      setError(false);
+      onSubmit(file);
+      setFile(null);
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -39,16 +47,23 @@ export function FileChooser({
             <CloseIcon />
           </IconButton>
         </div>
-        <form
-          encType="multipart/form-data"
-          onSubmit={handleSubmit}
-          className="form"
-        >
+        <div className="dialogContent">
           <div className="formInput">
             <FormLabel htmlFor="file">
               {t("components.Files.fileToImport")}
             </FormLabel>
-            <input required type="file" name="file" id="file" accept=".pdf" />
+            <input
+              required
+              type="file"
+              name="file"
+              accept=".pdf"
+              onChange={(event) => {
+                const files = event.target.files;
+                if (files && files?.length > 0) {
+                  setFile(files[0]);
+                }
+              }}
+            />
             <FormHelperText>
               {t("components.Files.availableFormats")}
             </FormHelperText>
@@ -57,12 +72,17 @@ export function FileChooser({
           <Button
             variant="contained"
             color="primary"
-            type="submit"
             className="submitButton"
+            onClick={handleSubmit}
           >
-            {"Zatwierdź"}
+            {t("components.Files.submit")}
           </Button>
-        </form>
+          {error && (
+            <Typography className="error">
+              {t("components.Files.fileChooseError")}
+            </Typography>
+          )}
+        </div>
       </div>
     </Dialog>
   );

@@ -112,7 +112,7 @@ export function SessionFilesPresenter({
                 filename={element}
                 fileId={element}
                 onDelete={onRemoveFileFromSession}
-                onDownload={onFileDownload}
+                path={element}
                 onAccessChange={onAccessChange}
               />
             ))}
