@@ -20,7 +20,7 @@ import ParticipantPollEvent from "./Modules/PollEvent/ParticipantPollEvent";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
-import { SharedBoard } from "../SharedBoard/SharedBoard";
+import { SessionMenu } from "../SessionMenu/SessionMenu";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useTranslation } from "react-i18next";
 
@@ -161,7 +161,7 @@ export default function ParticipantActiveSession({
         >
           {t("components.ParticipantActiveSession.exitSession") ?? ""}
         </Fab>
-        <SharedBoard sessionId={id} />
+        <SessionMenu sessionId={id} />
       </>
     );
   }

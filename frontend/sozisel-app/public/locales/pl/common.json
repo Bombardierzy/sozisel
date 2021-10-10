@@ -328,8 +328,9 @@
       "brushSize": "Grubość lini",
       "download": "Pobierz"
     },
-    "SharedBoard": {
-      "switch": "Współdzielona tablica"
+    "SessionMenu": {
+      "sharedBoard": "Tablica",
+      "files": "Pliki"
     },
     "SessionGoodbye": {
       "end": "Sesja została zakończona!",
