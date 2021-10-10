@@ -338,9 +338,7 @@
     },
     "Files": {
       "public": "Publiczne",
-      "chooseFile": "Wybierz plik",
-      "fileToImport": "Plik do zaimportowania",
-      "availableFormats": "Akceptowane formaty: .pdf",
+      "importFileInfo": "Wybierz lub upuść plik pdf",
       "importFile": "Wgraj nowy plik",
       "deletedFileMessage": "Usunięto plik!",
       "uploadedFileMessage": "Dodano plik!",
@@ -348,6 +346,7 @@
       "add": "Dodaj",
       "autocompleteLabel": "Dodaj plik do sesji",
       "submit": "Zatwierdź",
+      "cancel": "Anuluj",
       "fileChooseError": "Musisz wybrać plik!"
     }
   },

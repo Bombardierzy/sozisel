@@ -1,35 +1,26 @@
 @import "../../../styles/styles";
 
 .FileChooser {
-    padding: $spacing-05;
-
-    .dialogTitle {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0;
+    .textContainer {
+        padding: $spacing-03;
     }
-
-    .dialogContent {
-        display: flex;
-        flex-direction: column;
+    
+    .poppinsBoldText {
+        @include poppins-text;
+        font-weight: 600;
+        color: $text-05;
+        padding: $spacing-04;
+    }
+    
+    .previewContainer {
         align-items: center;
         justify-content: center;
+        width: unset;
+        height: unset;
+        margin: unset;
     }
-
-    .formInput {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        
-    }
-
-    .submitButton {
-        margin-top: $spacing-05;
-    }
-
-    .error {
-        @include error
+    
+    .dropzoneIcon {
+        color: $text-05;
     }
 }

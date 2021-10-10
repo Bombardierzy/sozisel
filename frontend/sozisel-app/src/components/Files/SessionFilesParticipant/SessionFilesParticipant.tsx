@@ -1,10 +1,20 @@
 import "./SessionFilesParticipant.scss";
 
-import { Dialog, IconButton, List, Paper, Typography } from "@material-ui/core";
-import { ReactElement, useState } from "react";
+import {
+  CircularProgress,
+  Dialog,
+  IconButton,
+  List,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 
 import CloseIcon from "@material-ui/icons/Close";
+import ErrorAlert from "../../utils/Alerts/ErrorAlert";
 import FileCard from "../FileCard/FileCard";
+import { ReactElement } from "react";
+import { useParticipantFilesQuery } from "../../../graphql";
+import useSessionParticipantType from "../../../hooks/useSessionParticipantType";
 import { useTranslation } from "react-i18next";
 
 export interface SessionFilesParticipantProps {
@@ -18,36 +28,54 @@ export function SessionFilesParticipant({
   onClose,
 }: SessionFilesParticipantProps): ReactElement {
   const { t } = useTranslation("common");
-  const onFileDownload = () => {
-    //TODO add file download
-  };
+  const { token } = useSessionParticipantType();
+  const { data, loading } = useParticipantFilesQuery({
+    variables: { sessionId, token },
+  });
 
-  //temporary mock
-  const [files, setFiles] = useState<string[]>(["aaa", "bbb"]);
+  if (loading) {
+    return (
+      <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
+        <div className="SessionFilesParticipant">
+          <CircularProgress />
+        </div>
+      </Dialog>
+    );
+  }
+
+  if (data?.participantSessionResources) {
+    return (
+      <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
+        <div className="SessionFilesParticipant">
+          <div className="dialogTitle">
+            <Typography component="h5" variant="h5">
+              {t("components.Files.sessionFiles")}
+            </Typography>
+            <IconButton aria-label="close" onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          </div>
+          <Paper className="dialogContent">
+            <List className="filesList">
+              {data.participantSessionResources.map((element, _) => (
+                <FileCard
+                  key={element.id}
+                  filename={element.sessionResource.filename}
+                  fileId={element.id}
+                  path={element.sessionResource.path}
+                />
+              ))}
+            </List>
+          </Paper>
+        </div>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
       <div className="SessionFilesParticipant">
-        <div className="dialogTitle">
-          <Typography component="h5" variant="h5">
-            {t("components.Files.sessionFiles")}
-          </Typography>
-          <IconButton aria-label="close" onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <Paper className="dialogContent">
-          <List className="filesList">
-            {files.map((element, _) => (
-              <FileCard
-                key={element}
-                filename={element}
-                fileId={element}
-                path={element}
-              />
-            ))}
-          </List>
-        </Paper>
+        <ErrorAlert />
       </div>
     </Dialog>
   );

@@ -83,7 +83,7 @@ export default function Files(): ReactElement {
       <>
         <MainNavbar />
         <div className="Files">
-          <CircularProgress></CircularProgress>
+          <CircularProgress />
         </div>
       </>
     );
@@ -160,7 +160,10 @@ export default function Files(): ReactElement {
             {successMessage}
           </Alert>
         </Snackbar>
-        <Snackbar open={uploadLoading || deleteLoading} autoHideDuration={AUTO_HIDE_DURATION}>
+        <Snackbar
+          open={uploadLoading || deleteLoading}
+          autoHideDuration={AUTO_HIDE_DURATION}
+        >
           <CircularProgress />
         </Snackbar>
       </>

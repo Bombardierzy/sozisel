@@ -3,14 +3,14 @@ import "./FileChooser.scss";
 import {
   Button,
   Dialog,
-  FormHelperText,
-  FormLabel,
-  IconButton,
+  DialogActions,
+  DialogContent,
   Typography,
 } from "@material-ui/core";
 import { ReactElement, useState } from "react";
 
-import CloseIcon from "@material-ui/icons/Close";
+import { DropzoneArea } from "material-ui-dropzone";
+import InsertDriveFileOutlinedIcon from "@material-ui/icons/InsertDriveFileOutlined";
 import { useTranslation } from "react-i18next";
 
 export interface FileChooserProps {
@@ -25,65 +25,47 @@ export function FileChooser({
 }: FileChooserProps): ReactElement {
   const { t } = useTranslation("common");
   const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState<boolean>(false);
+
   const handleSubmit = () => {
     if (file !== null) {
-      setError(false);
       onSubmit(file);
       setFile(null);
-    } else {
-      setError(true);
     }
   };
 
   return (
-    <Dialog onClose={onClose} open={open}>
-      <div className="FileChooser">
-        <div className="dialogTitle">
-          <Typography component="h5" variant="h5">
-            {t("components.Files.chooseFile")}
-          </Typography>
-          <IconButton aria-label="close" onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <div className="dialogContent">
-          <div className="formInput">
-            <FormLabel htmlFor="file">
-              {t("components.Files.fileToImport")}
-            </FormLabel>
-            <input
-              required
-              type="file"
-              name="file"
-              accept=".pdf"
-              onChange={(event) => {
-                const files = event.target.files;
-                if (files && files?.length > 0) {
-                  setFile(files[0]);
-                }
-              }}
-            />
-            <FormHelperText>
-              {t("components.Files.availableFormats")}
-            </FormHelperText>
-          </div>
-
-          <Button
-            variant="contained"
-            color="primary"
-            className="submitButton"
-            onClick={handleSubmit}
-          >
-            {t("components.Files.submit")}
-          </Button>
-          {error && (
-            <Typography className="error">
-              {t("components.Files.fileChooseError")}
-            </Typography>
-          )}
-        </div>
-      </div>
+    <Dialog className="FileChooser" open={open} onClose={onClose}>
+      <Typography variant="h6" className="poppinsBoldText">
+        {t("components.Files.importFile")}
+      </Typography>
+      <DialogContent>
+        <DropzoneArea
+          classes={{
+            textContainer: "textContainer",
+            text: "poppinsBoldText",
+            icon: "dropzoneIcon",
+          }}
+          previewGridClasses={{
+            container: "previewContainer",
+          }}
+          getPreviewIcon={() => <InsertDriveFileOutlinedIcon />}
+          filesLimit={1}
+          showFileNames
+          acceptedFiles={[".pdf"]}
+          dropzoneText={t("components.Files.importFileInfo")}
+          onChange={(files) => {
+            if (files && files?.length > 0) {
+              setFile(files[0]);
+            }
+          }}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>{t("components.Files.cancel")}</Button>
+        <Button disabled={file === null} onClick={handleSubmit}>
+          {t("components.Files.submit")}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }

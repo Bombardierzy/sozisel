@@ -19,6 +19,7 @@ export interface FileCardProps {
   filename: string;
   fileId: string;
   path: string;
+  isPublic?: boolean;
   onDelete?: (fileId: string) => void;
   onAccessChange?: (isPublic: boolean, fileId: string) => void;
 }
@@ -26,6 +27,7 @@ export interface FileCardProps {
 export default function FileCard({
   filename,
   fileId,
+  isPublic,
   onDelete,
   path,
   onAccessChange,
@@ -47,8 +49,10 @@ export default function FileCard({
       >
         <div className="fileCardContent">
           <div className="cardHeader">
-            {/* TODO fix download */}
-            <IconButton href={"/tmp/" + path} target="_blank">
+            <IconButton
+              href={`${window.location.protocol}//${window.location.hostname}:4000/session_resource/${path}`}
+              target="_blank"
+            >
               <GetAppIcon />
             </IconButton>
             <Typography component="h5" variant="h5">
@@ -61,8 +65,8 @@ export default function FileCard({
                 labelPlacement="start"
                 control={
                   <Switch
-                    defaultChecked={false}
-                    onChange={(e) => onAccessChange(e.target.checked, fileId)}
+                    checked={isPublic}
+                    onChange={() => onAccessChange(!isPublic, fileId)}
                     color="primary"
                   />
                 }
