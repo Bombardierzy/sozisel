@@ -15,8 +15,8 @@ import { CanvasToolbar } from "../WhiteBoard/CanvasToolbar";
 import { ColorLens } from "@material-ui/icons";
 import InsertDriveFileOutlinedIcon from "@material-ui/icons/InsertDriveFileOutlined";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { SessionFilesParticipant } from "../Files/SessionFilesParticipant/SessionFilesParticipant";
-import { SessionFilesPresenter } from "../Files/SessionFilesPresenter/SessionFilesPresenter";
+import { ParticipantSessionFiles } from "../Files/ParticipantSessionFiles/ParticipantSessionFiles";
+import { PresenterSessionFiles } from "../Files/PresenterSessionFiles/PresenterSessionFiles";
 import { useTranslation } from "react-i18next";
 
 const calculateDimensions = (width: number, height: number) => {
@@ -102,14 +102,14 @@ export function SessionMenu({
         </div>
       </Modal>
       {presenter && (
-        <SessionFilesPresenter
+        <PresenterSessionFiles
           open={openFiles}
           sessionId={sessionId}
           onClose={() => setOpenFiles(false)}
         />
       )}
       {!presenter && (
-        <SessionFilesParticipant
+        <ParticipantSessionFiles
           open={openFiles}
           sessionId={sessionId}
           onClose={() => setOpenFiles(false)}

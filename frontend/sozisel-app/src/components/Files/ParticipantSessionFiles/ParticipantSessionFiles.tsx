@@ -1,4 +1,4 @@
-import "./SessionFilesParticipant.scss";
+import "./ParticipantSessionFiles.scss";
 
 import {
   CircularProgress,
@@ -17,16 +17,16 @@ import { useParticipantFilesQuery } from "../../../graphql";
 import useSessionParticipantType from "../../../hooks/useSessionParticipantType";
 import { useTranslation } from "react-i18next";
 
-export interface SessionFilesParticipantProps {
+export interface ParticipantSessionFilesProps {
   sessionId: string;
   open: boolean;
   onClose: () => void;
 }
-export function SessionFilesParticipant({
+export function ParticipantSessionFiles({
   sessionId,
   open,
   onClose,
-}: SessionFilesParticipantProps): ReactElement {
+}: ParticipantSessionFilesProps): ReactElement {
   const { t } = useTranslation("common");
   const { token } = useSessionParticipantType();
   const { data, loading } = useParticipantFilesQuery({
@@ -36,7 +36,7 @@ export function SessionFilesParticipant({
   if (loading) {
     return (
       <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
-        <div className="SessionFilesParticipant">
+        <div className="ParticipantSessionFiles">
           <CircularProgress />
         </div>
       </Dialog>
@@ -46,7 +46,7 @@ export function SessionFilesParticipant({
   if (data?.participantSessionResources) {
     return (
       <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
-        <div className="SessionFilesParticipant">
+        <div className="ParticipantSessionFiles">
           <div className="dialogTitle">
             <Typography component="h5" variant="h5">
               {t("components.Files.sessionFiles")}
@@ -74,7 +74,7 @@ export function SessionFilesParticipant({
 
   return (
     <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
-      <div className="SessionFilesParticipant">
+      <div className="ParticipantSessionFiles">
         <ErrorAlert />
       </div>
     </Dialog>

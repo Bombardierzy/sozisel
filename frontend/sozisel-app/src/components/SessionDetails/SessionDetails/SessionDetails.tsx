@@ -15,7 +15,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ReactElement, useEffect } from "react";
 
 import DateFnsUtils from "@date-io/date-fns";
-import { SessionFilesPresenter } from "../../Files/SessionFilesPresenter/SessionFilesPresenter";
+import { PresenterSessionFiles } from "../../Files/PresenterSessionFiles/PresenterSessionFiles";
 import pl from "date-fns/locale/pl";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -220,7 +220,7 @@ export default function SessionDetails({
         </form>
       </Paper>
       {sessionId && (
-        <SessionFilesPresenter
+        <PresenterSessionFiles
           open={dialogOpen}
           onClose={() => setDialogOpen(false)}
           sessionId={sessionId}

@@ -1,4 +1,4 @@
-import "./SessionFilesPresenter.scss";
+import "./PresenterSessionFiles.scss";
 
 import {
   Button,
@@ -28,16 +28,16 @@ import ErrorAlert from "../../utils/Alerts/ErrorAlert";
 import FileCard from "../FileCard/FileCard";
 import { useTranslation } from "react-i18next";
 
-export interface SessionFilesPresenterProps {
+export interface PresenterSessionFilesProps {
   sessionId: string;
   open: boolean;
   onClose: () => void;
 }
-export function SessionFilesPresenter({
+export function PresenterSessionFiles({
   sessionId,
   open,
   onClose,
-}: SessionFilesPresenterProps): ReactElement {
+}: PresenterSessionFilesProps): ReactElement {
   const { t } = useTranslation("common");
   const [activeSearch, setActiveSearch] = useState<boolean>(false);
   const [currentOption, setCurrentOption] = useState<SessionResource | null>(
@@ -96,7 +96,7 @@ export function SessionFilesPresenter({
   if (loading || optionsLoading) {
     return (
       <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
-        <div className="SessionFilesPresenter">
+        <div className="PresenterSessionFiles">
           <CircularProgress />
         </div>
       </Dialog>
@@ -106,7 +106,7 @@ export function SessionFilesPresenter({
   if (data?.presenterSessionResources && options?.me.sessionResources) {
     return (
       <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
-        <div className="SessionFilesPresenter">
+        <div className="PresenterSessionFiles">
           <div className="dialogTitle">
             <Typography component="h5" variant="h5">
               {t("components.Files.sessionFiles")}
@@ -181,7 +181,7 @@ export function SessionFilesPresenter({
 
   return (
     <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
-      <div className="SessionFilesPresenter">
+      <div className="PresenterSessionFiles">
         <ErrorAlert />
       </div>
     </Dialog>

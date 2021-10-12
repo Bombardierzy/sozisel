@@ -12,6 +12,7 @@ import React, { BaseSyntheticEvent, ReactElement, useState } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import IconButton from "@material-ui/core/IconButton";
+import { getServerUrl } from "../../utils/Url/getUrl";
 import { useTranslation } from "react-i18next";
 
 export interface FileCardProps {
@@ -50,7 +51,7 @@ export default function FileCard({
         <div className="fileCardContent">
           <div className="cardHeader">
             <IconButton
-              href={`${window.location.protocol}//${window.location.hostname}:4000/session_resource/${path}`}
+              href={`${getServerUrl()}:4000/session_resource/${path}`}
               target="_blank"
             >
               <GetAppIcon />

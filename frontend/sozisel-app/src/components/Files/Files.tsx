@@ -111,7 +111,7 @@ export default function Files(): ReactElement {
                   ),
                   endAdornment: (
                     <InputAdornment position="end">
-                      {searchName != "" && (
+                      {searchName && (
                         <ClearIcon
                           color="primary"
                           onClick={onSearchNameCleared}
