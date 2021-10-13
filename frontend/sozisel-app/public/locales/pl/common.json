@@ -337,14 +337,14 @@
       "bye": "Dziękujemy za skorzystanie z serwisu, mamy nadzieję że odbyta sesja przyniesie efekty."
     },
     "Files": {
-      "public": "Publiczne",
+      "public": "Publiczny",
       "importFileInfo": "Wybierz lub upuść plik pdf",
       "importFile": "Wgraj nowy plik",
       "deletedFileMessage": "Usunięto plik!",
       "uploadedFileMessage": "Dodano plik!",
       "sessionFiles": "Pliki sesji",
       "add": "Dodaj",
-      "autocompleteLabel": "Dodaj plik do sesji",
+      "autocompleteLabel": "Dodaj plik do sesji...",
       "submit": "Zatwierdź",
       "cancel": "Anuluj",
       "fileChooseError": "Musisz wybrać plik!"

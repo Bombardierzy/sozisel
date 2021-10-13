@@ -2,7 +2,12 @@
 
 .FileCard{
     margin-bottom: $spacing-04;
-    cursor: pointer;
+    border-radius: $spacing-03;
+    box-shadow: $default-box-shadow;
+    background-color: $bg-01;
+    &:hover {
+        box-shadow: $hover-box-shadow;
+    }
 
     .fileCardContent{
         display: flex;
@@ -10,7 +15,6 @@
         justify-content: space-between;
         color: $main-color;
         padding: $spacing-05;
-        background-color: $bg-02;
     }
 
     .cardHeader {

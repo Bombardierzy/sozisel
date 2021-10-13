@@ -1,15 +1,17 @@
 @import "../../../styles/styles";
 
-.materialCard{
+.TemplateCard{
     margin-bottom: $spacing-04;
-}
-
-.templateCard{
     display: flex;
     flex-direction: row;
     padding: $spacing-05;
-    background-color: $bg-02;
     cursor: pointer;
+    border-radius: $spacing-03;
+    box-shadow: $default-box-shadow;
+    background-color: $bg-01;
+    &:hover {
+        box-shadow: $hover-box-shadow;
+    }
 
     .cardContent{
         flex: 1 0 auto;

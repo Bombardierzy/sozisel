@@ -13,7 +13,9 @@ $medium: 1000px;
 $large: 1400px;
 $extra-large: 1600px;
 
-$default-box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+$default-box-shadow: 2px 0 5px 0px rgb(0 0 0 / 7%), 0px 2px 5px 0px rgb(0 0 0 / 7%), -2px 0 5px 0px rgb(0 0 0 / 7%), 0 -2px 5px 0px rgb(0 0 0 / 7%);
+$hover-box-shadow: 5px 0 7px 0px rgb(0 0 0 / 15%), 0px 5px 7px 0px rgb(0 0 0 / 15%), -5px 0 7px 0px rgb(0 0 0 / 15%), 0 -5px 7px 0px rgb(0 0 0 / 15%);
+
 
 @mixin resize($screenSize, $width, $height) {
   @media screen and (max-width: $screenSize) {

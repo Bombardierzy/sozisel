@@ -1,13 +1,12 @@
 import "./FileCard.scss";
 
 import {
-  Card,
   FormControlLabel,
   InputLabel,
   Switch,
   Typography,
 } from "@material-ui/core";
-import React, { BaseSyntheticEvent, ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import GetAppIcon from "@material-ui/icons/GetApp";
@@ -34,20 +33,10 @@ export default function FileCard({
   onAccessChange,
 }: FileCardProps): ReactElement {
   const { t } = useTranslation("common");
-  const [raised, setRaised] = useState<boolean>(false);
-
-  const onMouseOverChange = (_: BaseSyntheticEvent) => {
-    setRaised(!raised);
-  };
 
   return (
     <>
-      <Card
-        raised={raised}
-        className="FileCard"
-        onMouseOver={onMouseOverChange}
-        onMouseOut={onMouseOverChange}
-      >
+      <div className="FileCard">
         <div className="fileCardContent">
           <div className="cardHeader">
             <IconButton
@@ -86,7 +75,7 @@ export default function FileCard({
             )}
           </div>
         </div>
-      </Card>
+      </div>
     </>
   );
 }
