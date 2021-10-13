@@ -15,6 +15,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ReactElement, useEffect } from "react";
 
 import DateFnsUtils from "@date-io/date-fns";
+import { PresenterSessionFiles } from "../../Files/PresenterSessionFiles/PresenterSessionFiles";
 import pl from "date-fns/locale/pl";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -43,6 +44,7 @@ export interface OnSessionSubmitProps {
 
 export interface SessionDetailsProps {
   onValidSubmit: (props: OnSessionSubmitProps) => void;
+  sessionId?: string;
   currentName?: string;
   currentPassword?: string;
   currentScheduledDateTime?: Date;
@@ -51,6 +53,7 @@ export interface SessionDetailsProps {
 
 export default function SessionDetails({
   onValidSubmit,
+  sessionId,
   currentName,
   currentPassword,
   currentScheduledDateTime,
@@ -70,6 +73,8 @@ export default function SessionDetails({
   const [scheduledDateTime, setScheduledDateTime] = useState<Date>(
     currentScheduledDateTime ?? new Date()
   );
+
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const onSubmit = (sessionDetails: SessionDetailsFormSchema) => {
     onValidSubmit({
@@ -198,12 +203,29 @@ export default function SessionDetails({
               />
             </MuiPickersUtilsProvider>
           </div>
+          {/* files can be added only to already created session */}
+          {sessionId && (
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => setDialogOpen(true)}
+            >
+              {t("components.SessionDetails.sessionFiles")}
+            </Button>
+          )}
 
           <Button color="primary" type="submit" variant="contained">
             {t("components.SessionDetails.submitSession")}
           </Button>
         </form>
       </Paper>
+      {sessionId && (
+        <PresenterSessionFiles
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+          sessionId={sessionId}
+        />
+      )}
     </>
   );
 }

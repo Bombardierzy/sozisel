@@ -1,0 +1,26 @@
+@import "../../../styles/styles";
+
+.FileChooser {
+    .textContainer {
+        padding: $spacing-03;
+    }
+    
+    .poppinsBoldText {
+        @include poppins-text;
+        font-weight: 600;
+        color: $text-05;
+        padding: $spacing-04;
+    }
+    
+    .previewContainer {
+        align-items: center;
+        justify-content: center;
+        width: unset;
+        height: unset;
+        margin: unset;
+    }
+    
+    .dropzoneIcon {
+        color: $text-05;
+    }
+}

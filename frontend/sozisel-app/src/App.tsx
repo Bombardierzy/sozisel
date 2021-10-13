@@ -5,6 +5,7 @@ import { ApolloProviderWrapper } from "./contexts/ApolloProviderWrapper";
 import AuthGuard from "./components/Guards/AuthGuard";
 import CreateSession from "./components/SessionDetails/CreateSession";
 import EditSession from "./components/SessionDetails/EditSession/EditSession";
+import Files from "./components/Files/Files";
 import JoinSession from "./components/JoinSession/JoinSession";
 import Login from "./components/LoginScreen/LoginScreen";
 import ParticipantGuard from "./components/Guards/ParticipantGuard";
@@ -34,6 +35,9 @@ export default function App(): ReactElement {
           <Route path="/whiteboard" component={WhiteBoard} />
           <Route exact path="/home">
             <Redirect to="/templates" />
+          </Route>
+          <Route exact path="/files">
+            <AuthGuard component={Files} />
           </Route>
           <Route path="/sessions/:id/result">
             <AuthGuard component={SessionResultScreen} />

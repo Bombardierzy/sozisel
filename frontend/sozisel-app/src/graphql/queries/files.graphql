@@ -1,0 +1,33 @@
+query PresenterFiles {
+    me {
+        sessionResources {
+            filename
+            id
+            path
+        }
+    }
+}
+
+query ParticipantFiles($sessionId: ID!, $token: String!){
+    participantSessionResources(id: $sessionId, token: $token) {
+        id
+        isPublic
+        sessionResource {
+            id
+            filename
+            path
+        }
+    }
+}
+
+query PresenterSessionFiles($sessionId: ID!){
+    presenterSessionResources(id: $sessionId) {
+        id
+        isPublic
+        sessionResource {
+            id
+            filename
+            path
+        }
+    }
+}

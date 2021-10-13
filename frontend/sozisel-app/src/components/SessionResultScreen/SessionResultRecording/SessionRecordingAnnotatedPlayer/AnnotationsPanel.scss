@@ -5,6 +5,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-radius: $spacing-unit;
+    box-shadow: $default-box-shadow;
 }
 
 .AnnotationRow {
@@ -51,8 +53,4 @@
     .labelAdd {
         background-color: white;
     }
-}
-
-.AnnotationsPanelRounded {
-    border-radius: $spacing-unit !important;
 }

@@ -2,6 +2,7 @@ import "./MainNavbar.scss";
 
 import ComputerIcon from "@material-ui/icons/Computer";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
+import InsertDriveFileOutlinedIcon from "@material-ui/icons/InsertDriveFileOutlined";
 import { NavLink } from "react-router-dom";
 import { ReactElement } from "react";
 import { USER_TOKEN } from "../../../common/consts";
@@ -30,6 +31,12 @@ export default function MainNavbar(): ReactElement {
           >
             <FolderOpenIcon />
             <p>{t("components.MainNavbar.templatesLinkText")}</p>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/files" activeClassName="activeLink" className="link">
+            <InsertDriveFileOutlinedIcon />
+            <p>{t("components.MainNavbar.files")}</p>
           </NavLink>
         </li>
         <li>

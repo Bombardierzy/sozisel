@@ -1,7 +1,7 @@
 import "./AnnotationsPanel.scss";
 
 import { DeleteOutlined, Edit, Timer } from "@material-ui/icons";
-import { IconButton, Paper, TextField, Tooltip } from "@material-ui/core";
+import { IconButton, TextField, Tooltip } from "@material-ui/core";
 import { ReactElement, useCallback, useMemo, useState } from "react";
 
 import { formatTimestamp } from "../../../../common/utils";
@@ -186,11 +186,7 @@ export function AnnotationsPanel({
   }, [annotations]);
 
   return (
-    <Paper
-      className="AnnotationsPanel"
-      classes={{ rounded: "AnnotationsPanelRounded" }}
-      elevation={4}
-    >
+    <div className="AnnotationsPanel">
       <div className="existingAnnotations">
         {sortedAnnotations.map((annotation, idx) => (
           <AnnotationRow
@@ -215,6 +211,6 @@ export function AnnotationsPanel({
           onCreate={onAnnotationCreate}
         />
       )}
-    </Paper>
+    </div>
   );
 }

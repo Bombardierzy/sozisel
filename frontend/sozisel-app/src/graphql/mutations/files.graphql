@@ -1,0 +1,31 @@
+mutation UploadFile($resource: Upload!){
+    uploadSessionResource(resource: $resource){
+        filename
+        id
+        path
+    }
+}
+
+mutation DeleteFile($fileId: ID!) {
+    deleteSessionResource(id: $fileId){
+        id
+    }
+}
+
+mutation AddFileToSession($input: SessionResourceLinkInput!){
+    attachResourceToSession(input: $input){
+        id
+    }
+}
+
+mutation ChangeFileAccess($resourceLinkId: ID!, $isPublic: Boolean!){
+    changeAccessSessionResourceLink(id: $resourceLinkId, isPublic: $isPublic){
+        id
+    }
+}
+
+mutation RemoveFileFromSession($resourceLinkId: ID!){
+    detachResourceSessionLink(id: $resourceLinkId){
+        id
+    }
+}

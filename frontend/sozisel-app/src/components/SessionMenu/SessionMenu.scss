@@ -1,31 +1,41 @@
 @import "../../styles/styles.scss";
 
 
-.SharedBoard {
-    .switch {
+.SessionMenu {
+    .topCornerMenu {
         position: fixed;
         display: flex;
-        align-items: flex-start;
+        flex-direction: column;
         justify-content: flex-end;
         top: $navbar-height;
         right: 0;
-        height: 75px;
-        width: 75px;
+    }
+
+    .menuButton {
+        align-self: flex-end;
         border-radius: 0 0 0 100%;
+        height: 50px;
+        width: 50px;
         background-color: $main-color;
         
         svg {
             color: white;
-            font-size: 60px;
+            font-size: 40px;
+            margin-left: 12px;
         }
         
         &:hover {
             background-color: darken($color: $main-color, $amount: 10%);
             svg {
                 color: darken($color: white, $amount: 15%);
-            font-size: 60px;
+                font-size: 40px;
+                margin-left: 12px;
             }
         }
+    }
+
+    .menuOptions {
+        background-color: $bg-01;
     }
     
 }

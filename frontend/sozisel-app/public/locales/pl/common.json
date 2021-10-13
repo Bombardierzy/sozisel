@@ -33,6 +33,7 @@
     "MainNavbar": {
       "sessionsLinkText": "Sesje",
       "templatesLinkText": "Szablony",
+      "files": "Pliki",
       "logoutText": "Wyloguj się"
     },
     "TemplatesList":{
@@ -133,7 +134,8 @@
       "errorMessage": "Nie udało się stworzyć sesji",
       "successMessage": "Stworzono sesje",
       "updateSuccessMessage": "Zaktualizowano sesje",
-      "updateErrorMessage": "Nie udało się zaaktualizować sesji"
+      "updateErrorMessage": "Nie udało się zaaktualizować sesji",
+      "sessionFiles": "Edytuj pliki sesji"
     },
     "SessionsList": {
       "filters": "Filtry",
@@ -326,12 +328,26 @@
       "brushSize": "Grubość lini",
       "download": "Pobierz"
     },
-    "SharedBoard": {
-      "switch": "Współdzielona tablica"
+    "SessionMenu": {
+      "sharedBoard": "Tablica",
+      "files": "Pliki"
     },
     "SessionGoodbye": {
       "end": "Sesja została zakończona!",
       "bye": "Dziękujemy za skorzystanie z serwisu, mamy nadzieję że odbyta sesja przyniesie efekty."
+    },
+    "Files": {
+      "public": "Publiczny",
+      "importFileInfo": "Wybierz lub upuść plik pdf",
+      "importFile": "Prześlij nowy plik",
+      "deletedFileMessage": "Usunięto plik!",
+      "uploadedFileMessage": "Dodano plik!",
+      "sessionFiles": "Pliki sesji",
+      "add": "Dodaj",
+      "autocompleteLabel": "Dodaj plik do sesji...",
+      "submit": "Zatwierdź",
+      "cancel": "Anuluj",
+      "fileChooseError": "Musisz wybrać plik!"
     }
   },
   "inputErrors": {

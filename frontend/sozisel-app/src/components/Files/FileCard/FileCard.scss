@@ -1,11 +1,7 @@
 @import "../../../styles/styles";
 
-.TemplateCard{
+.FileCard{
     margin-bottom: $spacing-04;
-    display: flex;
-    flex-direction: row;
-    padding: $spacing-05;
-    cursor: pointer;
     border-radius: $spacing-03;
     box-shadow: $default-box-shadow;
     background-color: $bg-01;
@@ -13,18 +9,26 @@
         box-shadow: $hover-box-shadow;
     }
 
-    .cardContent{
-        flex: 1 0 auto;
-    }
-
-    .cardActions{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .iconButtons{
+    .fileCardContent{
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        color: $main-color;
+        padding: $spacing-05;
+    }
+
+    .cardHeader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .label {
+        color: $main-color;
+    }
+
+    .deleteIcon {
+        color: $error-color;
     }
 }
