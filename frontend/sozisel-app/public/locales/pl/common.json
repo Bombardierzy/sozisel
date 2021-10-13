@@ -339,7 +339,7 @@
     "Files": {
       "public": "Publiczny",
       "importFileInfo": "Wybierz lub upuść plik pdf",
-      "importFile": "Wgraj nowy plik",
+      "importFile": "Prześlij nowy plik",
       "deletedFileMessage": "Usunięto plik!",
       "uploadedFileMessage": "Dodano plik!",
       "sessionFiles": "Pliki sesji",
