@@ -315,6 +315,21 @@ export class CanvasManager extends EventEmitter {
     document.body.removeChild(link);
   };
 
+  canvasFile = async (): Promise<File | null> => {
+    const canvas = this.getCanvas();
+    if (!canvas) {
+      throw new Error("Tried to get file for non existing canvas");
+    }
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.getElement().toBlob(resolve);
+    });
+
+    if (!blob) return null;
+
+    return new File([blob], "whiteboard");
+  };
+
   public static isReady(): boolean {
     const canvasIsMounted = document.getElementById(CANVAS_ELEMENT_ID);
     return canvasIsMounted != null;
