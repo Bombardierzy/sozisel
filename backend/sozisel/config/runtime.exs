@@ -1,4 +1,4 @@
-use Config
+import Config
 
 if config_env() == :prod do
   config :sozisel, SoziselWeb.Endpoint,
