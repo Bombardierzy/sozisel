@@ -1,10 +1,12 @@
-name: Sozisel CI
+name: Deploy
 
 on:
   push:
+    branches:
+      - master
 
 jobs:
-  backend:
+  test-backend:
     runs-on: ubuntu-latest
     steps:
     - name: Update apt
@@ -42,8 +44,9 @@ jobs:
       with:
         name: schema
         path: backend/sozisel/schema.json
-  frontend:
-    needs: backend
+
+  test-frontend:
+    needs: test-backend
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -67,4 +70,50 @@ jobs:
     - name: Generate build
       run: npm run build
       working-directory: frontend/sozisel-app
-    
+
+  build_and_push:
+    needs: test-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download schema file artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: schema
+          path: frontend/sozisel-app
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push backend
+        id: docker_build_backend
+        run: |
+          docker build -f backend/sozisel/Dockerfile -t sozisel-backend backend/sozisel
+          docker tag sozisel-backend bombardierzy/sozisel-backend:latest
+          docker push bombardierzy/sozisel-backend:latest
+      - name: Build and push frontend
+        id: docker_build_frontend
+        run: |
+          docker build -f frontend/sozisel-app/Dockerfile -t sozisel-frontend frontend/sozisel-app
+          docker tag sozisel-frontend bombardierzy/sozisel-frontend:latest
+          docker push bombardierzy/sozisel-frontend:latest
+
+  deploy_to_theliver:
+    runs-on: ubuntu-latest
+    needs:
+      - "build_and_push"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy configuration
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          source: "docker-compose.yml"
+          target: "services/sozisel"

@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  sozisel-database:
+    image: postgres:12.2
+    container_name: sozisel-database
+    environment:
+      - POSTGRES_DB=sozisel_prod
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PORT=5432
+    volumes:
+      - "sozisel-postgres-data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+
+  sozisel-backend:
+    image: przemek8888/sozisel-backend:latest
+    container_name: sozisel-backend
+    environment:
+      DATABASE_URL: ecto://postgres:postgres@sozisel-database/sozisel_prod
+      DATABASE_USER: postgres
+      DATABASE_PASS: postgres
+      DATABASE_NAME: sozisel_prod
+      DATABASE_PORT: 5432
+      DATABASE_HOST: sozisel-database
+      SECRET_KEY_BASE: rgqRMwF3YQ9+vm4wwYa1rcWLpfXMYTNgNxF11KKYGp4JXg6y8OpIkPSL6m4gb5hh
+    ports:
+      - 4000:4000
+    depends_on:
+      - sozisel-database
+
+  sozisel-frontend:
+    image: przemek8888/sozisel-frontend:latest
+    container_name: sozisel-frontend
+    depends_on: 
+      - sozisel-backend
+    ports:
+      - "9906:80"
+
+volumes:
+  sozisel-postgres-data: 
