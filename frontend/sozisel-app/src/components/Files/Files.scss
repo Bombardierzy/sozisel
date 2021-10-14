@@ -1,0 +1,43 @@
+@import "../../styles/styles";
+
+.Files {
+    height: calc(100% - #{$navbar-height});
+    box-sizing: border-box;
+    background-color: $bg-01;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding: $spacing-09;
+    overflow: auto;
+
+    .topBar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-09;
+    }
+
+    .searchBarContainer {
+        flex: 1;
+        margin-right: $spacing-09;
+        background-color: $bg-02;
+        border-radius: $spacing-03;
+    }
+
+    .uploadButton {
+        margin-left: $spacing-09;
+    }
+
+    .cardHeader {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .deleteIcon {
+        color: $error-color;
+    }
+}
+

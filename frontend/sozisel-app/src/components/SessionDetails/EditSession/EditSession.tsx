@@ -80,6 +80,7 @@ export default function EditSession(): ReactElement {
         <div className="EditSession">
           <SessionDetails
             onValidSubmit={onSubmit}
+            sessionId={id}
             currentName={data.session.name}
             currentPassword={data.session.entryPassword ?? undefined}
             currentUseJitsi={data.session.useJitsi}

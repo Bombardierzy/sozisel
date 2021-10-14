@@ -19,9 +19,16 @@ defmodule SoziselWeb.Endpoint do
 
   plug Plug.Static,
     at: "/recording",
-    from:
-      Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload) |> Keyword.fetch!(:upload_path),
+    from: Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload) |> Keyword.fetch!(:upload_path)
+
+  plug Plug.Static,
     at: "/image",
+    from:
+      Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload)
+      |> Keyword.fetch!(:upload_path)
+
+  plug Plug.Static,
+    at: "/session_resource",
     from:
       Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload)
       |> Keyword.fetch!(:upload_path)

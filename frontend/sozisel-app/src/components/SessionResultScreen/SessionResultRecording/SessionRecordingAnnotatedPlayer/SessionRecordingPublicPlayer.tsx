@@ -4,6 +4,7 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
 
 import { AnnotationsPanel } from "./AnnotationsPanel";
 import Navbar from "../../../Navbar/LoginNavbar/Navbar";
+import { getServerUrl } from "../../../utils/Url/getUrl";
 import { useParams } from "react-router";
 import { useSessionRecordingQuery } from "../../../../graphql";
 
@@ -45,7 +46,9 @@ function Player({ recordingId }: PlayerProps): ReactElement {
           <div className="annotatedGrid">
             <video
               ref={videoRef}
-              src={`${window.location.protocol}//${window.location.hostname}:4000/recording/${data.sessionRecording.path}`}
+              src={`${getServerUrl()}:4000/recording/${
+                data.sessionRecording.path
+              }`}
               controls
             />
             <AnnotationsPanel

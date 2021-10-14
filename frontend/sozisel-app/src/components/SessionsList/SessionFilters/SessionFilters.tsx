@@ -5,7 +5,6 @@ import {
   Button,
   CircularProgress,
   MenuItem,
-  Paper,
   Select,
   TextField,
   Typography,
@@ -85,24 +84,22 @@ export default function SessionFilters({
 
   if (loading) {
     return (
-      <>
-        <Paper className="SessionFilters" elevation={2}>
-          <div className="headerWithIcon">
-            <TuneIcon color="primary" />
-            <Typography variant="h3" className="header">
-              {t("components.SessionsList.filters")}
-            </Typography>
-          </div>
-          <CircularProgress />
-        </Paper>
-      </>
+      <div className="SessionFilters">
+        <div className="headerWithIcon">
+          <TuneIcon color="primary" />
+          <Typography variant="h3" className="header">
+            {t("components.SessionsList.filters")}
+          </Typography>
+        </div>
+        <CircularProgress />
+      </div>
     );
   }
 
   if (data?.searchSessionTemplates) {
     return (
       <>
-        <Paper className="SessionFilters" elevation={2}>
+        <div className="SessionFilters">
           <div className="headerWithIcon">
             <TuneIcon color="primary" />
             <Typography variant="h3" className="header">
@@ -251,14 +248,14 @@ export default function SessionFilters({
           >
             {t("components.SessionsList.applyFilters")}
           </Button>
-        </Paper>
+        </div>
       </>
     );
   }
 
   return (
     <>
-      <Paper className="SessionFilters" elevation={2}>
+      <div className="SessionFilters">
         <div className="headerWithIcon">
           <TuneIcon color="primary" />
           <Typography variant="h3" className="header">
@@ -266,7 +263,7 @@ export default function SessionFilters({
           </Typography>
         </div>
         <ErrorAlert />
-      </Paper>
+      </div>
     </>
   );
 }

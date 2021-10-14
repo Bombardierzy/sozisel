@@ -3,20 +3,13 @@ import "./SessionCard.scss";
 import { AUTO_HIDE_DURATION, LOCAL_DATE_FORMAT } from "../../../common/consts";
 import {
   Button,
-  Card,
   CardActions,
   CardContent,
   IconButton,
   Snackbar,
   Typography,
 } from "@material-ui/core";
-import React, {
-  BaseSyntheticEvent,
-  MouseEvent,
-  ReactElement,
-  useMemo,
-  useState,
-} from "react";
+import React, { MouseEvent, ReactElement, useMemo, useState } from "react";
 
 import { Alert } from "@material-ui/lab";
 import CustomAvatar from "../../utils/Avatar/CustomAvatar";
@@ -43,7 +36,6 @@ export default function SessionCard({
   const history = useHistory();
   const { status, isScheduled, isEnded } = useSessionStatus(session);
   const sessionLink = `${window.location.protocol}//${window.location.hostname}/sessions/${session.id}/join`;
-  const [raised, setRaised] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const sessionStatus = useMemo(() => {
@@ -57,10 +49,6 @@ export default function SessionCard({
       id: session.id,
     },
   });
-
-  const onMouseOverChange = (_: BaseSyntheticEvent) => {
-    setRaised(!raised);
-  };
 
   const onStartSession = async (e: MouseEvent) => {
     e.stopPropagation();
@@ -88,64 +76,56 @@ export default function SessionCard({
 
   return (
     <>
-      <Card
-        raised={raised}
-        className="SessionCard"
-        onMouseOver={onMouseOverChange}
-        onMouseOut={onMouseOverChange}
-        onClick={onCardClick}
-      >
-        <div className="sessionCardContent">
-          <CustomAvatar id={session.id} />
-          <CardContent className="cardContent">
-            <Typography component="h5" variant="h5">
-              {session.name}
-            </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
-              {t("components.SessionsList.scheduledDate")}:{" "}
-              {new Date(session.scheduledStartTime).toLocaleString(
-                [],
-                LOCAL_DATE_FORMAT
-              )}
-            </Typography>
-            <Typography variant="subtitle2" color="textSecondary">
-              {t("components.SessionsList.status")}: {status}
-            </Typography>
-          </CardContent>
-          <CardActions className="cardActions">
-            <div className="iconButtons">
-              <IconButton
-                disabled={isEnded}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDialogOpen(true);
-                }}
-              >
-                <ShareIcon />
-              </IconButton>
-              <IconButton
-                disabled={!isScheduled}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDelete(session.id);
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </div>
-            <Button
-              onClick={onStartSession}
-              variant="contained"
-              color="primary"
-              fullWidth
-              className="actionButton"
-              disabled={!isScheduled}
+      <div className="SessionCard" onClick={onCardClick}>
+        <CustomAvatar id={session.id} />
+        <CardContent className="cardContent">
+          <Typography component="h5" variant="h5">
+            {session.name}
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {t("components.SessionsList.scheduledDate")}:{" "}
+            {new Date(session.scheduledStartTime).toLocaleString(
+              [],
+              LOCAL_DATE_FORMAT
+            )}
+          </Typography>
+          <Typography variant="subtitle2" color="textSecondary">
+            {t("components.SessionsList.status")}: {status}
+          </Typography>
+        </CardContent>
+        <CardActions className="cardActions">
+          <div className="iconButtons">
+            <IconButton
+              disabled={isEnded}
+              onClick={(e) => {
+                e.stopPropagation();
+                setDialogOpen(true);
+              }}
             >
-              {t(`components.SessionsList.${sessionStatus}Session`)}
-            </Button>
-          </CardActions>
-        </div>
-      </Card>
+              <ShareIcon />
+            </IconButton>
+            <IconButton
+              disabled={!isScheduled}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(session.id);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </div>
+          <Button
+            onClick={onStartSession}
+            variant="contained"
+            color="primary"
+            fullWidth
+            className="actionButton"
+            disabled={!isScheduled}
+          >
+            {t(`components.SessionsList.${sessionStatus}Session`)}
+          </Button>
+        </CardActions>
+      </div>
       <ShareLinkPopup
         link={sessionLink}
         open={dialogOpen}
