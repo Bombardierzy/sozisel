@@ -6,8 +6,6 @@ if config_env() == :prod do
     url: [host: System.fetch_env!("HOST"), port: System.fetch_env!("PORT")],
     secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
-  # DATABASE_URL
-  # For example: ecto://USER:PASS@HOST/DATABASE
   config :sozisel, Sozisel.Repo,
     username: System.fetch_env!("POSTGRES_USER"),
     password: System.fetch_env!("POSTGRES_PASS"),
