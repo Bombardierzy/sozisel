@@ -134,6 +134,10 @@ export default function EventsTimeline({
         broadcast = true;
         break;
       }
+      case "Whiteboard": {
+        broadcast = true;
+        break;
+      }
     }
 
     await launchEventMutation({

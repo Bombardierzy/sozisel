@@ -19,6 +19,7 @@ import JitsiFrame from "../Jitsi/JitsiFrame";
 import ParticipantPollEvent from "./Modules/PollEvent/ParticipantPollEvent";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
+import ParticipantWhiteboardEvent from "./Modules/WhiteboardEvent/ParticipantWhiteboardEvent";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
 import { SessionMenu } from "../SessionMenu/SessionMenu";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
@@ -144,6 +145,14 @@ export default function ParticipantActiveSession({
                   token={token}
                   event={activeEvent}
                   onPollFinished={() => setActiveEvent(null)}
+                />
+              )}
+              {activeEvent.eventData.__typename === "Whiteboard" && (
+                <ParticipantWhiteboardEvent
+                  token={token}
+                  event={activeEvent}
+                  onWhiteboardFinished={() => setActiveEvent(null)}
+                  withJitsi={session.sessionThumbnail.useJitsi}
                 />
               )}
             </div>

@@ -1,0 +1,62 @@
+@import "../../../../styles/styles";
+
+
+.ParticipantWhiteboardEvent {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 2*#{$spacing-04});
+    height: calc(100% - 2*#{$spacing-07});
+    padding: $spacing-04;
+    margin-top: $spacing-07;
+
+    .header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+    .headerText {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+    }
+
+    .eventIcon{
+        background-color: $main-color;
+        border-radius: $spacing-05;
+        padding: $spacing-03;
+        margin-right: $spacing-04;
+    }
+
+    .submitRow{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-03 0;
+    }
+
+    .question {
+        height: 100%;
+        .questionText {
+            padding: $spacing-03 0;
+            align-items: center;
+            display: flex;
+            font-weight: 400;
+        }
+    }
+
+    .whiteboard {
+        position: absolute;
+        width: 60%;
+        height: calc(80% - 2*#{$spacing-10});
+        left: $spacing-09;
+        top: 3*$spacing-09;
+        & > div:last-child {
+            width: 100% !important;
+            height: 90% !important;
+        }
+    }
+}

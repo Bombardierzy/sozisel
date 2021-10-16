@@ -7,12 +7,8 @@ import { useTranslation } from "react-i18next";
 
 const WhiteboardLiveEventDetails = (): ReactElement => {
   const { t } = useTranslation("common");
-  const {
-    activeEvent,
-    event,
-    sessionId,
-    onFinishCallback,
-  } = useContext(LiveEventContext);
+  const { activeEvent, event, sessionId, onFinishCallback } =
+    useContext(LiveEventContext);
 
   const { finishedTrials } = useFetchEventLiveResult(
     sessionId,
@@ -27,23 +23,25 @@ const WhiteboardLiveEventDetails = (): ReactElement => {
 
   return (
     <div className="LiveEventsDetails">
-      <span className="eventName">{event.name}</span>
-      <TextSection
-        text={t(
-          "components.PresenterSession.EventsTimeline.LiveEventDetails.reamaingTime"
-        )}
-      >
-        <Timer
-          startValue={activeEvent.currentSec}
-          onFinishCallback={onFinishCallback}
+      <div>
+        <span className="eventName">{event.name}</span>
+        <TextSection
+          text={t(
+            "components.PresenterSession.EventsTimeline.LiveEventDetails.reamaingTime"
+          )}
+        >
+          <Timer
+            startValue={activeEvent.currentSec}
+            onFinishCallback={onFinishCallback}
+          />
+        </TextSection>
+        <TextSection
+          text={t(
+            "components.PresenterSession.EventsTimeline.LiveEventDetails.completedTrialsNumber",
+            { value: finishedTrials }
+          )}
         />
-      </TextSection>
-      <TextSection
-        text={t(
-          "components.PresenterSession.EventsTimeline.LiveEventDetails.completedTrialsNumber",
-          { value: finishedTrials }
-        )}
-      />
+      </div>
     </div>
   );
 };
