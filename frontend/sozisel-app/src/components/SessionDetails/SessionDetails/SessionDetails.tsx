@@ -6,7 +6,6 @@ import {
   Button,
   FormControlLabel,
   InputLabel,
-  Paper,
   Switch,
   TextField,
 } from "@material-ui/core";
@@ -16,6 +15,7 @@ import { ReactElement, useEffect } from "react";
 
 import DateFnsUtils from "@date-io/date-fns";
 import { PresenterSessionFiles } from "../../Files/PresenterSessionFiles/PresenterSessionFiles";
+import SoziselCard from "../../utils/Card/SoziselCard";
 import pl from "date-fns/locale/pl";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -110,115 +110,122 @@ export default function SessionDetails({
 
   return (
     <>
-      <Paper className="SessionDetails" elevation={2}>
-        <form className="sessionDetailsForm" onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="sessionName"
-            control={control}
-            defaultValue={
-              currentName ?? t("components.SessionDetails.defaultSessionName")
-            }
-            as={
-              <TextField
-                size="small"
-                variant="outlined"
-                className="sessionName"
-                error={!!errors.sessionName}
-                helperText={errors.sessionName && t(errors.sessionName.message)}
-              />
-            }
-          />
+      <div className="SessionDetails">
+        <SoziselCard>
+          <form
+            className="sessionDetailsForm"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Controller
+              name="sessionName"
+              control={control}
+              defaultValue={
+                currentName ?? t("components.SessionDetails.defaultSessionName")
+              }
+              as={
+                <TextField
+                  size="small"
+                  variant="outlined"
+                  className="sessionName"
+                  error={!!errors.sessionName}
+                  helperText={
+                    errors.sessionName && t(errors.sessionName.message)
+                  }
+                />
+              }
+            />
 
-          <div className="formElement">
-            <FormControlLabel
-              labelPlacement="start"
-              control={
-                <Switch
-                  defaultChecked={useJitsi}
-                  onChange={(e) => setUseJitsi(e.target.checked)}
-                  color="primary"
-                />
-              }
-              label={
-                <InputLabel className="label">
-                  {t("components.SessionDetails.useJitsiLabel")}
-                </InputLabel>
-              }
-              className="label"
-            />
-          </div>
-          <div className="formElement">
-            <FormControlLabel
-              labelPlacement="start"
-              control={
-                <Switch
-                  defaultChecked={authorization}
-                  onChange={(e) => setAuthorization(e.target.checked)}
-                  color="primary"
-                />
-              }
-              label={
-                <InputLabel className="label">
-                  {t("components.SessionDetails.authorization")}
-                </InputLabel>
-              }
-              className="label"
-            />
-            {authorization && (
-              <Controller
-                name="entryPassword"
-                control={control}
-                defaultValue={currentPassword ?? ""}
-                as={
-                  <TextField
-                    name="entryPassword"
-                    variant="outlined"
-                    size="small"
-                    className="input"
-                    placeholder={t(
-                      "components.SessionDetails.sessionPasswordPlaceholder"
-                    )}
-                    type="text"
+            <div className="formElement">
+              <FormControlLabel
+                labelPlacement="start"
+                control={
+                  <Switch
+                    defaultChecked={useJitsi}
+                    onChange={(e) => setUseJitsi(e.target.checked)}
+                    color="primary"
                   />
                 }
+                label={
+                  <InputLabel className="label">
+                    {t("components.SessionDetails.useJitsiLabel")}
+                  </InputLabel>
+                }
+                className="label"
               />
+            </div>
+            <div className="formElement">
+              <FormControlLabel
+                labelPlacement="start"
+                control={
+                  <Switch
+                    defaultChecked={authorization}
+                    onChange={(e) => setAuthorization(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label={
+                  <InputLabel className="label">
+                    {t("components.SessionDetails.authorization")}
+                  </InputLabel>
+                }
+                className="label"
+              />
+              {authorization && (
+                <Controller
+                  name="entryPassword"
+                  control={control}
+                  defaultValue={currentPassword ?? ""}
+                  as={
+                    <TextField
+                      name="entryPassword"
+                      variant="outlined"
+                      size="small"
+                      className="input"
+                      placeholder={t(
+                        "components.SessionDetails.sessionPasswordPlaceholder"
+                      )}
+                      type="text"
+                    />
+                  }
+                />
+              )}
+            </div>
+            <div className="formElement">
+              <InputLabel className="label">
+                {t("components.SessionDetails.datetime")}
+              </InputLabel>
+
+              <MuiPickersUtilsProvider locale={pl} utils={DateFnsUtils}>
+                <DateTimePicker
+                  inputVariant="outlined"
+                  disablePast
+                  ampm={false}
+                  variant="inline"
+                  value={scheduledDateTime}
+                  format="d MMM yyyy HH:mm"
+                  onChange={(date) => {
+                    setScheduledDateTime(date as Date);
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </div>
+            {/* files can be added only to already created session */}
+            {sessionId && (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => setDialogOpen(true)}
+              >
+                {t("components.SessionDetails.sessionFiles")}
+              </Button>
             )}
-          </div>
-          <div className="formElement">
-            <InputLabel className="label">
-              {t("components.SessionDetails.datetime")}
-            </InputLabel>
 
-            <MuiPickersUtilsProvider locale={pl} utils={DateFnsUtils}>
-              <DateTimePicker
-                inputVariant="outlined"
-                disablePast
-                ampm={false}
-                variant="inline"
-                value={scheduledDateTime}
-                format="d MMM yyyy HH:mm"
-                onChange={(date) => {
-                  setScheduledDateTime(date as Date);
-                }}
-              />
-            </MuiPickersUtilsProvider>
-          </div>
-          {/* files can be added only to already created session */}
-          {sessionId && (
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => setDialogOpen(true)}
-            >
-              {t("components.SessionDetails.sessionFiles")}
+            <Button color="primary" type="submit" variant="contained">
+              {t("components.SessionDetails.submitSession")}
             </Button>
-          )}
-
-          <Button color="primary" type="submit" variant="contained">
-            {t("components.SessionDetails.submitSession")}
-          </Button>
-        </form>
-      </Paper>
+          </form>
+        </SoziselCard>
+      </div>
       {sessionId && (
         <PresenterSessionFiles
           open={dialogOpen}

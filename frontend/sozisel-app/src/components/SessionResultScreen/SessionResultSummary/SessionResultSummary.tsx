@@ -4,7 +4,7 @@ import {
   AUTO_HIDE_DURATION,
   SHORT_LOCAL_DATE_FORMAT,
 } from "../../../common/consts";
-import { CircularProgress, Paper, Snackbar } from "@material-ui/core";
+import { CircularProgress, Snackbar } from "@material-ui/core";
 import { ReactElement, useMemo } from "react";
 import {
   useSessionBasicInfoQuery,
@@ -12,6 +12,7 @@ import {
 } from "../../../graphql";
 
 import { Alert } from "@material-ui/lab";
+import SoziselCard from "../../utils/Card/SoziselCard";
 import SummaryDetails from "./SummaryDetails";
 import TotalAreaChart from "./TotalAreaChart";
 import { useTranslation } from "react-i18next";
@@ -45,38 +46,40 @@ export default function SessionResultSummary({
   if (data?.sessionSummary) {
     return (
       <div className="SessionResultSummary">
-        <Paper className="paper" elevation={3}>
-          <SummaryDetails
-            date={new Date(
-              sessionData?.session?.startTime || ""
-            ).toLocaleString([], SHORT_LOCAL_DATE_FORMAT)}
-            durationTime={data.sessionSummary.durationTime}
-            participants={data.sessionSummary.totalParticipants}
-            interactions={data.sessionSummary.totalSubmissions}
-          />
+        <SoziselCard>
+          <div className="cardContent">
+            <SummaryDetails
+              date={new Date(
+                sessionData?.session?.startTime || ""
+              ).toLocaleString([], SHORT_LOCAL_DATE_FORMAT)}
+              durationTime={data.sessionSummary.durationTime}
+              participants={data.sessionSummary.totalParticipants}
+              interactions={data.sessionSummary.totalSubmissions}
+            />
 
-          <div className="totalParticipants">
-            <div className="totalParticipantsHeader">
-              <h2>
-                {t("components.SessionResultSummary.participantsChart.title")}
-              </h2>
-              <h3>
-                {t(
-                  "components.SessionResultSummary.participantsChart.subtitle"
-                )}
-              </h3>
-            </div>
-            <div className="chart">
-              {/* TODO add some placeholder if there were no activated events*/}
-              <TotalAreaChart
-                data={chartData}
-                valueLabel={t(
-                  "components.SessionResultSummary.participantsChart.valueLabel"
-                )}
-              />
+            <div className="totalParticipants">
+              <div className="totalParticipantsHeader">
+                <h2>
+                  {t("components.SessionResultSummary.participantsChart.title")}
+                </h2>
+                <h3>
+                  {t(
+                    "components.SessionResultSummary.participantsChart.subtitle"
+                  )}
+                </h3>
+              </div>
+              <div className="chart">
+                {/* TODO add some placeholder if there were no activated events*/}
+                <TotalAreaChart
+                  data={chartData}
+                  valueLabel={t(
+                    "components.SessionResultSummary.participantsChart.valueLabel"
+                  )}
+                />
+              </div>
             </div>
           </div>
-        </Paper>
+        </SoziselCard>
       </div>
     );
   }

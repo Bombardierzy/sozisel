@@ -5,7 +5,7 @@ import { useDeletePollMutation, useDeleteQuizMutation } from "../../../graphql";
 
 import { Event } from "../../../model/Template";
 import EventListElement from "./EventsListElement/EventListElement";
-import { Paper } from "@material-ui/core";
+import SoziselCard from "../../utils/Card/SoziselCard";
 
 interface EventListProps {
   events?: Event[];
@@ -42,14 +42,18 @@ export default function EventList({ events }: EventListProps): ReactElement {
   );
 
   return (
-    <Paper className="EventList" elevation={2}>
-      {sortedEvents.map((event: Event) => (
-        <EventListElement
-          key={event.id}
-          event={event}
-          onDelete={onDelete(event.eventData.__typename || "")}
-        />
-      ))}
-    </Paper>
+    <div className="EventList">
+      <SoziselCard>
+        <>
+          {sortedEvents.map((event: Event) => (
+            <EventListElement
+              key={event.id}
+              event={event}
+              onDelete={onDelete(event.eventData.__typename || "")}
+            />
+          ))}
+        </>
+      </SoziselCard>
+    </div>
   );
 }

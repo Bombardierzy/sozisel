@@ -1,9 +1,7 @@
 @import "../../../styles/styles";
 
 .EventList {
-    overflow: auto;
     width: 50%;
     margin: $spacing-06 $spacing-05;
-    height: calc(85% - 2*#{$spacing-05});
-    padding: $spacing-05;
+    height: 85%;
 }
