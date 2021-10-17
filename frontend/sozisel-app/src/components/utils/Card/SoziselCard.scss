@@ -1,0 +1,14 @@
+@import "../../../styles/styles";
+
+.Card {
+  border-radius: $spacing-03;
+  box-shadow: $default-box-shadow;
+  background-color: $bg-01;
+  padding: $spacing-05;
+}
+
+.CardHover{
+   &:hover {
+      box-shadow: $hover-box-shadow;
+  }
+}

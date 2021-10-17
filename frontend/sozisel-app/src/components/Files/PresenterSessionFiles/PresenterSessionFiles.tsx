@@ -46,6 +46,7 @@ export function PresenterSessionFiles({
 
   const { data, loading } = usePresenterSessionFilesQuery({
     variables: { sessionId },
+    fetchPolicy: "network-only",
   });
   const { data: options, loading: optionsLoading } = usePresenterFilesQuery();
 

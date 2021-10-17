@@ -31,6 +31,7 @@ export function ParticipantSessionFiles({
   const { token } = useSessionParticipantType();
   const { data, loading } = useParticipantFilesQuery({
     variables: { sessionId, token },
+    fetchPolicy: "network-only",
   });
 
   if (loading) {
