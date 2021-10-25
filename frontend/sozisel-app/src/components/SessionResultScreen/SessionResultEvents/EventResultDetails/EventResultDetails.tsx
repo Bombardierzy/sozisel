@@ -9,6 +9,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ErrorAlert from "../../../utils/Alerts/ErrorAlert";
 import PollResultDetails from "./Modules/PollResultDetails/PollResultDetails";
 import QuizResultDetails from "./Modules/QuizResultDetails/QuizResultDetails";
+import WhiteboardResultDetails from "./Modules/WhiteboardResultDetails/WhiteboardResultDetails";
 import { useTranslation } from "react-i18next";
 
 export interface EventResultDetailsProps {
@@ -90,6 +91,9 @@ export default function EventResultDetails({
         )}
         {eventType === EventType.Poll && (
           <PollResultDetails id={id} eventName={eventName} />
+        )}
+        {eventType === EventType.Whiteboard && (
+          <WhiteboardResultDetails id={id} eventName={eventName} />
         )}
       </div>
     );
