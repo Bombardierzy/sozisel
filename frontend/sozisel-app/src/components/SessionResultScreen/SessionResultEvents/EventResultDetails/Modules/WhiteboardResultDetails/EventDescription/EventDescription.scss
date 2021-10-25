@@ -1,6 +1,8 @@
 @import "../../../../../../../styles/styles";
 
 .EventDescription {
+    border-radius: $spacing-03;
+    box-shadow: $default-box-shadow;
     padding: $spacing-04 $spacing-06;
     flex: 1;
     .header {

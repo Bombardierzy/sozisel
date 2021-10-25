@@ -1,8 +1,8 @@
 import "./EventDescription.scss";
-import { Paper, Typography } from "@material-ui/core";
 import React, { ReactElement } from "react";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import LatextText from "../../../../../../utils/LatexText/LatextText";
+import { Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 interface EventDescriptionProps {
@@ -35,7 +35,7 @@ const EventDescription = ({
   const { t } = useTranslation("common");
 
   return (
-    <Paper className="EventDescription">
+    <div className="EventDescription">
       <div className="header">
         <CalendarToday className="icon" />
         <Typography className="headerText">{eventName}</Typography>
@@ -59,7 +59,7 @@ const EventDescription = ({
           <LatextText text={task} />
         </div>
       </Section>
-    </Paper>
+    </div>
   );
 };
 

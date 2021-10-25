@@ -48,7 +48,7 @@ const WhiteboardResultDetails = ({
         task={task}
         averageUsedTime={averageUsedTime}
       />
-      <MainContent />
+      <MainContent participantsWhiteboardTasks={participantsWhiteboardTasks} />
     </div>
   );
 };

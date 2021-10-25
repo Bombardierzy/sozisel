@@ -284,7 +284,9 @@
         "participantsNumber": "Liczba uczestników",
         "averageTimeLabel": "Średni czas zadania",
         "averageTime": "{{value}} sekund",
-        "taskLabel": "Zadanie"
+        "taskLabel": "Zadanie",
+        "listLabel": "Rozwiązanie",
+        "solutionLabel": "Rozwiązanie - {{userName}}"
       }
     },
     "PresenterSession": {
