@@ -1,16 +1,10 @@
 import "./WhiteboardSwitch.scss";
-import { ColorLens, ReceiptTwoTone } from "@material-ui/icons";
-import { ReactElement } from "react";
+import { ColorLens, Videocam } from "@material-ui/icons";
+import { ReactElement, useContext } from "react";
+import { Context } from "../../../../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 
-interface WhiteboardSwtichProps {
-  showWhiteboard: boolean;
-  setShowWhiteboard: (state: boolean) => void;
-}
-
-const WhiteboardSwtich = ({
-  showWhiteboard,
-  setShowWhiteboard,
-}: WhiteboardSwtichProps): ReactElement => {
+const WhiteboardSwtich = (): ReactElement => {
+  const [showWhiteboard, setShowWhiteboard] = useContext(Context);
   return (
     <div className="WhiteboardSwitch">
       <div
@@ -23,7 +17,7 @@ const WhiteboardSwtich = ({
         className={`icon ${!showWhiteboard && "whiteboardIcon"}`}
         onClick={() => setShowWhiteboard(false)}
       >
-        <ReceiptTwoTone />
+        <Videocam />
       </div>
     </div>
   );

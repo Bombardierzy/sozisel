@@ -18,7 +18,6 @@ export default function EventDetails({
   activeEventId,
 }: EventDetailsProps): ReactElement {
   const { t } = useTranslation("common");
-  console.log(activeEvent.eventData);
 
   return (
     <div className="eventDetails">

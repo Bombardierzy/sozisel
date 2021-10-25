@@ -1,18 +1,19 @@
 import "./Whiteboard.scss";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useContext } from "react";
 import { Canvas } from "../../../../WhiteBoard/Canvas";
 import { CanvasToolbar } from "../../../../WhiteBoard/CanvasToolbar";
+import { Context } from "../../../../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 
 interface WhiteboardProps {
-  token: string;
   withJitsi: boolean;
 }
 
-const Whiteboard = ({ token, withJitsi }: WhiteboardProps): ReactElement => {
+const Whiteboard = ({ withJitsi }: WhiteboardProps): ReactElement => {
+  const [showWhiteboard] = useContext(Context);
   return (
-    <div className={withJitsi ? "Whiteboard" : "WhiteboardJitsy"}>
+    <div style={!showWhiteboard ? {display: 'none'} : {}} className={withJitsi ? "Whiteboard" : "WhiteboardJitsy"}>
       <CanvasToolbar />
-      <Canvas width={900} height={500} sessionId={token} />
+      <Canvas width={900} height={500}/>
     </div>
   );
 };

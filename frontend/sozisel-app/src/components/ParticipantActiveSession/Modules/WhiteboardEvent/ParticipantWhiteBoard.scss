@@ -53,7 +53,7 @@
         width: 60%;
         height: calc(80% - 2*#{$spacing-10});
         left: $spacing-09;
-        top: 3*$spacing-09;
+        top: 3 * $spacing-09;
         & > div:last-child {
             width: 100% !important;
             height: 90% !important;

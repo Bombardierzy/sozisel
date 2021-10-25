@@ -5,8 +5,8 @@ import {
   Whiteboard,
   useSubmitWhiteboardResultMutation,
 } from "../../../../graphql";
-import { ReactElement, useMemo, useState } from "react";
-
+import { ReactElement, useContext, useMemo } from "react";
+import { Context } from "../../../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 import EventOutlinedIcon from "@material-ui/icons/EventOutlined";
 import LatextText from "../../../utils/LatexText/LatextText";
 import WhiteboardComponent from "./Whiteboard/Whiteboard";
@@ -29,7 +29,7 @@ const ParticipantWhiteboardEvent = ({
   withJitsi,
 }: ParticipantWhiteboardEventProps): ReactElement => {
   const { t } = useTranslation("common");
-  const [showWhiteboard, setShowWhiteboard] = useState<boolean>(false);
+  const [showWhiteboard] = useContext(Context);
   const whiteboardData: Whiteboard = event.eventData as Whiteboard;
   const startTime = useMemo(() => Date.now(), []);
 
@@ -60,11 +60,8 @@ const ParticipantWhiteboardEvent = ({
   if (!withJitsi && showWhiteboard) {
     return (
       <>
-        <WhiteboardSwtich
-          showWhiteboard={showWhiteboard}
-          setShowWhiteboard={setShowWhiteboard}
-        />
-        <WhiteboardComponent token={token} withJitsi={withJitsi} />
+        <WhiteboardSwtich />
+        <WhiteboardComponent withJitsi={withJitsi} />
       </>
     );
   }
@@ -86,13 +83,8 @@ const ParticipantWhiteboardEvent = ({
           {t("components.ParticipantActiveSession.submit")}
         </Button>
       </div>
-      <WhiteboardSwtich
-        showWhiteboard={showWhiteboard}
-        setShowWhiteboard={setShowWhiteboard}
-      />
-      {showWhiteboard && (
-        <WhiteboardComponent token={token} withJitsi={withJitsi} />
-      )}
+      <WhiteboardSwtich />
+      <WhiteboardComponent withJitsi={withJitsi} />
     </Paper>
   );
 };
