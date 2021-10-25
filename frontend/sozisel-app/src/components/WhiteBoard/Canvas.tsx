@@ -40,7 +40,6 @@ export const Canvas = ({ width, height, sessionId }: Props): ReactElement => {
 
     ensureConnected(socket);
 
-
     const channel = socket.channel(`shared:whiteboard:${sessionId}`, {});
 
     channel

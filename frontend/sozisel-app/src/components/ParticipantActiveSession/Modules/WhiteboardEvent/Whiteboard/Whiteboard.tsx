@@ -11,9 +11,12 @@ interface WhiteboardProps {
 const Whiteboard = ({ withJitsi }: WhiteboardProps): ReactElement => {
   const [showWhiteboard] = useContext(Context);
   return (
-    <div style={!showWhiteboard ? {display: 'none'} : {}} className={withJitsi ? "Whiteboard" : "WhiteboardJitsy"}>
+    <div
+      style={!showWhiteboard ? { display: "none" } : {}}
+      className={withJitsi ? "Whiteboard" : "WhiteboardJitsy"}
+    >
       <CanvasToolbar />
-      <Canvas width={900} height={500}/>
+      <Canvas width={900} height={500} />
     </div>
   );
 };

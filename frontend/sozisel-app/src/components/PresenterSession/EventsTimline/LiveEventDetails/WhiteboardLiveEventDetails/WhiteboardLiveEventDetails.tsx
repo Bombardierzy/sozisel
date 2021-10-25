@@ -1,3 +1,7 @@
+import {
+  EventType,
+  useGetEventTypename,
+} from "../../../../../hooks/useGetEventTypename";
 import React, { ReactElement, useContext } from "react";
 import { LiveEventContext } from "../LiveEventDetails";
 import TextSection from "../TextSection";
@@ -17,7 +21,7 @@ const WhiteboardLiveEventDetails = (): ReactElement => {
     "WhiteboardResult"
   );
 
-  if (event.eventData.__typename !== "Whiteboard") {
+  if (useGetEventTypename(event) !== EventType.Whiteboard) {
     return <></>;
   }
 
