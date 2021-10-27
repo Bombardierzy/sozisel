@@ -12,15 +12,12 @@ import {
 import { ReactElement, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
+import ActiveEvent from "./ActiveEvent";
 import ActiveSessionAgenda from "../PresenterSession/ActiveSessionAgenda/ActiveSessionAgenda";
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
 import ErrorAlert from "../utils/Alerts/ErrorAlert";
 import JitsiFrame from "../Jitsi/JitsiFrame";
-import ParticipantPollEvent from "./Modules/PollEvent/ParticipantPollEvent";
-import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
-import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
 import ParticipantWhiteboardContext from "../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
-import ParticipantWhiteboardEvent from "./Modules/WhiteboardEvent/ParticipantWhiteboardEvent";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
 import { SessionMenu } from "../SessionMenu/SessionMenu";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
@@ -137,30 +134,12 @@ export default function ParticipantActiveSession({
             )}
             {activeEvent && (
               <div className="moduleComponent">
-                {activeEvent.eventData.__typename === "ParticipantQuiz" && (
-                  <ParticipantQuizContextProvider>
-                    <ParticipantQuizEvent
-                      onQuizFinished={() => setActiveEvent(null)}
-                      token={token}
-                      event={activeEvent}
-                    />
-                  </ParticipantQuizContextProvider>
-                )}
-                {activeEvent.eventData.__typename === "Poll" && (
-                  <ParticipantPollEvent
-                    token={token}
-                    event={activeEvent}
-                    onPollFinished={() => setActiveEvent(null)}
-                  />
-                )}
-                {activeEvent.eventData.__typename === "Whiteboard" && (
-                  <ParticipantWhiteboardEvent
-                    token={token}
-                    event={activeEvent}
-                    onWhiteboardFinished={() => setActiveEvent(null)}
-                    withJitsi={session.sessionThumbnail.useJitsi}
-                  />
-                )}
+                <ActiveEvent
+                  onEventFinished={() => setActiveEvent(null)}
+                  token={token}
+                  activeEvent={activeEvent}
+                  withJitsi={session.sessionThumbnail.useJitsi}
+                />
               </div>
             )}
           </div>
