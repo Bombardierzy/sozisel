@@ -110,7 +110,6 @@ export default function EventCreation(): ReactElement {
               <MenuItem value="" disabled />
               <MenuItem value="Quiz">Quiz</MenuItem>
               <MenuItem value="Poll">Ankieta</MenuItem>
-              <MenuItem value="Geogebra">Geogebra</MenuItem>
               <MenuItem value="Whiteboard">Tablica</MenuItem>
             </Select>
 

@@ -37,12 +37,13 @@ const ParticipantWhiteboardEvent = ({
 
   const countdownTimer = useCountdownTimer({
     startValue: event.durationTimeSec,
-    onFinishCallback: () => onWhiteboardFinished(),
+    onFinishCallback: onWhiteboardFinished,
   });
 
   const onSubmit = async () => {
     const usedTime = (Date.now() - startTime) / 1000;
     const image = await canvasManager.canvasFile();
+
     submitWhiteboardResultMutation({
       variables: {
         token,

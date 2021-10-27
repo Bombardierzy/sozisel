@@ -28,18 +28,24 @@ const MainContent = ({
     <div className="MainContent">
       {currentUser ? (
         <>
-        <div className="header">
-          <People className="icon" />
-          <Typography className="headerText">
-            {t("components.SessionEventResults.Whiteboard.solutionLabel", {
-              userName: currentUser.fullName,
-            })}
-          </Typography>
-          <ExitToApp className="exitIcon" onClick={() => setCurrentUser(null)}/>
-        </div>
-        <div className="imageContainer">
-          <img className="solutionImage" src={`http://localhost:4000/image/${currentUser.imagePath}`}/>
-        </div>
+          <div className="header">
+            <People className="icon" />
+            <Typography className="headerText">
+              {t("components.SessionEventResults.Whiteboard.solutionLabel", {
+                userName: currentUser.fullName,
+              })}
+            </Typography>
+            <ExitToApp
+              className="exitIcon"
+              onClick={() => setCurrentUser(null)}
+            />
+          </div>
+          <div className="imageContainer">
+            <img
+              className="solutionImage"
+              src={`http://localhost:4000/image/${currentUser.imagePath}`}
+            />
+          </div>
         </>
       ) : (
         <>

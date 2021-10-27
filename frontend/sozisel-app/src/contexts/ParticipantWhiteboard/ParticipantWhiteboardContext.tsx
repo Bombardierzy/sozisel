@@ -6,7 +6,7 @@ interface Props {
 
 type ContextType = [
   showWhiteboard: boolean,
-  setShowWhiteboard: (state: boolean) => void
+  setShowWhiteboard: (showWhiteboard: boolean) => void
 ];
 
 export const Context = React.createContext<ContextType>([false, () => null]);
