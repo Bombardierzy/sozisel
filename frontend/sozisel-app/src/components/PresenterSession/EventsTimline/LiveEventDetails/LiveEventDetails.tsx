@@ -1,11 +1,14 @@
 import "./LiveEventDetails.scss";
-
+import {
+  EventType,
+  useGetEventTypename,
+} from "../../../../hooks/useGetEventTypename";
 import React, { ReactElement, createContext } from "react";
-
 import { ActiveEvent } from "../EventsTimeline";
 import { Event } from "../../../../model/Template";
 import PollLiveEventDetails from "./PollLiveEventDetails/PollLiveEventDetails";
 import QuziLiveEventDetails from "./QuizLiveEventDetails/QuizLiveEventDetails";
+import WhiteboardLiveEventDetails from "./WhiteboardLiveEventDetails/WhiteboardLiveEventDetails";
 
 interface LiveEventDetailsProps {
   activeEvent: ActiveEvent;
@@ -26,6 +29,7 @@ export default function LiveEventDetails({
   event,
   participantsNumber,
 }: LiveEventDetailsProps): ReactElement {
+  const eventType = useGetEventTypename(event);
   return (
     <LiveEventContext.Provider
       value={{
@@ -36,8 +40,9 @@ export default function LiveEventDetails({
         participantsNumber,
       }}
     >
-      {event.eventData.__typename === "Quiz" && <QuziLiveEventDetails />}
-      {event.eventData.__typename === "Poll" && <PollLiveEventDetails />}
+      {eventType === EventType.Quiz && <QuziLiveEventDetails />}
+      {eventType === EventType.Poll && <PollLiveEventDetails />}
+      {eventType === EventType.Whiteboard && <WhiteboardLiveEventDetails />}
     </LiveEventContext.Provider>
   );
 }

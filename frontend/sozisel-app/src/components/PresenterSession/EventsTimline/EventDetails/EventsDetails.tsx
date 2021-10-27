@@ -1,10 +1,11 @@
 import "./EventDetails.scss";
 import { Event, Quiz } from "../../../../model/Template";
+import { Poll, Whiteboard } from "../../../../graphql";
 import React, { ReactElement } from "react";
-import { Poll } from "../../../../graphql";
 import PollDetails from "./PollDetails/PollDetails";
 import QuizDetails from "./QuizDetails/QuizDetails";
 import { Typography } from "@material-ui/core";
+import WhiteboardDetails from "./WhiteboardDetails/WhiteboardDetails";
 import { useTranslation } from "react-i18next";
 
 interface EventDetailsProps {
@@ -36,6 +37,11 @@ export default function EventDetails({
           )}
           {activeEvent.eventData.__typename === "Poll" && (
             <PollDetails poll={activeEvent.eventData as Poll} />
+          )}
+          {activeEvent.eventData.__typename === "Whiteboard" && (
+            <WhiteboardDetails
+              whiteboard={activeEvent.eventData as Whiteboard}
+            />
           )}
         </>
       )}
