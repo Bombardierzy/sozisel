@@ -4,7 +4,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 
 import { AgendaPoint } from "../../../model/Agenda";
 import { SessionTimer } from "./SessionTimer";
-import SoziselCard from "../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import { Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
@@ -106,7 +106,7 @@ export default function ActiveSessionAgenda({
 
   return (
     <div className="ActiveSessionAgenda">
-      <SoziselCard>
+      <ShadowBoxCard>
         <div className="content">
           <Typography className="header">
             <TurnedInNotIcon className="icon" />
@@ -119,7 +119,7 @@ export default function ActiveSessionAgenda({
           ))}
           <SessionTimer startTime={sessionStartDate.toISOString()} />
         </div>
-      </SoziselCard>
+      </ShadowBoxCard>
     </div>
   );
 }

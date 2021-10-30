@@ -12,7 +12,7 @@ import {
 } from "../../../graphql";
 
 import { Alert } from "@material-ui/lab";
-import SoziselCard from "../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import SummaryDetails from "./SummaryDetails";
 import TotalAreaChart from "./TotalAreaChart";
 import { useTranslation } from "react-i18next";
@@ -46,7 +46,7 @@ export default function SessionResultSummary({
   if (data?.sessionSummary) {
     return (
       <div className="SessionResultSummary">
-        <SoziselCard>
+        <ShadowBoxCard>
           <div className="cardContent">
             <SummaryDetails
               date={new Date(
@@ -79,7 +79,7 @@ export default function SessionResultSummary({
               </div>
             </div>
           </div>
-        </SoziselCard>
+        </ShadowBoxCard>
       </div>
     );
   }

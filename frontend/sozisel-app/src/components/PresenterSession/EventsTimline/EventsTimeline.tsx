@@ -27,7 +27,7 @@ import EventDetails from "./EventDetails/EventsDetails";
 import LiveEventDetails from "./LiveEventDetails/LiveEventDetails";
 import { Participant } from "../../../hooks/useLiveSessionParticipation";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-import SoziselCard from "../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 
@@ -165,7 +165,7 @@ export default function EventsTimeline({
 
   return (
     <div className="EventsTimeline">
-      <SoziselCard>
+      <ShadowBoxCard>
         <div>
           <div className="header">
             <CalendarTodayIcon className="icon" />
@@ -247,7 +247,7 @@ export default function EventsTimeline({
             </Alert>
           </Snackbar>
         </div>
-      </SoziselCard>
+      </ShadowBoxCard>
     </div>
   );
 }

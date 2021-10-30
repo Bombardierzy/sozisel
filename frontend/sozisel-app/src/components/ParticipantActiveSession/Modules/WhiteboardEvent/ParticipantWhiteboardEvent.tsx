@@ -11,7 +11,7 @@ import { ReactElement, useContext, useMemo } from "react";
 import { Context } from "../../../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 import EventOutlinedIcon from "@material-ui/icons/EventOutlined";
 import LatextText from "../../../utils/LatexText/LatextText";
-import SoziselCard from "../../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../../utils/Card/ShadowBoxCard";
 import WhiteboardComponent from "./Whiteboard/Whiteboard";
 import WhiteboardSwtich from "./WhiteboardSwitch/WhiteboardSwitch";
 import { canvasManager } from "../../../WhiteBoard/services/CanvasManager";
@@ -72,7 +72,7 @@ const ParticipantWhiteboardEvent = ({
 
   return (
     <div className="ParticipantWhiteboardEvent">
-      <SoziselCard>
+      <ShadowBoxCard>
         <div className="content">
           <div className="header">
             <Typography variant="h5" className="headerText">
@@ -92,7 +92,7 @@ const ParticipantWhiteboardEvent = ({
           <WhiteboardSwtich />
           <WhiteboardComponent withJitsi={withJitsi} />
         </div>
-      </SoziselCard>
+      </ShadowBoxCard>
     </div>
   );
 };

@@ -10,7 +10,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import QuizResultChartsView from "./QuizResultViews/Charts/QuizResultChartsView";
 import QuizResultParticipantsView from "./QuizResultViews/Participants/QuizResultParticipantsView";
 import QuizResultQuestionsView from "./QuizResultViews/Questions/QuizResultQuestionsView";
-import SoziselCard from "../../../../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../../../../utils/Card/ShadowBoxCard";
 import StatsRow from "../../../../../utils/StatsRow/StatsRow";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { useQuizSummaryQuery } from "../../../../../../graphql";
@@ -54,7 +54,7 @@ export default function QuizResultDetails({
     return (
       <div className="QuizResultDetails">
         <div className="quizSummary">
-          <SoziselCard>
+          <ShadowBoxCard>
             <div className="quizSummaryContent">
               <div className="headerWithIcon">
                 <EventIcon color="primary" fontSize="large" />
@@ -135,10 +135,10 @@ export default function QuizResultDetails({
                 {t("components.SessionEventResults.Quiz.charts")}
               </Card>
             </div>
-          </SoziselCard>
+          </ShadowBoxCard>
         </div>
         <div className="quizResultView">
-          <SoziselCard>
+          <ShadowBoxCard>
             <div>
               {activeView === QuizResultView.PARTICIPANTS && (
                 <QuizResultParticipantsView id={id} />
@@ -150,7 +150,7 @@ export default function QuizResultDetails({
                 <QuizResultChartsView id={id} />
               )}
             </div>
-          </SoziselCard>
+          </ShadowBoxCard>
         </div>
       </div>
     );

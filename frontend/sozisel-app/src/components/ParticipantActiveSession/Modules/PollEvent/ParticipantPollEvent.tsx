@@ -11,7 +11,7 @@ import { ReactElement, useState } from "react";
 
 import PollEventOption from "./PollEventOption/PollEventOption";
 import PollIcon from "@material-ui/icons/Poll";
-import SoziselCard from "../../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../../utils/Card/ShadowBoxCard";
 import useCountdownTimer from "../../../../hooks/useCountdownTimer";
 import { useTranslation } from "react-i18next";
 
@@ -66,7 +66,7 @@ const ParticipantPollEvent = ({
   });
 
   return (
-    <SoziselCard>
+    <ShadowBoxCard>
       <div className="ParticipantPollEvent">
         <div className="header">
           <Typography variant="h5" className="headerText">
@@ -98,7 +98,7 @@ const ParticipantPollEvent = ({
           </Button>
         </div>
       </div>
-    </SoziselCard>
+    </ShadowBoxCard>
   );
 };
 

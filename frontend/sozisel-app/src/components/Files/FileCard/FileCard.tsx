@@ -7,11 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { ReactElement } from "react";
+import { UrlType, getUrl } from "../../utils/Url/getUrl";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import IconButton from "@material-ui/core/IconButton";
-import { getServerUrl } from "../../utils/Url/getUrl";
 import { useTranslation } from "react-i18next";
 
 export interface FileCardProps {
@@ -39,7 +39,7 @@ export default function FileCard({
       <div className="fileCardContent">
         <div className="cardHeader">
           <IconButton
-            href={`${getServerUrl()}:4000/session_resource/${path}`}
+            href={getUrl({ type: UrlType.sessionResource, id: path })}
             target="_blank"
           >
             <GetAppIcon />

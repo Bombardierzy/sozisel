@@ -16,7 +16,7 @@ import { pollSchema, quizSchema, whiteboardSchema } from "./Schemas";
 import { Poll } from "../Modules/Poll/Poll";
 import Quiz from "../Modules/Quiz/Quiz";
 import { QuizContextProvider } from "../../../contexts/Quiz/QuizContext";
-import SoziselCard from "../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import Whiteboard from "../Modules/Whiteboard/Whiteboard";
 import { useEventContext } from "../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
@@ -76,7 +76,7 @@ export default function EventCreation(): ReactElement {
 
   return (
     <div className="EventCreation">
-      <SoziselCard>
+      <ShadowBoxCard>
         <form className={"creationForm"}>
           <div>
             <Controller
@@ -183,7 +183,7 @@ export default function EventCreation(): ReactElement {
             />
           )}
         </form>
-      </SoziselCard>
+      </ShadowBoxCard>
     </div>
   );
 }

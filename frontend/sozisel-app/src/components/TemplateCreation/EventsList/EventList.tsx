@@ -9,7 +9,7 @@ import {
 
 import { Event } from "../../../model/Template";
 import EventListElement from "./EventsListElement/EventListElement";
-import SoziselCard from "../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 
 interface EventListProps {
   events?: Event[];
@@ -52,7 +52,7 @@ export default function EventList({ events }: EventListProps): ReactElement {
 
   return (
     <div className="EventList">
-      <SoziselCard>
+      <ShadowBoxCard>
         <>
           {sortedEvents.map((event: Event) => (
             <EventListElement
@@ -62,7 +62,7 @@ export default function EventList({ events }: EventListProps): ReactElement {
             />
           ))}
         </>
-      </SoziselCard>
+      </ShadowBoxCard>
     </div>
   );
 }

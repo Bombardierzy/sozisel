@@ -20,7 +20,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import Poll from "./Poll/Poll";
 import QuizQuestion from "./Quiz/Question";
-import SoziselCard from "../../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../../utils/Card/ShadowBoxCard";
 import Whiteboard from "./Whiteboard/Whiteboard";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
@@ -97,7 +97,7 @@ export default function EventListElement({
 
   return (
     <div className="EventListElement">
-      <SoziselCard hover disableScroll>
+      <ShadowBoxCard hover disableScroll>
         <Accordion expanded={isExpanded} elevation={0}>
           <AccordionSummary
             onClick={() => setIsExpanded(!isExpanded)}
@@ -150,7 +150,7 @@ export default function EventListElement({
             <EventElementDetails event={event} />
           </AccordionDetails>
         </Accordion>
-      </SoziselCard>
+      </ShadowBoxCard>
     </div>
   );
 }

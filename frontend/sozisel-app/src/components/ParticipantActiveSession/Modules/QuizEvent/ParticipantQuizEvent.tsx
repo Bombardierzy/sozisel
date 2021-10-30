@@ -10,7 +10,7 @@ import { ReactElement, useEffect, useState } from "react";
 
 import EventOutlinedIcon from "@material-ui/icons/EventOutlined";
 import ParticipantQuizQuestion from "./ParticipantQuizQuestion/ParticipantQuizQuestion";
-import SoziselCard from "../../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../../utils/Card/ShadowBoxCard";
 import useCountdownTimer from "../../../../hooks/useCountdownTimer";
 import { useParticipantQuizContext } from "../../../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import { useTranslation } from "react-i18next";
@@ -79,7 +79,7 @@ export default function ParticipantQuizEvent({
   }, [dispatch, quiz]);
 
   return (
-    <SoziselCard>
+    <ShadowBoxCard>
       <div className="ParticipantQuizEvent">
         <div className="header">
           <Typography variant="h5" className="headerText">
@@ -98,6 +98,6 @@ export default function ParticipantQuizEvent({
           </Button>
         </div>
       </div>
-    </SoziselCard>
+    </ShadowBoxCard>
   );
 }

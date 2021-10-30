@@ -7,7 +7,7 @@ import GroupIcon from "@material-ui/icons/Group";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Participant } from "../../../hooks/useLiveSessionParticipation";
 import PersonIcon from "@material-ui/icons/Person";
-import SoziselCard from "../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import { Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
@@ -34,7 +34,7 @@ export default function ParticipantsList({
 
   return (
     <div className="ParticipantsList">
-      <SoziselCard>
+      <ShadowBoxCard>
         <div className="content">
           <Typography className="header">
             <GroupIcon className="icon" />
@@ -69,7 +69,7 @@ export default function ParticipantsList({
               </div>
             ))}
         </div>
-      </SoziselCard>
+      </ShadowBoxCard>
     </div>
   );
 }

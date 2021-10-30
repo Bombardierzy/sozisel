@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import OverviewListElement from "../OverviewListElement/OverviewListElement";
 import { ReactElement } from "react";
 import { SessionTemplate } from "../../../model/Template";
-import SoziselCard from "../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import { useTranslation } from "react-i18next";
 
 export interface TemplateOverviewProps {
@@ -27,7 +27,7 @@ export default function TemplateOverview({
 
   return (
     <div className="TemplateOverviewContainer">
-      <SoziselCard>
+      <ShadowBoxCard>
         <Paper className="templateOverview" elevation={2}>
           <Typography
             variant="button"
@@ -90,7 +90,7 @@ export default function TemplateOverview({
             </AccordionDetails>
           </Accordion>
         </Paper>
-      </SoziselCard>
+      </ShadowBoxCard>
     </div>
   );
 }

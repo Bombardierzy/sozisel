@@ -29,7 +29,7 @@ import EventCreation from "./EventCreation/EventCreation";
 import EventList from "./EventsList/EventList";
 import { Grid } from "@material-ui/core";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
-import SoziselCard from "../utils/Card/SoziselCard";
+import ShadowBoxCard from "../utils/Card/ShadowBoxCard";
 import TemplateContextProvider from "../../contexts/Template/TemplateContext";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -157,7 +157,7 @@ export default function TemplateCreation(): ReactElement {
             <MainNavbar />
             <div className="TemplateCreation">
               <div className="container">
-                <SoziselCard>
+                <ShadowBoxCard>
                   <>
                     <form
                       className="templateDetails"
@@ -252,7 +252,7 @@ export default function TemplateCreation(): ReactElement {
                       sessionDurationTime={durationTime}
                     />
                   </>
-                </SoziselCard>
+                </ShadowBoxCard>
               </div>
               <EventContextProvider>
                 <EventList events={template?.events} />

@@ -7,7 +7,7 @@ import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/LoginNavbar/Navbar";
 import { ReactElement } from "react";
-import SozsielCard from "../utils/Card/SoziselCard";
+import ShadowBoxCard from "../utils/Card/ShadowBoxCard";
 import Spinner from "../utils/Spinner/Spinner";
 import conference_img from "../../assets/images/conference_img.png";
 import { useForm } from "react-hook-form";
@@ -76,7 +76,7 @@ export default function Register(): ReactElement {
       <div className="Register">
         <img src={conference_img} />
         <div className="formCardContainer">
-          <SozsielCard>
+          <ShadowBoxCard>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Input
                 name="email"
@@ -135,7 +135,7 @@ export default function Register(): ReactElement {
                 type="submit"
               />
             </form>
-          </SozsielCard>
+          </ShadowBoxCard>
         </div>
       </div>
     </>

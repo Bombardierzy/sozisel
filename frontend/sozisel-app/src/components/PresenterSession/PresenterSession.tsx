@@ -15,7 +15,7 @@ import JitsiFrame from "../Jitsi/JitsiFrame";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import ParticipantsList from "./ParticipantsList/ParticipantsList";
 import { SessionMenu } from "../SessionMenu/SessionMenu";
-import SoziselCard from "../utils/Card/SoziselCard";
+import ShadowBoxCard from "../utils/Card/ShadowBoxCard";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useParams } from "react-router";
 import useSessionParticipantType from "../../hooks/useSessionParticipantType";
@@ -91,7 +91,7 @@ export default function PresenterSession(): ReactElement {
         </Grid>
         {useJitsi && (
           <Grid item xs={6} className="firstRowItem jitsiFrame">
-            <SoziselCard>
+            <ShadowBoxCard>
               <div>
                 {!jitsiLoading && jitsiData?.generateJitsiToken && (
                   <JitsiFrame
@@ -101,7 +101,7 @@ export default function PresenterSession(): ReactElement {
                   />
                 )}
               </div>
-            </SoziselCard>
+            </ShadowBoxCard>
           </Grid>
         )}
 

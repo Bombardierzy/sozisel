@@ -6,7 +6,7 @@ import React, { useMemo } from "react";
 import ErrorAlert from "../../../../../utils/Alerts/ErrorAlert";
 import EventIcon from "@material-ui/icons/Event";
 import PollPieChart from "../../../../../utils/PollPieChart/PollPieChart";
-import SoziselCard from "../../../../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../../../../utils/Card/ShadowBoxCard";
 import StatsRow from "../../../../../utils/StatsRow/StatsRow";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { usePollResultQuery } from "../../../../../../graphql";
@@ -45,7 +45,7 @@ export default function PollResultDetails({
     return (
       <div className="PollResultDetails">
         <div className="pollSummary">
-          <SoziselCard>
+          <ShadowBoxCard>
             <div className="pollSummaryContent">
               <div className="headerWithIcon">
                 <EventIcon color="primary" fontSize="large" />
@@ -87,10 +87,10 @@ export default function PollResultDetails({
                 ))}
               </List>
             </div>
-          </SoziselCard>
+          </ShadowBoxCard>
         </div>
         <div className="pollResultView">
-          <SoziselCard>
+          <ShadowBoxCard>
             <div className="pollResultViewContent">
               <div className="pollResultHeader">
                 <TrendingUpIcon color="primary" fontSize="large" />
@@ -102,7 +102,7 @@ export default function PollResultDetails({
                 <PollPieChart outerRadius={150} data={pollChartData} />
               </div>
             </div>
-          </SoziselCard>
+          </ShadowBoxCard>
         </div>
       </div>
     );

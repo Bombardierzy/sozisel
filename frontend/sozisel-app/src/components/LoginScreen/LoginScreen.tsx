@@ -8,7 +8,7 @@ import Button from "../utils/Button/Button";
 import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/LoginNavbar/Navbar";
-import SozsielCard from "../utils/Card/SoziselCard";
+import ShadowBoxCard from "../utils/Card/ShadowBoxCard";
 import Spinner from "../utils/Spinner/Spinner";
 import { USER_TOKEN } from "../../common/consts";
 import conferenceImg from "../../assets/images/conference_img.png";
@@ -72,7 +72,7 @@ export default function LoginScreen(): ReactElement {
       <div className="Login">
         <img src={conferenceImg} />
         <div className="formCardContainer">
-          <SozsielCard className="formCard">
+          <ShadowBoxCard className="formCard">
             <form onSubmit={handleSubmit(onSubmit)}>
               <Input
                 name="email"
@@ -101,7 +101,7 @@ export default function LoginScreen(): ReactElement {
                 name={t("components.LoginScreen.submitButtonText")}
               />
             </form>
-          </SozsielCard>
+          </ShadowBoxCard>
         </div>
       </div>
     </>

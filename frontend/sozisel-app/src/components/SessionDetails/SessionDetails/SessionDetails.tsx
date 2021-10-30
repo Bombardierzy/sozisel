@@ -15,7 +15,7 @@ import { ReactElement, useEffect } from "react";
 
 import DateFnsUtils from "@date-io/date-fns";
 import { PresenterSessionFiles } from "../../Files/PresenterSessionFiles/PresenterSessionFiles";
-import SoziselCard from "../../utils/Card/SoziselCard";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import pl from "date-fns/locale/pl";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -111,7 +111,7 @@ export default function SessionDetails({
   return (
     <>
       <div className="SessionDetails">
-        <SoziselCard>
+        <ShadowBoxCard>
           <form
             className="sessionDetailsForm"
             onSubmit={handleSubmit(onSubmit)}
@@ -224,7 +224,7 @@ export default function SessionDetails({
               {t("components.SessionDetails.submitSession")}
             </Button>
           </form>
-        </SoziselCard>
+        </ShadowBoxCard>
       </div>
       {sessionId && (
         <PresenterSessionFiles

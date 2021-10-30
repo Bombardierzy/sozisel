@@ -19,8 +19,8 @@ import EnhancedTable from "../../../../../../../utils/Table/Table";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
+import ShadowBoxCard from "../../../../../../../utils/Card/ShadowBoxCard";
 import Slide from "@material-ui/core/Slide";
-import SoziselCard from "../../../../../../../utils/Card/SoziselCard";
 import Toolbar from "@material-ui/core/Toolbar";
 import { TransitionProps } from "@material-ui/core/transitions";
 import Typography from "@material-ui/core/Typography";
@@ -152,7 +152,7 @@ export default function QuizResultDetailsDialog({
       </AppBar>
       <div className="container">
         <div className="detailsSummary">
-          <SoziselCard>
+          <ShadowBoxCard>
             <div className="detailsSummaryContent">
               <div className="headerWithIcon">
                 {detailIcon}
@@ -181,10 +181,10 @@ export default function QuizResultDetailsDialog({
                 </div>
               </div>
             </div>
-          </SoziselCard>
+          </ShadowBoxCard>
         </div>
         <div className="detailsView">
-          <SoziselCard>
+          <ShadowBoxCard>
             <div className="detailsViewContent">
               <Typography gutterBottom color="primary" className="detailName">
                 {detailsViewTitle}
@@ -195,7 +195,7 @@ export default function QuizResultDetailsDialog({
                 );
               })}
             </div>
-          </SoziselCard>
+          </ShadowBoxCard>
         </div>
       </div>
     </Dialog>
