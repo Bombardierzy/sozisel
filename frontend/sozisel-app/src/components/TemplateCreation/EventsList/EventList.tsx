@@ -1,7 +1,11 @@
 import "./EventsList.scss";
 
 import React, { ReactElement, useCallback, useMemo } from "react";
-import { useDeletePollMutation, useDeleteQuizMutation } from "../../../graphql";
+import {
+  useDeletePollMutation,
+  useDeleteQuizMutation,
+  useDeleteWhiteboardMutation,
+} from "../../../graphql";
 
 import { Event } from "../../../model/Template";
 import EventListElement from "./EventsListElement/EventListElement";
@@ -16,6 +20,9 @@ export default function EventList({ events }: EventListProps): ReactElement {
     refetchQueries: ["SessionTemplate"],
   });
   const [deletePollMutation] = useDeletePollMutation({
+    refetchQueries: ["SessionTemplate"],
+  });
+  const [deleteWhiteboardMutation] = useDeleteWhiteboardMutation({
     refetchQueries: ["SessionTemplate"],
   });
 
@@ -35,10 +42,12 @@ export default function EventList({ events }: EventListProps): ReactElement {
             return deleteQuizMutation({ variables: { id } });
           case "Poll":
             return deletePollMutation({ variables: { id } });
+          case "Whiteboard":
+            return deleteWhiteboardMutation({ variables: { id } });
         }
       };
     },
-    [deletePollMutation, deleteQuizMutation]
+    [deletePollMutation, deleteQuizMutation, deleteWhiteboardMutation]
   );
 
   return (

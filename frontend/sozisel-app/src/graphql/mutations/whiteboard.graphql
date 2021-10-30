@@ -15,3 +15,15 @@ mutation UpdateWhiteboard($input: UpdateWhiteboardInput!) {
     }
   }
 }
+
+mutation SubmitWhiteboardResult($token: String!, $input: WhiteboardResultInput!){
+  submitWhiteboardResult(token: $token, input: $input){
+    id
+  }
+}
+
+mutation DeleteWhiteboard($id: ID!) {
+  deleteWhiteboard(id: $id) {
+    id
+  }
+}

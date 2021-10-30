@@ -11,6 +11,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Event, Quiz } from "../../../model/Template";
+import {
+  EventType,
+  useGetEventTypename,
+} from "../../../hooks/useGetEventTypename";
 import React, { ReactElement, useEffect, useState } from "react";
 import {
   useEndSessionMutation,
@@ -78,6 +82,8 @@ export default function EventsTimeline({
   const [launchEventMutation, { error: launchEventError }] =
     useLaunchEventMutation();
 
+  const eventType = useGetEventTypename(events[activeEvent.idx]);
+
   const onEndSession = async () => {
     try {
       await endSessionMutation({ variables: { id: sessionId } });
@@ -118,8 +124,8 @@ export default function EventsTimeline({
 
     const event: Event = events[activeEvent.idx];
 
-    switch (event.eventData.__typename) {
-      case "Quiz": {
+    switch (eventType) {
+      case EventType.Quiz: {
         const targetPercentageOfParticipants = (event.eventData as Quiz)
           .targetPercentageOfParticipants;
 
@@ -130,7 +136,11 @@ export default function EventsTimeline({
         );
         break;
       }
-      case "Poll": {
+      case EventType.Poll: {
+        broadcast = true;
+        break;
+      }
+      case EventType.Whiteboard: {
         broadcast = true;
         break;
       }
