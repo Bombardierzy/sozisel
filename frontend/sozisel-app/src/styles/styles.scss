@@ -15,6 +15,7 @@ $extra-large: 1600px;
 
 $default-box-shadow: 2px 0 5px 0px rgb(0 0 0 / 7%), 0px 2px 5px 0px rgb(0 0 0 / 7%), -2px 0 5px 0px rgb(0 0 0 / 7%), 0 -2px 5px 0px rgb(0 0 0 / 7%);
 $hover-box-shadow: 5px 0 7px 0px rgb(0 0 0 / 15%), 0px 5px 7px 0px rgb(0 0 0 / 15%), -5px 0 7px 0px rgb(0 0 0 / 15%), 0 -5px 7px 0px rgb(0 0 0 / 15%);
+$navbar-box-shadow: 0px 5px 5px 0px rgb(0 0 0 / 7%), 0px 5px 5px 0px rgb(0 0 0 / 7%), 0px 0 0px 0px rgb(0 0 0 / 7%), 0 0px 0px 0px rgb(0 0 0 / 7%);
 
 
 @mixin resize($screenSize, $width, $height) {

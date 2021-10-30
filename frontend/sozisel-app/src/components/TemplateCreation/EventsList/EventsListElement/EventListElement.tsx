@@ -20,6 +20,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import Poll from "./Poll/Poll";
 import QuizQuestion from "./Quiz/Question";
+import SoziselCard from "../../../utils/Card/SoziselCard";
 import Whiteboard from "./Whiteboard/Whiteboard";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
@@ -95,57 +96,61 @@ export default function EventListElement({
   };
 
   return (
-    <Accordion className="EventListElement" expanded={isExpanded}>
-      <AccordionSummary
-        onClick={() => setIsExpanded(!isExpanded)}
-        expandIcon={<ExpandMoreIcon />}
-        className="accordionSummary"
-      >
-        <div className="accordionHeader">
-          <HelpOutlineIcon className="logo" color="primary" />
-          <div className="description">
-            <Typography className="header">{event.name}</Typography>
-            <Typography>
-              {t(
-                `components.TemplateCreation.EventList.type.${event.eventData.__typename}`
-              )}
-            </Typography>
-            <Typography>
-              {t("components.TemplateCreation.EventList.startMinute", {
-                value: event.startMinute,
-              })}
-            </Typography>
-            <Typography>
-              {t("components.TemplateCreation.EventList.durationTime", {
-                value: event.durationTimeSec,
-              })}
-            </Typography>
-            <EventHeaders event={event} />
-          </div>
-          <IconButton
-            className="editButton"
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit();
-            }}
+    <div className="EventListElement">
+      <SoziselCard hover disableScroll>
+        <Accordion expanded={isExpanded} elevation={0}>
+          <AccordionSummary
+            onClick={() => setIsExpanded(!isExpanded)}
+            expandIcon={<ExpandMoreIcon />}
+            className="accordionSummary"
           >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            className="deleteButton"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(event.id);
-              dispatch({ type: "RESET" });
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </div>
-      </AccordionSummary>
-      <AccordionDetails className="questions">
-        <EventElementDetails event={event} />
-      </AccordionDetails>
-    </Accordion>
+            <div className="accordionHeader">
+              <HelpOutlineIcon className="logo" color="primary" />
+              <div className="description">
+                <Typography className="header">{event.name}</Typography>
+                <Typography>
+                  {t(
+                    `components.TemplateCreation.EventList.type.${event.eventData.__typename}`
+                  )}
+                </Typography>
+                <Typography>
+                  {t("components.TemplateCreation.EventList.startMinute", {
+                    value: event.startMinute,
+                  })}
+                </Typography>
+                <Typography>
+                  {t("components.TemplateCreation.EventList.durationTime", {
+                    value: event.durationTimeSec,
+                  })}
+                </Typography>
+                <EventHeaders event={event} />
+              </div>
+              <IconButton
+                className="editButton"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit();
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                className="deleteButton"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(event.id);
+                  dispatch({ type: "RESET" });
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          </AccordionSummary>
+          <AccordionDetails className="questions">
+            <EventElementDetails event={event} />
+          </AccordionDetails>
+        </Accordion>
+      </SoziselCard>
+    </div>
   );
 }

@@ -16,3 +16,7 @@
       box-shadow: $hover-box-shadow;
   }
 }
+
+.CardNoScroll {
+  overflow: hidden !important;
+}

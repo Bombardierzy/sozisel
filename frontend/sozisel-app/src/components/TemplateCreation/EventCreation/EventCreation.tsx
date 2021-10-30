@@ -118,29 +118,6 @@ export default function EventCreation(): ReactElement {
                 {t("components.TemplateCreation.EventCreation.startTime")}
               </Typography>
               <Controller
-                name="eventName"
-                control={control}
-                defaultValue=""
-                placeholder={t(
-                  "components.TemplateCreation.EventCreation.moduleName"
-                )}
-                as={
-                  <TextField
-                    autoComplete="no"
-                    name="eventName"
-                    variant="outlined"
-                    size="small"
-                    className="eventName"
-                    error={errors.eventName}
-                    helperText={errors.eventName && t(errors.eventName.message)}
-                  />
-                }
-              />
-
-              <Typography className="label">
-                {t("components.TemplateCreation.EventCreation.startTime")}
-              </Typography>
-              <Controller
                 name="startMinute"
                 control={control}
                 defaultValue={""}

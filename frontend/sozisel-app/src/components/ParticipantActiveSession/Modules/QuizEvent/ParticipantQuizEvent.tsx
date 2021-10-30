@@ -1,6 +1,6 @@
 import "./ParticipantQuizEvent.scss";
 
-import { Button, Paper, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import {
   ParticipantEvent,
   ParticipantQuiz,
@@ -10,6 +10,7 @@ import { ReactElement, useEffect, useState } from "react";
 
 import EventOutlinedIcon from "@material-ui/icons/EventOutlined";
 import ParticipantQuizQuestion from "./ParticipantQuizQuestion/ParticipantQuizQuestion";
+import SoziselCard from "../../../utils/Card/SoziselCard";
 import useCountdownTimer from "../../../../hooks/useCountdownTimer";
 import { useParticipantQuizContext } from "../../../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import { useTranslation } from "react-i18next";
@@ -78,23 +79,25 @@ export default function ParticipantQuizEvent({
   }, [dispatch, quiz]);
 
   return (
-    <Paper className="ParticipantQuizEvent" elevation={2}>
-      <div className="header">
-        <Typography variant="h5" className="headerText">
-          <EventOutlinedIcon className="eventIcon" />
-          {event.name}
-        </Typography>
-        <Typography variant="h5">
-          {questionNumber + 1}/{quiz.quizQuestions.length}
-        </Typography>
+    <SoziselCard>
+      <div className="ParticipantQuizEvent">
+        <div className="header">
+          <Typography variant="h5" className="headerText">
+            <EventOutlinedIcon className="eventIcon" />
+            {event.name}
+          </Typography>
+          <Typography variant="h5">
+            {questionNumber + 1}/{quiz.quizQuestions.length}
+          </Typography>
+        </div>
+        <ParticipantQuizQuestion />
+        <div className="submitRow">
+          <Typography variant="h5">{countdownTimer}</Typography>
+          <Button variant="contained" color="primary" onClick={onNext}>
+            {t("components.ParticipantActiveSession.next")}
+          </Button>
+        </div>
       </div>
-      <ParticipantQuizQuestion />
-      <div className="submitRow">
-        <Typography variant="h5">{countdownTimer}</Typography>
-        <Button variant="contained" color="primary" onClick={onNext}>
-          {t("components.ParticipantActiveSession.next")}
-        </Button>
-      </div>
-    </Paper>
+    </SoziselCard>
   );
 }

@@ -4,7 +4,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Paper,
 } from "@material-ui/core";
 import StatsRow, {
   StatsRowProps,
@@ -21,6 +20,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
 import Slide from "@material-ui/core/Slide";
+import SoziselCard from "../../../../../../../utils/Card/SoziselCard";
 import Toolbar from "@material-ui/core/Toolbar";
 import { TransitionProps } from "@material-ui/core/transitions";
 import Typography from "@material-ui/core/Typography";
@@ -151,42 +151,52 @@ export default function QuizResultDetailsDialog({
         </Toolbar>
       </AppBar>
       <div className="container">
-        <Paper className="detailsSummary" elevation={2}>
-          <div className="headerWithIcon">
-            {detailIcon}
-            <Typography variant="h3" className="header">
-              {detailName}
-            </Typography>
-          </div>
-          {stats.map((element) => (
-            <StatsRow
-              key={element.label}
-              label={element.label}
-              value={element.value}
-            />
-          ))}
-          <div className="chartContainer">
-            <div>
-              <h2>{t("components.SessionEventResults.Quiz.points")}</h2>
-              <h3>{chartSubtitle}</h3>
-            </div>
+        <div className="detailsSummary">
+          <SoziselCard>
+            <div className="detailsSummaryContent">
+              <div className="headerWithIcon">
+                {detailIcon}
+                <Typography variant="h3" className="header">
+                  {detailName}
+                </Typography>
+              </div>
+              {stats.map((element) => (
+                <StatsRow
+                  key={element.label}
+                  label={element.label}
+                  value={element.value}
+                />
+              ))}
+              <div className="chartContainer">
+                <div>
+                  <h2>{t("components.SessionEventResults.Quiz.points")}</h2>
+                  <h3>{chartSubtitle}</h3>
+                </div>
 
-            <div className="chart">
-              <TotalAreaChart
-                data={chartData}
-                valueLabel={t("components.SessionEventResults.Quiz.points")}
-              />
+                <div className="chart">
+                  <TotalAreaChart
+                    data={chartData}
+                    valueLabel={t("components.SessionEventResults.Quiz.points")}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </Paper>
-        <Paper className="detailsView" elevation={2}>
-          <Typography gutterBottom color="primary" className="detailName">
-            {detailsViewTitle}
-          </Typography>
-          {details.map((detail, index) => {
-            return <QuizResultDialogAccordion detail={detail} key={index} />;
-          })}
-        </Paper>
+          </SoziselCard>
+        </div>
+        <div className="detailsView">
+          <SoziselCard>
+            <div className="detailsViewContent">
+              <Typography gutterBottom color="primary" className="detailName">
+                {detailsViewTitle}
+              </Typography>
+              {details.map((detail, index) => {
+                return (
+                  <QuizResultDialogAccordion detail={detail} key={index} />
+                );
+              })}
+            </div>
+          </SoziselCard>
+        </div>
       </div>
     </Dialog>
   );
