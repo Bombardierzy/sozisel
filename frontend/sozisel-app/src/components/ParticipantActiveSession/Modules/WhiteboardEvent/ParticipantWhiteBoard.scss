@@ -2,12 +2,17 @@
 
 
 .ParticipantWhiteboardEvent {
-    display: flex;
-    flex-direction: column;
-    width: calc(100% - 2*#{$spacing-04});
-    height: calc(100% - 2*#{$spacing-07});
-    padding: $spacing-04;
     margin-top: $spacing-07;
+    height: 100%;
+    width: 100%;
+    .content {
+        display: flex;
+        flex-direction: column;
+        padding: $spacing-04;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
 
     .header{
         display: flex;

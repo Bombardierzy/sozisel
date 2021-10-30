@@ -3,7 +3,6 @@ import "./EventsTimeline.scss";
 import {
   Button,
   IconButton,
-  Paper,
   Snackbar,
   Step,
   StepLabel,
@@ -28,6 +27,7 @@ import EventDetails from "./EventDetails/EventsDetails";
 import LiveEventDetails from "./LiveEventDetails/LiveEventDetails";
 import { Participant } from "../../../hooks/useLiveSessionParticipation";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 
@@ -164,77 +164,90 @@ export default function EventsTimeline({
   };
 
   return (
-    <Paper elevation={2} className="EventsTimeline">
-      <div className="header">
-        <CalendarTodayIcon className="icon" />
-        <Typography>
-          {t("components.PresenterSession.EventsTimeline.header")}
-        </Typography>
-      </div>
-      {!activeEvent.id && activeEvent.currentSec === 0 && (
-        <Stepper
-          activeStep={activeEvent.idx}
-          alternativeLabel
-          className="stepper"
-        >
-          {events.map(({ name, id, startMinute }, idx) => (
-            <Step key={id}>
-              <StepLabel className="label">
-                {name + " - "}
-                <b>
-                  {t("components.PresenterSession.EventsTimeline.startMinute", {
-                    value: startMinute,
-                  })}
-                </b>
-                {idx === activeEvent.idx && !activeEvent.id && (
-                  <IconButton
-                    color="primary"
-                    className="startEventButton"
-                    onClick={onNextEvent}
-                  >
-                    <PlayCircleFilledIcon />
-                  </IconButton>
-                )}
-              </StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-      )}
-      {activeEvent.idx < events.length && (
-        <EventDetails
-          activeEvent={events[activeEvent.idx]}
-          activeEventId={activeEvent.id}
-        />
-      )}
-      <div className="actionButtons">
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={onEndSession}
-          className="endSessionButton"
-        >
-          {t("components.PresenterSession.EventsTimeline.endSessionButton")}
-        </Button>
-      </div>
-      {activeEvent.id && (
-        <LiveEventDetails
-          onFinishCallback={onFinishCallback}
-          activeEvent={activeEvent}
-          sessionId={sessionId}
-          event={events[activeEvent.idx]}
-          participantsNumber={participants.length}
-        />
-      )}
-      <Snackbar open={!!launchEventError} autoHideDuration={AUTO_HIDE_DURATION}>
-        <Alert severity="error">
-          {t("components.PresenterSession.EventsTimeline.launchEventError")}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={!!endSessionError} autoHideDuration={AUTO_HIDE_DURATION}>
-        <Alert severity="error">
-          {t("components.PresenterSession.EventsTimeline.endSessionError")}
-        </Alert>
-      </Snackbar>
-    </Paper>
+    <div className="EventsTimeline">
+      <ShadowBoxCard>
+        <div>
+          <div className="header">
+            <CalendarTodayIcon className="icon" />
+            <Typography>
+              {t("components.PresenterSession.EventsTimeline.header")}
+            </Typography>
+          </div>
+          {!activeEvent.id && activeEvent.currentSec === 0 && (
+            <Stepper
+              activeStep={activeEvent.idx}
+              alternativeLabel
+              className="stepper"
+            >
+              {events.map(({ name, id, startMinute }, idx) => (
+                <Step key={id}>
+                  <StepLabel className="label">
+                    {name + " - "}
+                    <b>
+                      {t(
+                        "components.PresenterSession.EventsTimeline.startMinute",
+                        {
+                          value: startMinute,
+                        }
+                      )}
+                    </b>
+                    {idx === activeEvent.idx && !activeEvent.id && (
+                      <IconButton
+                        color="primary"
+                        className="startEventButton"
+                        onClick={onNextEvent}
+                      >
+                        <PlayCircleFilledIcon />
+                      </IconButton>
+                    )}
+                  </StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          )}
+          {activeEvent.idx < events.length && (
+            <EventDetails
+              activeEvent={events[activeEvent.idx]}
+              activeEventId={activeEvent.id}
+            />
+          )}
+          <div className="actionButtons">
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={onEndSession}
+              className="endSessionButton"
+            >
+              {t("components.PresenterSession.EventsTimeline.endSessionButton")}
+            </Button>
+          </div>
+          {activeEvent.id && (
+            <LiveEventDetails
+              onFinishCallback={onFinishCallback}
+              activeEvent={activeEvent}
+              sessionId={sessionId}
+              event={events[activeEvent.idx]}
+              participantsNumber={participants.length}
+            />
+          )}
+          <Snackbar
+            open={!!launchEventError}
+            autoHideDuration={AUTO_HIDE_DURATION}
+          >
+            <Alert severity="error">
+              {t("components.PresenterSession.EventsTimeline.launchEventError")}
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={!!endSessionError}
+            autoHideDuration={AUTO_HIDE_DURATION}
+          >
+            <Alert severity="error">
+              {t("components.PresenterSession.EventsTimeline.endSessionError")}
+            </Alert>
+          </Snackbar>
+        </div>
+      </ShadowBoxCard>
+    </div>
   );
 }

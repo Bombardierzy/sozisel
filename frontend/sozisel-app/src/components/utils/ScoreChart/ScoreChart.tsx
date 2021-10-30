@@ -24,7 +24,7 @@ interface Data {
 const ScoreChart = ({ data }: BarChartProps): ReactElement => {
   const { t } = useTranslation("common");
   return (
-    <ResponsiveContainer width="70%" height={250}>
+    <ResponsiveContainer width="70%" height={200}>
       <BarChart
         data={data.map(({ score, counter }) => ({
           score: score.toString(),

@@ -14,21 +14,31 @@
 
     .pollSummary {
         flex: 1;
+        height: 100%;
+        box-sizing: border-box;
+        margin-right: $spacing-07;
+    }
+
+    .pollSummaryContent {
         display: flex;
         flex-direction: column;
         height: 100%;
         box-sizing: border-box;
-        margin-right: $spacing-07;
         padding: $spacing-06;
     }
 
     .pollResultView {
         flex: 3;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+    }
+
+    .pollResultViewContent {
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
         padding: $spacing-06;
-        box-sizing: border-box;
         width: 100%;
         height: 100%;
     }
