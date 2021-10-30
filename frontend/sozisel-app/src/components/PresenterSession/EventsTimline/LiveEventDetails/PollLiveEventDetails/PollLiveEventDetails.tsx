@@ -59,6 +59,9 @@ const PollLiveEventDetails = (): ReactElement => {
       {optionsSummary && (
         <PollPieChart
           data={optionsSummary.filter((option) => option.votes > 0)}
+          width="100%"
+          height={250}
+          absolutePostion
         />
       )}
     </div>
