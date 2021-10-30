@@ -10,7 +10,7 @@ import React, { ReactElement } from "react";
 
 import CustomAvatar from "../../../utils/Avatar/CustomAvatar";
 import { EventParticipation } from "../../../../graphql";
-import { getEventTypeName } from "../../../utils/Events/getEventType";
+import useGetEventTypeMessage from "../../../../hooks/useGetEventTypeMessage";
 import { useTranslation } from "react-i18next";
 
 export interface EventCardProps {
@@ -25,6 +25,8 @@ export default function EventCard({
 }: EventCardProps): ReactElement {
   const { t } = useTranslation("common");
 
+  const getEventTypeMessage = useGetEventTypeMessage();
+
   return (
     <div className="EventCard">
       <CustomAvatar id={event.eventId} />
@@ -34,7 +36,7 @@ export default function EventCard({
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
           {t("components.SessionEventResults.eventType")} :{" "}
-          {getEventTypeName(event.eventType)}
+          {getEventTypeMessage(event.eventType)}
         </Typography>
         <Typography variant="subtitle2" color="textSecondary">
           {t("components.SessionEventResults.startTime")}: {event.startMinute}

@@ -1,6 +1,8 @@
 query WhiteboardSummary($id: ID!){
   whiteboardSummary(id: $id) {
     id
+    averageUsedTime
+    task
     participantsWhiteboardTasks {
         imagePath
         fullName

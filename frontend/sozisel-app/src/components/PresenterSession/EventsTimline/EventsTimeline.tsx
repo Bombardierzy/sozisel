@@ -95,7 +95,7 @@ export default function EventsTimeline({
 
   const onFinishCallback = () => {
     setActiveEvent({
-      ...activeEvent,
+      currentSec: 0,
       id: "",
       idx:
         activeEvent.idx < events.length ? activeEvent.idx + 1 : activeEvent.idx,
@@ -111,7 +111,7 @@ export default function EventsTimeline({
       const durationTimeSec = events[lastEventIdx].durationTimeSec;
 
       setActiveEvent({
-        idx: currentTime < durationTimeSec ? lastEventIdx : lastEventIdx + 1,
+        idx: lastEventIdx,
         id: lastEvent.id,
         currentSec: Math.max(0, durationTimeSec - currentTime),
       });
@@ -173,7 +173,7 @@ export default function EventsTimeline({
               {t("components.PresenterSession.EventsTimeline.header")}
             </Typography>
           </div>
-          {!activeEvent.id && (
+          {!activeEvent.id && activeEvent.currentSec === 0 && (
             <Stepper
               activeStep={activeEvent.idx}
               alternativeLabel

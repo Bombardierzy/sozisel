@@ -4,7 +4,23 @@
     width: 30%;
     margin: $spacing-06 $spacing-05;
     height: 85%;
+    .iconContainer {
+        display: flex;
+        justify-content: flex-start;
+        width: 90%;
+        margin-bottom: $spacing-02;
+        .icon {
+            color: $main-color;
+            border-radius: $spacing-07;
+        }
+        .icon:hover {
+            cursor: pointer;
+        }
+    }
     .creationForm {
+        & > div {
+            width: 100%;
+        }
         display: flex;
         flex-direction: column;
         align-items: center;

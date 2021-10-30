@@ -13,7 +13,7 @@ type EventTypename = "Whiteboard" | "Poll" | "Quiz" | "ParticipantQuiz";
 export const useGetEventTypename = (
   event: Event | ParticipantEvent
 ): EventType | undefined => {
-  if (event.eventData.__typename) {
+  if (event && event.eventData && event.eventData.__typename) {
     return EventType[event.eventData.__typename];
   }
 

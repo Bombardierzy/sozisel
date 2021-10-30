@@ -24,9 +24,12 @@ interface Data {
 const ScoreChart = ({ data }: BarChartProps): ReactElement => {
   const { t } = useTranslation("common");
   return (
-    <ResponsiveContainer width="70%" height={250}>
+    <ResponsiveContainer width="70%" height={200}>
       <BarChart
-        data={data}
+        data={data.map(({ score, counter }) => ({
+          score: score.toString(),
+          counter,
+        }))}
         margin={{
           top: 5,
           right: 30,
@@ -42,7 +45,7 @@ const ScoreChart = ({ data }: BarChartProps): ReactElement => {
           label={{
             value: t("components.ScoreChart.score"),
             position: "center",
-            dy: 5,
+            dy: 10,
           }}
         />
         <YAxis

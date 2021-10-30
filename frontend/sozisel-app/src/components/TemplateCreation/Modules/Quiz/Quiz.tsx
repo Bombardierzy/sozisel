@@ -30,6 +30,7 @@ import QuestionsList from "./QuestionsList/QuestionsList";
 import { Quiz } from "../../../../model/Template";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
+import useGetErrorMessage from "../../../../hooks/useGetErrorMessage";
 import { useQuizContext } from "../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
 
@@ -50,6 +51,7 @@ export default function Quiz({
   const [message, setMessage] = useState<string>("");
   const [updateQuiz, { error: updateQuizError }] = useUpdateQuizMutation();
   const [event, eventDispatch] = useEventContext();
+  const getErrorMessage = useGetErrorMessage();
   const { t } = useTranslation("common");
   const [{ questions, percentageOfParticipants }, quizDispatch] =
     useQuizContext();
@@ -174,7 +176,7 @@ export default function Quiz({
         <QuestionsList />
         {(createQuizError || updateQuizError) && (
           <Typography className="error">
-            {t("inputErrors.incorrectQuizQuestion")}
+            {getErrorMessage(createQuizError || updateQuizError)}
           </Typography>
         )}
         {event.id ? (

@@ -13,6 +13,7 @@ import {
 import React, { ReactElement, useEffect, useState } from "react";
 import { pollSchema, quizSchema, whiteboardSchema } from "./Schemas";
 
+import { ArrowBackIos } from "@material-ui/icons";
 import { Poll } from "../Modules/Poll/Poll";
 import Quiz from "../Modules/Quiz/Quiz";
 import { QuizContextProvider } from "../../../contexts/Quiz/QuizContext";
@@ -77,112 +78,122 @@ export default function EventCreation(): ReactElement {
   return (
     <div className="EventCreation">
       <ShadowBoxCard>
-        <form className={"creationForm"}>
-          <div>
-            <Controller
-              name="eventName"
-              control={control}
-              defaultValue=""
-              placeholder={t(
-                "components.TemplateCreation.EventCreation.moduleName"
-              )}
-              as={
-                <TextField
-                  autoComplete="no"
-                  name="eventName"
+        <>
+          {id && (
+            <div className="iconContainer">
+              <ArrowBackIos
+                onClick={() => selectReset(moduleType)}
+                className="icon"
+              />
+            </div>
+          )}
+          <form className="creationForm">
+            <div>
+              <Controller
+                name="eventName"
+                control={control}
+                defaultValue=""
+                placeholder={t(
+                  "components.TemplateCreation.EventCreation.moduleName"
+                )}
+                as={
+                  <TextField
+                    autoComplete="no"
+                    name="eventName"
+                    variant="outlined"
+                    size="small"
+                    className="eventName"
+                    error={errors.eventName}
+                    helperText={errors.eventName && t(errors.eventName.message)}
+                  />
+                }
+              />
+
+              <FormControl size="small" variant="filled" className="moduleType">
+                <Select
                   variant="outlined"
-                  size="small"
-                  className="eventName"
-                  error={errors.eventName}
-                  helperText={errors.eventName && t(errors.eventName.message)}
+                  value={moduleType}
+                  onChange={(e) => selectReset(e.target.value as string)}
+                  inputProps={{
+                    id: "moduleType",
+                  }}
+                >
+                  <MenuItem value="" disabled />
+                  <MenuItem value="Quiz">Quiz</MenuItem>
+                  <MenuItem value="Poll">Ankieta</MenuItem>
+                  <MenuItem value="Whiteboard">Tablica</MenuItem>
+                </Select>
+
+                <Typography className="label">
+                  {t("components.TemplateCreation.EventCreation.startTime")}
+                </Typography>
+                <Controller
+                  name="startMinute"
+                  control={control}
+                  defaultValue={""}
+                  as={
+                    <TextField
+                      name="startMinute"
+                      variant="outlined"
+                      size="small"
+                      className="input"
+                      type="number"
+                      error={!!errors.startMinute}
+                      helperText={
+                        errors.startMinute && t(errors.startMinute.message)
+                      }
+                    />
+                  }
                 />
-              }
-            />
-
-            <FormControl size="small" variant="filled" className="moduleType">
-              <Select
-                variant="outlined"
-                value={moduleType}
-                onChange={(e) => selectReset(e.target.value as string)}
-                inputProps={{
-                  id: "moduleType",
-                }}
-              >
-                <MenuItem value="" disabled />
-                <MenuItem value="Quiz">Quiz</MenuItem>
-                <MenuItem value="Poll">Ankieta</MenuItem>
-                <MenuItem value="Whiteboard">Tablica</MenuItem>
-              </Select>
-
-              <Typography className="label">
-                {t("components.TemplateCreation.EventCreation.startTime")}
-              </Typography>
-              <Controller
-                name="startMinute"
-                control={control}
-                defaultValue={""}
-                as={
-                  <TextField
-                    name="startMinute"
-                    variant="outlined"
-                    size="small"
-                    className="input"
-                    type="number"
-                    error={!!errors.startMinute}
-                    helperText={
-                      errors.startMinute && t(errors.startMinute.message)
-                    }
-                  />
-                }
-              />
-              <Typography className="label">
-                {t("components.TemplateCreation.EventCreation.durationTime")}
-              </Typography>
-              <Controller
-                name="durationTime"
-                control={control}
-                defaultValue={""}
-                as={
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    className="durationTime"
-                    error={!!errors.durationTime}
-                    helperText={
-                      errors.durationTime && t(errors.durationTime.message)
-                    }
-                  />
-                }
-              />
-            </FormControl>
-          </div>
-          {moduleType === "Quiz" && (
-            <QuizContextProvider>
-              <Quiz
+                <Typography className="label">
+                  {t("components.TemplateCreation.EventCreation.durationTime")}
+                </Typography>
+                <Controller
+                  name="durationTime"
+                  control={control}
+                  defaultValue={""}
+                  as={
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      className="durationTime"
+                      error={!!errors.durationTime}
+                      helperText={
+                        errors.durationTime && t(errors.durationTime.message)
+                      }
+                    />
+                  }
+                />
+              </FormControl>
+            </div>
+            {moduleType === "Quiz" && (
+              <QuizContextProvider>
+                <Quiz
+                  handleSubmit={handleSubmit}
+                  errors={errors}
+                  control={control}
+                  setValue={setValue}
+                />
+              </QuizContextProvider>
+            )}
+            {moduleType === "Poll" && (
+              <Poll
                 handleSubmit={handleSubmit}
                 errors={errors}
                 control={control}
                 setValue={setValue}
               />
-            </QuizContextProvider>
-          )}
-          {moduleType === "Poll" && (
-            <Poll
-              handleSubmit={handleSubmit}
-              errors={errors}
-              control={control}
-              setValue={setValue}
-            />
-          )}
-          {moduleType === "Whiteboard" && (
-            <Whiteboard
-              handleSubmit={handleSubmit}
-              errors={errors}
-              control={control}
-              setValue={setValue}
-            />
-          )}
-        </form>
+            )}
+            {moduleType === "Whiteboard" && (
+              <Whiteboard
+                handleSubmit={handleSubmit}
+                errors={errors}
+                control={control}
+                setValue={setValue}
+              />
+            )}
+          </form>
+        </>
       </ShadowBoxCard>
     </div>
   );
