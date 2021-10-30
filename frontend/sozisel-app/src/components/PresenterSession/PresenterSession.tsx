@@ -1,6 +1,6 @@
 import "./PresenterSession.scss";
 
-import { CircularProgress, Grid, Paper } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import React, { ReactElement } from "react";
 import {
   useGenerateJitsiTokenQuery,
@@ -15,6 +15,7 @@ import JitsiFrame from "../Jitsi/JitsiFrame";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import ParticipantsList from "./ParticipantsList/ParticipantsList";
 import { SessionMenu } from "../SessionMenu/SessionMenu";
+import ShadowBoxCard from "../utils/Card/ShadowBoxCard";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
 import { useParams } from "react-router";
 import useSessionParticipantType from "../../hooks/useSessionParticipantType";
@@ -90,15 +91,17 @@ export default function PresenterSession(): ReactElement {
         </Grid>
         {useJitsi && (
           <Grid item xs={6} className="firstRowItem jitsiFrame">
-            <Paper elevation={2}>
-              {!jitsiLoading && jitsiData?.generateJitsiToken && (
-                <JitsiFrame
-                  roomId={id}
-                  token={jitsiData.generateJitsiToken.token}
-                  displayName={jitsiData.generateJitsiToken.displayName}
-                />
-              )}
-            </Paper>
+            <ShadowBoxCard>
+              <div>
+                {!jitsiLoading && jitsiData?.generateJitsiToken && (
+                  <JitsiFrame
+                    roomId={id}
+                    token={jitsiData.generateJitsiToken.token}
+                    displayName={jitsiData.generateJitsiToken.displayName}
+                  />
+                )}
+              </div>
+            </ShadowBoxCard>
           </Grid>
         )}
 

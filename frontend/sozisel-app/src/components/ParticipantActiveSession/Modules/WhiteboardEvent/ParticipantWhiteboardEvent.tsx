@@ -1,14 +1,17 @@
 import "./ParticipantWhiteBoard.scss";
-import { Button, Paper, Typography } from "@material-ui/core";
+
+import { Button, Typography } from "@material-ui/core";
 import {
   ParticipantEvent,
   Whiteboard,
   useSubmitWhiteboardResultMutation,
 } from "../../../../graphql";
 import { ReactElement, useContext, useMemo } from "react";
+
 import { Context } from "../../../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 import EventOutlinedIcon from "@material-ui/icons/EventOutlined";
 import LatextText from "../../../utils/LatexText/LatextText";
+import ShadowBoxCard from "../../../utils/Card/ShadowBoxCard";
 import WhiteboardComponent from "./Whiteboard/Whiteboard";
 import WhiteboardSwtich from "./WhiteboardSwitch/WhiteboardSwitch";
 import { canvasManager } from "../../../WhiteBoard/services/CanvasManager";
@@ -68,25 +71,29 @@ const ParticipantWhiteboardEvent = ({
   }
 
   return (
-    <Paper className="ParticipantWhiteboardEvent" elevation={2}>
-      <div className="header">
-        <Typography variant="h5" className="headerText">
-          <EventOutlinedIcon className="eventIcon" />
-          {event.name}
-        </Typography>
-      </div>
-      <div className="question">
-        <LatextText text={whiteboardData.task} />
-      </div>
-      <div className="submitRow">
-        <Typography variant="h5">{countdownTimer}</Typography>
-        <Button variant="contained" color="primary" onClick={onSubmit}>
-          {t("components.ParticipantActiveSession.submit")}
-        </Button>
-      </div>
-      <WhiteboardSwtich />
-      <WhiteboardComponent withJitsi={withJitsi} />
-    </Paper>
+    <div className="ParticipantWhiteboardEvent">
+      <ShadowBoxCard>
+        <div className="content">
+          <div className="header">
+            <Typography variant="h5" className="headerText">
+              <EventOutlinedIcon className="eventIcon" />
+              {event.name}
+            </Typography>
+          </div>
+          <div className="question">
+            <LatextText text={whiteboardData.task} />
+          </div>
+          <div className="submitRow">
+            <Typography variant="h5">{countdownTimer}</Typography>
+            <Button variant="contained" color="primary" onClick={onSubmit}>
+              {t("components.ParticipantActiveSession.submit")}
+            </Button>
+          </div>
+          <WhiteboardSwtich />
+          <WhiteboardComponent withJitsi={withJitsi} />
+        </div>
+      </ShadowBoxCard>
+    </div>
   );
 };
 

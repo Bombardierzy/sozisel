@@ -1,5 +1,6 @@
 import "./ParticipantPollEvent.scss";
-import { Button, List, Paper, Typography } from "@material-ui/core";
+
+import { Button, List, Typography } from "@material-ui/core";
 import {
   ParticipantEvent,
   Poll,
@@ -7,8 +8,10 @@ import {
   useSubmitPollResultsMutation,
 } from "../../../../graphql";
 import { ReactElement, useState } from "react";
+
 import PollEventOption from "./PollEventOption/PollEventOption";
 import PollIcon from "@material-ui/icons/Poll";
+import ShadowBoxCard from "../../../utils/Card/ShadowBoxCard";
 import useCountdownTimer from "../../../../hooks/useCountdownTimer";
 import { useTranslation } from "react-i18next";
 
@@ -63,37 +66,39 @@ const ParticipantPollEvent = ({
   });
 
   return (
-    <Paper className="ParticipantPollEvent" elevation={2}>
-      <div className="header">
-        <Typography variant="h5" className="headerText">
-          <PollIcon className="pollIcon" />
-          {event.name}
-        </Typography>
-      </div>
-      <div className="participantPollQuestion">
-        <Typography variant="h6" className="pollQuestion">
-          {pollData.question}
-        </Typography>
-        <div className="answerList">
-          <List>
-            {pollData.options.map((option) => (
-              <PollEventOption
-                key={option.id}
-                option={option}
-                onCheck={() => selectOption(option)}
-                isChecked={isChecked(option)}
-              />
-            ))}
-          </List>
+    <ShadowBoxCard>
+      <div className="ParticipantPollEvent">
+        <div className="header">
+          <Typography variant="h5" className="headerText">
+            <PollIcon className="pollIcon" />
+            {event.name}
+          </Typography>
+        </div>
+        <div className="participantPollQuestion">
+          <Typography variant="h6" className="pollQuestion">
+            {pollData.question}
+          </Typography>
+          <div className="answerList">
+            <List>
+              {pollData.options.map((option) => (
+                <PollEventOption
+                  key={option.id}
+                  option={option}
+                  onCheck={() => selectOption(option)}
+                  isChecked={isChecked(option)}
+                />
+              ))}
+            </List>
+          </div>
+        </div>
+        <div className="submitRow">
+          <Typography variant="h5">{countdownTimer}</Typography>
+          <Button variant="contained" color="primary" onClick={onSubmit}>
+            {t("components.ParticipantActiveSession.submit")}
+          </Button>
         </div>
       </div>
-      <div className="submitRow">
-        <Typography variant="h5">{countdownTimer}</Typography>
-        <Button variant="contained" color="primary" onClick={onSubmit}>
-          {t("components.ParticipantActiveSession.submit")}
-        </Button>
-      </div>
-    </Paper>
+    </ShadowBoxCard>
   );
 };
 
