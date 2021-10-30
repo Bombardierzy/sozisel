@@ -47,7 +47,7 @@ const PollLiveEventDetails = (): ReactElement => {
             { value: totalVoters }
           )}
         />
-        {!!mostAnsweredOption && (
+        {!!mostAnsweredOption && totalVoters && totalVoters > 0 && (
           <TextSection
             text={t(
               "components.PresenterSession.EventsTimeline.LiveEventDetails.mostCommonAnswer",

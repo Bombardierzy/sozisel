@@ -1,5 +1,10 @@
 {
   "components": {
+    "EventType": {
+      "Quiz": "Quiz",
+      "Poll": "Ankieta",
+      "Whiteboard": "Tablica"
+    },
     "ScoreChart" : {
       "numberOfParticipants": "Liczba uczestników",
       "score": "Ilość punktów"
@@ -372,7 +377,10 @@
     "incorrectDurationTime": "Podana wartości musi być większa od 0",
     "percentageOfParticipants": "Podana wartości musi być większa od 0",
     "incorrectQuizQuestion": "Quiz powinien zawierać przynajmniej jedno pytanie oraz każde pytanie powinno zawierać co najmniej dwie odpowiedzi w tym jedną poprawną!",
-    "incorrectPoll": "Ankieta powinna zawierać przynajmniej 2 opcje do wyboru!"
+    "incorrectPoll": "Ankieta powinna zawierać przynajmniej 2 opcje do wyboru!",
+    "incorrectLoginData": "Wprowadzone dane są nieprawidłowe!",
+    "updateEventError": "Nie można zaktualizować zdarzenia, które ma już istniejące wyniki!",
+    "quizBlankAnswerTextError": "Tekst pytania oraz odpowiedzi nie może być pusty!"
   },
   "errors": {
     "request": "Wystąpił bład podczas przetwarzania zapytania",

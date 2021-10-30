@@ -14,6 +14,7 @@ import { USER_TOKEN } from "../../common/consts";
 import conferenceImg from "../../assets/images/conference_img.png";
 import { useApolloClient } from "@apollo/client";
 import { useForm } from "react-hook-form";
+import useGetErrorMessage from "../../hooks/useGetErrorMessage";
 import { useLoginMutation } from "../../graphql";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,6 +35,7 @@ const loginSchema = yup.object().shape({
 export default function LoginScreen(): ReactElement {
   const { t } = useTranslation("common");
 
+  const getErrorMessage = useGetErrorMessage();
   const [loginMutation, { error, loading }] = useLoginMutation({});
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
@@ -91,7 +93,7 @@ export default function LoginScreen(): ReactElement {
             {errors.password && (
               <ErrorMessage message={t(errors.password.message)} />
             )}
-            {error && <ErrorMessage message={error.message} />}
+            {error && <ErrorMessage message={getErrorMessage(error)} />}
             {loading && <Spinner />}
             <Button
               type="submit"

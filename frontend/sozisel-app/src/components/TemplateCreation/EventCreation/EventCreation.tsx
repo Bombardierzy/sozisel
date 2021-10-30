@@ -14,6 +14,7 @@ import {
 import React, { ReactElement, useEffect, useState } from "react";
 import { pollSchema, quizSchema, whiteboardSchema } from "./Schemas";
 
+import { ArrowBackIos } from "@material-ui/icons";
 import { Poll } from "../Modules/Poll/Poll";
 import Quiz from "../Modules/Quiz/Quiz";
 import { QuizContextProvider } from "../../../contexts/Quiz/QuizContext";
@@ -76,6 +77,14 @@ export default function EventCreation(): ReactElement {
 
   return (
     <Paper className="EventCreation" elevation={2}>
+      {id && (
+        <div className="iconContainer">
+          <ArrowBackIos
+            onClick={() => selectReset(moduleType)}
+            className="icon"
+          />
+        </div>
+      )}
       <form className={"creationForm"}>
         <div>
           <Controller

@@ -59,26 +59,18 @@ export default function QuizResultDetails({
               {eventName}
             </Typography>
           </div>
-          {
-            <StatsRow
-              label={t("components.SessionEventResults.Quiz.averagePoints")}
-              value={`${data.quizSummary.averagePoints.toFixed(2)}`}
-            />
-          }
-          {
-            <StatsRow
-              label={t("components.SessionEventResults.Quiz.averageAnswerTime")}
-              value={`${data.quizSummary.averageQuizAnswerTime.toFixed(2)}`}
-            />
-          }
-          {
-            <StatsRow
-              label={t(
-                "components.SessionEventResults.Quiz.participantsNumber"
-              )}
-              value={`${data.quizSummary.numberOfParticipants}`}
-            />
-          }
+          <StatsRow
+            label={t("components.SessionEventResults.Quiz.averagePoints")}
+            value={`${data.quizSummary.averagePoints.toFixed(2)}`}
+          />
+          <StatsRow
+            label={t("components.SessionEventResults.Quiz.averageAnswerTime")}
+            value={`${data.quizSummary.averageQuizAnswerTime.toFixed(2)}`}
+          />
+          <StatsRow
+            label={t("components.SessionEventResults.Quiz.participantsNumber")}
+            value={`${data.quizSummary.numberOfParticipants}`}
+          />
           <Typography className="chooseViewLabel">
             {t("components.SessionEventResults.Quiz.chooseView")}
           </Typography>
