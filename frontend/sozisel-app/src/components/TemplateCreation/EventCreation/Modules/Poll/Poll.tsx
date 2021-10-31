@@ -12,7 +12,7 @@ import {
   Poll,
   useCreatePollMutation,
   useUpdatePollMutation,
-} from "../../../../graphql";
+} from "../../../../../graphql";
 import {
   ReactElement,
   useCallback,
@@ -20,16 +20,16 @@ import {
   useEffect,
   useState,
 } from "react";
-import { AUTO_HIDE_DURATION } from "../../../../common/consts";
+import { AUTO_HIDE_DURATION } from "../../../../../common/consts";
 import { Alert } from "@material-ui/lab";
 
 import ClearIcon from "@material-ui/icons/Clear";
 import { Controller } from "react-hook-form";
 import { EventModuleProps } from "../EventModuleProps";
-import { EventProperties } from "../../EventCreation/EventProperties";
-import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
+import { EventProperties } from "../../EventProperties";
+import { TemplateContext } from "../../../../../contexts/Template/TemplateContext";
 import omitDeep from "omit-deep-lodash";
-import { useEventContext } from "../../../../contexts/Event/EventContext";
+import { useEventContext } from "../../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 import { v4 as uuid } from "uuid";
 

@@ -5,8 +5,8 @@ import React, { ReactElement } from "react";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import ClearIcon from "@material-ui/icons/Clear";
-import { QuizQuestion } from "../../../../../model/Template";
-import { useQuizContext } from "../../../../../contexts/Quiz/QuizContext";
+import { QuizQuestion } from "../../../../../../model/Template";
+import { useQuizContext } from "../../../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 

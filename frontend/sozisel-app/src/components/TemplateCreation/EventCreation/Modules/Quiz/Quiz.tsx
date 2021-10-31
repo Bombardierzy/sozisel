@@ -18,20 +18,20 @@ import React, {
 import {
   useCreateQuizMutation,
   useUpdateQuizMutation,
-} from "../../../../graphql";
+} from "../../../../../graphql";
 
-import { AUTO_HIDE_DURATION } from "../../../../common/consts";
+import { AUTO_HIDE_DURATION } from "../../../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import { Controller } from "react-hook-form";
 import { EventModuleProps } from "../EventModuleProps";
-import { EventProperties } from "../../EventCreation/EventProperties";
+import { EventProperties } from "../../EventProperties";
 import { InfoOutlined } from "@material-ui/icons";
 import QuestionsList from "./QuestionsList/QuestionsList";
-import { Quiz } from "../../../../model/Template";
-import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
-import { useEventContext } from "../../../../contexts/Event/EventContext";
-import useGetErrorMessage from "../../../../hooks/useGetErrorMessage";
-import { useQuizContext } from "../../../../contexts/Quiz/QuizContext";
+import { Quiz } from "../../../../../model/Template";
+import { TemplateContext } from "../../../../../contexts/Template/TemplateContext";
+import { useEventContext } from "../../../../../contexts/Event/EventContext";
+import useGetErrorMessage from "../../../../../hooks/useGetErrorMessage";
+import { useQuizContext } from "../../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
 
 interface QuizData extends EventProperties {

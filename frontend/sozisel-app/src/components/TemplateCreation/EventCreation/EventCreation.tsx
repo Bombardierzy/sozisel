@@ -1,7 +1,5 @@
 import "./EventCreation.scss";
 
-import * as yup from "yup";
-
 import { Controller, useForm } from "react-hook-form";
 import {
   FormControl,
@@ -11,30 +9,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
-import { pollSchema, quizSchema, whiteboardSchema } from "./Schemas";
 
 import { ArrowBackIos } from "@material-ui/icons";
-import { Poll } from "../Modules/Poll/Poll";
-import Quiz from "../Modules/Quiz/Quiz";
-import { QuizContextProvider } from "../../../contexts/Quiz/QuizContext";
+import { EventCreationModule } from "./Modules/EventCreationModules";
 import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
-import Whiteboard from "../Modules/Whiteboard/Whiteboard";
+import { createSchema } from "./Schemas/createSchema";
 import { useEventContext } from "../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-const createSchema = (moduleType: string): yup.AnyObjectSchema => {
-  switch (moduleType) {
-    case "Quiz":
-      return quizSchema;
-    case "Poll":
-      return pollSchema;
-    case "Whiteboard":
-      return whiteboardSchema;
-    default:
-      throw Error(`Encountered unknown module type: ${moduleType}`);
-  }
-};
 
 export default function EventCreation(): ReactElement {
   const { t } = useTranslation("common");
@@ -122,6 +104,7 @@ export default function EventCreation(): ReactElement {
                   <MenuItem value="Quiz">Quiz</MenuItem>
                   <MenuItem value="Poll">Ankieta</MenuItem>
                   <MenuItem value="Whiteboard">Tablica</MenuItem>
+                  {/* newmoduleplaceholder */}
                 </Select>
 
                 <Typography className="label">
@@ -166,32 +149,13 @@ export default function EventCreation(): ReactElement {
                 />
               </FormControl>
             </div>
-            {moduleType === "Quiz" && (
-              <QuizContextProvider>
-                <Quiz
-                  handleSubmit={handleSubmit}
-                  errors={errors}
-                  control={control}
-                  setValue={setValue}
-                />
-              </QuizContextProvider>
-            )}
-            {moduleType === "Poll" && (
-              <Poll
-                handleSubmit={handleSubmit}
-                errors={errors}
-                control={control}
-                setValue={setValue}
-              />
-            )}
-            {moduleType === "Whiteboard" && (
-              <Whiteboard
-                handleSubmit={handleSubmit}
-                errors={errors}
-                control={control}
-                setValue={setValue}
-              />
-            )}
+            <EventCreationModule
+              moduleType={moduleType}
+              handleSubmit={handleSubmit}
+              errors={errors}
+              control={control}
+              setValue={setValue}
+            />
           </form>
         </>
       </ShadowBoxCard>

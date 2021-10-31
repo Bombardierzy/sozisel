@@ -17,17 +17,17 @@ import {
   Whiteboard,
   useCreateWhiteboardMutation,
   useUpdateWhiteboardMutation,
-} from "../../../../graphql";
-import { AUTO_HIDE_DURATION } from "../../../../common/consts";
+} from "../../../../../graphql";
+import { AUTO_HIDE_DURATION } from "../../../../../common/consts";
 import { Alert } from "@material-ui/lab";
 import { Controller } from "react-hook-form";
 import { EventModuleProps } from "../EventModuleProps";
-import { EventProperties } from "../../EventCreation/EventProperties";
+import { EventProperties } from "../../EventProperties";
 import { InfoOutlined } from "@material-ui/icons";
-import LatextText from "../../../utils/LatexText/LatextText";
-import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
-import { useEventContext } from "../../../../contexts/Event/EventContext";
-import useGetErrorMessage from "../../../../hooks/useGetErrorMessage";
+import LatextText from "../../../../utils/LatexText/LatextText";
+import { TemplateContext } from "../../../../../contexts/Template/TemplateContext";
+import { useEventContext } from "../../../../../contexts/Event/EventContext";
+import useGetErrorMessage from "../../../../../hooks/useGetErrorMessage";
 import { useTranslation } from "react-i18next";
 
 interface WhiteboardData extends EventProperties {

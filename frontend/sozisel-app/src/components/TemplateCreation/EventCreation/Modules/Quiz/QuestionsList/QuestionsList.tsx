@@ -4,9 +4,9 @@ import React, { ReactElement } from "react";
 
 import { Button } from "@material-ui/core";
 import Question from "../Question/Question";
-import { QuizQuestion } from "../../../../../model/Template";
-import { initialQuestion } from "../../../../../contexts/Quiz/quizReducer";
-import { useQuizContext } from "../../../../../contexts/Quiz/QuizContext";
+import { QuizQuestion } from "../../../../../../model/Template";
+import { initialQuestion } from "../../../../../../contexts/Quiz/quizReducer";
+import { useQuizContext } from "../../../../../../contexts/Quiz/QuizContext";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
