@@ -29,19 +29,40 @@ if (!displayName) {
 }
 /*
  * Updates hooks
- */ 
-const locales = fs.readFileSync('./public/locales/pl/common.json').toString().replace(`"EventType": {`, `"EventType": {"${moduleName}": "${displayName}",`);
-fs.writeFileSync('./public/locales/pl/common.json', locales);
-const useGetEventTypeMessage = fs.readFileSync('./src/hooks/useGetEventTypeMessage.ts').toString().replace('// placeholder for new module', `case EventType.${moduleName}:
-return t("components.EventType.${moduleName}");\n// placeholder for new module`);
-fs.writeFileSync('./src/hooks/useGetEventTypeMessage.ts', useGetEventTypeMessage);
-const useGetEventTypename = fs.readFileSync('./src/hooks/useGetEventTypename.ts').toString().replace('// placeholder for new module', `${moduleName} = "${moduleName}",\n// placeholder for new module`);
-fs.writeFileSync('./src/hooks/useGetEventTypename.ts', useGetEventTypename);
+ */
+const locales = fs
+  .readFileSync("./public/locales/pl/common.json")
+  .toString()
+  .replace(
+    `"EventType": {`,
+    `"EventType": {"${moduleName}": "${displayName}",`
+  );
+fs.writeFileSync("./public/locales/pl/common.json", locales);
+const useGetEventTypeMessage = fs
+  .readFileSync("./src/hooks/useGetEventTypeMessage.ts")
+  .toString()
+  .replace(
+    "// placeholder for new module",
+    `case EventType.${moduleName}:
+return t("components.EventType.${moduleName}");\n// placeholder for new module`
+  );
+fs.writeFileSync(
+  "./src/hooks/useGetEventTypeMessage.ts",
+  useGetEventTypeMessage
+);
+const useGetEventTypename = fs
+  .readFileSync("./src/hooks/useGetEventTypename.ts")
+  .toString()
+  .replace(
+    "// placeholder for new module",
+    `${moduleName} = "${moduleName}",\n// placeholder for new module`
+  );
+fs.writeFileSync("./src/hooks/useGetEventTypename.ts", useGetEventTypename);
 /*
- * Event Creation generation 
- */ 
+ * Event Creation generation
+ */
 let outputDir = "./src/components/TemplateCreation/EventCreation";
-let inputDir = './generator_utils/eventCreation';
+let inputDir = "./generator_utils/eventCreation";
 // adding menu item
 const menuItemPlaceholder = "{/* newmoduleplaceholder */}";
 const eventCreationFile = fs.readFileSync(`${outputDir}/EventCreation.tsx`);
@@ -53,13 +74,14 @@ const outputTsx = eventCreationFile
   );
 fs.writeFileSync(`${outputDir}/EventCreation.tsx`, outputTsx);
 // creating module schema
-const schemaTemplate = fs.readFileSync(
-  `${inputDir}/schemaTemplate.ts`
-);
+const schemaTemplate = fs.readFileSync(`${inputDir}/schemaTemplate.ts`);
 const eventSchema = schemaTemplate
   .toString()
   .replace("schemaTemplate", `${moduleName}Schema`);
-fs.writeFileSync(`${outputDir}/Schemas/Modules/${moduleName}Schema.ts`, eventSchema);
+fs.writeFileSync(
+  `${outputDir}/Schemas/Modules/${moduleName}Schema.ts`,
+  eventSchema
+);
 // updates create schema function
 const createSchema = fs.readFileSync(`${outputDir}/Schemas/createSchema.ts`);
 const createSchemaUpdated = createSchema
@@ -79,9 +101,7 @@ const moduleTemplate = fs
   .toString()
   .split("ModuleTemplate")
   .join(moduleName);
-const styleTemplate = fs.readFileSync(
-  `${inputDir}/moduleTemplate.scss`
-);
+const styleTemplate = fs.readFileSync(`${inputDir}/moduleTemplate.scss`);
 fs.mkdirSync(`${outputDir}/Modules/${moduleName}`);
 fs.writeFileSync(
   `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
@@ -116,12 +136,43 @@ fs.writeFileSync(
 );
 
 /*
- * Event list element generation 
- */ 
+ * Event list element generation
+ */
 outputDir = "./src/components/TemplateCreation/EventsList/EventsListElement";
-inputDir = './generator_utils/eventListElement';
+inputDir = "./generator_utils/eventListElement";
+// creates module
+const eventListModule = fs
+  .readFileSync(`${inputDir}/moduleTemplate.tsx`)
+  .toString()
+  .split("ModuleTemplate")
+  .join(`${moduleName}`);
+const eventListStyles = fs.readFileSync(`${inputDir}/moduleTemplate.tsx`);
+fs.mkdirSync(`${outputDir}/${moduleName}`);
+fs.writeFileSync(
+  `${outputDir}/${moduleName}/${moduleName}.scss`,
+  eventListStyles
+);
+fs.writeFileSync(
+  `${outputDir}/${moduleName}/${moduleName}.tsx`,
+  eventListModule
+);
+// updates file
+const eventListElement = fs
+  .readFileSync(`${outputDir}/EventListElement.tsx`)
+  .toString()
+  .replace(
+    "// import placeholder",
+    `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
+  )
+  .replace(
+    "// placeholder for new module",
+    `case "${moduleName}": {
+    return <${moduleName} data={event.eventData} />;
+  }\n// placeholder for new module`
+  );
+fs.writeFileSync(`${outputDir}/EventListElement.tsx`, eventListElement);
 /*
  * Event timeline generation
- */ 
+ */
 outputDir = "./src/components/PresenterSession/EventsTimeline";
-inputDir = './generator_utils/eventTimeline';
+inputDir = "./generator_utils/eventTimeline";
