@@ -8,3 +8,9 @@ mutation LaunchEvent(
         id
     }
 }
+
+mutation DeleteEvent($id: ID!) {
+    deleteEvent(id: $id) {
+        id
+    }
+}
