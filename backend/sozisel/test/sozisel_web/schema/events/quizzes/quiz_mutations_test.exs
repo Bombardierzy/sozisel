@@ -66,7 +66,7 @@ defmodule SoziselWeb.Schema.Events.Quizzes.QuizMutationsTest do
 
   @delete_quiz """
   mutation DeleteQuiz($id: ID!) {
-    deleteQuiz(id: $id) {
+    deleteEvent(id: $id) {
       id
       name
     }
@@ -205,7 +205,7 @@ defmodule SoziselWeb.Schema.Events.Quizzes.QuizMutationsTest do
 
       assert %{
                data: %{
-                 "deleteQuiz" => %{
+                 "deleteEvent" => %{
                    "id" => ^quiz_id,
                    "name" => ^quiz_name
                  }

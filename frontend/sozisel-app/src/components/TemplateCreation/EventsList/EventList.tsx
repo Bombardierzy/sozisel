@@ -1,28 +1,18 @@
 import "./EventsList.scss";
 
 import React, { ReactElement, useCallback, useMemo } from "react";
-import {
-  useDeletePollMutation,
-  useDeleteQuizMutation,
-  useDeleteWhiteboardMutation,
-} from "../../../graphql";
 
 import { Event } from "../../../model/Template";
 import EventListElement from "./EventsListElement/EventListElement";
 import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
+import { useDeleteEventMutation } from "../../../graphql";
 
 interface EventListProps {
   events?: Event[];
 }
 
 export default function EventList({ events }: EventListProps): ReactElement {
-  const [deleteQuizMutation] = useDeleteQuizMutation({
-    refetchQueries: ["SessionTemplate"],
-  });
-  const [deletePollMutation] = useDeletePollMutation({
-    refetchQueries: ["SessionTemplate"],
-  });
-  const [deleteWhiteboardMutation] = useDeleteWhiteboardMutation({
+  const [deleteEventMutation] = useDeleteEventMutation({
     refetchQueries: ["SessionTemplate"],
   });
 
@@ -35,19 +25,10 @@ export default function EventList({ events }: EventListProps): ReactElement {
   }, [events]);
 
   const onDelete = useCallback(
-    (type: string) => {
-      return (id: string) => {
-        switch (type) {
-          case "Quiz":
-            return deleteQuizMutation({ variables: { id } });
-          case "Poll":
-            return deletePollMutation({ variables: { id } });
-          case "Whiteboard":
-            return deleteWhiteboardMutation({ variables: { id } });
-        }
-      };
+    (id) => {
+      return deleteEventMutation({ variables: { id } });
     },
-    [deletePollMutation, deleteQuizMutation, deleteWhiteboardMutation]
+    [deleteEventMutation]
   );
 
   return (
@@ -58,7 +39,7 @@ export default function EventList({ events }: EventListProps): ReactElement {
             <EventListElement
               key={event.id}
               event={event}
-              onDelete={onDelete(event.eventData.__typename || "")}
+              onDelete={onDelete}
             />
           ))}
         </>

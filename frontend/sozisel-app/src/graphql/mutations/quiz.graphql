@@ -16,12 +16,6 @@ mutation UpdateQuiz($input: UpdateQuizInput!) {
   }
 }
 
-mutation DeleteQuiz($id: ID!) {
-  deleteQuiz(id: $id) {
-    id
-  }
-}
-
 mutation SubmitQuizResults($token: String!, $input: QuizResultInput!){
   submitQuizResults(token: $token, input: $input){
     id
