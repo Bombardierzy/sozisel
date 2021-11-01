@@ -46,7 +46,7 @@ export function EventCreationModule({
           setValue={setValue}
         />
       )}
-      {/* // MODULE_GENERATION_PLACEHOLDER */}
+      {/* MODULE_GENERATION_PLACEHOLDER */}
     </div>
   );
 }

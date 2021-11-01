@@ -53,7 +53,7 @@
     "lint:prettier": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "build": "webpack build",
     "build:prod": "webpack build --mode=production",
-    "module:gen": "func() { npm run graphql:gen && node generator_utils/index.ts \"$1\" \"$2\" && npm run format; }; func"
+    "module:gen": "func() { npm run graphql:gen && node generator_utils/index.js \"$1\" \"$2\" && npm run format; }; func"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.3",

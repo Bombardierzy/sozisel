@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require("fs");
 
 const HELP = `
@@ -7,39 +6,31 @@ usage node index.js
         [--displayName=value]
 `;
 const ARGS = ["--moduleName", "--displayName"];
-interface GeneratorArgs {
-  displayName: string;
-  moduleName: string;
-}
-function parseArguments(): GeneratorArgs {
+
+
+function parseArguments() {
   const args = {
     displayName: "",
     moduleName: "",
   };
-  process.argv.slice(2).forEach((arg) => {
-    if (arg.startsWith("--")) {
-      const [argument, value] = arg.split("=");
+  process.argv.slice(2).forEach((element) => {
+    if (element.startsWith("--")) {
+      const [argument, value] = element.split("=");
       if (!argument || !value || !ARGS.includes(argument)) {
         throw new Error(`Invalid command: ${HELP}`);
       }
 
-      const arg = argument.slice(2); // strip '--'
-      args[arg] = value;
+      const key = argument.slice(2); // strip '--'
+      args[key] = value;
     }
   });
   return args;
 }
 const { displayName, moduleName } = parseArguments();
 
-interface UpdateFileProps {
-  file: string;
-  replaceWith: string;
-  importPath?: string;
-}
-
-function updateFile({ file, replaceWith, importPath }: UpdateFileProps): void {
+function updateFile({file, replaceWith, importPath }) {
   const import_placeholder = "// MODULE_GENERATION_PLACEHOLDER_IMPORT";
-  const content_placeholder_v1 = "// MODULE_GENERATION_PLACEHOLDER";
+  const content_placeholder_v1 = "// MODULE_GENERATION_PLACEHOLDER_CONTENT";
   const content_placeholder_v2 = "{/* MODULE_GENERATION_PLACEHOLDER */}";
   const result = fs
     .readFileSync(file)
@@ -56,12 +47,9 @@ function updateFile({ file, replaceWith, importPath }: UpdateFileProps): void {
   fs.writeFileSync(`${file}`, result);
 }
 
-interface CreateModuleProps {
-  inputPath: string;
-  outputPath: string;
-}
 
-function createModule({ inputPath, outputPath }: CreateModuleProps): void {
+
+function createModule({inputPath, outputPath}) {
   const moduleTemplate = fs
     .readFileSync(`${inputPath}`)
     .toString()

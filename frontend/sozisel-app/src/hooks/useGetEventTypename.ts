@@ -6,7 +6,7 @@ export enum EventType {
   Poll = "Poll",
   Quiz = "Quiz",
   ParticipantQuiz = "ParticipantQuiz",
-  // MODULE_GENERATION_PLACEHOLDER
+  // MODULE_GENERATION_PLACEHOLDER_CONTENT
 }
 
 export const useGetEventTypename = (

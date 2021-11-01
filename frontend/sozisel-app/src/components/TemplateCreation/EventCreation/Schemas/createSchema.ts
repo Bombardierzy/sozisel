@@ -14,7 +14,7 @@ export function createSchema(moduleType: string): yup.AnyObjectSchema {
       return pollSchema;
     case "Whiteboard":
       return whiteboardSchema;
-    // MODULE_GENERATION_PLACEHOLDER
+    // MODULE_GENERATION_PLACEHOLDER_CONTENT
     default:
       throw Error(`Encountered unknown module type: ${moduleType}`);
   }

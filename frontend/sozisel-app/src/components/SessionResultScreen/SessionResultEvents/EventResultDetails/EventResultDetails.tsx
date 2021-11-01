@@ -96,7 +96,7 @@ export default function EventResultDetails({
         {eventType === EventType.Whiteboard && (
           <WhiteboardResultDetails id={id} eventName={eventName} />
         )}
-        {/* // MODULE_GENERATION_PLACEHOLDER */}
+        {/* MODULE_GENERATION_PLACEHOLDER */}
       </div>
     );
   }
