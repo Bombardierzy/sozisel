@@ -33,6 +33,18 @@
   color: $main-color;
 }
 
+@mixin header-03 {
+  font-size: 32px;
+  font-weight: 600;
+  color: $text-04;
+}
+
+@mixin header-04 {
+  font-size: 20px;
+  font-weight: 600;
+  color: $text-04;
+}
+
 @mixin poppins-text {
   font-family: "Poppins", sans-serif;
   font-style: normal;

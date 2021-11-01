@@ -4,7 +4,7 @@ import React, { ReactElement, useCallback, useMemo } from "react";
 
 import { Event } from "../../../model/Template";
 import EventListElement from "./EventsListElement/EventListElement";
-import { Paper } from "@material-ui/core";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import { useDeleteEventMutation } from "../../../graphql";
 
 interface EventListProps {
@@ -32,10 +32,18 @@ export default function EventList({ events }: EventListProps): ReactElement {
   );
 
   return (
-    <Paper className="EventList" elevation={2}>
-      {sortedEvents.map((event: Event) => (
-        <EventListElement key={event.id} event={event} onDelete={onDelete} />
-      ))}
-    </Paper>
+    <div className="EventList">
+      <ShadowBoxCard>
+        <>
+          {sortedEvents.map((event: Event) => (
+            <EventListElement
+              key={event.id}
+              event={event}
+              onDelete={onDelete}
+            />
+          ))}
+        </>
+      </ShadowBoxCard>
+    </div>
   );
 }

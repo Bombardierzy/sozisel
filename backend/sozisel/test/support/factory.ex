@@ -227,7 +227,6 @@ defmodule Sozisel.Factory do
   def random_event_result(%Whiteboard{}) do
     %WhiteboardResult{
       path: "/tmp/test_image.png",
-      text: "This is a bomb",
       used_time: 13.21
     }
   end

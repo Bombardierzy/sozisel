@@ -1,11 +1,12 @@
 @import "../../../../styles/styles";
 
 .ParticipantPollEvent {
-  display: flex;
-  flex-direction: column;
-  width: calc(100% - 2*#{$spacing-04});
-  height: calc(100% - 2*#{$spacing-04});
-  padding: $spacing-04;
+    padding: $spacing-04;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
   .header{
     display: flex;
     flex-direction: row;

@@ -5,15 +5,16 @@ import * as yup from "yup";
 import React, { ReactElement, useEffect } from "react";
 
 import Button from "../utils/Button/Button";
-import Card from "../utils/Card/Card";
 import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/LoginNavbar/Navbar";
+import ShadowBoxCard from "../utils/Card/ShadowBoxCard";
 import Spinner from "../utils/Spinner/Spinner";
 import { USER_TOKEN } from "../../common/consts";
 import conferenceImg from "../../assets/images/conference_img.png";
 import { useApolloClient } from "@apollo/client";
 import { useForm } from "react-hook-form";
+import useGetErrorMessage from "../../hooks/useGetErrorMessage";
 import { useLoginMutation } from "../../graphql";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,6 +35,7 @@ const loginSchema = yup.object().shape({
 export default function LoginScreen(): ReactElement {
   const { t } = useTranslation("common");
 
+  const getErrorMessage = useGetErrorMessage();
   const [loginMutation, { error, loading }] = useLoginMutation({});
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(loginSchema),
@@ -71,34 +73,38 @@ export default function LoginScreen(): ReactElement {
       <Navbar />
       <div className="Login">
         <img src={conferenceImg} />
-        <Card>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              name="email"
-              label={t("components.LoginScreen.emailLabelText")}
-              type="email"
-              ref={register}
-              error={errors.email}
-            />
-            {errors.email && <ErrorMessage message={t(errors.email.message)} />}
-            <Input
-              name="password"
-              label={t("components.LoginScreen.passwordLabelText")}
-              type="password"
-              ref={register}
-              error={errors.password}
-            />
-            {errors.password && (
-              <ErrorMessage message={t(errors.password.message)} />
-            )}
-            {error && <ErrorMessage message={error.message} />}
-            {loading && <Spinner />}
-            <Button
-              type="submit"
-              name={t("components.LoginScreen.submitButtonText")}
-            />
-          </form>
-        </Card>
+        <div className="formCardContainer">
+          <ShadowBoxCard className="formCard">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Input
+                name="email"
+                label={t("components.LoginScreen.emailLabelText")}
+                type="email"
+                ref={register}
+                error={errors.email}
+              />
+              {errors.email && (
+                <ErrorMessage message={t(errors.email.message)} />
+              )}
+              <Input
+                name="password"
+                label={t("components.LoginScreen.passwordLabelText")}
+                type="password"
+                ref={register}
+                error={errors.password}
+              />
+              {errors.password && (
+                <ErrorMessage message={t(errors.password.message)} />
+              )}
+              {error && <ErrorMessage message={getErrorMessage(error)} />}
+              {loading && <Spinner />}
+              <Button
+                type="submit"
+                name={t("components.LoginScreen.submitButtonText")}
+              />
+            </form>
+          </ShadowBoxCard>
+        </div>
       </div>
     </>
   );

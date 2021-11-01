@@ -1,0 +1,35 @@
+@import "../../../../../styles/styles";
+
+.WhiteboardSwitch {
+    width: 2*$spacing-10;
+    height: $spacing-09 + $spacing-01;
+    border-radius: $spacing-05;
+    border: 1px solid $bg-04;
+    position: absolute;
+    top: 2 * $spacing-09;
+    right: 2 * $spacing-09;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .icon {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $primary-accent;
+        cursor: pointer;
+    }
+    .taskIcon, .whiteboardIcon {
+        background-color: $primary-accent;
+        color: white;
+    }
+    .taskIcon {
+        border-top-left-radius: $spacing-05;
+        border-bottom-left-radius: $spacing-05;
+    }
+    .whiteboardIcon {
+        border-top-right-radius: $spacing-05;
+        border-bottom-right-radius: $spacing-05;
+    }
+}

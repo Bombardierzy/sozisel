@@ -47,7 +47,7 @@ const PollLiveEventDetails = (): ReactElement => {
             { value: totalVoters }
           )}
         />
-        {!!mostAnsweredOption && (
+        {!!mostAnsweredOption && totalVoters && totalVoters > 0 && (
           <TextSection
             text={t(
               "components.PresenterSession.EventsTimeline.LiveEventDetails.mostCommonAnswer",
@@ -59,6 +59,9 @@ const PollLiveEventDetails = (): ReactElement => {
       {optionsSummary && (
         <PollPieChart
           data={optionsSummary.filter((option) => option.votes > 0)}
+          width="100%"
+          height={250}
+          absolutePostion
         />
       )}
     </div>

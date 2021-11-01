@@ -3,11 +3,11 @@ import "./RegisterScreen.scss";
 import * as yup from "yup";
 
 import Button from "../utils/Button/Button";
-import Card from "../utils/Card/Card";
 import ErrorMessage from "../utils/Input/ErrorMessage";
 import Input from "../utils/Input/Input";
 import Navbar from "../Navbar/LoginNavbar/Navbar";
 import { ReactElement } from "react";
+import ShadowBoxCard from "../utils/Card/ShadowBoxCard";
 import Spinner from "../utils/Spinner/Spinner";
 import conference_img from "../../assets/images/conference_img.png";
 import { useForm } from "react-hook-form";
@@ -75,64 +75,68 @@ export default function Register(): ReactElement {
       <Navbar />
       <div className="Register">
         <img src={conference_img} />
-        <Card>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              name="email"
-              label={t("components.RegisterScreen.emailLabelText")}
-              type="email"
-              ref={register}
-              error={errors.email}
-            />
-            {errors.email && <ErrorMessage message={t(errors.email.message)} />}
-            <Input
-              name="firstName"
-              label={t("components.RegisterScreen.firstNameLabelText")}
-              type="text"
-              ref={register}
-              error={errors.firstName}
-            />
-            {errors.firstName && (
-              <ErrorMessage message={t(errors.firstName.message)} />
-            )}
-            <Input
-              name="lastName"
-              label={t("components.RegisterScreen.lastNameLabelText")}
-              type="text"
-              ref={register}
-              error={errors.lastName}
-            />
-            {errors.lastName && (
-              <ErrorMessage message={t(errors.lastName.message)} />
-            )}
-            <Input
-              name="password"
-              label={t("components.RegisterScreen.passwordLabelText")}
-              type="password"
-              ref={register}
-              error={errors.password}
-            />
-            {errors.password && (
-              <ErrorMessage message={t(errors.password.message)} />
-            )}
-            <Input
-              name="confirmPassword"
-              label={t("components.RegisterScreen.confirmPasswordLabelText")}
-              type="password"
-              ref={register}
-              error={errors.confirmPassword}
-            />
-            {errors.confirmPassword && (
-              <ErrorMessage message={t(errors.confirmPassword.message)} />
-            )}
-            {error && <ErrorMessage message={error.message} />}
-            {loading && <Spinner />}
-            <Button
-              name={t("components.RegisterScreen.submitButtonText")}
-              type="submit"
-            />
-          </form>
-        </Card>
+        <div className="formCardContainer">
+          <ShadowBoxCard>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Input
+                name="email"
+                label={t("components.RegisterScreen.emailLabelText")}
+                type="email"
+                ref={register}
+                error={errors.email}
+              />
+              {errors.email && (
+                <ErrorMessage message={t(errors.email.message)} />
+              )}
+              <Input
+                name="firstName"
+                label={t("components.RegisterScreen.firstNameLabelText")}
+                type="text"
+                ref={register}
+                error={errors.firstName}
+              />
+              {errors.firstName && (
+                <ErrorMessage message={t(errors.firstName.message)} />
+              )}
+              <Input
+                name="lastName"
+                label={t("components.RegisterScreen.lastNameLabelText")}
+                type="text"
+                ref={register}
+                error={errors.lastName}
+              />
+              {errors.lastName && (
+                <ErrorMessage message={t(errors.lastName.message)} />
+              )}
+              <Input
+                name="password"
+                label={t("components.RegisterScreen.passwordLabelText")}
+                type="password"
+                ref={register}
+                error={errors.password}
+              />
+              {errors.password && (
+                <ErrorMessage message={t(errors.password.message)} />
+              )}
+              <Input
+                name="confirmPassword"
+                label={t("components.RegisterScreen.confirmPasswordLabelText")}
+                type="password"
+                ref={register}
+                error={errors.confirmPassword}
+              />
+              {errors.confirmPassword && (
+                <ErrorMessage message={t(errors.confirmPassword.message)} />
+              )}
+              {error && <ErrorMessage message={error.message} />}
+              {loading && <Spinner />}
+              <Button
+                name={t("components.RegisterScreen.submitButtonText")}
+                type="submit"
+              />
+            </form>
+          </ShadowBoxCard>
+        </div>
       </div>
     </>
   );

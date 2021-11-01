@@ -22,7 +22,7 @@ interface Props {
   height: number;
 
   // if sessionId is undefined that means we are in offline mode
-  sessionId: string | undefined;
+  sessionId?: string;
 }
 
 export const Canvas = ({ width, height, sessionId }: Props): ReactElement => {
@@ -35,11 +35,10 @@ export const Canvas = ({ width, height, sessionId }: Props): ReactElement => {
   const [initialValue, setInitialValue] = useState<string | null>(null);
 
   useEffect(() => {
+    canvasManager.initializeCanvas({});
     if (!sessionId) return;
 
     ensureConnected(socket);
-
-    canvasManager.initializeCanvas({});
 
     const channel = socket.channel(`shared:whiteboard:${sessionId}`, {});
 

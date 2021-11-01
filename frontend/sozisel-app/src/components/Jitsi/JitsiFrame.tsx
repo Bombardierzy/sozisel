@@ -1,9 +1,10 @@
 import "./JitsiFrame.scss";
 
 import { InterfaceConfigOptions, JitsiMeetAPI } from "react-jitsi/dist/types";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 
 import { CircularProgress } from "@material-ui/core";
+import { Context } from "../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 import Jitsi from "react-jitsi";
 
 const OPTIONS: InterfaceConfigOptions = {
@@ -67,6 +68,7 @@ export default function JitsiFrame({
   displayName,
 }: JitsiFrameProps): ReactElement {
   const [api, setApi] = useState<JitsiMeetAPI | undefined>();
+  const [showWhiteboard] = useContext(Context);
 
   useEffect(() => {
     if (api) {
@@ -77,7 +79,10 @@ export default function JitsiFrame({
   }, [api]);
 
   return (
-    <>
+    <div
+      style={showWhiteboard ? { display: "none" } : {}}
+      className="JitsiContainer"
+    >
       <Jitsi
         domain="localhost:8443"
         containerStyle={{ width: "100%", height: "100%" }}
@@ -89,6 +94,6 @@ export default function JitsiFrame({
         // password="password"
         jwt={token}
       ></Jitsi>
-    </>
+    </div>
   );
 }

@@ -10,6 +10,7 @@ import {
   useResetSessionRecordingAnnotationsMutation,
   useUpdateSessionRecordingAnnotationsMutation,
 } from "../../../../graphql";
+import { UrlType, getUrl } from "../../../utils/Url/getUrl";
 
 import { AUTO_HIDE_DURATION } from "../../../../common/consts";
 import { Alert } from "@material-ui/lab";
@@ -146,7 +147,10 @@ export function SessionRecordingAnnotatedPlayer({
         <div className="annotatedGrid">
           <video
             ref={videoRef}
-            src={`http://localhost:4000/recording/session_${sessionId}.mp4`}
+            src={getUrl({
+              type: UrlType.recording,
+              id: `session_${sessionId}.mp4`,
+            })}
             controls
           />
           <AnnotationsPanel
@@ -228,7 +232,10 @@ export function SessionRecordingAnnotatedPlayer({
         </div>
       </div>
       <ShareLinkPopup
-        link={`${window.location.protocol}//${window.location.host}/session-recording/${sessionRecordingId}`}
+        link={getUrl({
+          type: UrlType.shareRecordingLink,
+          id: sessionRecordingId,
+        })}
         open={openShareLink}
         onClose={() => setOpenShareLink(false)}
         title={t("components.SessionRecordingAnnotatedPlayer.shareLinkTitle")}

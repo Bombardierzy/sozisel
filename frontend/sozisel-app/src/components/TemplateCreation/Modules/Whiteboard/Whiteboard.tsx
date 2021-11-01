@@ -27,6 +27,7 @@ import { InfoOutlined } from "@material-ui/icons";
 import LatextText from "../../../utils/LatexText/LatextText";
 import { TemplateContext } from "../../../../contexts/Template/TemplateContext";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
+import useGetErrorMessage from "../../../../hooks/useGetErrorMessage";
 import { useTranslation } from "react-i18next";
 
 interface WhiteboardData extends EventProperties {
@@ -46,6 +47,7 @@ export default function Whiteboard({
   const { t } = useTranslation("common");
   const { id } = useContext(TemplateContext);
   const [event, eventDispatch] = useEventContext();
+  const getErrorMessage = useGetErrorMessage();
   const [createWhiteboard, { error: createWhiteboardError }] =
     useCreateWhiteboardMutation({ refetchQueries: ["SessionTemplate"] });
   const [updateWhiteboard, { error: updateWhitboardError }] =
@@ -116,6 +118,10 @@ export default function Whiteboard({
     }
   }, [event.id, event.eventData, onReset, setValue]);
 
+  useEffect(() => {
+    setValue("task", text);
+  }, [setValue, text, showMarkdown]);
+
   return (
     <div className="whiteboard">
       <Typography className="taskTitle">
@@ -153,7 +159,6 @@ export default function Whiteboard({
               )}
               value={text}
               onChange={(e) => {
-                setValue("task", e.target.value);
                 setText(e.target.value);
               }}
               className={`taskText ${errors.task && "errorBorder"}`}
@@ -163,6 +168,11 @@ export default function Whiteboard({
       )}
       {errors.task && t(errors.task.message) && (
         <Typography className="error">{t(errors.task.message)}</Typography>
+      )}
+      {updateWhitboardError && (
+        <Typography className="error">
+          {getErrorMessage(updateWhitboardError)}
+        </Typography>
       )}
       {event.id ? (
         <Button

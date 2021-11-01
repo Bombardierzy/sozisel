@@ -42,7 +42,7 @@ defmodule SoziselWeb.Schema.Types.WhiteboardTypes do
     field :email, non_null(:string)
     field :image_path, non_null(:string)
     field :used_time, non_null(:float)
-    field :additional_text, non_null(:string)
+    field :additional_text, :string
   end
 
   object :whiteboard_summary do

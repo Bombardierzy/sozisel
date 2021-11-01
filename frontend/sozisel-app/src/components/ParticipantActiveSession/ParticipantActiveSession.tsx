@@ -12,13 +12,12 @@ import {
 import { ReactElement, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
+import ActiveEvent from "./ActiveEvent";
 import ActiveSessionAgenda from "../PresenterSession/ActiveSessionAgenda/ActiveSessionAgenda";
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
 import ErrorAlert from "../utils/Alerts/ErrorAlert";
 import JitsiFrame from "../Jitsi/JitsiFrame";
-import ParticipantPollEvent from "./Modules/PollEvent/ParticipantPollEvent";
-import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
-import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
+import ParticipantWhiteboardContext from "../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
 import { SessionMenu } from "../SessionMenu/SessionMenu";
 import { useLiveSessionParticipation } from "../../hooks/useLiveSessionParticipation";
@@ -98,57 +97,53 @@ export default function ParticipantActiveSession({
     return (
       <>
         <BasicNavbar />
-        <div className="ParticipantActiveSession">
-          {!activeEvent && (
-            <div className="agendaComponent">
-              <ActiveSessionAgenda
-                agendaEntries={session.sessionThumbnail.agendaEntries}
-                estimatedTimeInSeconds={session.sessionThumbnail.estimatedTime}
-                sessionStartDate={new Date(session.sessionThumbnail.startTime)}
-              />
-            </div>
-          )}
-          {session.sessionThumbnail.useJitsi && (
-            <div className="jitsi">
-              {!loading && data?.generateJitsiToken.token && (
-                <JitsiFrame
-                  roomId={id}
-                  token={data.generateJitsiToken.token}
-                  displayName={data.generateJitsiToken.displayName}
+        <ParticipantWhiteboardContext>
+          <div className="ParticipantActiveSession">
+            {!activeEvent && (
+              <div className="agendaComponent">
+                <ActiveSessionAgenda
+                  agendaEntries={session.sessionThumbnail.agendaEntries}
+                  estimatedTimeInSeconds={
+                    session.sessionThumbnail.estimatedTime
+                  }
+                  sessionStartDate={
+                    new Date(session.sessionThumbnail.startTime)
+                  }
                 />
-              )}
-            </div>
-          )}
-          {!activeEvent && (
-            <div className="moduleComponent">
-              <ParticipantsList
-                participants={participants}
-                loading={getParticipantsLoading}
-                error={getParticipantsError}
-              />
-            </div>
-          )}
-          {activeEvent && (
-            <div className="moduleComponent">
-              {activeEvent.eventData.__typename === "ParticipantQuiz" && (
-                <ParticipantQuizContextProvider>
-                  <ParticipantQuizEvent
-                    onQuizFinished={() => setActiveEvent(null)}
-                    token={token}
-                    event={activeEvent}
+              </div>
+            )}
+            {session.sessionThumbnail.useJitsi && (
+              <div className="jitsi">
+                {!loading && data?.generateJitsiToken.token && (
+                  <JitsiFrame
+                    roomId={id}
+                    token={data.generateJitsiToken.token}
+                    displayName={data.generateJitsiToken.displayName}
                   />
-                </ParticipantQuizContextProvider>
-              )}
-              {activeEvent.eventData.__typename === "Poll" && (
-                <ParticipantPollEvent
-                  token={token}
-                  event={activeEvent}
-                  onPollFinished={() => setActiveEvent(null)}
+                )}
+              </div>
+            )}
+            {!activeEvent && (
+              <div className="moduleComponent">
+                <ParticipantsList
+                  participants={participants}
+                  loading={getParticipantsLoading}
+                  error={getParticipantsError}
                 />
-              )}
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+            {activeEvent && (
+              <div className="moduleComponent">
+                <ActiveEvent
+                  onEventFinished={() => setActiveEvent(null)}
+                  token={token}
+                  activeEvent={activeEvent}
+                  withJitsi={session.sessionThumbnail.useJitsi}
+                />
+              </div>
+            )}
+          </div>
+        </ParticipantWhiteboardContext>
         <Fab
           variant="extended"
           className="ParticipantSessionFab"

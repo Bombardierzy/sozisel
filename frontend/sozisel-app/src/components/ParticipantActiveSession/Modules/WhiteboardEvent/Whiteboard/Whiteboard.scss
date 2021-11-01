@@ -1,0 +1,38 @@
+@import "../../../../../styles/styles";
+
+
+.Whiteboard, .WhiteboardJitsy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    left: $spacing-09;
+    top: 3*$spacing-09;
+}
+
+.Whiteboard {
+    width: 60%;
+    height: calc(80% - 2*#{$spacing-10});
+    & > div:last-child {
+        width: 100% !important;
+        height: 90% !important;
+        div, canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
+}
+
+.WhiteboardJitsy {
+    width: calc(100% - 2*#{$spacing-09});;
+    height: calc(80% - 2*#{$spacing-10});
+    & > div:last-child {
+        width: 100% !important;
+        height: 90% !important;
+        div, canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+@import "../../../../../../../styles/styles";
+
+.EventDescription {
+    border-radius: $spacing-03;
+    box-shadow: $default-box-shadow;
+    padding: $spacing-04 $spacing-06;
+    flex: 1;
+    .header {
+        display: flex;
+        align-items: center;
+        .headerText {
+            @include header-03;
+            margin-left: $spacing-05;
+        }
+        .icon {
+            color: $main-color;
+            height: $spacing-07;
+            width: $spacing-07;
+        }
+    }
+}
+
+.Section {
+    align-items: center;
+    margin: $spacing-06 0;
+    .header {
+        @include header-04;
+        display: inline;
+    }
+    .text {
+        color: $text-01;
+        font-weight: 500;
+        margin-left: $spacing-06;
+        display: inline;
+    }
+}

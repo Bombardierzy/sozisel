@@ -1,11 +1,12 @@
 import "./ActiveSessionAgenda.scss";
 
-import { Paper, Typography } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 
 import { AgendaPoint } from "../../../model/Agenda";
 import { SessionTimer } from "./SessionTimer";
+import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
+import { Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 interface ActiveSessionAgendaProps {
@@ -104,17 +105,21 @@ export default function ActiveSessionAgenda({
   };
 
   return (
-    <Paper elevation={2} className="ActiveSessionAgenda">
-      <Typography className="header">
-        <TurnedInNotIcon className="icon" />
-        {t("components.PresenterSession.Agenda.header")}
-      </Typography>
-      {agendaEntries?.map((agendaEntry: AgendaPoint, idx: number) => (
-        <div key={`${idx}-${agendaEntry.name}`} className="agendaEntry">
-          {renderAgendaEntry(idx, agendaEntry)}
+    <div className="ActiveSessionAgenda">
+      <ShadowBoxCard>
+        <div className="content">
+          <Typography className="header">
+            <TurnedInNotIcon className="icon" />
+            {t("components.PresenterSession.Agenda.header")}
+          </Typography>
+          {agendaEntries?.map((agendaEntry: AgendaPoint, idx: number) => (
+            <div key={`${idx}-${agendaEntry.name}`} className="agendaEntry">
+              {renderAgendaEntry(idx, agendaEntry)}
+            </div>
+          ))}
+          <SessionTimer startTime={sessionStartDate.toISOString()} />
         </div>
-      ))}
-      <SessionTimer startTime={sessionStartDate.toISOString()} />
-    </Paper>
+      </ShadowBoxCard>
+    </div>
   );
 }
