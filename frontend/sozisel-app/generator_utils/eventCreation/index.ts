@@ -63,7 +63,8 @@ fs.writeFileSync(`${dir}/Schemas/createSchema.ts`, createSchemaUpdated);
 const moduleTemplate = fs
   .readFileSync("./generator_utils/EventCreation/moduleTemplate.tsx")
   .toString()
-  .replaceAll("ModuleTemplate", moduleName);
+  .split("ModuleTemplate")
+  .join(moduleName);
 const styleTemplate = fs.readFileSync(
   "./generator_utils/EventCreation/moduleTemplate.scss"
 );
