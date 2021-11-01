@@ -42,6 +42,7 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Mutations.PollMutations)
   import_types(SoziselWeb.Schema.Mutations.WhiteboardMutations)
   import_types(SoziselWeb.Schema.Mutations.SessionResourceMutations)
+  import_types(SoziselWeb.Schema.Mutations.EventMutations)
 
   # Subscriptions
   import_types(SoziselWeb.Schema.Subscriptions.EventSubscriptions)
@@ -71,6 +72,7 @@ defmodule SoziselWeb.Schema do
     import_fields(:poll_mutations)
     import_fields(:whiteboard_mutations)
     import_fields(:session_resource_mutations)
+    import_fields(:event_mutations)
   end
 
   subscription do

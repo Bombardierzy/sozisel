@@ -102,7 +102,7 @@ defmodule Sozisel.Model.Quizzes.QuizResult do
     quiz_questions_summary =
       quiz_questions
       |> Enum.map(fn question ->
-        participants_answers = get_participants_answer_for_qestion(quiz_results, question)
+        participants_answers = get_participants_answer_for_question(quiz_results, question)
 
         total_question_answer_time =
           participants_answers |> Enum.map(& &1.answer_time) |> Enum.sum()
@@ -114,9 +114,10 @@ defmodule Sozisel.Model.Quizzes.QuizResult do
           question_id: question.id,
           answers: question.answers,
           correct_answers: question.correct_answers,
-          average_point: (total_question_points / length(participants_answers)) |> Float.round(2),
+          average_point:
+            (total_question_points / max(1, length(participants_answers))) |> Float.round(2),
           average_answer_time:
-            (total_question_answer_time / length(participants_answers)) |> Float.round(2),
+            (total_question_answer_time / max(1, length(participants_answers))) |> Float.round(2),
           participants_answers: participants_answers
         }
       end)
@@ -124,7 +125,7 @@ defmodule Sozisel.Model.Quizzes.QuizResult do
     quiz_questions_summary
   end
 
-  defp get_participants_answer_for_qestion(quiz_results, question) do
+  defp get_participants_answer_for_question(quiz_results, question) do
     quiz_results
     |> Enum.map(fn participant_results ->
       participant = participant_results.participant

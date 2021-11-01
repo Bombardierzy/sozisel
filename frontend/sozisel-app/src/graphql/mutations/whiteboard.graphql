@@ -21,9 +21,3 @@ mutation SubmitWhiteboardResult($token: String!, $input: WhiteboardResultInput!)
     id
   }
 }
-
-mutation DeleteWhiteboard($id: ID!) {
-  deleteWhiteboard(id: $id) {
-    id
-  }
-}
