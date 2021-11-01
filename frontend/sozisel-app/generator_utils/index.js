@@ -181,7 +181,7 @@ updateFile({
     event={activeEvent.eventData}
   />
 )}`,
-  importPath: `import ${moduleName} from "./${moduleName}/${moduleName}";`,
+  importPath: `import {${moduleName}} from "./${moduleName}/${moduleName}";`,
 });
 // creates live details module
 fs.mkdirSync(`${outputDir}/LiveEventDetails/${moduleName}`);
