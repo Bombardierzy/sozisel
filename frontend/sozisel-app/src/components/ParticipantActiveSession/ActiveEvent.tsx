@@ -3,11 +3,14 @@ import {
   useGetEventTypename,
 } from "../../hooks/useGetEventTypename";
 import React, { ReactElement } from "react";
+
 import { ParticipantEvent } from "../../graphql";
 import ParticipantPollEvent from "./Modules/PollEvent/ParticipantPollEvent";
 import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/ParticipantQuizContext";
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
 import ParticipantWhiteboardEvent from "./Modules/WhiteboardEvent/ParticipantWhiteboardEvent";
+
+// import placeholder
 
 interface ActiveEventProps {
   activeEvent: ParticipantEvent;
@@ -51,6 +54,7 @@ const ActiveEvent = ({
           withJitsi={withJitsi || false}
         />
       );
+    // placeholder for new module
     default:
       return <></>;
   }

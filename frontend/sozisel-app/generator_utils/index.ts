@@ -61,8 +61,8 @@ if (!displayName) {
 // /*
 //  * Event Creation generation
 //  */
-// let outputDir = "./src/components/TemplateCreation/EventCreation";
-// let inputDir = "./generator_utils/eventCreation";
+let outputDir = "./src/components/TemplateCreation/EventCreation";
+let inputDir = "./generator_utils/eventCreation";
 // // adding menu item
 // const menuItemPlaceholder = "{/* newmoduleplaceholder */}";
 // const eventCreationFile = fs.readFileSync(`${outputDir}/EventCreation.tsx`);
@@ -174,67 +174,110 @@ if (!displayName) {
 /*
  * Event timeline generation
  */
-outputDir = "./src/components/PresenterSession/EventsTimeline";
-inputDir = "./generator_utils/eventTimeline";
+// outputDir = "./src/components/PresenterSession/EventsTimeline";
+// inputDir = "./generator_utils/eventTimeline";
+// // creates details module
+// const eventTimelineDetailsModule = fs
+//   .readFileSync(`${inputDir}/moduleDetails.tsx`)
+//   .toString()
+//   .split("ModuleDetails")
+//   .join(`${moduleName}`);
+// const eventTimelineDetailsStyle = fs.readFileSync(
+//   `${inputDir}/moduleDetails.scss`
+// );
+// fs.mkdirSync(`${outputDir}/EventDetails/${moduleName}`);
+// fs.writeFileSync(
+//   `${outputDir}/EventDetails/${moduleName}/${moduleName}.scss`,
+//   eventTimelineDetailsStyle
+// );
+// fs.writeFileSync(
+//   `${outputDir}/EventDetails/${moduleName}/${moduleName}.tsx`,
+//   eventTimelineDetailsModule
+// );
+// // updates event details
+// const eventDetails = fs
+//   .readFileSync(`${outputDir}/EventDetails/EventsDetails.tsx`)
+//   .toString()
+//   .replace(
+//     "// import placeholder",
+//     `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
+//   )
+//   .replace(
+//     "{/* placeholder for new module */}",
+//     `{activeEvent.eventData.__typename === "${moduleName}" && (
+//       <${moduleName}
+//         event={activeEvent.eventData}
+//       />
+//     )}\n{/* placeholder for new module */}`
+//   );
+// fs.writeFileSync(`${outputDir}/EventDetails/EventsDetails.tsx`, eventDetails);
+// // creates live details module
+// const eventTimelineLiveDetailsModule = fs
+//   .readFileSync(`${inputDir}/liveEventDetails.tsx`)
+//   .toString()
+//   .split("LiveEventDetails")
+//   .join(`${moduleName}`);
+// fs.mkdirSync(`${outputDir}/LiveEventDetails/${moduleName}`);
+// fs.writeFileSync(
+//   `${outputDir}/LiveEventDetails/${moduleName}/${moduleName}.tsx`,
+//   eventTimelineLiveDetailsModule
+// );
+// // updates live event details
+// const liveEventDetails = fs
+//   .readFileSync(`${outputDir}/LiveEventDetails/LiveEventDetails.tsx`)
+//   .toString()
+//   .replace(
+//     "// import placeholder",
+//     `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
+//   )
+//   .replace(
+//     "{/* placeholder for new module */}",
+//     `{eventType === EventType.${moduleName} && <${moduleName} />}\n{/* placeholder for new module */}`
+//   );
+// fs.writeFileSync(
+//   `${outputDir}/LiveEventDetails/LiveEventDetails.tsx`,
+//   liveEventDetails
+// );
+/*
+ * Participant active session module
+ */
+outputDir = "./src/components/ParticipantActiveSession";
+inputDir = "./generator_utils/participantSession";
 // creates details module
-const eventTimelineDetailsModule = fs
-  .readFileSync(`${inputDir}/moduleDetails.tsx`)
+const participantModule = fs
+  .readFileSync(`${inputDir}/moduleTemplate.tsx`)
   .toString()
-  .split("ModuleDetails")
+  .split("ModuleTemplate")
   .join(`${moduleName}`);
-const eventTimelineDetailsStyle = fs.readFileSync(
-  `${inputDir}/moduleDetails.scss`
+const participantModuleStyle = fs.readFileSync(
+  `${inputDir}/moduleTemplate.scss`
 );
-fs.mkdirSync(`${outputDir}/EventDetails/${moduleName}`);
+fs.mkdirSync(`${outputDir}/Modules/${moduleName}`);
 fs.writeFileSync(
-  `${outputDir}/EventDetails/${moduleName}/${moduleName}.scss`,
-  eventTimelineDetailsStyle
+  `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
+  participantModuleStyle
 );
 fs.writeFileSync(
-  `${outputDir}/EventDetails/${moduleName}/${moduleName}.tsx`,
-  eventTimelineDetailsModule
+  `${outputDir}/Modules/${moduleName}/${moduleName}.tsx`,
+  participantModule
 );
-// updates event details
-const eventDetails = fs
-  .readFileSync(`${outputDir}/EventDetails/EventsDetails.tsx`)
+// updates active event
+const activeEvent = fs
+  .readFileSync(`${outputDir}/ActiveEvent.tsx`)
   .toString()
   .replace(
     "// import placeholder",
-    `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
+    `import {${moduleName}} from "./Modules/${moduleName}/${moduleName}";\n// import placeholder`
   )
   .replace(
-    "{/* placeholder for new module */}",
-    `{activeEvent.eventData.__typename === "${moduleName}" && (
+    "// placeholder for new module",
+    `case EventType.${moduleName}:
+    return (
       <${moduleName}
-        event={activeEvent.eventData}
+        token={token}
+        event={activeEvent}
+        onFinished={onEventFinished}
       />
-    )}\n{/* placeholder for new module */}`
+    );\n// placeholder for new module`
   );
-fs.writeFileSync(`${outputDir}/EventDetails/EventsDetails.tsx`, eventDetails);
-// creates live details module
-const eventTimelineLiveDetailsModule = fs
-  .readFileSync(`${inputDir}/liveEventDetails.tsx`)
-  .toString()
-  .split("LiveEventDetails")
-  .join(`${moduleName}`);
-fs.mkdirSync(`${outputDir}/LiveEventDetails/${moduleName}`);
-fs.writeFileSync(
-  `${outputDir}/LiveEventDetails/${moduleName}/${moduleName}.tsx`,
-  eventTimelineLiveDetailsModule
-);
-// updates live event details
-const liveEventDetails = fs
-  .readFileSync(`${outputDir}/LiveEventDetails/LiveEventDetails.tsx`)
-  .toString()
-  .replace(
-    "// import placeholder",
-    `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
-  )
-  .replace(
-    "{/* placeholder for new module */}",
-    `{eventType === EventType.${moduleName} && <${moduleName} />}\n{/* placeholder for new module */}`
-  );
-fs.writeFileSync(
-  `${outputDir}/LiveEventDetails/LiveEventDetails.tsx`,
-  liveEventDetails
-);
+fs.writeFileSync(`${outputDir}/ActiveEvent.tsx`, activeEvent);
