@@ -11,7 +11,7 @@ const useGetEventTypeMessage = (): ((type: EventType) => string) => {
         return t("components.EventType.Quiz");
       case EventType.Whiteboard:
         return t("components.EventType.Whiteboard");
-      // MODULE_GENERATION_PLACEHOLDER
+      // MODULE_GENERATION_PLACEHOLDER_CONTENT
       default:
         return "";
     }

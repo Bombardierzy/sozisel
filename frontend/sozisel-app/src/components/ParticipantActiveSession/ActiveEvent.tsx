@@ -54,7 +54,7 @@ const ActiveEvent = ({
           withJitsi={withJitsi || false}
         />
       );
-    // MODULE_GENERATION_PLACEHOLDER
+    // MODULE_GENERATION_PLACEHOLDER_CONTENT
     default:
       return <></>;
   }

@@ -66,7 +66,7 @@ const EventElementDetails: FC<{ event: Event }> = ({ event }) => {
     case "Whiteboard": {
       return <Whiteboard data={event.eventData as WhiteboardData} />;
     }
-    // MODULE_GENERATION_PLACEHOLDER
+    // MODULE_GENERATION_PLACEHOLDER_CONTENT
     default: {
       return <></>;
     }
