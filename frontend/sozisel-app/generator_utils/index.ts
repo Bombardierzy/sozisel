@@ -27,27 +27,41 @@ if (!displayName) {
     "--displayName argument is required. Example --displayName=Bar"
   );
 }
-const dir = "./src/components/TemplateCreation/EventCreation";
+/*
+ * Updates hooks
+ */ 
+const locales = fs.readFileSync('./public/locales/pl/common.json').toString().replace(`"EventType": {`, `"EventType": {"${moduleName}": "${displayName}",`);
+fs.writeFileSync('./public/locales/pl/common.json', locales);
+const useGetEventTypeMessage = fs.readFileSync('./src/hooks/useGetEventTypeMessage.ts').toString().replace('// placeholder for new module', `case EventType.${moduleName}:
+return t("components.EventType.${moduleName}");\n// placeholder for new module`);
+fs.writeFileSync('./src/hooks/useGetEventTypeMessage.ts', useGetEventTypeMessage);
+const useGetEventTypename = fs.readFileSync('./src/hooks/useGetEventTypename.ts').toString().replace('// placeholder for new module', `${moduleName} = "${moduleName}",\n// placeholder for new module`);
+fs.writeFileSync('./src/hooks/useGetEventTypename.ts', useGetEventTypename);
+/*
+ * Event Creation generation 
+ */ 
+let outputDir = "./src/components/TemplateCreation/EventCreation";
+let inputDir = './generator_utils/eventCreation';
 // adding menu item
 const menuItemPlaceholder = "{/* newmoduleplaceholder */}";
-const eventCreationFile = fs.readFileSync(`${dir}/EventCreation.tsx`);
+const eventCreationFile = fs.readFileSync(`${outputDir}/EventCreation.tsx`);
 const outputTsx = eventCreationFile
   .toString()
   .replace(
     menuItemPlaceholder,
     `<MenuItem value="${moduleName}">${displayName}</MenuItem>${menuItemPlaceholder}`
   );
-fs.writeFileSync(`${dir}/EventCreation.tsx`, outputTsx);
+fs.writeFileSync(`${outputDir}/EventCreation.tsx`, outputTsx);
 // creating module schema
 const schemaTemplate = fs.readFileSync(
-  `./generator_utils/eventCreation/schemaTemplate.ts`
+  `${inputDir}/schemaTemplate.ts`
 );
 const eventSchema = schemaTemplate
   .toString()
   .replace("schemaTemplate", `${moduleName}Schema`);
-fs.writeFileSync(`${dir}/Schemas/Modules/${moduleName}Schema.ts`, eventSchema);
+fs.writeFileSync(`${outputDir}/Schemas/Modules/${moduleName}Schema.ts`, eventSchema);
 // updates create schema function
-const createSchema = fs.readFileSync(`${dir}/Schemas/createSchema.ts`);
+const createSchema = fs.readFileSync(`${outputDir}/Schemas/createSchema.ts`);
 const createSchemaUpdated = createSchema
   .toString()
   .replace(
@@ -58,28 +72,28 @@ const createSchemaUpdated = createSchema
     "// placeholder for new module",
     `case "${moduleName}":\nreturn ${moduleName}Schema;\n// placeholder for new module`
   );
-fs.writeFileSync(`${dir}/Schemas/createSchema.ts`, createSchemaUpdated);
+fs.writeFileSync(`${outputDir}/Schemas/createSchema.ts`, createSchemaUpdated);
 // create module component
 const moduleTemplate = fs
-  .readFileSync("./generator_utils/EventCreation/moduleTemplate.tsx")
+  .readFileSync(`${inputDir}/moduleTemplate.tsx`)
   .toString()
   .split("ModuleTemplate")
   .join(moduleName);
 const styleTemplate = fs.readFileSync(
-  "./generator_utils/EventCreation/moduleTemplate.scss"
+  `${inputDir}/moduleTemplate.scss`
 );
-fs.mkdirSync(`${dir}/Modules/${moduleName}`);
+fs.mkdirSync(`${outputDir}/Modules/${moduleName}`);
 fs.writeFileSync(
-  `${dir}/Modules/${moduleName}/${moduleName}.scss`,
+  `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
   styleTemplate
 );
 fs.writeFileSync(
-  `${dir}/Modules/${moduleName}/${moduleName}.tsx`,
+  `${outputDir}/Modules/${moduleName}/${moduleName}.tsx`,
   moduleTemplate
 );
 // import module component
 const eventCreationModule = fs
-  .readFileSync(`${dir}/Modules/EventCreationModules.tsx`)
+  .readFileSync(`${outputDir}/Modules/EventCreationModules.tsx`)
   .toString()
   .replace(
     "// import placeholder",
@@ -97,6 +111,17 @@ const eventCreationModule = fs
   )}\n{/* placeholder  for new module */}`
   );
 fs.writeFileSync(
-  `${dir}/Modules/EventCreationModules.tsx`,
+  `${outputDir}/Modules/EventCreationModules.tsx`,
   eventCreationModule
 );
+
+/*
+ * Event list element generation 
+ */ 
+outputDir = "./src/components/TemplateCreation/EventsList/EventsListElement";
+inputDir = './generator_utils/eventListElement';
+/*
+ * Event timeline generation
+ */ 
+outputDir = "./src/components/PresenterSession/EventsTimeline";
+inputDir = './generator_utils/eventTimeline';

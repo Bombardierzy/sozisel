@@ -1,12 +1,16 @@
 import "./EventDetails.scss";
+
 import { Event, Quiz } from "../../../../model/Template";
 import { Poll, Whiteboard } from "../../../../graphql";
-import React, { ReactElement } from "react";
+
 import PollDetails from "./PollDetails/PollDetails";
 import QuizDetails from "./QuizDetails/QuizDetails";
+import { ReactElement } from "react";
 import { Typography } from "@material-ui/core";
 import WhiteboardDetails from "./WhiteboardDetails/WhiteboardDetails";
 import { useTranslation } from "react-i18next";
+
+// import placeholder
 
 interface EventDetailsProps {
   activeEvent: Event;
@@ -43,6 +47,7 @@ export default function EventDetails({
               whiteboard={activeEvent.eventData as Whiteboard}
             />
           )}
+          {/* placeholder for new module */}
         </>
       )}
     </div>

@@ -136,14 +136,8 @@ export default function EventsTimeline({
         );
         break;
       }
-      case EventType.Poll: {
+      default:
         broadcast = true;
-        break;
-      }
-      case EventType.Whiteboard: {
-        broadcast = true;
-        break;
-      }
     }
 
     await launchEventMutation({

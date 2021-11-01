@@ -6,9 +6,8 @@ export enum EventType {
   Poll = "Poll",
   Quiz = "Quiz",
   ParticipantQuiz = "ParticipantQuiz",
+  // placeholder for new module
 }
-
-type EventTypename = "Whiteboard" | "Poll" | "Quiz" | "ParticipantQuiz";
 
 export const useGetEventTypename = (
   event: Event | ParticipantEvent
@@ -18,15 +17,4 @@ export const useGetEventTypename = (
   }
 
   return undefined;
-};
-
-export const useCheckEventTypename = (
-  event: Event,
-  typename: EventTypename
-): boolean => {
-  if (event.eventData.__typename) {
-    return EventType[event.eventData.__typename] === EventType[typename];
-  }
-
-  return false;
 };
