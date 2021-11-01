@@ -25,6 +25,8 @@ import Whiteboard from "./Whiteboard/Whiteboard";
 import { useEventContext } from "../../../../contexts/Event/EventContext";
 import { useTranslation } from "react-i18next";
 
+// MODULE_GENERATION_PLACEHOLDER_IMPORT
+
 const EventHeaders: FC<{ event: Event }> = ({ event }) => {
   const { t } = useTranslation("common");
 
@@ -41,10 +43,6 @@ const EventHeaders: FC<{ event: Event }> = ({ event }) => {
         </>
       );
     }
-    case "Poll": {
-      return <></>;
-    }
-
     default: {
       return <></>;
     }
@@ -68,6 +66,7 @@ const EventElementDetails: FC<{ event: Event }> = ({ event }) => {
     case "Whiteboard": {
       return <Whiteboard data={event.eventData as WhiteboardData} />;
     }
+    // MODULE_GENERATION_PLACEHOLDER_CONTENT
     default: {
       return <></>;
     }

@@ -10,7 +10,7 @@ import {
 
 import ActiveSessionAgenda from "./ActiveSessionAgenda/ActiveSessionAgenda";
 import { Alert } from "@material-ui/lab";
-import EventsTimeline from "./EventsTimline/EventsTimeline";
+import EventsTimeline from "./EventsTimeline/EventsTimeline";
 import JitsiFrame from "../Jitsi/JitsiFrame";
 import MainNavbar from "../Navbar/MainNavbar/MainNavbar";
 import ParticipantsList from "./ParticipantsList/ParticipantsList";
