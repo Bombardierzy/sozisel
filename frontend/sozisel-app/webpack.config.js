@@ -115,5 +115,4 @@ module.exports = {
     open: true,
     overlay: true,
   },
-  target: 'node',
 };
