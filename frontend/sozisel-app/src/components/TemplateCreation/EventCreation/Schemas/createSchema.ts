@@ -4,6 +4,8 @@ import { pollSchema } from "./Modules/pollSchema";
 import { quizSchema } from "./Modules/quizSchema";
 import { whiteboardSchema } from "./Modules/whiteboardSchema";
 
+// import placeholder
+
 export function createSchema(moduleType: string): yup.AnyObjectSchema {
   switch (moduleType) {
     case "Quiz":
@@ -12,6 +14,7 @@ export function createSchema(moduleType: string): yup.AnyObjectSchema {
       return pollSchema;
     case "Whiteboard":
       return whiteboardSchema;
+    // placeholder for new module
     default:
       throw Error(`Encountered unknown module type: ${moduleType}`);
   }
