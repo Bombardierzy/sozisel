@@ -18,12 +18,5 @@ defmodule SoziselWeb.Schema.Mutations.PollMutations do
       middleware Middleware.ResourceAuthorization, {:update_event, Event}
       resolve &EventResolvers.update/3
     end
-
-    field :delete_poll, :event do
-      arg :id, non_null(:id)
-
-      middleware Middleware.ResourceAuthorization, {:delete_event, Event}
-      resolve &EventResolvers.delete/3
-    end
   end
 end
