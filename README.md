@@ -28,3 +28,13 @@
 ## About project :question:
 
 *Work in progress*
+
+## How to generate new module?
+
+1. Run script that generates backend files
+TODO
+2. Run script that generates frontend files
+```bash
+    npm run module:gen -- --moduleName=<your module name> --displayName=<name of your module that will be displayed>
+```
+3. Implement generated files that require your implementation
