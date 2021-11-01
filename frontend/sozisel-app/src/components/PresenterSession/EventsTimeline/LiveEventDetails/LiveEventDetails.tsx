@@ -12,7 +12,7 @@ import PollLiveEventDetails from "./PollLiveEventDetails/PollLiveEventDetails";
 import QuziLiveEventDetails from "./QuizLiveEventDetails/QuizLiveEventDetails";
 import WhiteboardLiveEventDetails from "./WhiteboardLiveEventDetails/WhiteboardLiveEventDetails";
 
-// import placeholder
+// MODULE_GENERATION_PLACEHOLDER_IMPORT
 
 interface LiveEventDetailsProps {
   activeEvent: ActiveEvent;
@@ -47,7 +47,7 @@ export default function LiveEventDetails({
       {eventType === EventType.Quiz && <QuziLiveEventDetails />}
       {eventType === EventType.Poll && <PollLiveEventDetails />}
       {eventType === EventType.Whiteboard && <WhiteboardLiveEventDetails />}
-      {/* placeholder for new module */}
+      {/* MODULE_GENERATION_PLACEHOLDER */}
     </LiveEventContext.Provider>
   );
 }

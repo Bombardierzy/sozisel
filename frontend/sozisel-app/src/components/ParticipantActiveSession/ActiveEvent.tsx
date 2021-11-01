@@ -10,7 +10,7 @@ import { ParticipantQuizContextProvider } from "../../contexts/ParticipantQuiz/P
 import ParticipantQuizEvent from "./Modules/QuizEvent/ParticipantQuizEvent";
 import ParticipantWhiteboardEvent from "./Modules/WhiteboardEvent/ParticipantWhiteboardEvent";
 
-// import placeholder
+// MODULE_GENERATION_PLACEHOLDER_IMPORT
 
 interface ActiveEventProps {
   activeEvent: ParticipantEvent;
@@ -54,7 +54,7 @@ const ActiveEvent = ({
           withJitsi={withJitsi || false}
         />
       );
-    // placeholder for new module
+    // MODULE_GENERATION_PLACEHOLDER
     default:
       return <></>;
   }

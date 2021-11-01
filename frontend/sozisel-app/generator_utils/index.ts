@@ -1,36 +1,77 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require("fs");
 
-function getArgs() {
-  const args = {};
-  process.argv.slice(2, process.argv.length).forEach((arg) => {
-    if (arg.slice(0, 2) === "--") {
-      const longArg = arg.split("=");
-      const longArgFlag = longArg[0].slice(2, longArg[0].length);
-      const longArgValue = longArg.length > 1 ? longArg[1] : true;
-      args[longArgFlag] = longArgValue;
+const HELP = `
+usage node index.js 
+        [--moduleName=value]
+        [--displayName=value]
+`;
+const ARGS = ["--moduleName", "--displayName"];
+interface GeneratorArgs {
+  displayName: string;
+  moduleName: string;
+}
+function parseArguments(): GeneratorArgs {
+  const args = {
+    displayName: "",
+    moduleName: "",
+  };
+  process.argv.slice(2).forEach((arg) => {
+    if (arg.startsWith("--")) {
+      const [argument, value] = arg.split("=");
+      if (!argument || !value || !ARGS.includes(argument)) {
+        throw new Error(`Invalid command: ${HELP}`);
+      }
+
+      const arg = argument.slice(2); // strip '--'
+      args[arg] = value;
     }
   });
   return args;
 }
+const { displayName, moduleName } = parseArguments();
 
-const args = getArgs();
-const moduleName = args["moduleName"];
-if (!moduleName) {
-  throw new Error(
-    "--moduleName argument is required. Example: --moduleName=Foo"
-  );
-}
-const displayName = args["displayName"];
-if (!displayName) {
-  throw new Error(
-    "--displayName argument is required. Example --displayName=Bar"
-  );
+interface UpdateFileProps {
+  file: string;
+  replaceWith: string;
+  importPath?: string;
 }
 
+function updateFile({ file, replaceWith, importPath }: UpdateFileProps): void {
+  const import_placeholder = "// MODULE_GENERATION_PLACEHOLDER_IMPORT";
+  const content_placeholder_v1 = "// MODULE_GENERATION_PLACEHOLDER";
+  const content_placeholder_v2 = "{/* MODULE_GENERATION_PLACEHOLDER */}";
+  const result = fs
+    .readFileSync(file)
+    .toString()
+    .replace(`${import_placeholder}`, `${importPath}\n${import_placeholder}`)
+    .replace(
+      `${content_placeholder_v1}`,
+      `${replaceWith}\n${content_placeholder_v1}`
+    )
+    .replace(
+      `${content_placeholder_v2}`,
+      `${replaceWith}\n${content_placeholder_v2}`
+    );
+  fs.writeFileSync(`${file}`, result);
+}
+
+interface CreateModuleProps {
+  inputPath: string;
+  outputPath: string;
+}
+
+function createModule({ inputPath, outputPath }: CreateModuleProps): void {
+  const moduleTemplate = fs
+    .readFileSync(`${inputPath}`)
+    .toString()
+    .split("ModuleTemplate")
+    .join(`${moduleName}`);
+  fs.writeFileSync(`${outputPath}`, moduleTemplate);
+}
 
 /*
- * Updates hooks
+ * Update locales
  */
 const locales = fs
   .readFileSync("./public/locales/pl/common.json")
@@ -40,28 +81,19 @@ const locales = fs
     `"EventType": {"${moduleName}": "${displayName}",`
   );
 fs.writeFileSync("./public/locales/pl/common.json", locales);
-const useGetEventTypeMessage = fs
-  .readFileSync("./src/hooks/useGetEventTypeMessage.ts")
-  .toString()
-  .replace(
-    "// placeholder for new module",
-    `case EventType.${moduleName}:
-return t("components.EventType.${moduleName}");\n// placeholder for new module`
-  );
-fs.writeFileSync(
-  "./src/hooks/useGetEventTypeMessage.ts",
-  useGetEventTypeMessage
-);
-const useGetEventTypename = fs
-  .readFileSync("./src/hooks/useGetEventTypename.ts")
-  .toString()
-  .replace(
-    "// placeholder for new module",
-    `${moduleName} = "${moduleName}",\n// placeholder for new module`
-  );
-fs.writeFileSync("./src/hooks/useGetEventTypename.ts", useGetEventTypename);
 
-
+/*
+ * updates hooks
+ */
+updateFile({
+  file: "./src/hooks/useGetEventTypeMessage.ts",
+  replaceWith: `case EventType.${moduleName}:
+return t("components.EventType.${moduleName}");`,
+});
+updateFile({
+  file: "./src/hooks/useGetEventTypename.ts",
+  replaceWith: `${moduleName} = "${moduleName}",`,
+});
 
 /*
  * Event Creation generation
@@ -69,78 +101,50 @@ fs.writeFileSync("./src/hooks/useGetEventTypename.ts", useGetEventTypename);
 let outputDir = "./src/components/TemplateCreation/EventCreation";
 let inputDir = "./generator_utils/eventCreation";
 // adding menu item
-const menuItemPlaceholder = "{/* newmoduleplaceholder */}";
-const eventCreationFile = fs.readFileSync(`${outputDir}/EventCreation.tsx`);
-const outputTsx = eventCreationFile
-  .toString()
-  .replace(
-    menuItemPlaceholder,
-    `<MenuItem value="${moduleName}">${displayName}</MenuItem>${menuItemPlaceholder}`
-  );
-fs.writeFileSync(`${outputDir}/EventCreation.tsx`, outputTsx);
+updateFile({
+  file: `${outputDir}/EventCreation.tsx`,
+  replaceWith: `<MenuItem value="${moduleName}">${displayName}</MenuItem>`,
+});
+
 // creating module schema
-const schemaTemplate = fs.readFileSync(`${inputDir}/schemaTemplate.ts`);
-const eventSchema = schemaTemplate
+const schemaTemplate = fs
+  .readFileSync(`${inputDir}/schemaTemplate.ts`)
   .toString()
   .replace("schemaTemplate", `${moduleName}Schema`);
 fs.writeFileSync(
   `${outputDir}/Schemas/Modules/${moduleName}Schema.ts`,
-  eventSchema
+  schemaTemplate
 );
 // updates create schema function
-const createSchema = fs.readFileSync(`${outputDir}/Schemas/createSchema.ts`);
-const createSchemaUpdated = createSchema
-  .toString()
-  .replace(
-    "// import placeholder",
-    `import { ${moduleName}Schema } from "./Modules/${moduleName}Schema";\n// import placeholder`
-  )
-  .replace(
-    "// placeholder for new module",
-    `case "${moduleName}":\nreturn ${moduleName}Schema;\n// placeholder for new module`
-  );
-fs.writeFileSync(`${outputDir}/Schemas/createSchema.ts`, createSchemaUpdated);
+updateFile({
+  file: `${outputDir}/Schemas/createSchema.ts`,
+  replaceWith: `case "${moduleName}":\nreturn ${moduleName}Schema;`,
+  importPath: `import { ${moduleName}Schema } from "./Modules/${moduleName}Schema";`,
+});
+
 // create module component
-const moduleTemplate = fs
-  .readFileSync(`${inputDir}/moduleTemplate.tsx`)
-  .toString()
-  .split("ModuleTemplate")
-  .join(moduleName);
-const styleTemplate = fs.readFileSync(`${inputDir}/moduleTemplate.scss`);
 fs.mkdirSync(`${outputDir}/Modules/${moduleName}`);
-fs.writeFileSync(
-  `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
-  styleTemplate
-);
-fs.writeFileSync(
-  `${outputDir}/Modules/${moduleName}/${moduleName}.tsx`,
-  moduleTemplate
-);
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.tsx`,
+  outputPath: `${outputDir}/Modules/${moduleName}/${moduleName}.tsx`,
+});
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.scss`,
+  outputPath: `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
+});
 // import module component
-const eventCreationModule = fs
-  .readFileSync(`${outputDir}/Modules/EventCreationModules.tsx`)
-  .toString()
-  .replace(
-    "// import placeholder",
-    `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
-  )
-  .replace(
-    "{/* placeholder  for new module */}",
-    `{moduleType === "${moduleName}" && (
-    <${moduleName}
-      handleSubmit={handleSubmit}
-      errors={errors}
-      control={control}
-      setValue={setValue}
-    />
-  )}\n{/* placeholder  for new module */}`
-  );
-fs.writeFileSync(
-  `${outputDir}/Modules/EventCreationModules.tsx`,
-  eventCreationModule
-);
-
-
+updateFile({
+  file: `${outputDir}/Modules/EventCreationModules.tsx`,
+  replaceWith: `{moduleType === "${moduleName}" && (
+  <${moduleName}
+    handleSubmit={handleSubmit}
+    errors={errors}
+    control={control}
+    setValue={setValue}
+  />
+)}`,
+  importPath: `import ${moduleName} from "./${moduleName}/${moduleName}";`,
+});
 
 /*
  * Event list element generation
@@ -148,38 +152,23 @@ fs.writeFileSync(
 outputDir = "./src/components/TemplateCreation/EventsList/EventsListElement";
 inputDir = "./generator_utils/eventListElement";
 // creates module
-const eventListModule = fs
-  .readFileSync(`${inputDir}/moduleTemplate.tsx`)
-  .toString()
-  .split("ModuleTemplate")
-  .join(`${moduleName}`);
-const eventListStyles = fs.readFileSync(`${inputDir}/moduleTemplate.scss`);
 fs.mkdirSync(`${outputDir}/${moduleName}`);
-fs.writeFileSync(
-  `${outputDir}/${moduleName}/${moduleName}.scss`,
-  eventListStyles
-);
-fs.writeFileSync(
-  `${outputDir}/${moduleName}/${moduleName}.tsx`,
-  eventListModule
-);
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.tsx`,
+  outputPath: `${outputDir}/${moduleName}/${moduleName}.tsx`,
+});
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.scss`,
+  outputPath: `${outputDir}/${moduleName}/${moduleName}.scss`,
+});
 // updates file
-const eventListElement = fs
-  .readFileSync(`${outputDir}/EventListElement.tsx`)
-  .toString()
-  .replace(
-    "// import placeholder",
-    `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
-  )
-  .replace(
-    "// placeholder for new module",
-    `case "${moduleName}": {
-    return <${moduleName} data={event.eventData} />;
-  }\n// placeholder for new module`
-  );
-fs.writeFileSync(`${outputDir}/EventListElement.tsx`, eventListElement);
-
-
+updateFile({
+  file: `${outputDir}/EventListElement.tsx`,
+  replaceWith: `case "${moduleName}": {
+  return <${moduleName} data={event.eventData} />;
+}`,
+  importPath: `import ${moduleName} from "./${moduleName}/${moduleName}";`,
+});
 
 /*
  * Event timeline generation
@@ -187,70 +176,37 @@ fs.writeFileSync(`${outputDir}/EventListElement.tsx`, eventListElement);
 outputDir = "./src/components/PresenterSession/EventsTimeline";
 inputDir = "./generator_utils/eventTimeline";
 // creates details module
-const eventTimelineDetailsModule = fs
-  .readFileSync(`${inputDir}/moduleDetails.tsx`)
-  .toString()
-  .split("ModuleDetails")
-  .join(`${moduleName}`);
-const eventTimelineDetailsStyle = fs.readFileSync(
-  `${inputDir}/moduleDetails.scss`
-);
 fs.mkdirSync(`${outputDir}/EventDetails/${moduleName}`);
-fs.writeFileSync(
-  `${outputDir}/EventDetails/${moduleName}/${moduleName}.scss`,
-  eventTimelineDetailsStyle
-);
-fs.writeFileSync(
-  `${outputDir}/EventDetails/${moduleName}/${moduleName}.tsx`,
-  eventTimelineDetailsModule
-);
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.tsx`,
+  outputPath: `${outputDir}/EventDetails/${moduleName}/${moduleName}.tsx`,
+});
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.scss`,
+  outputPath: `${outputDir}/EventDetails/${moduleName}/${moduleName}.scss`,
+});
 // updates event details
-const eventDetails = fs
-  .readFileSync(`${outputDir}/EventDetails/EventsDetails.tsx`)
-  .toString()
-  .replace(
-    "// import placeholder",
-    `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
-  )
-  .replace(
-    "{/* placeholder for new module */}",
-    `{activeEvent.eventData.__typename === "${moduleName}" && (
-      <${moduleName}
-        event={activeEvent.eventData}
-      />
-    )}\n{/* placeholder for new module */}`
-  );
-fs.writeFileSync(`${outputDir}/EventDetails/EventsDetails.tsx`, eventDetails);
+updateFile({
+  file: `${outputDir}/EventDetails/EventsDetails.tsx`,
+  replaceWith: `{activeEvent.eventData.__typename === "${moduleName}" && (
+  <${moduleName}
+    event={activeEvent.eventData}
+  />
+)}`,
+  importPath: `import ${moduleName} from "./${moduleName}/${moduleName}";`,
+});
 // creates live details module
-const eventTimelineLiveDetailsModule = fs
-  .readFileSync(`${inputDir}/liveEventDetails.tsx`)
-  .toString()
-  .split("LiveEventDetails")
-  .join(`${moduleName}`);
 fs.mkdirSync(`${outputDir}/LiveEventDetails/${moduleName}`);
-fs.writeFileSync(
-  `${outputDir}/LiveEventDetails/${moduleName}/${moduleName}.tsx`,
-  eventTimelineLiveDetailsModule
-);
+createModule({
+  inputPath: `${inputDir}/liveEventModuleTemplate.tsx`,
+  outputPath: `${outputDir}/LiveEventDetails/${moduleName}/${moduleName}.tsx`,
+});
 // updates live event details
-const liveEventDetails = fs
-  .readFileSync(`${outputDir}/LiveEventDetails/LiveEventDetails.tsx`)
-  .toString()
-  .replace(
-    "// import placeholder",
-    `import ${moduleName} from "./${moduleName}/${moduleName}";\n// import placeholder`
-  )
-  .replace(
-    "{/* placeholder for new module */}",
-    `{eventType === EventType.${moduleName} && <${moduleName} />}\n{/* placeholder for new module */}`
-  );
-fs.writeFileSync(
-  `${outputDir}/LiveEventDetails/LiveEventDetails.tsx`,
-  liveEventDetails
-);
-
-
-
+updateFile({
+  file: `${outputDir}/LiveEventDetails/LiveEventDetails.tsx`,
+  replaceWith: `{eventType === EventType.${moduleName} && <${moduleName} />}`,
+  importPath: `import ${moduleName} from "./${moduleName}/${moduleName}";`,
+});
 
 /*
  * Participant active session module
@@ -258,46 +214,28 @@ fs.writeFileSync(
 outputDir = "./src/components/ParticipantActiveSession";
 inputDir = "./generator_utils/participantSession";
 // creates details module
-const participantModule = fs
-  .readFileSync(`${inputDir}/moduleTemplate.tsx`)
-  .toString()
-  .split("ModuleTemplate")
-  .join(`${moduleName}`);
-const participantModuleStyle = fs.readFileSync(
-  `${inputDir}/moduleTemplate.scss`
-);
 fs.mkdirSync(`${outputDir}/Modules/${moduleName}`);
-fs.writeFileSync(
-  `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
-  participantModuleStyle
-);
-fs.writeFileSync(
-  `${outputDir}/Modules/${moduleName}/${moduleName}.tsx`,
-  participantModule
-);
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.tsx`,
+  outputPath: `${outputDir}/Modules/${moduleName}/${moduleName}.tsx`,
+});
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.scss`,
+  outputPath: `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
+});
 // updates active event
-const activeEvent = fs
-  .readFileSync(`${outputDir}/ActiveEvent.tsx`)
-  .toString()
-  .replace(
-    "// import placeholder",
-    `import {${moduleName}} from "./Modules/${moduleName}/${moduleName}";\n// import placeholder`
-  )
-  .replace(
-    "// placeholder for new module",
-    `case EventType.${moduleName}:
-    return (
-      <${moduleName}
-        token={token}
-        event={activeEvent}
-        onFinished={onEventFinished}
-      />
-    );\n// placeholder for new module`
-  );
-fs.writeFileSync(`${outputDir}/ActiveEvent.tsx`, activeEvent);
-
-
-
+updateFile({
+  file: `${outputDir}/ActiveEvent.tsx`,
+  replaceWith: `case EventType.${moduleName}:
+return (
+  <${moduleName}
+    token={token}
+    event={activeEvent}
+    onFinished={onEventFinished}
+  />
+);`,
+  importPath: `import {${moduleName}} from "./Modules/${moduleName}/${moduleName}";`,
+});
 
 /*
  * Event results
@@ -306,33 +244,20 @@ outputDir =
   "./src/components/SessionResultScreen/SessionResultEvents/EventResultDetails";
 inputDir = "./generator_utils/eventResult";
 // creates result module
-const eventResultModule = fs
-  .readFileSync(`${inputDir}/moduleTemplate.tsx`)
-  .toString()
-  .split("ModuleTemplate")
-  .join(`${moduleName}`);
-const eventResultStyle = fs.readFileSync(`${inputDir}/moduleTemplate.scss`);
 fs.mkdirSync(`${outputDir}/Modules/${moduleName}`);
-fs.writeFileSync(
-  `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
-  eventResultStyle
-);
-fs.writeFileSync(
-  `${outputDir}/Modules/${moduleName}/${moduleName}.tsx`,
-  eventResultModule
-);
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.tsx`,
+  outputPath: `${outputDir}/Modules/${moduleName}/${moduleName}.tsx`,
+});
+createModule({
+  inputPath: `${inputDir}/moduleTemplate.scss`,
+  outputPath: `${outputDir}/Modules/${moduleName}/${moduleName}.scss`,
+});
 // updates event result details
-const eventResultDetails = fs
-  .readFileSync(`${outputDir}/EventResultDetails.tsx`)
-  .toString()
-  .replace(
-    "// import placeholder",
-    `import {${moduleName}} from "./Modules/${moduleName}/${moduleName}";\n// import placeholder`
-  )
-  .replace(
-    "{/* placeholder for a new module */}",
-    `{eventType === EventType.${moduleName} && (
-      <${moduleName} id={id} eventName={eventName} />
-    )}\n{/* placeholder for a new module */}`
-  );
-fs.writeFileSync(`${outputDir}/EventResultDetails.tsx`, eventResultDetails);
+updateFile({
+  file: `${outputDir}/EventResultDetails.tsx`,
+  replaceWith: `{eventType === EventType.${moduleName} && (
+  <${moduleName} id={id} eventName={eventName} />
+)}`,
+  importPath: `import {${moduleName}} from "./Modules/${moduleName}/${moduleName}";`,
+});

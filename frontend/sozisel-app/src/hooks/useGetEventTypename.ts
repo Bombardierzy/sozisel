@@ -6,7 +6,7 @@ export enum EventType {
   Poll = "Poll",
   Quiz = "Quiz",
   ParticipantQuiz = "ParticipantQuiz",
-  // placeholder for new module
+  // MODULE_GENERATION_PLACEHOLDER
 }
 
 export const useGetEventTypename = (

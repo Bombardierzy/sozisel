@@ -12,7 +12,7 @@ import QuizResultDetails from "./Modules/QuizResultDetails/QuizResultDetails";
 import WhiteboardResultDetails from "./Modules/WhiteboardResultDetails/WhiteboardResultDetails";
 import { useTranslation } from "react-i18next";
 
-// import placeholder
+// MODULE_GENERATION_PLACEHOLDER_IMPORT
 export interface EventResultDetailsProps {
   sessionId: string;
 }
@@ -96,7 +96,7 @@ export default function EventResultDetails({
         {eventType === EventType.Whiteboard && (
           <WhiteboardResultDetails id={id} eventName={eventName} />
         )}
-        {/* placeholder for a new module */}
+        {/* // MODULE_GENERATION_PLACEHOLDER */}
       </div>
     );
   }

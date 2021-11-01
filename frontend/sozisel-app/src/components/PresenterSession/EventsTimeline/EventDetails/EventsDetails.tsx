@@ -10,7 +10,7 @@ import { Typography } from "@material-ui/core";
 import WhiteboardDetails from "./WhiteboardDetails/WhiteboardDetails";
 import { useTranslation } from "react-i18next";
 
-// import placeholder
+// MODULE_GENERATION_PLACEHOLDER_IMPORT
 
 interface EventDetailsProps {
   activeEvent: Event;
@@ -47,7 +47,7 @@ export default function EventDetails({
               whiteboard={activeEvent.eventData as Whiteboard}
             />
           )}
-          {/* placeholder for new module */}
+          {/* MODULE_GENERATION_PLACEHOLDER */}
         </>
       )}
     </div>

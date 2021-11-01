@@ -104,7 +104,7 @@ export default function EventCreation(): ReactElement {
                   <MenuItem value="Quiz">Quiz</MenuItem>
                   <MenuItem value="Poll">Ankieta</MenuItem>
                   <MenuItem value="Whiteboard">Tablica</MenuItem>
-                  {/* newmoduleplaceholder */}
+                  {/* // MODULE_GENERATION_PLACEHOLDER */}
                 </Select>
 
                 <Typography className="label">

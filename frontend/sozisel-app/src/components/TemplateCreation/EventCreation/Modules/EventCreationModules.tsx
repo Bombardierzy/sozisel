@@ -6,8 +6,7 @@ import Quiz from "./Quiz/Quiz";
 import { QuizContextProvider } from "../../../../contexts/Quiz/QuizContext";
 import Whiteboard from "./Whiteboard/Whiteboard";
 
-// import placeholder
-
+// MODULE_GENERATION_PLACEHOLDER_IMPORT
 export interface EventCreationModulesProps extends EventModuleProps {
   moduleType: string;
 }
@@ -47,7 +46,7 @@ export function EventCreationModule({
           setValue={setValue}
         />
       )}
-      {/* placeholder  for new module */}
+      {/* // MODULE_GENERATION_PLACEHOLDER */}
     </div>
   );
 }
