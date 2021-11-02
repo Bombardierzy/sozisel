@@ -40,7 +40,9 @@ RUN \
     inotify-tools \
     openssl \
     ncurses-libs \
-    curl
+    curl \
+    libstdc++ \
+    ffmpeg
 
 WORKDIR /app
 
