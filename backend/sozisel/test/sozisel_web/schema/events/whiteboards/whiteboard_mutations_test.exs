@@ -42,7 +42,7 @@ defmodule SoziselWeb.Schema.Events.Whiteboards.WhiteboardMutationsTest do
 
   @delete_whiteboard """
   mutation DeleteWhiteboard($id: ID!) {
-    deleteWhiteboard(id: $id) {
+    deleteEvent(id: $id) {
       id
       name
     }
@@ -133,7 +133,7 @@ defmodule SoziselWeb.Schema.Events.Whiteboards.WhiteboardMutationsTest do
 
       assert %{
                data: %{
-                 "deleteWhiteboard" => %{
+                 "deleteEvent" => %{
                    "id" => ^whiteboard_id,
                    "name" => ^whiteboard_name
                  }

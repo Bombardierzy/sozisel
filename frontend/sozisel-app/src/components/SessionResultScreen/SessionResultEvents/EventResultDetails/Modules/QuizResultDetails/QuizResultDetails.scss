@@ -14,16 +14,26 @@
 
     .quizSummary {
         flex: 1;
+        height: 100%;
+        box-sizing: border-box;
+        margin-right: $spacing-07;
+    }
+
+    .quizSummaryContent {
         display: flex;
         flex-direction: column;
         height: 100%;
         box-sizing: border-box;
-        margin-right: $spacing-07;
         padding: $spacing-06;
     }
 
     .quizResultView {
         flex: 3;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    .quizResultViewContent {
         display: flex;
         flex-direction: column;
         height: 100%;

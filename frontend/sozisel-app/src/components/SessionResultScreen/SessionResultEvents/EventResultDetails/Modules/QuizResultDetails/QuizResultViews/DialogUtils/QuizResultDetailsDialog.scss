@@ -28,11 +28,16 @@
 
     .detailsSummary {
         flex: 1;
+        height: 100%;
+        margin-right: $spacing-07;
+    }
+
+    .detailsSummaryContent {
+        padding: $spacing-06;
         display: flex;
         flex-direction: column;
-        height: calc(100% - 2*#{$spacing-06});
-        margin-right: $spacing-07;
-        padding: $spacing-06;
+        height: 100%;
+        box-sizing: border-box;
     }
 
     .headerWithIcon {
@@ -52,6 +57,11 @@
 
     .detailsView {
         flex: 3;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    .detailsViewContent {
         display: flex;
         flex-direction: column;
         height: 100%;

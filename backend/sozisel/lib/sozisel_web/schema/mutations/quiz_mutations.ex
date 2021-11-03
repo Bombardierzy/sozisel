@@ -18,12 +18,5 @@ defmodule SoziselWeb.Schema.Mutations.QuizMutations do
       middleware Middleware.ResourceAuthorization, {:update_event, Event}
       resolve &EventResolvers.update/3
     end
-
-    field :delete_quiz, :event do
-      arg :id, non_null(:id)
-
-      middleware Middleware.ResourceAuthorization, {:delete_event, Event}
-      resolve &EventResolvers.delete/3
-    end
   end
 end

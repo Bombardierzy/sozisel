@@ -1,0 +1,66 @@
+@import "../../../../../../../styles/styles";
+
+.MainContent {
+    border-radius: $spacing-03;
+    box-shadow: $default-box-shadow;
+    flex: 3;
+    margin-left: $spacing-06;
+    padding: $spacing-04 $spacing-06;
+    .header {
+        display: flex;
+        align-items: center;
+        .headerText {
+            @include header-03;
+            margin: 0 $spacing-05;
+        }
+        .icon, .exitIcon {
+            color: $main-color;
+            height: $spacing-07;
+            width: $spacing-07;
+        }
+        .exitIcon {
+            transform: rotateY(180deg);
+        }
+        .exitIcon:hover {
+            cursor: pointer;
+        }
+    }
+    .imageContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 90%;
+        .solutionImage {
+            border: 1px solid $bg-02;
+            border-radius: $spacing-03;
+            max-width: 90%;
+        }
+    }
+}
+
+.Particpant {
+    margin: $spacing-04 0;
+    display: flex;
+    align-items: center;
+    .icon {
+        color: $main-color;
+        margin-left: $spacing-04;
+        &:hover {
+            background-color: $hover-color;
+            border-radius: $spacing-07;
+            cursor: pointer;
+        }
+    }
+    .name {
+        color: $text-02;
+        font-weight: 500;
+        cursor: default;
+    }
+}
+
+
+.PartcipantList {
+    height: 100%;
+    overflow: auto;
+}

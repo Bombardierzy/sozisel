@@ -1,0 +1,59 @@
+@import "../../../../../../styles/styles";
+
+.Question {
+    border: $container-border;
+    background-color: $bg-04;
+    margin-top: $spacing-05;
+    padding: $spacing-03 $spacing-03;
+    text-align: center;
+    box-shadow: 0 0 $spacing-08 rgba(0, 0, 0, 0.1);
+    border-radius: $spacing-03;
+    display: flex;
+    flex-direction: column;
+    .buttonRight {
+        display: flex;
+        justify-content: flex-end;
+        margin: $spacing-03;
+        .check:hover {
+            cursor: pointer;
+        }
+    }
+    .question {
+        width: 100%;
+        input {
+            background-color: $bg-01;
+        }
+    }
+    .answer {
+        div {
+            cursor: pointer;
+            background-color: $bg-01;
+        }
+        input {
+            cursor: pointer;
+            background-color: $bg-01;
+        }
+        .check {
+            cursor: pointer;
+        }
+        width: 100%;
+        margin-top: $spacing-05;
+    }
+    .correctAnswer {
+        div {
+            background-color: $main-color-2;
+        }
+        input {
+            background-color: $main-color-2;
+        }
+    }
+
+    .buttonFlex {
+        margin: $spacing-03 0;
+        display: flex;
+        justify-content: flex-end;
+        .addButton {
+            cursor: pointer;
+        }
+    }
+}

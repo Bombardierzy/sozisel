@@ -16,12 +16,6 @@ mutation UpdatePoll($input: UpdatePollInput!) {
   }
 }
 
-mutation DeletePoll($id: ID!) {
-  deletePoll(id: $id) {
-    id
-  }
-}
-
 mutation SubmitPollResults($token: String!, $input: PollResultInput!){
   submitPollResult(token: $token, input: $input){
     id

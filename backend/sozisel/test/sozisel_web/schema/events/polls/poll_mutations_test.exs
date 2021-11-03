@@ -52,7 +52,7 @@ defmodule SoziselWeb.Schema.Events.Polls.PollMutationsTest do
 
   @delete_poll """
   mutation DeletePoll($id: ID!) {
-    deletePoll(id: $id) {
+    deleteEvent(id: $id) {
       id
       name
     }
@@ -164,7 +164,7 @@ defmodule SoziselWeb.Schema.Events.Polls.PollMutationsTest do
 
       assert %{
                data: %{
-                 "deletePoll" => %{
+                 "deleteEvent" => %{
                    "id" => ^poll_id,
                    "name" => ^poll_name
                  }
