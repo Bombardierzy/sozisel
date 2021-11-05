@@ -121,11 +121,34 @@ jobs:
           docker tag sozisel-frontend bombardierzy/sozisel-frontend:latest
           docker push bombardierzy/sozisel-frontend:latest
 
-  deploy_to_theliver:
+  build_and_push_router:
+    needs:
+      - test-backend
+      - test-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push router
+        id: docker_build_router
+        run: |
+          docker build -f router/Dockerfile -t sozisel-router router
+          docker tag sozisel-router bombardierzy/sozisel-router:latest
+          docker push bombardierzy/sozisel-router:latest
+
+  deploy_to_sozisel:
     runs-on: ubuntu-latest
     needs:
       - build_and_push_backend
       - build_and_push_frontend
+      - build_and_push_router
     steps:
       - uses: actions/checkout@v2
       - name: Copy configuration
@@ -145,9 +168,12 @@ jobs:
           password: ${{ secrets.DEPLOY_PASSWORD }}
           script: |
             mv ~/services/sozisel/deploy/* ~/services/sozisel/
+            mv ~/services/sozisel/prod-docker-compose.yml ~/services/sozisel/docker-compose.yml
             rm -r ~/services/sozisel/deploy
-            DOCKER_COMPOSE_FILE=~/services/sozisel/prod-docker-compose.yml
-            docker-compose -f "$DOCKER_COMPOSE_FILE" pull
-            docker-compose -f "$DOCKER_COMPOSE_FILE" up -d --build
-            docker-compose -f jitsi-compose.yml --env-file .jitsi_env up -d --build
+            DOCKER_COMPOSE_APP_FILE=~/services/sozisel/docker-compose.yml
+            DOCKER_COMPOSE_JITSI_FILE=~/services/sozisel/jitsi-compose.yml
+            JITSI_ENV_FILE=~/services/sozisel/.jitsi_env
+            docker-compose -f "$DOCKER_COMPOSE_APP_FILE" pull
+            docker-compose -f "$DOCKER_COMPOSE_APP_FILE" up -d --build
+            docker-compose -f "$DOCKER_COMPOSE_JITSI_FILE" --env-file "$JITSI_ENV_FILE" up -d --build
             docker image prune --all --force

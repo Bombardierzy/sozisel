@@ -1,6 +1,7 @@
 import "./MainContent.scss";
 import { ExitToApp, People } from "@material-ui/icons";
-import React, { ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
+import { UrlType, getTypedUrl } from "../../../../../../utils/Urls/urls";
 import ParticipantsList from "./ParticipantsList";
 import { ParticipantsWhiteboardTaskSummary } from "../../../../../../../graphql";
 import { Typography } from "@material-ui/core";
@@ -43,7 +44,10 @@ const MainContent = ({
           <div className="imageContainer">
             <img
               className="solutionImage"
-              src={`http://localhost:4000/image/${currentUser.imagePath}`}
+              src={getTypedUrl({
+                type: UrlType.image,
+                id: currentUser.imagePath,
+              })}
             />
           </div>
         </>

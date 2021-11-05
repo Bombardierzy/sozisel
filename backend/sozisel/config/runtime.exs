@@ -14,6 +14,4 @@ if config_env() == :prod do
     url: System.fetch_env!("DATABASE_URL"),
     port: System.fetch_env!("DATABASE_PORT"),
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
-
-  config :sozisel, SoziselWeb.MediaUpload, upload_path: System.fetch_env!("MEDIA_UPLOAD")
 end

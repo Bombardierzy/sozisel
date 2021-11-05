@@ -11,24 +11,25 @@ defmodule SoziselWeb.Endpoint do
     signing_salt: "z3XWlbLB"
   ]
 
-  socket "/socket", SoziselWeb.UserSocket,
+  socket "/api/socket", SoziselWeb.UserSocket,
     websocket: true,
     longpoll: false
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  socket "/api/live", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_options]]
 
   plug Plug.Static,
-    at: "/recording",
+    at: "/api/recording",
     from: Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload) |> Keyword.fetch!(:upload_path)
 
   plug Plug.Static,
-    at: "/image",
+    at: "/api/image",
     from:
       Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload)
       |> Keyword.fetch!(:upload_path)
 
   plug Plug.Static,
-    at: "/session_resource",
+    at: "/api/session_resource",
     from:
       Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload)
       |> Keyword.fetch!(:upload_path)

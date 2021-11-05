@@ -301,7 +301,7 @@ defmodule SoziselWeb.Schema.Events.EventSubscriptionsTest do
 
       assert %{"data" => %{"submitWhiteboardResult" => %{"id" => id}}} =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @submit_whiteboard_result,
                  variables: variables,
                  image: upload

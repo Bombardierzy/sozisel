@@ -1,7 +1,7 @@
 import "./SessionRecordingAnnotatedPlayer.scss";
 
 import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
-import { UrlType, getUrl } from "../../../utils/Url/getUrl";
+import { UrlType, getTypedUrl } from "../../../utils/Urls/urls";
 
 import { AnnotationsPanel } from "./AnnotationsPanel";
 import Navbar from "../../../Navbar/LoginNavbar/Navbar";
@@ -46,7 +46,7 @@ function Player({ recordingId }: PlayerProps): ReactElement {
           <div className="annotatedGrid">
             <video
               ref={videoRef}
-              src={getUrl({
+              src={getTypedUrl({
                 type: UrlType.recording,
                 id: data.sessionRecording.path,
               })}

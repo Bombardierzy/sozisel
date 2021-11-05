@@ -1,9 +1,11 @@
-# All secrets in this file are for testing purposes are not a part of actual deployment
-#
-# TODO: database volume should be mounted from the system itself and should not reside in docker volume
-# TODO: change all of temporary valures to environmental variables
 version: '3.8'
 services:
+  sozisel-router:
+    image: bombardierzy/sozisel-router:latest
+    container_name: sozisel-router
+    ports:
+      - 9906:80
+
   sozisel-database:
     image: postgres:12.2
     container_name: sozisel-database
@@ -15,8 +17,8 @@ services:
       POSTGRES_PORT: 5432
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
 
   sozisel-backend:
     image: bombardierzy/sozisel-backend:latest
@@ -27,11 +29,10 @@ services:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       DATABASE_URL: ${DATABASE_URL}
       DATABASE_PORT: 5432
-      MEDIA_UPLOAD: /media_resources/
     volumes:
-      - ./media_resources:/media_resources
-    ports:
-      - 4000:4000
+      - ./media_resources:/data/resources
+    # ports:
+    #   - 4000:4000
     depends_on:
       - sozisel-database
 
@@ -40,5 +41,3 @@ services:
     container_name: sozisel-frontend
     depends_on:
       - sozisel-backend
-    ports:
-      - 9906:80
