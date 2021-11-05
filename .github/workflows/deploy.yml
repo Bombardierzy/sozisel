@@ -72,9 +72,7 @@ jobs:
       working-directory: frontend/sozisel-app
 
   build_and_push_backend:
-    needs:
-      - test-backend
-      - test-frontend
+    needs: test-backend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -122,9 +120,6 @@ jobs:
           docker push bombardierzy/sozisel-frontend:latest
 
   build_and_push_router:
-    needs:
-      - test-backend
-      - test-frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
