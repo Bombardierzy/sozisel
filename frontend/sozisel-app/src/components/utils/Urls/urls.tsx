@@ -11,22 +11,22 @@ export interface GetUrlProps {
   id?: string;
 }
 
-export function getBaseUrl(): string {
+function getBaseUrl(): string {
   let baseUrl = "";
   const port = 4000;
   switch (process.env.NODE_ENV) {
     case "production":
-      baseUrl = `${window.location.protocol}//${window.location.hostname}/api`;
+      baseUrl = `${window.location.protocol}//${window.location.hostname}`;
       break;
     case "development":
     default:
-      baseUrl = `${window.location.protocol}//${window.location.hostname}:${port}/api`;
+      baseUrl = `${window.location.protocol}//${window.location.hostname}:${port}`;
   }
   return baseUrl;
 }
 
 export function getGraphQLUrl(): string {
-  return `${getBaseUrl()}/graphql`;
+  return `${getBaseUrl()}/api/graphql`;
 }
 
 export function getSocketUrl(): string {
@@ -61,10 +61,10 @@ export function getTypedUrl({ type, id }: GetUrlProps): string {
   let typeSpecificUrl = "";
   switch (type) {
     case UrlType.sessionResource:
-      typeSpecificUrl = `session_resource/${id}`;
+      typeSpecificUrl = `api/session_resource/${id}`;
       break;
     case UrlType.recording:
-      typeSpecificUrl = `recording/session_${id}.mp4`;
+      typeSpecificUrl = `api/recording/session_${id}.mp4`;
       break;
     case UrlType.joinSessionLink:
       typeSpecificUrl = `sessions/${id}/join`;
@@ -73,7 +73,7 @@ export function getTypedUrl({ type, id }: GetUrlProps): string {
       typeSpecificUrl = `session-recording/${id}`;
       break;
     case UrlType.image:
-      typeSpecificUrl = `image/${id}`;
+      typeSpecificUrl = `api/image/${id}`;
       break;
   }
   return `${getBaseUrl()}/${typeSpecificUrl}`;
