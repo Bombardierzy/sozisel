@@ -23,4 +23,11 @@
     .dropzoneIcon {
         color: $text-05;
     }
+
+    .previewItem {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
