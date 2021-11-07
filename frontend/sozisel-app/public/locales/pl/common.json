@@ -363,7 +363,9 @@
       "autocompleteLabel": "Dodaj plik do sesji...",
       "submit": "Zatwierdź",
       "cancel": "Anuluj",
-      "fileChooseError": "Musisz wybrać plik!"
+      "fileChooseError": "Musisz wybrać plik!",
+      "fileUploadError": "Dodanie pliku nie powiodło się",
+      "fileDeleteError": "Usunięcie pliku nie powiodło się"
     }
   },
   "inputErrors": {

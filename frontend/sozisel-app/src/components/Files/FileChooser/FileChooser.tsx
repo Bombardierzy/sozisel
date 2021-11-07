@@ -11,6 +11,7 @@ import { ReactElement, useState } from "react";
 
 import { DropzoneArea } from "material-ui-dropzone";
 import InsertDriveFileOutlinedIcon from "@material-ui/icons/InsertDriveFileOutlined";
+import { MAX_FILE_SIZE_IN_BYTES } from "../../../common/consts";
 import { useTranslation } from "react-i18next";
 
 export interface FileChooserProps {
@@ -47,10 +48,13 @@ export function FileChooser({
           }}
           previewGridClasses={{
             container: "previewContainer",
+            item: "previewItem",
           }}
           getPreviewIcon={() => <InsertDriveFileOutlinedIcon />}
           filesLimit={1}
           showFileNames
+          showAlerts={false}
+          maxFileSize={MAX_FILE_SIZE_IN_BYTES}
           acceptedFiles={[".pdf"]}
           dropzoneText={t("components.Files.importFileInfo")}
           onChange={(files) => {

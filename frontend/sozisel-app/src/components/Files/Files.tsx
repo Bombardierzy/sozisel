@@ -34,6 +34,8 @@ export default function Files(): ReactElement {
   const { t } = useTranslation("common");
   const [searchName, setSearchName] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const { data, loading } = usePresenterFilesQuery();
@@ -57,18 +59,28 @@ export default function Files(): ReactElement {
 
   const onFileDelete = useCallback(
     async (fileId: string) => {
-      deleteFile({ variables: { fileId: fileId } }).then(() =>
-        setSuccessMessage(t("components.Files.deletedFileMessage"))
-      );
+      deleteFile({ variables: { fileId: fileId } })
+        .then(() => setSuccessMessage(t("components.Files.deletedFileMessage")))
+        .catch(() => {
+          setErrorMessage(t("components.Files.fileDeleteError"));
+        });
     },
-    [t, deleteFile]
+    [t, deleteFile, setErrorMessage, setSuccessMessage]
   );
 
-  const onFileUpload = (file: File) => {
-    uploadFile({ variables: { resource: file } });
-    setDialogOpen(false);
-    setSuccessMessage(t("components.Files.uploadedFileMessage"));
-  };
+  const onFileUpload = useCallback(
+    (file: File) => {
+      uploadFile({ variables: { resource: file } })
+        .then(() => {
+          setDialogOpen(false);
+          setSuccessMessage(t("components.Files.uploadedFileMessage"));
+        })
+        .catch(() => {
+          setErrorMessage(t("components.Files.fileUploadError"));
+        });
+    },
+    [uploadFile, t, setDialogOpen, setErrorMessage, setSuccessMessage]
+  );
 
   const onSearchNameChange = (event: BaseSyntheticEvent) => {
     setSearchName(event.target.value);
@@ -158,6 +170,15 @@ export default function Files(): ReactElement {
         >
           <Alert onClose={() => setSuccessMessage("")} severity="success">
             {successMessage}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={errorMessage !== ""}
+          autoHideDuration={AUTO_HIDE_DURATION}
+          onClose={() => setErrorMessage("")}
+        >
+          <Alert onClose={() => setErrorMessage("")} severity="error">
+            {errorMessage}
           </Alert>
         </Snackbar>
         <Snackbar

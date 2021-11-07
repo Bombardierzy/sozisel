@@ -16,3 +16,4 @@ export const SHORT_LOCAL_DATE_FORMAT: Intl.DateTimeFormatOptions = {
 
 export const USER_TOKEN = "USER_TOKEN";
 export const PARTICIPANT_TOKEN = "PARTICIPANT_TOKEN";
+export const MAX_FILE_SIZE_IN_BYTES = 100000000;
