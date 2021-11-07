@@ -10,7 +10,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
-import { LOCAL_DATE_FORMAT, PARTICIPANT_TOKEN } from "../../common/consts";
+import {
+  LOCAL_DATE_FORMAT,
+  PARTICIPANT_TOKEN,
+  USER_TOKEN,
+} from "../../common/consts";
 import { ReactElement, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
@@ -61,6 +65,7 @@ export default function JoinSession(): ReactElement {
         },
       }).then(
         (value) => {
+          localStorage.removeItem(USER_TOKEN);
           localStorage.setItem(
             PARTICIPANT_TOKEN,
             value.data?.joinSession?.token ?? ""
