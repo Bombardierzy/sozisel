@@ -58,7 +58,7 @@ export default function Files(): ReactElement {
   }, [data, searchName]);
 
   const onFileDelete = useCallback(
-    async (fileId: string) => {
+    (fileId: string) => {
       deleteFile({ variables: { fileId: fileId } })
         .then(() => setSuccessMessage(t("components.Files.deletedFileMessage")))
         .catch(() => {
