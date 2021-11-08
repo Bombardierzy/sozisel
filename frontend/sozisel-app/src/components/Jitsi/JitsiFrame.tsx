@@ -7,6 +7,8 @@ import { CircularProgress } from "@material-ui/core";
 import { Context } from "../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 import Jitsi from "react-jitsi";
 
+import { getJitsiUrl } from "../utils/Urls/urls";
+
 const OPTIONS: InterfaceConfigOptions = {
   SHOW_WATERMARK_FOR_GUESTS: false,
   SHOW_BRAND_WATERMARK: false,
@@ -84,7 +86,7 @@ export default function JitsiFrame({
       className="JitsiContainer"
     >
       <Jitsi
-        domain="localhost:8443"
+        domain={getJitsiUrl()}
         containerStyle={{ width: "100%", height: "100%" }}
         loadingComponent={Loader}
         onAPILoad={(api) => setApi(api)}

@@ -1,10 +1,7 @@
-use Mix.Config
+import Config
 
-config :sozisel, SoziselWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
-
-# Do not print debug messages in production
 config :logger, level: :info
 
-import_config "prod.secret.exs"
+config :sozisel, SoziselWeb.Endpoint, server: true
+
+config :sozisel, SoziselWeb.MediaUpload, upload_path: "/data/resources/"

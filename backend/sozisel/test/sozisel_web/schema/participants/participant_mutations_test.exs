@@ -483,7 +483,7 @@ defmodule SoziselWeb.Schema.Participants.ParticipantMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @submit_whiteboard_result_mutation,
                  variables: variables,
                  image: upload
@@ -522,7 +522,7 @@ defmodule SoziselWeb.Schema.Participants.ParticipantMutationsTest do
                "errors" => [%{"message" => "unauthorized"}]
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @submit_whiteboard_result_mutation,
                  variables: variables,
                  image: upload

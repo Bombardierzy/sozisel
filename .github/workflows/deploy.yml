@@ -1,0 +1,174 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Update apt
+      run: sudo apt-get update
+    - name: Install ffmpeg
+      run: sudo apt-get install ffmpeg 
+    - uses: actions/checkout@v2
+    - name: Set up Elixir
+      uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
+      with:
+        elixir-version: '1.12.0'
+        otp-version: '24'
+    - name: Restore dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
+    - name: Setup postgres
+      run: docker-compose up -d
+      working-directory: backend
+    - name: Install dependencies
+      run: mix deps.get
+      working-directory: backend/sozisel
+    - name: Check formatted
+      run: mix format --check-formatted
+      working-directory: backend/sozisel
+    - name: Run tests
+      run: mix test
+      working-directory: backend/sozisel
+    - name: Generate schema
+      run: mix absinthe.schema.json --schema SoziselWeb.Schema
+      working-directory: backend/sozisel
+    - uses: actions/upload-artifact@v2
+      with:
+        name: schema
+        path: backend/sozisel/schema.json
+
+  test-frontend:
+    needs: test-backend
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.15.0'
+    - name: Install dependencies
+      run: npm ci  
+      working-directory: frontend/sozisel-app
+    - name: Run tests
+      run: npm run lint
+      working-directory: frontend/sozisel-app
+    - uses: actions/download-artifact@v2
+      with:
+        name: schema
+        path: frontend/sozisel-app
+    - name: Generate graphql schema
+      run: npm run graphql:gen_from_file
+      working-directory: frontend/sozisel-app
+    - name: Generate build
+      run: npm run build
+      working-directory: frontend/sozisel-app
+
+  build_and_push_backend:
+    needs: test-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push backend
+        id: docker_build_backend
+        run: |
+          docker build -f backend/sozisel/Dockerfile -t sozisel-backend backend/sozisel
+          docker tag sozisel-backend bombardierzy/sozisel-backend:latest
+          docker push bombardierzy/sozisel-backend:latest
+  
+  build_and_push_frontend:
+    needs:
+      - test-backend
+      - test-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download schema file artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: schema
+          path: frontend/sozisel-app
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push frontend
+        id: docker_build_frontend
+        run: |
+          docker build -f frontend/sozisel-app/Dockerfile -t sozisel-frontend frontend/sozisel-app
+          docker tag sozisel-frontend bombardierzy/sozisel-frontend:latest
+          docker push bombardierzy/sozisel-frontend:latest
+
+  build_and_push_router:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push router
+        id: docker_build_router
+        run: |
+          docker build -f router/Dockerfile -t sozisel-router router
+          docker tag sozisel-router bombardierzy/sozisel-router:latest
+          docker push bombardierzy/sozisel-router:latest
+
+  deploy_to_sozisel:
+    runs-on: ubuntu-latest
+    needs:
+      - build_and_push_backend
+      - build_and_push_frontend
+      - build_and_push_router
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy configuration
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          source: "deploy/*"
+          target: "services/sozisel"
+
+      - name: Executing remote ssh commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          script: |
+            mv ~/services/sozisel/deploy/* ~/services/sozisel/
+            mv ~/services/sozisel/prod-docker-compose.yml ~/services/sozisel/docker-compose.yml
+            rm -r ~/services/sozisel/deploy
+            DOCKER_COMPOSE_APP_FILE=~/services/sozisel/docker-compose.yml
+            DOCKER_COMPOSE_JITSI_FILE=~/services/sozisel/jitsi-compose.yml
+            JITSI_ENV_FILE=~/services/sozisel/.jitsi_env
+            docker-compose -f "$DOCKER_COMPOSE_APP_FILE" pull
+            docker-compose -f "$DOCKER_COMPOSE_APP_FILE" up -d --build
+            docker-compose -f "$DOCKER_COMPOSE_JITSI_FILE" --env-file "$JITSI_ENV_FILE" up -d --build
+            docker image prune --all --force

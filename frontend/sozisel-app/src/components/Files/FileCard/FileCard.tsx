@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { ReactElement } from "react";
-import { UrlType, getUrl } from "../../utils/Url/getUrl";
+import { UrlType, getTypedUrl } from "../../utils/Urls/urls";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import GetAppIcon from "@material-ui/icons/GetApp";
@@ -39,7 +39,7 @@ export default function FileCard({
       <div className="fileCardContent">
         <div className="cardHeader">
           <IconButton
-            href={getUrl({ type: UrlType.sessionResource, id: path })}
+            href={getTypedUrl({ type: UrlType.sessionResource, id: path })}
             target="_blank"
           >
             <GetAppIcon />

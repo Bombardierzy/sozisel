@@ -58,7 +58,7 @@ defmodule SoziselWeb.Schema.SessionRecordings.SessionRecordingMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @upload_recording_mutation,
                  variables: %{id: ctx.session.id, recording: "recording"},
                  recording: ctx.upload
@@ -76,7 +76,7 @@ defmodule SoziselWeb.Schema.SessionRecordings.SessionRecordingMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @upload_recording_mutation,
                  variables: %{id: ctx.session.id, recording: "recording"},
                  recording: ctx.upload
@@ -94,7 +94,7 @@ defmodule SoziselWeb.Schema.SessionRecordings.SessionRecordingMutationsTest do
                ]
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @upload_recording_mutation,
                  variables: %{id: ctx.session.id, recording: "recording"},
                  recording: ctx.upload
@@ -117,7 +117,7 @@ defmodule SoziselWeb.Schema.SessionRecordings.SessionRecordingMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @upload_recording_mutation,
                  variables: %{id: ctx.session.id, recording: "recording"},
                  recording: upload
@@ -130,7 +130,7 @@ defmodule SoziselWeb.Schema.SessionRecordings.SessionRecordingMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @delete_recording_mutation,
                  variables: %{id: ctx.session.id}
                )
@@ -149,7 +149,7 @@ defmodule SoziselWeb.Schema.SessionRecordings.SessionRecordingMutationsTest do
                ]
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @delete_recording_mutation,
                  variables: %{id: ctx.session.id}
                )

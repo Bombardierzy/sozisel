@@ -110,7 +110,7 @@ defmodule SoziselWeb.AbsintheCase do
   def run_query(conn, query, variables) do
     %Plug.Conn{resp_body: body} =
       conn
-      |> Phoenix.ConnTest.post("/api", %{
+      |> Phoenix.ConnTest.post("/api/graphql", %{
         "query" => query,
         "variables" => variables
       })

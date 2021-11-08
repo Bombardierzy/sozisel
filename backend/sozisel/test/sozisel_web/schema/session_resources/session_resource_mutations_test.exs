@@ -98,7 +98,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @upload_session_resource_mutation,
                  variables: %{resource: "resource"},
                  resource: ctx.upload
@@ -116,7 +116,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @upload_session_resource_mutation,
                  variables: %{resource: "resource"},
                  resource: ctx.upload
@@ -134,7 +134,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                ]
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @upload_session_resource_mutation,
                  variables: %{resource: "resource"},
                  resource: ctx.upload
@@ -162,7 +162,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @delete_session_resource_mutation,
                  variables: %{id: session_resource.id}
                )
@@ -185,7 +185,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @delete_session_resource_mutation,
                  variables: %{id: session_resource.id}
                )
@@ -202,7 +202,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                ]
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @delete_session_resource_mutation,
                  variables: %{id: session_resource.id}
                )
@@ -233,7 +233,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @attach_resource_to_session_mutation,
                  variables: %{
                    input: %{
@@ -275,7 +275,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @attach_resource_to_session_mutation,
                  variables: %{
                    input: %{
@@ -301,7 +301,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @detach_resource_from_session_mutation,
                  variables: %{id: session_resource_link_id}
                )
@@ -338,7 +338,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @attach_resource_to_session_mutation,
                  variables: %{
                    input: %{
@@ -364,7 +364,7 @@ defmodule SoziselWeb.Schema.SessionResources.SessionResourceMutationsTest do
                }
              } =
                ctx.conn
-               |> post("/api/",
+               |> post("/api/graphql/",
                  query: @change_access_session_resource_link_mutation,
                  variables: %{id: session_resource_link_id, is_public: false}
                )

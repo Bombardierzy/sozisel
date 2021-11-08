@@ -52,7 +52,7 @@
     "lint:eslint": "eslint ./src/**/*.{js,jsx,ts,tsx} --ext .ts,.tsx,.js,.jsx --no-error-on-unmatched-pattern",
     "lint:prettier": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "build": "webpack build",
-    "build:prod": "webpack build --mode=production",
+    "build:prod": "export NODE_OPTIONS=--openssl-legacy-provider; webpack build --mode=production",
     "module:gen": "func() { npm run graphql:gen && node generator_utils/index.js \"$1\" \"$2\" && npm run format; }; func"
   },
   "devDependencies": {

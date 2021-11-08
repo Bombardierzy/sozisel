@@ -15,6 +15,7 @@ import { Socket as PhoenixSocket } from "phoenix";
 import { USER_TOKEN } from "./common/consts";
 import { create as createAbsintheSocket } from "@absinthe/socket";
 import { customFetch } from "./customUploadFetch";
+import { getGraphQLUrl } from "./components/utils/Urls/urls";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
 
@@ -22,12 +23,9 @@ import { setContext } from "@apollo/client/link/context";
 const createAbsintheUploadLink = require("apollo-absinthe-upload-link")
   .createLink as (linkOptions: HttpOptions) => ApolloLink;
 
-const HOST = window.location.hostname;
-const PROTOCOL = window.location.protocol;
-
 function createApolloHttpLink(): ApolloLink {
   return createAbsintheUploadLink({
-    uri: `${PROTOCOL}//${HOST}:4000/api`,
+    uri: getGraphQLUrl(),
     fetch: customFetch,
   });
 }

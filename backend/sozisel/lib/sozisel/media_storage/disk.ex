@@ -3,7 +3,8 @@ defmodule Sozisel.MediaStorage.Disk do
 
   @impl true
   def store_file(filename, temporary_path) do
-    File.rename(temporary_path, full_file_path(filename))
+    File.cp(temporary_path, full_file_path(filename))
+    File.rm(temporary_path)
   end
 
   @impl true

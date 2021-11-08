@@ -7,7 +7,7 @@ defmodule SoziselWeb.Router do
     plug SoziselWeb.Context
   end
 
-  scope "/api" do
+  scope "/api/graphql" do
     pipe_through :api
 
     forward "/graphiql",

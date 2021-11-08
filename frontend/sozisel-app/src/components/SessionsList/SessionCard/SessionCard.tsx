@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { MouseEvent, ReactElement, useMemo, useState } from "react";
-import { UrlType, getUrl } from "../../utils/Url/getUrl";
+import { UrlType, getTypedUrl } from "../../utils/Urls/urls";
 
 import { Alert } from "@material-ui/lab";
 import CustomAvatar from "../../utils/Avatar/CustomAvatar";
@@ -36,7 +36,10 @@ export default function SessionCard({
   const { t } = useTranslation("common");
   const history = useHistory();
   const { status, isScheduled, isEnded } = useSessionStatus(session);
-  const sessionLink = getUrl({ type: UrlType.joinSessionLink, id: session.id });
+  const sessionLink = getTypedUrl({
+    type: UrlType.joinSessionLink,
+    id: session.id,
+  });
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const sessionStatus = useMemo(() => {
