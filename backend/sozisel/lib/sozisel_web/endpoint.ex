@@ -15,9 +15,6 @@ defmodule SoziselWeb.Endpoint do
     websocket: true,
     longpoll: false
 
-  socket "/api/live", Phoenix.LiveView.Socket,
-    websocket: [connect_info: [session: @session_options]]
-
   plug Plug.Static,
     at: "/api/recording",
     from: Application.fetch_env!(:sozisel, SoziselWeb.MediaUpload) |> Keyword.fetch!(:upload_path)
