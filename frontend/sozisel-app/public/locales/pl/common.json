@@ -382,7 +382,8 @@
     "incorrectPoll": "Ankieta powinna zawierać przynajmniej 2 opcje do wyboru!",
     "incorrectLoginData": "Wprowadzone dane są nieprawidłowe!",
     "updateEventError": "Nie można zaktualizować zdarzenia, które ma już istniejące wyniki!",
-    "quizBlankAnswerTextError": "Tekst pytania oraz odpowiedzi nie może być pusty!"
+    "quizBlankAnswerTextError": "Tekst pytania oraz odpowiedzi nie może być pusty!",
+    "fieldIntegerRequired": "Wprowadzona wartości jest niepoprawna! Proszę wprowadzić liczbę całkowitą!"
   },
   "errors": {
     "request": "Wystąpił bład podczas przetwarzania zapytania",

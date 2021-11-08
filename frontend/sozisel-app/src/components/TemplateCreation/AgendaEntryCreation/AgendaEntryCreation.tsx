@@ -20,6 +20,7 @@ const agendaSchema = yup.object().shape({
   name: yup.string().required("inputErrors.fieldRequired"),
   startMinute: yup
     .number()
+    .integer("inputErrors.fieldIntegerRequired")
     .typeError("inputErrors.fieldRequired")
     .required("inputErrors.fieldRequired"),
 });
