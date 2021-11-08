@@ -11,15 +11,9 @@ import { useTranslation } from "react-i18next";
 
 const WhiteboardLiveEventDetails = (): ReactElement => {
   const { t } = useTranslation("common");
-  const { activeEvent, event, sessionId, onFinishCallback } =
-    useContext(LiveEventContext);
+  const { activeEvent, event, onFinishCallback } = useContext(LiveEventContext);
 
-  const { finishedTrials } = useFetchEventLiveResult(
-    sessionId,
-    event,
-    activeEvent.id,
-    "WhiteboardResult"
-  );
+  const { finishedTrials } = useFetchEventLiveResult("WhiteboardResult");
 
   if (useGetEventTypename(event) !== EventType.Whiteboard) {
     return <></>;

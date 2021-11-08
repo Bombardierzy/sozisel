@@ -1,9 +1,10 @@
+import { useContext, useEffect, useState } from "react";
 import useFetchPollLiveResult, { PollSummary } from "./useFetchPollLiveResult";
 import useFetchQuizLiveResult, { QuizResult } from "./useFetchQuizLiveResult";
 import useFetchWhiteboardLiveResult, {
   WhiteboardResult,
 } from "./useFetchWhiteboardLiveResult";
-import { Event } from "../../model/Template";
+import { LiveEventContext } from "../../components/PresenterSession/EventsTimeline/LiveEventDetails/LiveEventDetails";
 import { useEventResultSubmittedSubscription } from "../../graphql";
 
 type EventResult = Partial<PollSummary> &
@@ -11,35 +12,54 @@ type EventResult = Partial<PollSummary> &
   Partial<WhiteboardResult>;
 export type Typename = "QuizSimpleResult" | "PollResult" | "WhiteboardResult";
 
-const useFetchEventLiveResult = (
-  sessionId: string,
-  event: Event,
-  eventId: string,
-  typename: Typename
-): EventResult => {
+const useFetchEventLiveResult = (typename: Typename): EventResult => {
+  const {
+    activeEvent,
+    event,
+    sessionId,
+    onFinishCallback,
+    participantsNumber,
+  } = useContext(LiveEventContext);
+
+  const [completedTrialsNumber, setCompletedTrialsNumber] = useState<number>(0);
+
   const { data: eventResult } = useEventResultSubmittedSubscription({
     variables: {
       sessionId,
     },
   });
 
+  useEffect(() => {
+    if (eventResult && eventResult.eventResultSubmitted) {
+      setCompletedTrialsNumber(
+        (completedTrialsNumber) => completedTrialsNumber + 1
+      );
+    }
+  }, [eventResult]);
+
+  useEffect(() => {
+    if (completedTrialsNumber === participantsNumber) {
+      onFinishCallback();
+    }
+  }, [completedTrialsNumber, onFinishCallback, participantsNumber]);
+
   const quizResult = useFetchQuizLiveResult({
     skip: typename !== "QuizSimpleResult",
     eventResult,
-    eventId,
+    eventId: activeEvent.id,
   });
 
   const pollResult = useFetchPollLiveResult({
     skip: typename !== "PollResult",
     eventResult,
     event,
-    eventId,
+    eventId: activeEvent.id,
   });
 
   const whiteboardResult = useFetchWhiteboardLiveResult({
     skip: typename !== "WhiteboardResult",
     eventResult,
-    eventId,
+    eventId: activeEvent.id,
   });
 
   switch (typename) {

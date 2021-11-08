@@ -100,8 +100,7 @@ export default function LoginScreen(): ReactElement {
                 <div className="errorContainer">
                   <ErrorMessage message={getErrorMessage(error)} />
                 </div>
-                )
-              }
+              )}
               {loading && <Spinner />}
               <Button
                 type="submit"
