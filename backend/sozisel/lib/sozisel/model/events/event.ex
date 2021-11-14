@@ -29,8 +29,9 @@ defmodule Sozisel.Model.Events.Event do
       types: [
         quiz: [module: Quiz, identify_by_fields: [:quiz_questions]],
         poll: [module: Poll, identify_by_fields: [:options]],
-        whiteboard: [module: Whiteboard, identify_by_fields: [:task]]
-        # EVAL <%= @event_name %>: [module: <%= @module %>, identify_by_fields: []], #TODO: implement me!
+        whiteboard: [module: Whiteboard, identify_by_fields: [:task]] #COMMA
+        #TODO: implement me!
+        # EVAL <%= @event_name %>: [module: <%= @module %>, identify_by_fields: []] #COMMA
       ],
       on_type_not_found: :raise,
       on_replace: :update

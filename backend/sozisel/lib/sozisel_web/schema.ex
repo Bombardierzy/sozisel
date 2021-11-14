@@ -44,7 +44,7 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Mutations.WhiteboardMutations)
   import_types(SoziselWeb.Schema.Mutations.SessionResourceMutations)
   import_types(SoziselWeb.Schema.Mutations.EventMutations)
-  # EVAL import_types(SoziselWeb.Schema.Types.<%= @module %>Mutations)
+  # EVAL import_types(SoziselWeb.Schema.Mutations.<%= @module %>Mutations)
 
   # Subscriptions
   import_types(SoziselWeb.Schema.Subscriptions.EventSubscriptions)

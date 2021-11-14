@@ -26,8 +26,8 @@ defmodule SoziselWeb.Schema.Types.EventResultTypes do
     types [
       :quiz_result,
       :poll_result,
-      :whiteboard_result
-      # EVAL :<%= @event_name %>_result,
+      :whiteboard_result #COMMA
+      # EVAL :<%= @event_name %>_result #COMMA
     ]
 
     resolve_type fn
@@ -69,8 +69,8 @@ defmodule SoziselWeb.Schema.Types.EventResultTypes do
     types [
       :quiz_simple_result,
       :poll_result,
-      :whiteboard_result
-      # EVAL :<%= @event_name %>_result,
+      :whiteboard_result #COMMA
+      # EVAL :<%= @event_name %>_result #COMMA
     ]
 
     resolve_type fn

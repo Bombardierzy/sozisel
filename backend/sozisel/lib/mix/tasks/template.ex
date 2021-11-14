@@ -22,6 +22,7 @@ defmodule Mix.Tasks.Template do
   }
 
   @eval_prefix "# EVAL "
+  @comma " #COMMA"
 
   @shortdoc "Generates a new module template"
   def run([event_name]) do
@@ -45,6 +46,8 @@ defmodule Mix.Tasks.Template do
           # evaluate all files for potential #EVAL prefixes
           Enum.each(@files_for_eval, &eval_file(&1, assigns: assigns))
         end)
+
+      Mix.Task.run("format")
 
       IO.puts("Finished in #{time / 1_000_000}s")
     rescue
@@ -75,6 +78,13 @@ defmodule Mix.Tasks.Template do
       |> File.stream!()
       |> Enum.into([])
       |> Enum.map(fn line ->
+        line =
+          if replace_comma?(line) do
+            String.replace(line, @comma, ", ")
+          else
+            line
+          end
+
         if String.contains?(line, @eval_prefix) do
           [
             eval_line(line, assigns),
@@ -88,6 +98,10 @@ defmodule Mix.Tasks.Template do
       |> Enum.join()
 
     File.write(path, content)
+  end
+
+  defp replace_comma?(line) do
+    String.contains?(line, @comma) and not String.contains?(line, @eval_prefix)
   end
 
   defp eval_line(line, assigns) do
