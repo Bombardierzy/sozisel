@@ -31,26 +31,44 @@ defmodule Mix.Tasks.Template do
       )
     end
 
-    module = Macro.camelize(event_name)
-    assigns = [module: module, event_name: event_name]
+    try do
+      module = Macro.camelize(event_name)
+      assigns = [module: module, event_name: event_name]
 
-    # generate all template files
-    Enum.each(@files_for_generation, &generate_file(&1, assigns: assigns))
+      {time, _} =
+        :timer.tc(fn ->
+          IO.puts("Generating files...")
+          # generate all template files
+          Enum.each(@files_for_generation, &generate_file(&1, assigns: assigns))
 
-    # evaluate all files for potential #EVAL prefixes
-    Enum.each(@files_for_eval, &eval_file(&1, assigns: assigns))
+          IO.puts("Reevaluating existing files...")
+          # evaluate all files for potential #EVAL prefixes
+          Enum.each(@files_for_eval, &eval_file(&1, assigns: assigns))
+        end)
+
+      IO.puts("Finished in #{time / 1_000_000}s")
+    rescue
+      e ->
+        Mix.raise(e)
+    end
   end
 
   defp generate_file({template_file, destination_file}, assigns) do
     content = EEx.eval_file(Path.join(base_project_path(), template_file), assigns)
 
-    destination_file = EEx.eval_string(destination_file, assigns)
+    dest = Path.join(base_project_path(), EEx.eval_string(destination_file, assigns))
 
-    File.write(Path.join(base_project_path(), destination_file), content)
+    IO.puts "> #{dest}"
+
+    :ok = File.mkdir_p(Path.dirname(dest))
+
+    File.write(dest, content)
   end
 
   defp eval_file(filename, assigns) do
     path = Path.join(base_project_path(), filename)
+
+    IO.puts "> #{path}"
 
     content =
       path
@@ -67,6 +85,7 @@ defmodule Mix.Tasks.Template do
         end
       end)
       |> List.flatten()
+      |> Enum.join()
 
     File.write(path, content)
   end
