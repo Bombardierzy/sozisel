@@ -79,12 +79,18 @@
         "submitButtonLabel": "Zapisz wydarzenie",
         "updateButtonLabel": "Zaktualizuj wydarzenie",
         "onAddEventMessage": "Dodano nowe wydarzenie!",
-        "onEditEventMessage": "Zaktualizowano wydarzenie!"
+        "onEditEventMessage": "Zaktualizowano wydarzenie!",
+        "cancelEditMode": "Zakonćz edycję wydarzenia"
       },
       "Quiz": {
         "Question": {
           "defaultAnswer": "Odpowiedź...",
-          "defaultQuestion": "Treść pytania..."
+          "defaultQuestion": "Treść pytania...",
+          "deleteQuestion": "Usuń pytanie",
+          "deleteAnswer": "Usuń odpowiedź",
+          "addAnswer": "Dodaj kolejną odpowiedź",
+          "checkCorrectAnswer": "Zaznacz odpowiedź jako poprawną",
+          "uncheckCorrectAnswer": "Odznacz odpowiedź jako poprawną"
         },
         "percentageOfParticipants": "Procent uczestników",
         "percentageExplanation": "Procent obecnych uczestników sesji do których zostanie wysłany quiz"
