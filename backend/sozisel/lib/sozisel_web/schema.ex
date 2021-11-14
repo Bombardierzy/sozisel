@@ -18,6 +18,7 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Types.PollTypes)
   import_types(SoziselWeb.Schema.Types.WhiteboardTypes)
   import_types(SoziselWeb.Schema.Types.SessionResourceTypes)
+  # EVAL import_types(SoziselWeb.Schema.Types.<%= @module %>Types)
 
   # Queries
   import_types(SoziselWeb.Schema.Queries.UserQueries)
@@ -43,6 +44,7 @@ defmodule SoziselWeb.Schema do
   import_types(SoziselWeb.Schema.Mutations.WhiteboardMutations)
   import_types(SoziselWeb.Schema.Mutations.SessionResourceMutations)
   import_types(SoziselWeb.Schema.Mutations.EventMutations)
+  # EVAL import_types(SoziselWeb.Schema.Types.<%= @module %>Mutations)
 
   # Subscriptions
   import_types(SoziselWeb.Schema.Subscriptions.EventSubscriptions)
@@ -73,6 +75,7 @@ defmodule SoziselWeb.Schema do
     import_fields(:whiteboard_mutations)
     import_fields(:session_resource_mutations)
     import_fields(:event_mutations)
+    # EVAL import_fields(:<%= @event_name %>_mutations)
   end
 
   subscription do

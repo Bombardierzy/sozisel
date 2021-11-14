@@ -6,6 +6,7 @@ defmodule Sozisel.Model.Events.Event do
   alias Sozisel.Model.Sessions.Template
   alias Sozisel.Model.Quizzes.Quiz
   alias Sozisel.Model.Polls.Poll
+  # EVAL alias Sozisel.Model.<%= @module %>s.<%= @module %>
   alias Sozisel.Model.Whiteboards.Whiteboard
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
 
@@ -29,6 +30,7 @@ defmodule Sozisel.Model.Events.Event do
         quiz: [module: Quiz, identify_by_fields: [:quiz_questions]],
         poll: [module: Poll, identify_by_fields: [:options]],
         whiteboard: [module: Whiteboard, identify_by_fields: [:task]]
+        # EVAL <%= @event_name %>: [module: <%= @module %>, identify_by_fields: []], #TODO: implement me!
       ],
       on_type_not_found: :raise,
       on_replace: :update
