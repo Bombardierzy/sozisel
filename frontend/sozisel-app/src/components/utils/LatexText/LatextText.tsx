@@ -1,7 +1,7 @@
 import "./LatexText.scss";
 import "katex/dist/katex.min.css";
+import Latex from "react-latex";
 import { ReactElement } from "react";
-import TeX from "@matejmazur/react-katex";
 
 interface MarkdownTextProps {
   text: string;
@@ -10,5 +10,9 @@ interface MarkdownTextProps {
 export default function MarkdownText({
   text,
 }: MarkdownTextProps): ReactElement {
-  return <TeX className="MarkdownText">{text}</TeX>;
+  return (
+    <div className="MarkdownText">
+      <Latex>{text}</Latex>
+    </div>
+  );
 }
