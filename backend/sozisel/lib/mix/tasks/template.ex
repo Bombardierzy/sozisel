@@ -21,7 +21,7 @@ defmodule Mix.Tasks.Template do
       "lib/sozisel_web/schema/mutations/<%= @event_name %>_mutations.ex"
   }
 
-  @eval_prefix "#EVAL "
+  @eval_prefix "# EVAL "
 
   @shortdoc "Generates a new module template"
   def run([event_name]) do
