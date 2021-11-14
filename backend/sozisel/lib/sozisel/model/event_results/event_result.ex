@@ -29,7 +29,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
         whiteboard_result: [
           module: WhiteboardResult,
           identify_by_fields: [:path, :text, :used_time]
-        ]
+        ],
         # EVAL <%= @event_name %>_result: [module: <%= @module %>Result, identify_by_fields: []], #TODO: implement me!
       ],
       on_type_not_found: :raise,
