@@ -58,7 +58,7 @@ defmodule Mix.Tasks.Template do
 
     dest = Path.join(base_project_path(), EEx.eval_string(destination_file, assigns))
 
-    IO.puts "> #{dest}"
+    IO.puts("> #{dest}")
 
     :ok = File.mkdir_p(Path.dirname(dest))
 
@@ -68,7 +68,7 @@ defmodule Mix.Tasks.Template do
   defp eval_file(filename, assigns) do
     path = Path.join(base_project_path(), filename)
 
-    IO.puts "> #{path}"
+    IO.puts("> #{path}")
 
     content =
       path
