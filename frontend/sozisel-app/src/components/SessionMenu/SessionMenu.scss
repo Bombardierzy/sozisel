@@ -17,13 +17,13 @@
         height: 50px;
         width: 50px;
         background-color: $main-color;
-        
+
         svg {
             color: white;
             font-size: 40px;
             margin-left: 12px;
         }
-        
+
         &:hover {
             background-color: darken($color: $main-color, $amount: 10%);
             svg {
@@ -37,20 +37,19 @@
     .menuOptions {
         background-color: $bg-01;
     }
-    
 }
+
 .BoardCanvas {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
     position: absolute;
     top: 50%;
     bottom: 50%;
     left: 50%;
     right: 50%;
-    
+
     .toolbar {
         background-color: white;
     }
