@@ -49,7 +49,7 @@ defmodule Sozisel.Model.Quizzes.QuizResult do
 
     %{
       number_of_participants: length(quiz_results),
-      average_points: (total_points / max(number_of_all_questions, 1)) |> Float.round(2),
+      average_points: (total_points / max(length(quiz_results), 1)) |> Float.round(2),
       average_quiz_answer_time:
         (total_quiz_answer_time / max(length(quiz_results), 1)) |> Float.round(2)
     }
