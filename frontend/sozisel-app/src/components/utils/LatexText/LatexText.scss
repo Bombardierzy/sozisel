@@ -1,7 +1,5 @@
 @import "../../../styles/styles";
 
 .MarkdownText {
-    span {
-        margin-top: $spacing-02;
-    }
+    display: inline;
 }

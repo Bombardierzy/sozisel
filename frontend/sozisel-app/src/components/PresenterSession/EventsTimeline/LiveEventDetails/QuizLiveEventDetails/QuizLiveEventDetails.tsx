@@ -8,21 +8,11 @@ import { useTranslation } from "react-i18next";
 
 const QuziLiveEventDetails = (): ReactElement => {
   const { t } = useTranslation("common");
-  const {
-    activeEvent,
-    event,
-    sessionId,
-    onFinishCallback,
-    participantsNumber,
-  } = useContext(LiveEventContext);
+  const { activeEvent, event, onFinishCallback, participantsNumber } =
+    useContext(LiveEventContext);
 
   const { pointSum, completedTrialsNumber, scoresDistribution } =
-    useFetchEventLiveResult(
-      sessionId,
-      event,
-      activeEvent.id,
-      "QuizSimpleResult"
-    );
+    useFetchEventLiveResult("QuizSimpleResult");
 
   if (event.eventData.__typename !== "Quiz") {
     return <></>;

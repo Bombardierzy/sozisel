@@ -19,13 +19,6 @@ import { ParticipantSessionFiles } from "../Files/ParticipantSessionFiles/Partic
 import { PresenterSessionFiles } from "../Files/PresenterSessionFiles/PresenterSessionFiles";
 import { useTranslation } from "react-i18next";
 
-const calculateDimensions = (width: number, height: number) => {
-  const newWidth = Math.max(1200, 0.9 * width);
-  const newHeight = Math.max(900, 0.9 * height);
-
-  return { height: newHeight, width: newWidth };
-};
-
 interface SessionMenuProps {
   sessionId: string;
   presenter?: boolean;
@@ -47,7 +40,7 @@ export function SessionMenu({
   useEffect(() => {
     const { width, height } = windowSize;
 
-    setSizes(calculateDimensions(width, height));
+    setSizes({ width: width - 100, height: height - 100 });
   }, [windowSize]);
 
   return (

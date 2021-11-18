@@ -6,6 +6,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
@@ -63,10 +64,16 @@ export default function EventCreation(): ReactElement {
         <>
           {id && (
             <div className="iconContainer">
-              <ArrowBackIos
-                onClick={() => selectReset(moduleType)}
-                className="icon"
-              />
+              <Tooltip
+                title={t<string>(
+                  "components.TemplateCreation.EventCreation.cancelEditMode"
+                )}
+              >
+                <ArrowBackIos
+                  onClick={() => selectReset(moduleType)}
+                  className="icon"
+                />
+              </Tooltip>
             </div>
           )}
           <form className="creationForm">
