@@ -6,6 +6,7 @@ defmodule Sozisel.Model.EventResults.EventResult do
   alias Sozisel.Model.Quizzes.QuizResult
   alias Sozisel.Model.Polls.PollResult
   alias Sozisel.Model.Whiteboards.WhiteboardResult
+  # EVAL alias Sozisel.Model.<%= @module %>s.<%= @module %>Result
   alias Sozisel.Model.Participants.Participant
   alias Sozisel.Model.LaunchedEvents.LaunchedEvent
 
@@ -28,7 +29,9 @@ defmodule Sozisel.Model.EventResults.EventResult do
         whiteboard_result: [
           module: WhiteboardResult,
           identify_by_fields: [:path, :text, :used_time]
-        ]
+        ] #COMMA
+        #TODO: implement me!
+        # EVAL <%= @event_name %>_result: [module: <%= @module %>Result, identify_by_fields: []] #COMMA
       ],
       on_type_not_found: :raise,
       on_replace: :update

@@ -183,7 +183,7 @@ defmodule Sozisel.Events.Quizzes.QuizSummaryTest do
 
     test "return valid quiz summary", ctx do
       assert %{
-               average_points: 0.17,
+               average_points: 0.5,
                average_quiz_answer_time: 11.2,
                number_of_participants: 4
              } = QuizResult.quiz_summary(ctx.launched_event)
