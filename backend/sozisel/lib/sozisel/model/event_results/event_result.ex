@@ -29,8 +29,8 @@ defmodule Sozisel.Model.EventResults.EventResult do
         whiteboard_result: [
           module: WhiteboardResult,
           identify_by_fields: [:path, :text, :used_time]
-        ] # COMMA
-        # TODO: implement me!
+        ] #COMMA
+        #TODO: implement me!
         # EVAL <%= @event_name %>_result: [module: <%= @module %>Result, identify_by_fields: []] #COMMA
       ],
       on_type_not_found: :raise,
