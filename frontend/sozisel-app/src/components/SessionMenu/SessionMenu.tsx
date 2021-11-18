@@ -40,7 +40,7 @@ export function SessionMenu({
   useEffect(() => {
     const { width, height } = windowSize;
 
-    setSizes({width: width - 100, height: height - 100 });
+    setSizes({ width: width - 100, height: height - 100 });
   }, [windowSize]);
 
   return (
