@@ -8,8 +8,8 @@ query PresenterFiles {
     }
 }
 
-query ParticipantFiles($sessionId: ID!, $token: String!){
-    participantSessionResources(id: $sessionId, token: $token) {
+query ParticipantFiles($sessionId: ID!, $token: String!, $timestamp: String){
+    participantSessionResources(id: $sessionId, token: $token, timestamp: $timestamp) {
         id
         isPublic
         sessionResource {
