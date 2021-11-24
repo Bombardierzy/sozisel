@@ -44,6 +44,8 @@
     "TemplatesList":{
       "private": "Prywatne",
       "public": "Publiczne",
+      "privateTemplates": "Moje szablony",
+      "publicTemplates": "Publiczne szablony",
       "searchButtonText": "Szukaj",
       "addButtonText": "Dodaj",
       "access": "Dostęp",

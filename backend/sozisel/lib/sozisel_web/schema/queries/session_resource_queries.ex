@@ -18,6 +18,7 @@ defmodule SoziselWeb.Schema.Queries.SessionResourceQueries do
       @desc "Session's id"
       arg :id, non_null(:id)
       arg :token, non_null(:string)
+      arg :timestamp, :string
 
       middleware Middleware.Participant
       resolve &SessionResourceResolvers.get_participant_session_resources/3

@@ -104,6 +104,7 @@ export function SessionMenu({
       {!presenter && (
         <ParticipantSessionFiles
           open={openFiles}
+          timestamp={new Date().getTime().toString()}
           sessionId={sessionId}
           onClose={() => setOpenFiles(false)}
         />

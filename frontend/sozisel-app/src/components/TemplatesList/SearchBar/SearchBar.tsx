@@ -116,10 +116,10 @@ export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
             onChange={onSearchPublicChange}
           >
             <MenuItem value={"private"}>
-              {t("components.TemplatesList.private")}
+              {t("components.TemplatesList.privateTemplates")}
             </MenuItem>
             <MenuItem value={"public"}>
-              {t("components.TemplatesList.public")}
+              {t("components.TemplatesList.publicTemplates")}
             </MenuItem>
           </Select>
         </Grid>

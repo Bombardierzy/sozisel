@@ -9,6 +9,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    overflow: auto;
     padding: $spacing-09;
     @include poppins-text;
 
@@ -72,10 +73,6 @@
         font-weight: 700;
         color: $primary-accent;
         text-align: center;
-    }
-
-    .answersList {
-        overflow: auto;
     }
 
     .pollResultHeader {

@@ -12,7 +12,7 @@ export default function AboutScreen(): ReactElement {
   return (
     <>
       <Navbar />
-      <div className="Container">
+      <div className="AboutScreen">
         <img src={conference_img} />
         <div className="text">
           <h2>SOZISEL</h2>

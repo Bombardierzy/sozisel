@@ -19,19 +19,23 @@ import { useTranslation } from "react-i18next";
 
 export interface ParticipantSessionFilesProps {
   sessionId: string;
+  timestamp: string;
   open: boolean;
   onClose: () => void;
 }
 export function ParticipantSessionFiles({
   sessionId,
+  timestamp,
   open,
   onClose,
 }: ParticipantSessionFilesProps): ReactElement {
   const { t } = useTranslation("common");
   const { token } = useSessionParticipantType();
+  // added timestamp to variables as a workaround,
+  // because network-only fetch policy is broken
+  // see https://github.com/apollographql/react-apollo/issues/556
   const { data, loading } = useParticipantFilesQuery({
-    variables: { sessionId, token },
-    fetchPolicy: "network-only",
+    variables: { sessionId, token, timestamp },
   });
 
   if (loading) {
