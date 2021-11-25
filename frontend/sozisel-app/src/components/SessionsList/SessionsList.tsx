@@ -138,7 +138,7 @@ export default function SessionsList(): ReactElement {
         <div className="SessionsListContainer">
           <SessionFilters onSubmitCallback={onApplyFilters} />
           <div className="Circular">
-            <CircularProgress/>
+            <CircularProgress />
           </div>
         </div>
       </>
