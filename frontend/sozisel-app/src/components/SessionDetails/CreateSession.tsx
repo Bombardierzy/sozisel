@@ -71,7 +71,9 @@ export default function CreateSession(): ReactElement {
       <>
         <MainNavbar />
         <div className="CreateSession">
-          <CircularProgress />
+          <div className="Circular">
+            <CircularProgress />
+          </div>
         </div>
       </>
     );
