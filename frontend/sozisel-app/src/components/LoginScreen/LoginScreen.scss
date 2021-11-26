@@ -13,9 +13,9 @@
 
   img {
     width: 1000px;
-    height: 600px;
+    height: 90%;
     margin-left: 5%;
-    @include resize($extra-large, 800px, 600px);
+    @include resize($extra-large, 800px, 90%);
     @include resize($large, 0, 0);
   }
 
