@@ -12,9 +12,9 @@
 
     img {
       width: 1000px;
-      height: 600px;
+      height: 90%;
       margin-left: 5%;
-      @include resize($extra-large, 800px, 600px);
+      @include resize($extra-large, 800px, 90%);
       @include resize($large, 0, 0);
     }
 
@@ -26,8 +26,9 @@
       }
     }
 
-    .formCardContainer{
+    .formCardContainer {
+      max-width: 500px;
       flex: 1;
-      padding: $spacing-05;
+      margin-right: 5%;
     }
   }

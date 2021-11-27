@@ -4,7 +4,6 @@ import { Alert, Skeleton } from "@material-ui/lab";
 import React, { ReactElement, useMemo } from "react";
 
 import GroupIcon from "@material-ui/icons/Group";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Participant } from "../../../hooks/useLiveSessionParticipation";
 import PersonIcon from "@material-ui/icons/Person";
 import ShadowBoxCard from "../../utils/Card/ShadowBoxCard";
@@ -63,7 +62,6 @@ export default function ParticipantsList({
                 ) : (
                   <>
                     <Typography>{displayName}</Typography>
-                    <MoreVertIcon className="moreIcon" />
                   </>
                 )}
               </div>

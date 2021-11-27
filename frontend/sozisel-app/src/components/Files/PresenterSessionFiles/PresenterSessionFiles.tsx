@@ -98,7 +98,9 @@ export function PresenterSessionFiles({
     return (
       <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
         <div className="PresenterSessionFiles">
-          <CircularProgress />
+          <div className="Circular">
+            <CircularProgress />
+          </div>
         </div>
       </Dialog>
     );

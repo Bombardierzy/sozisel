@@ -1,14 +1,21 @@
 @import "../../styles/styles";
 
 .AboutScreen {
-    padding: $spacing-03;
+    height: 70%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+
+    @media screen and (max-width: $large){
+      justify-content: center;
+    }
 
     img {
-        width: 50%;
+      width: 1000px;
+      height: 90%;
+      margin-left: 5%;
+      @include resize($extra-large, 800px, 90%);
+      @include resize($large, 0, 0);
     }
 
     h2, h4, b {

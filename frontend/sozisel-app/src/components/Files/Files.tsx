@@ -95,7 +95,9 @@ export default function Files(): ReactElement {
       <>
         <MainNavbar />
         <div className="Files">
-          <CircularProgress />
+          <div className="Circular">
+            <CircularProgress />
+          </div>
         </div>
       </>
     );
