@@ -48,7 +48,7 @@ function Player({ recordingId }: PlayerProps): ReactElement {
               ref={videoRef}
               src={getTypedUrl({
                 type: UrlType.recording,
-                id: data.sessionRecording.path,
+                id: data.sessionRecording.path.split('_')[1].split('.')[0],
               })}
               controls
             />
