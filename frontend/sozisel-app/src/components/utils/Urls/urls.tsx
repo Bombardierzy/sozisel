@@ -11,9 +11,12 @@ export interface GetUrlProps {
   id?: string;
 }
 
-function getBaseUrl(): string {
+function getBaseUrl(type?: UrlType): string {
   let baseUrl = "";
-  const port = 4000;
+  let port = 4000;
+  if (type === UrlType.joinSessionLink || type === UrlType.shareRecordingLink) {
+    port = 3000;
+  }
   switch (process.env.NODE_ENV) {
     case "production":
       baseUrl = `${window.location.protocol}//${window.location.hostname}`;
@@ -76,5 +79,5 @@ export function getTypedUrl({ type, id }: GetUrlProps): string {
       typeSpecificUrl = `api/image/${id}`;
       break;
   }
-  return `${getBaseUrl()}/${typeSpecificUrl}`;
+  return `${getBaseUrl(type)}/${typeSpecificUrl}`;
 }
