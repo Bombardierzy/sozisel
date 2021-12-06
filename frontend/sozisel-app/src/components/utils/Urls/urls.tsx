@@ -14,7 +14,7 @@ export interface GetUrlProps {
 function getBaseUrl(type?: UrlType): string {
   let baseUrl = "";
   let port = 4000;
-  if(type === UrlType.joinSessionLink || type === UrlType.shareRecordingLink) {
+  if (type === UrlType.joinSessionLink || type === UrlType.shareRecordingLink) {
     port = 3000;
   }
   switch (process.env.NODE_ENV) {
