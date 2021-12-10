@@ -17,6 +17,7 @@ import ActiveSessionAgenda from "../PresenterSession/ActiveSessionAgenda/ActiveS
 import BasicNavbar from "../Navbar/BasicNavbar/BasicNavbar";
 import ErrorAlert from "../utils/Alerts/ErrorAlert";
 import JitsiFrame from "../Jitsi/JitsiFrame";
+import { PARTICIPANT_TOKEN } from "../../common/consts";
 import ParticipantWhiteboardContext from "../../contexts/ParticipantWhiteboard/ParticipantWhiteboardContext";
 import ParticipantsList from "../PresenterSession/ParticipantsList/ParticipantsList";
 import { SessionMenu } from "../SessionMenu/SessionMenu";
@@ -74,6 +75,7 @@ export default function ParticipantActiveSession({
     if (sessionNotifications?.sessionNotifications) {
       switch (sessionNotifications.sessionNotifications.info) {
         case SessionInfo.SessionEnd:
+          localStorage.removeItem(PARTICIPANT_TOKEN);
           history.push(`/goodbye`);
           break;
         default:
@@ -151,6 +153,7 @@ export default function ParticipantActiveSession({
           color="primary"
           style={{ position: "fixed" }}
           onClick={() => {
+            localStorage.removeItem(PARTICIPANT_TOKEN);
             history.push(`/`);
           }}
         >
