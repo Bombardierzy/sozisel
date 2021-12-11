@@ -39,7 +39,7 @@ defmodule SoziselWeb.Schema.Types.SessionTypes do
     field :password_required, non_null(:boolean)
     field :use_jitsi, non_null(:boolean)
     field :agenda_entries, strong_list_of(:agenda_entry)
-    field :end_time, non_null(:boolean)
+    field :session_ended, non_null(:boolean)
 
     field :owner, non_null(:user) do
       resolve(dataloader(:db, :user))
