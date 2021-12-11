@@ -57,12 +57,10 @@ const ParticipantWhiteboardEvent = ({
     onWhiteboardFinished();
   };
 
-
   const countdownTimer = useCountdownTimer({
     startValue: event.durationTimeSec,
     onFinishCallback: onSubmit,
   });
-
 
   if (!withJitsi && showWhiteboard) {
     return (
