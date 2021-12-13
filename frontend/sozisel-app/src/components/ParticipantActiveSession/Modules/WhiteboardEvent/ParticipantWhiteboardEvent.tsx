@@ -32,16 +32,11 @@ const ParticipantWhiteboardEvent = ({
   withJitsi,
 }: ParticipantWhiteboardEventProps): ReactElement => {
   const { t } = useTranslation("common");
-  const [showWhiteboard] = useContext(Context);
+  const [showWhiteboard, setShowWhiteboard] = useContext(Context);
   const whiteboardData: Whiteboard = event.eventData as Whiteboard;
   const startTime = useMemo(() => Date.now(), []);
 
   const [submitWhiteboardResultMutation] = useSubmitWhiteboardResultMutation();
-
-  const countdownTimer = useCountdownTimer({
-    startValue: event.durationTimeSec,
-    onFinishCallback: onWhiteboardFinished,
-  });
 
   const onSubmit = async () => {
     const usedTime = (Date.now() - startTime) / 1000;
@@ -58,8 +53,14 @@ const ParticipantWhiteboardEvent = ({
         },
       },
     });
+    setShowWhiteboard(false);
     onWhiteboardFinished();
   };
+
+  const countdownTimer = useCountdownTimer({
+    startValue: event.durationTimeSec,
+    onFinishCallback: onSubmit,
+  });
 
   if (!withJitsi && showWhiteboard) {
     return (

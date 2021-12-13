@@ -29,6 +29,7 @@ defmodule SoziselWeb.Schema.Resolvers.SessionResolvers do
 
       thumbnail =
         session
+        |> Map.put(:session_ended, session.end_time != nil)
         |> Map.put(:password_required, session.entry_password != nil)
         |> Map.put(:agenda_entries, session.session_template.agenda_entries)
         |> Map.put(

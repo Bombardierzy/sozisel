@@ -9,6 +9,8 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
 
 const DEV = process.env.NODE_ENV !== "production";
 
@@ -74,6 +76,7 @@ module.exports = {
     historyApiFallback: true
   },
   plugins: [
+    new FaviconsWebpackPlugin(path.join(__dirname, "public", "favicon.ico"),),
     new HtmlWebPackPlugin({
       template: path.join(__dirname, "src", "index.html"),
     }),
