@@ -212,7 +212,7 @@
       "dropzoneText": "Choose or drag-and-drop recording's file",
       "addedFile": "File selected!",
       "removedFile": "File has been removed.",
-      "uploadSuccessful": "Recording has been uplaoded",
+      "uploadSuccessful": "Recording has been uploaded",
       "uploadFailed": "Failed to upload the recording. Try again later."
     },
     "SessionRecordingAnnotatedPlayer": {
@@ -224,7 +224,7 @@
       "deleteRecording": "deleteRecording",
       "shareRecording": "shareRecording",
       "shareLinkTitle": "share link to recording",
-      "shareLinkSubtitle": "Anyone you share the link with will be able to view the session recording along with the instanced annotations."
+      "shareLinkSubtitle": "Anyone you share the link with will be able to view the session recording along with the instanced annotations.",
       "AnnotationsPanel": {
         "delete": "delete annotation",
         "add": "add annotation",
@@ -240,7 +240,7 @@
       "join": "join",
       "errorMessage": "Failed to load data. Check if the specified session exists.",
       "dialogTitle": "Session not active",
-      "dialogSubtitle": "The session you want to join is not active."
+      "dialogSubtitle": "The session you want to join is not active.",
       "dialogSubSubtitle": "Contact the instructor to inform them of this.",
       "dialogButtonText": "OK"
     },
@@ -269,10 +269,10 @@
         "question": "question",
         "name": "name",
         "points": "points",
-        "answerTime": "answerTime",
-        "participantDetails": "participantDetails",
+        "answerTime": "Answer time",
+        "participantDetails": "Participant's details",
         "resultForQuestions": "Results for individual questions",
-        "questionDetails": "Question Details",
+        "questionDetails": "Question details",
         "resultForParticipants": "Results for individual participants",
         "forQuestions": "For individual questions",
         "forParticipants": "For individual participants",
@@ -280,21 +280,21 @@
           "answer": "answer",
           "time": "time",
           "action": "action",
-          "finalAnswers": "finalAnswers",
+          "finalAnswers": "Final answers",
           "seconds": "s",
           "selection": "selection",
-          "unSelection": "unSelection".
+          "unSelection": "Unselect"
         }
       },
       "Poll": {
-        "participantsNumber": "participantsNumber",
+        "participantsNumber": "Number of participants",
         "multichoice": "multiple choice",
         "answersNumber": "number of answers",
         "yes": "yes",
         "no": "no"
       },
       "Whiteboard": {
-        "participantsNumber": "participantsNumber",
+        "participantsNumber": "Number of participants",
         "averageTimeLabel": "Average Task Time",
         "averageTime": "{{value}} seconds",
         "taskLabel": "task",
@@ -305,17 +305,17 @@
     "PresenterSession": {
       "fetchingError": "Data loading error. Try again later.",
       "Agenda": {
-        "header": "Agenda".
+        "header": "Agenda"
       },
       "ParticipantsList": {
         "fetchingError": "Error loading participants. Try again later.",
-        "header": "participants".
+        "header": "participants"
       },
       "EventsTimeline": {
         "header": "events",
-        "eventDetailsHeader": "eventDetails :",
+        "eventDetailsHeader": "Event details :",
         "startMinute": "{{value}} minute",
-        "endSessionButton": "endSession",
+        "endSessionButton": "End session",
         "launchEventError": "Error while launching the event. Please try again later.",
         "endSessionError": "Error while closing the session. Please try again later.",
         "quizDetails": {
@@ -324,8 +324,8 @@
           "questionsNumber": "Number of questions: "
         },
         "PollDetails": {
-          "multiChoice": "multipleChoice Answers",
-          "singleChoice": "Single Choice Answers",
+          "multiChoice": "Multiple choice",
+          "singleChoice": "Single choice answers",
           "questionText": "Question content: {{text}}"
         },
         "LiveEventDetails": {
@@ -349,7 +349,7 @@
       "delete": "delete"
     },
     "whiteBoard": {
-      "brushSize": "line thickness",
+      "brushSize": "brush size",
       "download": "download"
     },
     "SessionMenu": {
