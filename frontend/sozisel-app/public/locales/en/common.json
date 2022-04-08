@@ -1,0 +1,400 @@
+{
+  "components": {
+    "EventType": {
+      "Quiz": "Quiz",
+      "Poll": "Poll",
+      "Whiteboard": "Whiteboard"
+    },
+    "ScoreChart" : {
+      "numberOfParticipants": "Number of participants",
+      "score": "Score"
+    },
+    "LoginScreen": {
+      "emailLabelText": "Email",
+      "passwordLabelText": "Password",
+      "submitButtonText": "Sign in"
+    },
+    "RegisterScreen": {
+      "emailLabelText": "Email",
+      "firstNameLabelText": "Name",
+      "lastNameLabelText": "Last name",
+      "passwordLabelText": "Password",
+      "confirmPasswordLabelText": "Confirm password",
+      "submitButtonText": "Sign up"
+    },
+    "Navbar": {
+      "registerLink": "Registration",
+      "loginLink": "Sign in",
+      "aboutLink": "About the project"
+    },
+    "HomePage": {
+      "placeholder": "This page is only available for signed in users"
+    },
+    "AboutScreen": {
+      "projectDescription": "The main goal of the project is to create a tool enhancing the process of organising and analyzing audiovisual e-learning sessions.",
+      "projectScope": "highly modular;easy to use by both attendees and a lecturer;top notch monitoring of attendees' focus and activeness",
+      "header": "Primary qualities"
+    },
+    "MainNavbar": {
+      "sessionsLinkText": "Sessions",
+      "templatesLinkText": "Templates",
+      "files": "Files",
+      "logoutText": "Sign out"
+    },
+    "TemplatesList":{
+      "private": "Private",
+      "public": "Public",
+      "privateTemplates": "My templates",
+      "publicTemplates": "Public templates",
+      "searchButtonText": "Search",
+      "addButtonText": "Add",
+      "access": "Access",
+      "author": "Author",
+      "planSessionText": "Plan a session",
+      "fetchingErrorMsg": "Failed to load the templates. Try again later.",
+      "errorMsg": "Unexpected error while performing an operation.",
+      "deleteSuccess": "Template deleted successfully!",
+      "copySuccess": "Template has been cloned!"
+    },
+    "TemplateCreation": {
+      "updateTemplateMessage": "Template has been updated!",
+      "addingTemplateError": "Failed to create a template. Try again later...",
+      "defaultTemplateName": "Session's template name",
+      "isPublicLabel": "Public",
+      "isAbstractLabel": "Abstract",
+      "timeDurationLabel": "Duration (in minutes)",
+      "createTemplateButtonText": "Submit",
+      "Agenda": {
+        "header": "Agenda"
+      },
+      "AgendaEntryCreation": {
+        "header": "Add new action point",
+        "contextHeader": "Content",
+        "startTime": "Start time (in minutes)",
+        "submitButtonLabel": "Add"
+      },
+      "EventCreation": {
+        "moduleName": "Event name...",
+        "moduleType": "Module type",
+        "durationTime": "Duration time (in minutes)",
+        "startTime": "Start time (in minutes)",
+        "submitButtonLabel": "Save the event",
+        "updateButtonLabel": "Update the event",
+        "onAddEventMessage": "Event has been added!",
+        "onEditEventMessage": "Event has been updated!",
+        "cancelEditMode": "Quit editing the event"
+      },
+      "Quiz": {
+        "Question": {
+          "defaultAnswer": "Answer...",
+          "defaultQuestion": "Question...",
+          "deleteQuestion": "Delete question",
+          "deleteAnswer": "Delete answer",
+          "addAnswer": "Add next answer",
+          "checkCorrectAnswer": "Mark answer as correct",
+          "uncheckCorrectAnswer": "Unmark from being correct"
+        },
+        "percentageOfParticipants": "Percentage of attendees",
+        "percentageExplanation": "Target percentage of attendees that will be able to solve the quiz"
+      },
+      "Poll": {
+        "question": "Question",
+        "defaultQuestion": "Question...",
+        "defaultOptionText": "Option...",
+        "isMultiChoice": "Multiple choice",
+        "options": "Options",
+        "addOption": "Add next option"
+      },
+      "Whiteboard": {
+        "taskTitle": "Task",
+        "taskExplanation": "The form below supports Latex syntax, to preview how the task appears use the preview button",
+        "taskPlaceholder": "Task content...",
+        "previewButton": "Preview"
+      },
+      "EventList": {
+        "type": {
+          "Quiz": "Type: Quiz",
+          "Poll": "Type: Poll",
+          "Whiteboard": "Type: Whiteboard"
+        },
+        "startMinute": "Start time {{value}} minutes since session's start",
+        "durationTime": "Duration time: {{value}} seconds",
+        "percentageOfParticipants": "Participants percentage: {{value}}%",
+        "Quiz": {
+          "startMinute": "Start time: {{value}} minutes",
+          "durationTime": "Duration time: {{value}} seconds",
+          "percentageOfParticipants": "Participants percentage: {{value}}%",
+          "onDeleteEventMessage": "Even has been deleted!",
+          "addNewQuestion": "Add next question"
+        },
+        "Poll": {
+          "isMultiChoice": "Multiple choice"
+        }
+      }
+    },
+    "SessionDetails": {
+      "defaultSessionName": "Session anme",
+      "useJitsiLabel": "Video conference",
+      "authorization": "Authentication",
+      "datetime": "Date and time",
+      "submitSession": "Submit",
+      "sessionPasswordPlaceholder": "Password",
+      "fetchingErrorMessage": "Failed to load the data. Try again later!",
+      "durationTime": "Duration time",
+      "minutes": "minutes",
+      "agenda": "Agenda",
+      "events": "Event",
+      "errorMessage": "Failed to create a session",
+      "successMessage": "Session has been created",
+      "updateSuccessMessage": "Session has been updated",
+      "updateErrorMessage": "Failed to update the session",
+      "sessionFiles": "Edit session's files"
+    },
+    "SessionsList": {
+      "filters": "Filters",
+      "status": "Status",
+      "statusAny": "Arbitrary",
+      "statusEnded": "Ended",
+      "statusInProgress": "In progress",
+      "statusScheduled": "Planned",
+      "template": "Template",
+      "dateFrom": "Date from",
+      "dateTo": "Date to",
+      "applyFilters": "Apply",
+      "fetchingErrorMessage": "Failed to load the data. Try again later.",
+      "scheduledDate": "Scheduled date",
+      "startSession": "Start",
+      "stoppedSession": "Session ended",
+      "activeSession": "Session in progress.",
+      "startSessionErrorMessage": "Failed to start the session. Try again later.",
+      "sessionDeleted": "Session has been deleted.",
+      "errorMessage": "Unexpected error",
+      "shareSession": "Share the session",
+      "shareSessionInfo": "Anyone with this link will be able to join the session",
+      "shareLabel": "Copy link"
+    },
+    "LiveSession": {
+      "placeholder": "You are a member of an ongoing session"
+    },
+    "SessionResultHeader": {
+      "summary": "Summary",
+      "events": "Events",
+      "recording": "Recording",
+      "note": "Session's notes"
+    },
+    "SummaryDetails": {
+      "date": "Date",
+      "durationTime": "Duration time",
+      "numberOfParticipants": "Number of participants",
+      "numberOfInteractions": "Number of interactions"
+    },
+    "SessionResultSummary": {
+      "participantsChart": {
+        "title": "Number of participants",
+        "subtitle": "For the next events",
+        "valueLabel": "Participants"
+      }
+    },
+    "SessionResultSummaryNote": {
+      "save": "Save the note",
+      "saved": "Note has been saved",
+      "download": "Download",
+      "filename": "note"
+    },
+    "MarkdownEditor": {
+      "placeholder": "Provide text in markdown format"
+    },
+    "SessionRecordingUpload": {
+      "dialogTitle": "Upload session's recording",
+      "submitText": "Start uploading",
+      "uploadingText": "Uploading in progress...",
+      "cancelText": "Cancel",
+      "dropzoneText": "Choose or drag-and-drop recording's file",
+      "addedFile": "File selected!",
+      "removedFile": "File has been removed.",
+      "uploadSuccessful": "Recording has been uplaoded",
+      "uploadFailed": "Failed to upload the recording. Try again later."
+    },
+    "SessionRecordingAnnotatedPlayer": {
+      "playerError": "An error occurred while playing the recording, try again later!",
+      "resetAnnotations": "DefaultAnnotations",
+      "resetAnnotationsTooltip": "Reset will remove all your annotations and restore the default ones based on event names",
+      "syncAnnotations": "syncAnnotations",
+      "syncAnnotationsTooltip": "Select the moment in the recording that will serve as the sync point for the first annotation and press the button",
+      "deleteRecording": "deleteRecording",
+      "shareRecording": "shareRecording",
+      "shareLinkTitle": "share link to recording",
+      "shareLinkSubtitle": "Anyone you share the link with will be able to view the session recording along with the instanced annotations."
+      "AnnotationsPanel": {
+        "delete": "delete annotation",
+        "add": "add annotation",
+        "selectCurrentTimestampTip": "Select a moment in the recording and press the button to set the time",
+        "timestampOverflow": "The timestamp exceeds the length of the recording...",
+        "addPlaceholder": "Content of new annotation..."
+      }
+    },
+    "JoinSession": {
+      "name": "name",
+      "email": "email",
+      "password": "password",
+      "join": "join",
+      "errorMessage": "Failed to load data. Check if the specified session exists.",
+      "dialogTitle": "Session not active",
+      "dialogSubtitle": "The session you want to join is not active."
+      "dialogSubSubtitle": "Contact the instructor to inform them of this.",
+      "dialogButtonText": "OK"
+    },
+    "ParticipantActiveSession": {
+      "exitSession": "exit",
+      "next": "next",
+      "submit": "approve"
+    },
+    "SessionEventResults": {
+      "eventType": "type",
+      "startTime": "startTime",
+      "participantNumber": "participantNumber",
+      "details": "details",
+      "banner": {
+        "previous": "PREVIOUS",
+        "next": "NEXT"
+      },
+      "Quiz": {
+        "averagePoints": "averagePoints",
+        "averageAnswerTime": "Average Answer Time",
+        "participantsNumber": "number of participants",
+        "chooseView": "choose view",
+        "participants": "participants",
+        "questions": "questions",
+        "charts": "charts",
+        "question": "question",
+        "name": "name",
+        "points": "points",
+        "answerTime": "answerTime",
+        "participantDetails": "participantDetails",
+        "resultForQuestions": "Results for individual questions",
+        "questionDetails": "Question Details",
+        "resultForParticipants": "Results for individual participants",
+        "forQuestions": "For individual questions",
+        "forParticipants": "For individual participants",
+        "dialogue": {
+          "answer": "answer",
+          "time": "time",
+          "action": "action",
+          "finalAnswers": "finalAnswers",
+          "seconds": "s",
+          "selection": "selection",
+          "unSelection": "unSelection".
+        }
+      },
+      "Poll": {
+        "participantsNumber": "participantsNumber",
+        "multichoice": "multiple choice",
+        "answersNumber": "number of answers",
+        "yes": "yes",
+        "no": "no"
+      },
+      "Whiteboard": {
+        "participantsNumber": "participantsNumber",
+        "averageTimeLabel": "Average Task Time",
+        "averageTime": "{{value}} seconds",
+        "taskLabel": "task",
+        "listLabel": "Solution",
+        "solutionLabel": "Solution - {{userName}}"
+      }
+    },
+    "PresenterSession": {
+      "fetchingError": "Data loading error. Try again later.",
+      "Agenda": {
+        "header": "Agenda".
+      },
+      "ParticipantsList": {
+        "fetchingError": "Error loading participants. Try again later.",
+        "header": "participants".
+      },
+      "EventsTimeline": {
+        "header": "events",
+        "eventDetailsHeader": "eventDetails :",
+        "startMinute": "{{value}} minute",
+        "endSessionButton": "endSession",
+        "launchEventError": "Error while launching the event. Please try again later.",
+        "endSessionError": "Error while closing the session. Please try again later.",
+        "quizDetails": {
+          "durationTime": "Duration: {{value}} seconds",
+          "percentageOfParticipants": "Participants: {{value}}%",
+          "questionsNumber": "Number of questions: "
+        },
+        "PollDetails": {
+          "multiChoice": "multipleChoice Answers",
+          "singleChoice": "Single Choice Answers",
+          "questionText": "Question content: {{text}}"
+        },
+        "LiveEventDetails": {
+          "reamaingTime": "Time remaining: ",
+          "averagePoint": "Average number of points: {{value}}/{{totalPoint}}",
+          "completedTrialsNumber": "Number of completed trials: {{value}}",
+          "numberOfParticipants": "Number of participants: {{value}}",
+          "mostCommonAnswer": "Most frequently selected answer: {{text}}"
+        },
+        "WhiteboardDetails": {
+          "task": "Task content: "
+        }
+      }
+    },
+    "ShareLinkPopup": {
+      "copyToClipboard": "copy to clipboard"
+    },
+    "DeleteResourcePopup": {
+      "warning": "This action is irreversible, with deletion the data for the resource will permanently disappear. Are you sure you want to delete the resource?",
+      "cancel": "cancel",
+      "delete": "delete"
+    },
+    "whiteBoard": {
+      "brushSize": "line thickness",
+      "download": "download"
+    },
+    "SessionMenu": {
+      "sharedBoard": "board",
+      "files": "files"
+    },
+    "sessionGoodbye": {
+      "end": "The session has ended!",
+      "bye": "Thank you for using the service, we hope that the session you had is successful."
+    },
+    "Files": {
+      "public": "public",
+      "importFileInfo": "Select or drop pdf file",
+      "importFile": "Upload new file",
+      "deletedFileMessage": "Deleted File!",
+      "uploadedFileMessage": "Added file!",
+      "sessionFiles": "sessionFiles",
+      "add": "add",
+      "autocompleteLabel": "Add file to session...",
+      "submit": "approve",
+      "cancel": "cancel",
+      "fileChooseError": "You must select a file!",
+      "fileUploadError": "Adding a file failed",
+      "fileDeleteError": "Deleting a file failed"
+    }
+  },
+  "inputErrors": {
+    "fieldRequired": "This field is required!",
+    "invalidEmailFormat": "invalid email format!",
+    "passwordsNotMatch": "The passwords entered are not identical!",
+    "agendaEntryExists": "Already exists an agenda item that starts at this minute",
+    "agendaIncorrectTime": "Cannot add an agenda item that starts after the session ends",
+    "incorrectPercentageValue": "The specified value is not between 1 and 100",
+    "incorrectStartMinute": "The specified value must be greater than 0",
+    "incorrectDurationTime": "The specified value must be greater than 0",
+    "percentageOfParticipants": "The specified value must be greater than 0",
+    "incorrectQuizQuestion": "The quiz should contain at least one question and each question should contain at least two answers including one correct answer!",
+    "incorrectPoll": "The poll should contain at least 2 choices!",
+    "incorrectLoginData": "The data entered is incorrect!",
+    "updateEventError": "Cannot update an event that already has existing results!",
+    "quizBlankAnswerTextError": "Question and answer text cannot be blank!",
+    "fieldIntegerRequired": "The value entered is invalid! Please enter an integer!"
+  },
+  "errors": {
+    "request": "An error occurred while processing the request",
+    "fetchingErrorMessage": "Error loading data. Try again later."
+  }
+}

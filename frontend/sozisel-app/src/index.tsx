@@ -6,7 +6,8 @@ import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "@material-ui/core";
-import common from "../public/locales/pl/common.json";
+import commonPL from "../public/locales/pl/common.json";
+import commonEN from "../public/locales/pl/common.json";
 import { createMuiTheme } from "@material-ui/core/styles";
 import i18next from "i18next";
 
@@ -15,8 +16,11 @@ i18next.use(initReactI18next).init({
   lng: "pl",
   resources: {
     pl: {
-      common,
+      common: commonPL,
     },
+    en: {
+      common: commonEN
+    }
   },
 });
 
