@@ -1,15 +1,14 @@
-import "./index.scss";
-
-import { I18nextProvider, initReactI18next } from "react-i18next";
-
-import App from "./App";
-import React from "react";
-import ReactDOM from "react-dom";
 import { ThemeProvider } from "@material-ui/core";
-import commonPL from "../public/locales/pl/common.json";
-import commonEN from "../public/locales/pl/common.json";
 import { createMuiTheme } from "@material-ui/core/styles";
 import i18next from "i18next";
+import ReactDOM from "react-dom";
+import { I18nextProvider, initReactI18next } from "react-i18next";
+import {
+  default as commonEN,
+  default as commonPL,
+} from "../public/locales/pl/common.json";
+import App from "./App";
+import "./index.scss";
 
 i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
@@ -19,8 +18,8 @@ i18next.use(initReactI18next).init({
       common: commonPL,
     },
     en: {
-      common: commonEN
-    }
+      common: commonEN,
+    },
   },
 });
 
