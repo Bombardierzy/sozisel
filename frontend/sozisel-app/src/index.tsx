@@ -1,28 +1,31 @@
 /* eslint-disable sort-imports */
 import "./index.scss";
 import { I18nextProvider, initReactI18next } from "react-i18next";
-import {
-  default as commonEN,
-  default as commonPL,
-} from "../public/locales/pl/common.json";
+import { default as commonPL } from "../public/locales/pl/common.json";
+import { default as commonEN } from "../public/locales/en/common.json";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import App from "./App";
 import i18next from "i18next";
 import ReactDOM from "react-dom";
+import LanguageDetector from "i18next-browser-languagedetector";
 
-i18next.use(initReactI18next).init({
-  interpolation: { escapeValue: false },
-  lng: "pl",
-  resources: {
-    pl: {
-      common: commonPL,
+i18next
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    interpolation: { escapeValue: false },
+    resources: {
+      pl: {
+        common: commonPL,
+      },
+      en: {
+        common: commonEN,
+      },
     },
-    en: {
-      common: commonEN,
-    },
-  },
-});
+  });
+
+i18next.changeLanguage();
 
 export const mainTheme = createMuiTheme({
   palette: {
