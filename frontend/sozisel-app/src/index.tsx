@@ -13,7 +13,7 @@ import ReactDOM from "react-dom";
 
 i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
-  lng: "pl",
+  lng: navigator.language,
   resources: {
     pl: {
       common: commonPL,
