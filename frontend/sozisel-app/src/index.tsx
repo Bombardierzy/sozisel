@@ -1,21 +1,25 @@
+/* eslint-disable sort-imports */
 import "./index.scss";
-
 import { I18nextProvider, initReactI18next } from "react-i18next";
-
-import App from "./App";
-import React from "react";
-import ReactDOM from "react-dom";
+import {
+  default as commonEN,
+  default as commonPL,
+} from "../public/locales/pl/common.json";
 import { ThemeProvider } from "@material-ui/core";
-import common from "../public/locales/pl/common.json";
 import { createMuiTheme } from "@material-ui/core/styles";
+import App from "./App";
 import i18next from "i18next";
+import ReactDOM from "react-dom";
 
 i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
   lng: "pl",
   resources: {
     pl: {
-      common,
+      common: commonPL,
+    },
+    en: {
+      common: commonEN,
     },
   },
 });
