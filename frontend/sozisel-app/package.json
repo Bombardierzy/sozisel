@@ -23,6 +23,7 @@
     "fs": "0.0.1-security",
     "graphql": "^15.5.0",
     "i18next": "^20.1.0",
+    "i18next-browser-languagedetector": "^6.1.4",
     "katex": "^0.13.18",
     "material-ui-color": "^1.2.0",
     "material-ui-dropzone": "^3.5.0",
